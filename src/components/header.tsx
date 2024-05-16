@@ -1,6 +1,14 @@
 "use client";
 
-import { User, Phone, ShoppingCart, Heart, Menu, X } from "lucide-react";
+import {
+  User,
+  Phone,
+  ShoppingCart,
+  Heart,
+  Menu,
+  X,
+  UserPlus,
+} from "lucide-react";
 import Logo from "./logo";
 import MenuIcon from "./menu-icon";
 import { useState } from "react";
@@ -9,7 +17,7 @@ const Header = () => {
   const [showNavbar, setShowNavbar] = useState(false);
   const toggleNavbar = () => setShowNavbar(!showNavbar);
   return (
-    <header className="bg-mainBg w-full rounded-b-lg">
+    <header className="bg-mainBg w-full rounded-b-lg shadow-md">
       <nav className=" mx-auto px-4 sm:px-6 lg:px-8 py-2">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
@@ -47,7 +55,7 @@ const Header = () => {
                     className="text-white hover:text-gray-200 transition hover:-translate-y-1 "
                   />
                 }
-                path="/account"
+                path="/login"
               />
               <div className="flex hover:-translate-y-1 transition justify-center items-center">
                 <MenuIcon
