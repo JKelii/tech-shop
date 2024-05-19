@@ -1,11 +1,22 @@
 "use client";
 import React from "react";
-import { Lock, User } from "lucide-react";
-import InputComponent from "./Inputs/input-component";
-import PasswordInputComponent from "./Inputs/password-input";
+import { AtSign } from "lucide-react";
+
 import { Checkbox } from "@/components/ui/checkbox";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { userSchemaLogin } from "../schema/userValidation";
+import { Input } from "./Inputs/input";
+import { PasswordInput } from "./Inputs/passwordInput";
 
 const LoginPage = () => {
+  const {
+    register,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(userSchemaLogin),
+  });
+
   const onSubmit = () => {
     console.log("hej");
   };
@@ -20,16 +31,18 @@ const LoginPage = () => {
           className="flex items-center flex-col h-[45rem] w-[25rem] gap-8"
           onSubmit={onSubmit}
         >
-          <InputComponent
-            icon={<User />}
+          <Input
+            icon={<AtSign />}
+            error={errors.email?.message}
+            {...register("email")}
             label="email"
             type="email"
             name="Email"
           />
-          <PasswordInputComponent
+          <PasswordInput
             label="Password"
-            type="password"
-            icon={<Lock className="mt-1" />}
+            {...register("password")}
+            error={errors.password?.message}
             name="password"
           />
           <div className="flex justify-between items-center w-72">

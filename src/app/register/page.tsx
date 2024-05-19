@@ -1,10 +1,20 @@
+"use client";
 import React from "react";
-
 import { AtSign, Lock, User } from "lucide-react";
-import InputComponent from "../login/Inputs/input-component";
-import PasswordInputComponent from "../login/Inputs/password-input";
+import { Input } from "../login/Inputs/input";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { userSchemaRegister } from "../schema/userValidation";
+import { PasswordInput } from "../login/Inputs/passwordInput";
 
 const Register = () => {
+  const {
+    register,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(userSchemaRegister),
+  });
+
   return (
     <main className="flex  justify-center items-center min-h-screen w-full -mt-8">
       <div className="w-[25rem] h-[479px] ms-6 sm:ms-0 lg:mt-0 border-2 border-gradient-to-r border-mainBg rounded-e-md py-8 shadow-2xl flex justify-center items-center flex-col ">
@@ -12,22 +22,26 @@ const Register = () => {
           Register new account
         </p>
         <div className="flex items-center flex-col h-[45rem] w-96 gap-4">
-          <InputComponent
-            label="Name"
-            icon={<AtSign className="mt-1" />}
+          <Input
+            icon={<User />}
+            error={errors.email?.message}
+            {...register("name")}
+            label="name"
+            type="text"
             name="name"
-            type="name"
           />
-          <InputComponent
-            label="Email"
-            icon={<User className="mt-1" />}
-            name="email"
+          <Input
+            icon={<AtSign />}
+            error={errors.email?.message}
+            {...register("email")}
+            label="email"
             type="email"
+            name="Email"
           />
-          <PasswordInputComponent
+          <PasswordInput
             label="Password"
-            type="password"
-            icon={<Lock className="mt-1" />}
+            {...register("password")}
+            error={errors.password?.message}
             name="password"
           />
 
