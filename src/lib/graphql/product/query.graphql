@@ -1,8 +1,11 @@
-query GetProducts {
-  products {
-    description
+query GetProductBySlug($slug: String!) {
+  product(where: { slug: $slug }) {
     id
-    name
     price
+    name
+    images {
+      url
+      size
+    }
   }
 }

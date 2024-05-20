@@ -12,6 +12,7 @@ import { PasswordInput } from "./Inputs/passwordInput";
 const LoginPage = () => {
   const {
     register,
+    handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(userSchemaLogin),
@@ -29,7 +30,7 @@ const LoginPage = () => {
         </p>
         <form
           className="flex items-center flex-col h-[45rem] w-[25rem] gap-8"
-          onSubmit={onSubmit}
+          onSubmit={handleSubmit(onSubmit)}
         >
           <Input
             icon={<AtSign />}

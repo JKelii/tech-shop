@@ -7,12 +7,13 @@ import {
   Heart,
   Menu,
   X,
-  UserPlus,
+  Search,
 } from "lucide-react";
 import Logo from "./logo";
 import MenuIcon from "./menu-icon";
 import { useState } from "react";
-
+import Searchbar from "./searchbar";
+import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 const Header = () => {
   const [showNavbar, setShowNavbar] = useState(false);
   const toggleNavbar = () => setShowNavbar(!showNavbar);
@@ -24,6 +25,12 @@ const Header = () => {
             <div className="flex-shrink-0">
               <Logo />
             </div>
+          </div>
+          <div className="relative hidden md:block">
+            <Searchbar className="hidden min-w-12 md:block md:w-64 lg:w-96 " />
+            <button className="absolute right-3 top-1/2 -translate-y-1/2 bg-slate-100 hover:bg-slate-600/90 rounded-full w-8 h-8 flex justify-center items-center">
+              <MagnifyingGlassIcon />
+            </button>
           </div>
           <div className="hidden md:block">
             <div className="ml-4 flex items-center space-x-4">
@@ -91,6 +98,15 @@ const Header = () => {
       </nav>
       {showNavbar && (
         <div className="md:hidden">
+          <div className="flex justify-center items-center relative ml-6">
+            <Searchbar className="md:hidden" />
+            <button
+              className="relative right-4 -translate-x-7
+             bg-slate-100 hover:bg-slate-600/90 rounded-full w-8 h-8 flex justify-center items-center"
+            >
+              <MagnifyingGlassIcon className="w-12" />
+            </button>
+          </div>
           <div className="flex  justify-center items-center gap-6 py- py-4 px-2">
             <MenuIcon
               icon={

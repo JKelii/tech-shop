@@ -27,6 +27,7 @@ export const Input = React.forwardRef<
       className="p-1 border rounded-lg w-72"
       placeholder={`Enter your ${name}`}
     />
+
     <p className="text-red-500">{error}</p>
   </div>
 ));

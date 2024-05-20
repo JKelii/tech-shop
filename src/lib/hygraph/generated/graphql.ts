@@ -6911,7 +6911,6 @@ export type ProductCreateInput = {
   /** price input for default locale (en) */
   price: Scalars['Int']['input'];
   reviews?: InputMaybe<ReviewCreateManyInlineInput>;
-  /** slug input for default locale (en) */
   slug: Scalars['String']['input'];
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   variants?: InputMaybe<ProductVariantsCreateManyInlineInput>;
@@ -6922,7 +6921,6 @@ export type ProductCreateLocalizationDataInput = {
   description: Scalars['String']['input'];
   name: Scalars['String']['input'];
   price: Scalars['Int']['input'];
-  slug: Scalars['String']['input'];
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
@@ -7041,6 +7039,25 @@ export type ProductManyWhereInput = {
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
+  slug?: InputMaybe<Scalars['String']['input']>;
+  /** All values containing the given string. */
+  slug_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values ending with the given string. */
+  slug_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are contained in given list. */
+  slug_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  slug_not?: InputMaybe<Scalars['String']['input']>;
+  /** All values not containing the given string. */
+  slug_not_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values not ending with the given string */
+  slug_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are not contained in given list. */
+  slug_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** All values not starting with the given string. */
+  slug_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values starting with the given string. */
+  slug_starts_with?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -8182,7 +8199,6 @@ export type ProductUpdateInput = {
   /** price input for default locale (en) */
   price?: InputMaybe<Scalars['Int']['input']>;
   reviews?: InputMaybe<ReviewUpdateManyInlineInput>;
-  /** slug input for default locale (en) */
   slug?: InputMaybe<Scalars['String']['input']>;
   variants?: InputMaybe<ProductVariantsUpdateManyInlineInput>;
 };
@@ -8191,7 +8207,6 @@ export type ProductUpdateLocalizationDataInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   price?: InputMaybe<Scalars['Int']['input']>;
-  slug?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ProductUpdateLocalizationInput = {
@@ -8594,6 +8609,7 @@ export type ProductWhereStageInput = {
 /** References Product record uniquely */
 export type ProductWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type PublishLocaleInput = {
@@ -11450,10 +11466,17 @@ export type GetAccountQueryVariables = Exact<{
 
 export type GetAccountQuery = { account?: { id: string, email: string, password?: string | null } | null };
 
+export type GetProductBySlugQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type GetProductBySlugQuery = { product?: { id: string, price: number, name: string, images: Array<{ url: string, size?: number | null }> } | null };
+
 export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProductsQuery = { products: Array<{ description: string, id: string, name: string, price: number }> };
+export type GetProductsQuery = { products: Array<{ description: string, id: string, name: string, price: number, slug: string, images: Array<{ fileName: string, url: string, productImages: Array<{ id: string }> }> }> };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -11479,6 +11502,19 @@ export const GetAccountDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<GetAccountQuery, GetAccountQueryVariables>;
+export const GetProductBySlugDocument = new TypedDocumentString(`
+    query GetProductBySlug($slug: String!) {
+  product(where: {slug: $slug}) {
+    id
+    price
+    name
+    images {
+      url
+      size
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetProductBySlugQuery, GetProductBySlugQueryVariables>;
 export const GetProductsDocument = new TypedDocumentString(`
     query GetProducts {
   products {
@@ -11486,6 +11522,14 @@ export const GetProductsDocument = new TypedDocumentString(`
     id
     name
     price
+    images {
+      fileName
+      url
+      productImages {
+        id
+      }
+    }
+    slug
   }
 }
     `) as unknown as TypedDocumentString<GetProductsQuery, GetProductsQueryVariables>;

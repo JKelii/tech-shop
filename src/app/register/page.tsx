@@ -10,18 +10,26 @@ import { PasswordInput } from "../login/Inputs/passwordInput";
 const Register = () => {
   const {
     register,
+    handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(userSchemaRegister),
   });
 
+  const onSubmit = () => {
+    console.log("hej");
+  };
+
   return (
     <main className="flex  justify-center items-center min-h-screen w-full -mt-8">
-      <div className="w-[25rem] h-[479px] ms-6 sm:ms-0 lg:mt-0 border-2 border-gradient-to-r border-mainBg rounded-e-md py-8 shadow-2xl flex justify-center items-center flex-col ">
+      <div className="w-[25rem] h-[479px] m5-6 sm:ms-0 lg:mt-0 border-2 border-gradient-to-r border-mainBg rounded-e-md py-8 shadow-2xl flex justify-center items-center flex-col ">
         <p className="text-2xl font-bold text-center p-4 text-mainBg">
           Register new account
         </p>
-        <div className="flex items-center flex-col h-[45rem] w-96 gap-4">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex items-center flex-col h-[45rem] w-96 gap-4"
+        >
           <Input
             icon={<User />}
             error={errors.email?.message}
@@ -58,7 +66,7 @@ const Register = () => {
               Login
             </a>
           </div>
-        </div>
+        </form>
       </div>
     </main>
   );

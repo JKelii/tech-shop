@@ -1,6 +1,7 @@
 import { getEnv } from "@/utils";
 import {
   GetAccountDocument,
+  GetProductBySlugDocument,
   GetProductsDocument,
   TypedDocumentString,
 } from "./hygraph/generated/graphql";
@@ -63,6 +64,16 @@ export const getAccount = async () => {
 export const getAllProducts = async () => {
   const data = await fetcher({
     query: GetProductsDocument,
+    cache: "no-store",
+  });
+  if (!data) throw new Error("Problem with fetching products");
+  return data;
+};
+
+export const getProductSlug = async ({ slug }: { slug: string }) => {
+  const data = await fetcher({
+    query: GetProductBySlugDocument,
+    variables: { slug },
     cache: "no-store",
   });
   if (!data) throw new Error("Problem with fetching products");
