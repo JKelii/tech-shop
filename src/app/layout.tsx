@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "../components/header";
+
 import { twMerge } from "tailwind-merge";
+import ShopContextProvider from "../contexts/shopContextProvider";
+
+import Header from "@/components/Header/header";
+import Footer from "@/components/Footer/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,11 +24,14 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={twMerge(
-          `${inter.className} container mx-auto min-h-screen items-center flex  flex-col w-full`
+          `${inter.className} container mx-auto min-h-screen items-center flex flex-col w-full`
         )}
       >
-        <Header />
-        {children}
+        <ShopContextProvider>
+          <Header />
+          {children}
+          <Footer />
+        </ShopContextProvider>
       </body>
     </html>
   );

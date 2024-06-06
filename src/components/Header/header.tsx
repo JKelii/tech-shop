@@ -1,25 +1,20 @@
 "use client";
 
-import {
-  User,
-  Phone,
-  ShoppingCart,
-  Heart,
-  Menu,
-  X,
-  Search,
-} from "lucide-react";
-import Logo from "./logo";
-import MenuIcon from "./menu-icon";
+import { User, Phone, Heart, Menu, X } from "lucide-react";
+
+import MenuIcon from "./menuIcon";
 import { useState } from "react";
 import Searchbar from "./searchbar";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import BasketHeader from "../Header/basketHeader";
+import Logo from "./logo";
+
 const Header = () => {
   const [showNavbar, setShowNavbar] = useState(false);
   const toggleNavbar = () => setShowNavbar(!showNavbar);
   return (
-    <header className="bg-mainBg w-full rounded-b-lg shadow-md">
-      <nav className=" mx-auto px-4 sm:px-6 lg:px-8 py-2">
+    <header className="bg-mainBg w-full rounded-b-lg shadow-md ">
+      <nav className=" mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0">
@@ -64,22 +59,7 @@ const Header = () => {
                 }
                 path="/login"
               />
-              <div className="flex hover:-translate-y-1 transition justify-center items-center">
-                <MenuIcon
-                  className="p-0 m-0 w-12"
-                  icon={
-                    <ShoppingCart
-                      width={30}
-                      height={30}
-                      className="text-white hover:text-gray-200 transition "
-                    />
-                  }
-                  path="/basket"
-                />
-                <p className="text-white font-bold text-2xl self-center m-0">
-                  1
-                </p>
-              </div>
+              <BasketHeader />
             </div>
           </div>
           <div className="md:hidden flex items-center">
@@ -124,18 +104,9 @@ const Header = () => {
               icon={
                 <User className="text-white hover:text-gray-200 transition hover:-translate-y-1 " />
               }
-              path="/account"
+              path="/login"
             />
-            <div className="flex hover:-translate-y-1 transition justify-start items-center">
-              <MenuIcon
-                className="p-0 m-0 w-12"
-                icon={
-                  <ShoppingCart className="text-white hover:text-gray-200 transition" />
-                }
-                path="/basket"
-              />
-              <p className="text-white font-bold text-2xl self-center m-0">1</p>
-            </div>
+            <BasketHeader />
           </div>
         </div>
       )}

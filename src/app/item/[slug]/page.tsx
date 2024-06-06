@@ -1,14 +1,11 @@
+import { ProductPage } from "@/components/pages/Product/ProductPage";
 import { getProductSlug } from "@/lib";
+import NotFound from "./not-found";
 
-const page = async ({ params }: { params: { slug: string } }) => {
+const Page = async ({ params }: { params: { slug: string } }) => {
   const slug = params.slug;
   const { product } = await getProductSlug({ slug });
-
-  return (
-    <div className="flex flex-col justify-center items-center">
-      <p>{product?.name}</p>
-    </div>
-  );
+  if (!product) return <NotFound />;
+  return <ProductPage product={product} />;
 };
-
-export default page;
+export default Page;

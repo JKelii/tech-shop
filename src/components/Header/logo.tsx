@@ -1,4 +1,4 @@
-import { Link, ShoppingBasketIcon } from "lucide-react";
+import { ShoppingBasketIcon } from "lucide-react";
 
 const Logo = () => {
   return (

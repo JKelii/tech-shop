@@ -9,6 +9,10 @@ query GetProducts {
       url
       productImages {
         id
+        reviews {
+          content
+          rating
+        }
       }
     }
     slug

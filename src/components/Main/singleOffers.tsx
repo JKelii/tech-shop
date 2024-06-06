@@ -12,15 +12,19 @@ const SingleOffers = async () => {
         {products.map((product) => (
           <Link href={`/item/${product.slug}`} key={product.id}>
             <span className="w-full h-full">
-              <article className="bg-mainBg hover:border-2 hover:border-slate-700 size-64 rounded-md flex justify-center items-center flex-col">
-                <p className="font-semibold">{product.name}</p>
+              <article className="border-2 border-gray-500  hover:border-slate-700 size-80 rounded-md flex justify-center items-center flex-col">
                 <Image
                   src={product.images[0].url}
                   alt={product.name}
                   width={150}
                   height={150}
                 />
-                <p className="font-bold"> {priceUpdate(product.price)}</p>
+                <p className="font-semibold self-start ml-4">{product.name}</p>
+                <p className="text-sm self-start ml-4">{product.description}</p>
+                <p className="font-bold self-start ml-4">
+                  {" "}
+                  {priceUpdate(product.price)}
+                </p>
               </article>
             </span>
           </Link>
