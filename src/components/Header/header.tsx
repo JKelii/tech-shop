@@ -13,7 +13,7 @@ const Header = () => {
   const [showNavbar, setShowNavbar] = useState(false);
   const toggleNavbar = () => setShowNavbar(!showNavbar);
   return (
-    <header className="bg-mainBg w-full rounded-b-lg shadow-md ">
+    <header className=" w-full rounded-b-lg shadow-lg ">
       <nav className=" mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
@@ -34,7 +34,7 @@ const Header = () => {
                   <Heart
                     width={30}
                     height={30}
-                    className="text-white hover:text-gray-200 transition hover:-translate-y-1"
+                    className="text-gray-400 hover:text-gray-500 transition hover:-translate-y-1 "
                   />
                 }
                 path="/favorites"
@@ -44,7 +44,7 @@ const Header = () => {
                   <Phone
                     width={30}
                     height={30}
-                    className="text-white hover:text-gray-200 transition hover:-translate-y-1"
+                    className="text-gray-400 hover:text-gray-500 transition hover:-translate-y-1"
                   />
                 }
                 path="/contact"
@@ -54,7 +54,7 @@ const Header = () => {
                   <User
                     width={30}
                     height={30}
-                    className="text-white hover:text-gray-200 transition hover:-translate-y-1 "
+                    className="text-gray-400 hover:text-gray-500 transition hover:-translate-y-1 "
                   />
                 }
                 path="/login"
@@ -64,7 +64,7 @@ const Header = () => {
           </div>
           <div className="md:hidden flex items-center">
             <button
-              className="inline-flex items-center justify-center p-2 rounded-md text-white  hover:text focus:ring-2 ring-white "
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500  hover:text focus:ring-2 ring-white "
               onClick={toggleNavbar}
             >
               {showNavbar ? (
@@ -82,27 +82,27 @@ const Header = () => {
             <Searchbar className="md:hidden" />
             <button
               className="relative right-4 -translate-x-7
-             bg-slate-100 hover:bg-slate-600/90 rounded-full w-8 h-8 flex justify-center items-center"
+              hover:bg-slate-600/90 rounded-full w-8 h-8 flex justify-center items-center"
             >
-              <MagnifyingGlassIcon className="w-12" />
+              <MagnifyingGlassIcon className="w-12 " />
             </button>
           </div>
           <div className="flex  justify-center items-center gap-6 py- py-4 px-2">
             <MenuIcon
               icon={
-                <Heart className="text-white hover:text-gray-200 transition hover:-translate-y-1" />
+                <Heart className="text-gray-400 hover:text-gray-500 transition hover:-translate-y-1" />
               }
               path="/favorites"
             />
             <MenuIcon
               icon={
-                <Phone className="text-white hover:text-gray-200 transition hover:-translate-y-1" />
+                <Phone className="text-gray-400 hover:text-gray-500 transition hover:-translate-y-1" />
               }
               path="/contact"
             />
             <MenuIcon
               icon={
-                <User className="text-white hover:text-gray-200 transition hover:-translate-y-1 " />
+                <User className="text-gray-400 hover:text-gray-500 transition hover:-translate-y-1 " />
               }
               path="/login"
             />

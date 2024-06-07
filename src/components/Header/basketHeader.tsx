@@ -13,11 +13,11 @@ const BasketHeader = () => {
           <ShoppingCart
             width={30}
             height={30}
-            className="text-white hover:text-gray-200 transition p-0 m-0 w-12"
+            className="text-gray-400 hover:text-gray-500 transition p-0 m-0 w-12"
           />
         </span>
       </Link>
-      <p className="text-white font-bold text-2xl self-center m-0">
+      <p className="text-gray-400 font-bold text-2xl self-center m-0">
         {basket.length >= 1 && basket.length}
       </p>
     </div>

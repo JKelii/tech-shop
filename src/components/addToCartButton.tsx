@@ -28,12 +28,12 @@ export const AddToCartButton = ({
   return (
     <>
       <button
-        className="bg-mainBg hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-44"
+        className=" bg-black shadow-lg hover:translate-y-[2px] text-white font-bold h-12 py-2 px-4 rounded w-44"
         onClick={() => handleClick({ slug, name, image, price })}
       >
-        <div className="flex justify-center items-center gap-4">
-          Add to cart
-          <ShoppingCart />
+        <div className="flex justify-center items-center gap-4 self-center">
+          <ShoppingCart size={20} />
+          <p>Add to cart</p>
         </div>
       </button>
     </>

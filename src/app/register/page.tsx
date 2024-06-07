@@ -22,16 +22,18 @@ const Register = () => {
 
   return (
     <main className="flex  justify-center items-center min-h-screen w-full -mt-8">
-      <div className="w-[25rem] h-[479px] m5-6 sm:ms-0 lg:mt-0 border-2 border-gradient-to-r border-gray-500 rounded-md py-8 shadow-2xl flex justify-center items-center flex-col ">
-        <p className="text-2xl font-bold text-center p-4 text-mainBg">
-          Register new account
+      <div className="w-[25rem] h-[35rem] m5-6 sm:ms-0 lg:mt-0 border-2 border-gradient-to-r border-gray-500 rounded-md py-8 shadow-2xl flex justify-center items-center flex-col ">
+        <p className="text-2xl font-bold text-center p-4 text-black">
+          Register
+        </p>
+        <p className="text-center text-sm text-gray-600 py-4">
+          Create a new account to get started.
         </p>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex items-center flex-col h-[45rem] w-96 gap-4"
         >
           <Input
-            icon={<User />}
             error={errors.email?.message}
             {...register("name")}
             label="name"
@@ -39,7 +41,6 @@ const Register = () => {
             name="name"
           />
           <Input
-            icon={<AtSign />}
             error={errors.email?.message}
             {...register("email")}
             label="email"
@@ -55,14 +56,14 @@ const Register = () => {
 
           <button
             type="submit"
-            className="w-48 py-2 mt-4 text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+            className="w-64 py-2 text-white bg-black rounded hover:bg-black/80 focus:outline-none focus:ring-2 focus:ring-black/60 focus:ring-opacity-50"
           >
             Register
           </button>
 
           <div className="flex items-center gap-1">
             <p>Already have an account?</p>
-            <a href="/login" className="font-bold text-mainBg">
+            <a href="/login" className="font-bold text-black">
               Login
             </a>
           </div>

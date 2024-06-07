@@ -12,10 +12,10 @@ const Searchbar = ({ className }: SearchbarType) => {
         <input
           type="text"
           className={twMerge(
-            `m-2 rounded-full bg-slate-800 px-2 text-white py-2`,
+            `m-2 rounded-lg  px-2 text-gray-400 py-2 border-2 border-gray-500`,
             className
           )}
-          placeholder="Search for anything"
+          placeholder="Search for products"
         />
       </div>
     </form>

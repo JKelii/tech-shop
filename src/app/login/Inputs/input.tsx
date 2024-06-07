@@ -6,14 +6,13 @@ export const Input = React.forwardRef<
   {
     label: string;
     error: string | undefined;
-    icon: JSX.Element;
+
     type?: HTMLInputElement["type"];
   } & ReturnType<UseFormRegister<Record<string, unknown>>>
->(({ onChange, onBlur, name, label, error, icon, type }, ref) => (
+>(({ onChange, onBlur, name, label, error, type }, ref) => (
   <div>
     <div className="flex flex-row items-center gap-1 ">
-      {icon}
-      <label htmlFor={name} className="text-sm">
+      <label htmlFor={name} className="text-sm ml-1">
         {label.toUpperCase().charAt(0) + label.slice(1)}
       </label>
     </div>
@@ -24,7 +23,7 @@ export const Input = React.forwardRef<
       onBlur={onBlur}
       type={type}
       id={name}
-      className="p-1 border rounded-lg w-72"
+      className="py-2 border rounded-lg w-72 text-sm px-2"
       placeholder={`Enter your ${name}`}
     />
 

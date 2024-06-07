@@ -1,9 +1,9 @@
-import SingleOffers from "@/components/singleOffers";
+import SingleOffers from "@/components/Main/singleOffers";
 import React from "react";
 
 const page = () => {
   return (
-    <div className="m-16">
+    <div className="mt-16 flex justify-center items-center mb-10">
       <SingleOffers />
     </div>
   );
