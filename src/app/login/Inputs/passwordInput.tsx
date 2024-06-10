@@ -16,14 +16,13 @@ export const PasswordInput = React.forwardRef<
     <>
       <div className="flex flex-col gap-2 relative">
         <Input
-          icon={<Lock width={19} />}
           {...inputProps}
           ref={ref}
           type={isPassword ? "password" : "text"}
         />
 
         <button
-          className="absolute right-4 top-[2.8rem] transform -translate-y-1/2"
+          className="absolute right-4 top-[2.7rem] transform -translate-y-1/2"
           onClick={() => setIsPassword((prevStat) => !prevStat)}
         >
           {isPassword ? <Eye /> : <EyeOff />}

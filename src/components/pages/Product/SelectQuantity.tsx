@@ -4,11 +4,18 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@radix-ui/react-select";
 import React, { useState } from "react";
+
+const selectValues = [
+  { name: "1", value: "1" },
+  { name: "2", value: "2" },
+  { name: "3", value: "3" },
+  { name: "4", value: "4" },
+  { name: "5", value: "5" },
+];
 
 const SelectQuantity = () => {
   const [selectedValue, setSelectedValue] = useState("");
@@ -26,36 +33,16 @@ const SelectQuantity = () => {
         </SelectTrigger>
         <SelectContent className="bg-black/85 w-24 z-40 rounded-md ">
           <SelectGroup className="text-white">
-            <SelectItem
-              value="1"
-              className="w-full flex justify-center items-center"
-            >
-              1
-            </SelectItem>
-            <SelectItem
-              value="2"
-              className="w-full flex justify-center items-center"
-            >
-              2
-            </SelectItem>
-            <SelectItem
-              value="3"
-              className="w-full flex justify-center items-center"
-            >
-              3
-            </SelectItem>
-            <SelectItem
-              value="4"
-              className="w-full flex justify-center items-center"
-            >
-              4
-            </SelectItem>
-            <SelectItem
-              value="5"
-              className="w-full flex justify-center items-center"
-            >
-              5
-            </SelectItem>
+            {selectValues.map((item, index) => (
+              <>
+                <SelectItem
+                  value={item.value}
+                  className="w-full flex justify-center items-center"
+                >
+                  {item.name}
+                </SelectItem>
+              </>
+            ))}
           </SelectGroup>
         </SelectContent>
       </Select>

@@ -1,9 +1,16 @@
 "use client";
 import React, { createContext, useState } from "react";
 
+type Product = {
+  slug: string;
+  name: string;
+  image: string;
+  price: number;
+};
+
 export type ShopContextType = {
-  basket: string[];
-  addToBasket: (item: string) => void;
+  basket: Product;
+  addToBasket: (product: Product) => void;
   setBasket: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
@@ -12,10 +19,10 @@ export const ShopContext = createContext<ShopContextType | undefined>(
 );
 
 const ShopContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [basket, setBasket] = useState<string[]>([]);
+  const [basket, setBasket] = useState<Product[]>([]);
   const [product, setProduct] = useState(null);
 
-  const addToBasket = (product: string) => {
+  const addToBasket = (product: Product) => {
     setBasket((currentBasket) => {
       const newBasket = [...currentBasket, product];
       return newBasket;

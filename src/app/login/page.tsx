@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { AtSign } from "lucide-react";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { useForm } from "react-hook-form";
@@ -8,6 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { userSchemaLogin } from "../schema/userValidation";
 import { Input } from "./Inputs/input";
 import { PasswordInput } from "./Inputs/passwordInput";
+import { signIn } from "next-auth/react";
 
 const LoginPage = () => {
   const {
@@ -18,9 +18,10 @@ const LoginPage = () => {
     resolver: yupResolver(userSchemaLogin),
   });
 
-  const onSubmit = () => {
-    console.log("hej");
-  };
+  const onSubmit = handleSubmit(async (data) => {
+    console.log(data);
+    await signIn("credentials", { ...data });
+  });
 
   return (
     <main className="flex  justify-center items-center min-h-screen w-full -mt-8  ">
@@ -31,7 +32,7 @@ const LoginPage = () => {
         </p>
         <form
           className="flex items-center flex-col h-[45rem] w-[25rem] gap-8"
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={onSubmit}
         >
           <Input
             error={errors.email?.message}

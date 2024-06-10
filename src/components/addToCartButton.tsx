@@ -11,6 +11,15 @@ type AddToCartType = {
   price: number;
 };
 
+type Product = {
+  product: {
+    slug: string;
+    name: string;
+    image: string;
+    price: number;
+  };
+};
+
 export const AddToCartButton = ({
   slug,
   name,
@@ -19,8 +28,8 @@ export const AddToCartButton = ({
 }: AddToCartType) => {
   const { addToBasket } = useShopContext();
 
-  const handleClick = (product: AddToCartType) => {
-    addToBasket(product);
+  const handleClick = (product: Product) => {
+    addToBasket({ slug, name, image, price });
   };
 
   console.log(slug);
@@ -29,7 +38,7 @@ export const AddToCartButton = ({
     <>
       <button
         className=" bg-black shadow-lg hover:translate-y-[2px] text-white font-bold h-12 py-2 px-4 rounded w-44"
-        onClick={() => handleClick({ slug, name, image, price })}
+        onClick={() => handleClick({ product: { slug, name, image, price } })}
       >
         <div className="flex justify-center items-center gap-4 self-center">
           <ShoppingCart size={20} />
