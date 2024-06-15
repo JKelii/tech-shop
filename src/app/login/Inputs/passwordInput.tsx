@@ -22,7 +22,8 @@ export const PasswordInput = React.forwardRef<
         />
 
         <button
-          className="absolute right-4 top-[2.7rem] transform -translate-y-1/2"
+          type="button"
+          className="absolute right-4 top-[2.5rem] transform -translate-y-1/2"
           onClick={() => setIsPassword((prevStat) => !prevStat)}
         >
           {isPassword ? <Eye /> : <EyeOff />}

@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { userSchemaRegister } from "../schema/userValidation";
 import { PasswordInput } from "../login/Inputs/passwordInput";
+import { registerUserAction } from "@/actions/register";
+import { create } from "domain";
 
 const Register = () => {
   const {
@@ -16,13 +18,14 @@ const Register = () => {
     resolver: yupResolver(userSchemaRegister),
   });
 
-  const onSubmit = () => {
-    console.log("hej");
-  };
+  const onSubmit = handleSubmit(async (data) => {
+    const { createAccount } = await registerUserAction(data);
+    alert(createAccount?.id);
+  });
 
   return (
     <main className="flex  justify-center items-center min-h-screen w-full -mt-8">
-      <div className="w-[25rem] h-[35rem] m5-6 sm:ms-0 lg:mt-0 border-2 border-gradient-to-r border-gray-500 rounded-md py-8 shadow-2xl flex justify-center items-center flex-col ">
+      <div className="w-[25rem] h-[35rem] m-6 mt-10 md:mt-10 lg:mt-0 sm:ms-0 border-2 border-gradient-to-r border-gray-500 rounded-md py-8 shadow-2xl flex justify-center items-center flex-col ">
         <p className="text-2xl font-bold text-center p-4 text-black">
           Register
         </p>
@@ -30,7 +33,7 @@ const Register = () => {
           Create a new account to get started.
         </p>
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={onSubmit}
           className="flex items-center flex-col h-[45rem] w-96 gap-4"
         >
           <Input
@@ -38,20 +41,17 @@ const Register = () => {
             {...register("name")}
             label="name"
             type="text"
-            name="name"
           />
           <Input
             error={errors.email?.message}
             {...register("email")}
             label="email"
             type="email"
-            name="Email"
           />
           <PasswordInput
             label="Password"
             {...register("password")}
             error={errors.password?.message}
-            name="password"
           />
 
           <button

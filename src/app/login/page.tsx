@@ -7,7 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { userSchemaLogin } from "../schema/userValidation";
 import { Input } from "./Inputs/input";
 import { PasswordInput } from "./Inputs/passwordInput";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 const LoginPage = () => {
   const {
@@ -20,11 +20,13 @@ const LoginPage = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
-    await signIn("credentials", { ...data });
+    await signIn("credentials", { ...data, redirect: true, callbackUrl: "/" });
   });
+  const session = useSession();
 
   return (
     <main className="flex  justify-center items-center min-h-screen w-full -mt-8  ">
+      <pre>{JSON.stringify(session, null, 2)}</pre>
       <div className="w-[25rem] h-[33rem] ms-6 sm:ms-0 lg:mt-0 border-2 border-gradient-to-r border-gray-500 rounded-md py-8 shadow-2xl flex justify-center items-center flex-col">
         <p className="text-2xl font-bold text-center p-2 text-black">Login</p>
         <p className="text-center text-md text-gray-600">
@@ -39,7 +41,6 @@ const LoginPage = () => {
             {...register("email")}
             label="email"
             type="email"
-            name="email"
           />
           <PasswordInput
             label="Password"

@@ -6,20 +6,14 @@ import Image from "next/image";
 import { priceUpdate } from "@/utils/priceUpdate";
 import useShopContext from "@/hooks/useShopContext";
 import { X } from "lucide-react";
-
-type ProductType = {
-  product: {
-    slug: string;
-  };
-};
+import { Product } from "@/lib/hygraph/generated/graphql";
 
 const Page = ({ params }: { params: { slug: string } }) => {
   const slug = params.slug;
   const { basket, setBasket } = useShopContext();
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState<Product | null>(null);
 
-  //TODO: 1.https://nextjs.org/docs/app/api-reference/functions/cookies do przeczytania 2.https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies
-  //TODO: 3.https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations
+  //TODO: fix type errors
 
   const fetchProduct = async () => {
     const data = await getProductSlug({ slug });
@@ -28,7 +22,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
 
   fetchProduct();
 
-  const removeFromBasket = (productToRemove) => {
+  const removeFromBasket = (productToRemove: Product) => {
     setBasket((currentBasket) => {
       const index = currentBasket.findIndex(
         (product) => product.slug === productToRemove.slug
@@ -44,12 +38,23 @@ const Page = ({ params }: { params: { slug: string } }) => {
     });
   };
 
-  const total = basket.reduce((total, product) => total + product.price, 0);
-  const totalPrice = priceUpdate(total);
+  const totalPrice = basket.reduce(
+    (total: number, product) =>
+      total + Number(product.price) * Number(product.quantity),
+    0
+  );
 
   return (
     <main className="flex flex-col justify-center items-center mt-10 mb-10 min-h-screen">
-      <p className="font-bold text-3xl">Total price: {totalPrice}</p>
+      <a
+        href="/basket/checkout"
+        className="w-32 text-center border-2 border-black rounded-md m-6"
+      >
+        Go to checkout
+      </a>
+      <p className="font-bold text-3xl">
+        Total price: {priceUpdate(totalPrice)}
+      </p>
       {basket.map((product) => (
         <div
           key={product.slug}
@@ -63,9 +68,12 @@ const Page = ({ params }: { params: { slug: string } }) => {
             quality={100}
             className="border-2 border-gray-500 rounded-md"
           />
+          <p>{product.quantity}</p>
           <div className="flex flex-col">
             <p className="font-bold text-lg">{product?.name}</p>
-            <p className=" text-black text-xl">{priceUpdate(product?.price)}</p>
+            <p className=" text-black text-xl">
+              {priceUpdate(product?.price * product.quantity)}
+            </p>
           </div>
           <button
             className=" p-2 rounded-sm"

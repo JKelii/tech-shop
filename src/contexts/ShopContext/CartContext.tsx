@@ -12,13 +12,16 @@ export type ShopContextType = {
   basket: Product;
   addToBasket: (product: Product) => void;
   setBasket: React.Dispatch<React.SetStateAction<string[]>>;
+  quantity: number;
+  setQuantity: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export const ShopContext = createContext<ShopContextType | undefined>(
   undefined
 );
 
-const ShopContextProvider = ({ children }: { children: React.ReactNode }) => {
+export const CartContext = ({ children }: { children: React.ReactNode }) => {
+  const [quantity, setQuantity] = useState(1);
   const [basket, setBasket] = useState<Product[]>([]);
   const [product, setProduct] = useState(null);
 
@@ -30,10 +33,10 @@ const ShopContextProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <ShopContext.Provider value={{ basket, setBasket, addToBasket }}>
+    <ShopContext.Provider
+      value={{ basket, setBasket, addToBasket, quantity, setQuantity }}
+    >
       {children}
     </ShopContext.Provider>
   );
 };
-
-export default ShopContextProvider;

@@ -3,10 +3,10 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 import { twMerge } from "tailwind-merge";
-import ShopContextProvider from "../contexts/shopContextProvider";
 
 import Header from "@/components/Header/header";
 import Footer from "@/components/Footer/footer";
+import { ClientContexts } from "@/contexts/ClientContexts";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,11 +27,11 @@ export default function RootLayout({
           `${inter.className} container mx-auto min-h-screen items-center flex flex-col w-full`
         )}
       >
-        <ShopContextProvider>
+        <ClientContexts>
           <Header />
           {children}
           <Footer />
-        </ShopContextProvider>
+        </ClientContexts>
       </body>
     </html>
   );

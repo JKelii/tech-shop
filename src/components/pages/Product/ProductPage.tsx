@@ -5,6 +5,7 @@ import { priceUpdate } from "@/utils/priceUpdate";
 import Image from "next/image";
 import SelectQuantity from "./SelectQuantity";
 import { WishList } from "@/components/WishList";
+import useShopContext from "@/hooks/useShopContext";
 
 type ProductType = {
   description: string;
@@ -19,6 +20,7 @@ type ProductType = {
 };
 
 export const ProductPage = async ({ product }: { product: ProductType }) => {
+  //TODO: Can quantity be in this form?
   return (
     <div className="flex flex-col justify-center items-center min-h-screen ">
       <div className="flex justify-center items-start gap-10 border-2 border-gray-500 p-8 rounded-md">
@@ -39,7 +41,8 @@ export const ProductPage = async ({ product }: { product: ProductType }) => {
 
           <p>Size</p>
           <p>L</p>
-          <p>Quantity</p>
+          <p>Quantity:</p>
+
           <SelectQuantity />
           <div className="flex justify-center items-center gap-4">
             <AddToCartButton

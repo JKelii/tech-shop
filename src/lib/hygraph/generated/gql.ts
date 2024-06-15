@@ -14,11 +14,16 @@ import * as types from './graphql';
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "mutation CreateAccount($email: String!, $password: String!) {\n  createAccount(data: {email: $email, password: $password}) {\n    id\n  }\n}": types.CreateAccountDocument,
     "query GetAccount($email: String!) {\n  account(where: {email: $email}, stage: DRAFT) {\n    id\n    email\n    password\n  }\n}": types.GetAccountDocument,
     "query GetProductBySlug($slug: String!) {\n  product(where: {slug: $slug}) {\n    description\n    id\n    name\n    price\n    images {\n      fileName\n      url\n    }\n    slug\n  }\n}": types.GetProductBySlugDocument,
     "query GetProducts {\n  products {\n    description\n    id\n    name\n    price\n    images {\n      fileName\n      url\n      productImages {\n        id\n        reviews {\n          content\n          rating\n        }\n      }\n    }\n    slug\n  }\n}": types.GetProductsDocument,
 };
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "mutation CreateAccount($email: String!, $password: String!) {\n  createAccount(data: {email: $email, password: $password}) {\n    id\n  }\n}"): typeof import('./graphql').CreateAccountDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -1,5 +1,8 @@
+import { userSchemaLogin } from "@/app/schema/userValidation";
+import { getAccount } from "@/lib";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import * as bcrypt from "bcrypt";
 
 const handler: NextAuthOptions = NextAuth({
   providers: [
@@ -11,15 +14,16 @@ const handler: NextAuthOptions = NextAuth({
       },
 
       async authorize(credentials) {
-        console.log("hi");
-        const { email, password } = credentials as {
-          email: string;
-          password: string;
-        };
-        if (email !== "john@gmail.com" && password !== "1234") {
+        try {
+          const { email, password } = userSchemaLogin.validateSync(credentials);
+          const { account } = await getAccount(email);
+          const hashedPassword = account?.password;
+          if (!hashedPassword) return null;
+          bcrypt.compare(hashedPassword, password);
+          return { id: account.id, email: account.email };
+        } catch (error) {
           return null;
         }
-        return { id: "1234" };
       },
     }),
   ],

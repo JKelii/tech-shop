@@ -11459,6 +11459,14 @@ export enum _SystemDateTimeFieldVariation {
   Localization = 'localization'
 }
 
+export type CreateAccountMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+}>;
+
+
+export type CreateAccountMutation = { createAccount?: { id: string } | null };
+
 export type GetAccountQueryVariables = Exact<{
   email: Scalars['String']['input'];
 }>;
@@ -11493,6 +11501,13 @@ export class TypedDocumentString<TResult, TVariables>
   }
 }
 
+export const CreateAccountDocument = new TypedDocumentString(`
+    mutation CreateAccount($email: String!, $password: String!) {
+  createAccount(data: {email: $email, password: $password}) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<CreateAccountMutation, CreateAccountMutationVariables>;
 export const GetAccountDocument = new TypedDocumentString(`
     query GetAccount($email: String!) {
   account(where: {email: $email}, stage: DRAFT) {

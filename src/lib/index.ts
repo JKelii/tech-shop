@@ -1,5 +1,6 @@
 import { getEnv } from "@/utils";
 import {
+  CreateAccountDocument,
   GetAccountDocument,
   GetProductBySlugDocument,
   GetProductsDocument,
@@ -52,15 +53,6 @@ export async function fetcher<Result, Variables>({
   return body.data;
 }
 
-export const getAccount = async () => {
-  const data = await fetcher({
-    query: GetAccountDocument,
-    cache: "no-store",
-  });
-  if (!data) throw new Error("Problem with fetching accounts");
-  return data;
-};
-
 export const getAllProducts = async () => {
   const data = await fetcher({
     query: GetProductsDocument,
@@ -77,5 +69,34 @@ export const getProductSlug = async ({ slug }: { slug: string }) => {
     cache: "no-store",
   });
   if (!data) throw new Error("Problem with fetching products");
+  return data;
+};
+
+export const createAccount = async (credentials: {
+  email: string;
+  password: string;
+}) => {
+  const data = await fetcher({
+    headers: {
+      Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
+    },
+    query: CreateAccountDocument,
+    variables: credentials,
+    cache: "no-store",
+  });
+  if (!data) throw new Error("Problem creating an account");
+  return data;
+};
+
+export const getAccount = async (email: string) => {
+  const data = await fetcher({
+    headers: {
+      Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
+    },
+    query: GetAccountDocument,
+    variables: { email },
+    cache: "no-store",
+  });
+  if (!data) throw new Error("Problem to get account");
   return data;
 };

@@ -6,6 +6,7 @@ import Link from "next/link";
 const SingleOffers = async () => {
   const { products } = await getAllProducts();
 
+  //TODO: Carousel for products
   return (
     <main className="flex justify-center items-center w-full">
       <div className="grid min-w-[320px] grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-24 lg:gap-20">
