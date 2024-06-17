@@ -1,11 +1,8 @@
 import AddToCartButton from "@/components/addToCartButton";
-import { Select } from "@/components/ui/select";
-import { getProductSlug } from "@/lib";
 import { priceUpdate } from "@/utils/priceUpdate";
 import Image from "next/image";
 import SelectQuantity from "./SelectQuantity";
 import { WishList } from "@/components/WishList";
-import useShopContext from "@/hooks/useShopContext";
 
 type ProductType = {
   description: string;

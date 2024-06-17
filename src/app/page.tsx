@@ -2,6 +2,7 @@ import FirstThreeOffers from "@/components/Main/firstThreeOffers";
 import MainOffer from "@/components/Main/mainOffer";
 
 const Home = async () => {
+  //TODO: Change structure of folders
   return (
     <main className="w-full flex justify-center items-center flex-col gap-12 mt-4 mb-8">
       <div className=" h-80 w-full rounded-lg">

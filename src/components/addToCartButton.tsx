@@ -9,7 +9,7 @@ type AddToCartType = {
   name: string;
   image: string;
   price: number;
-  quantity: number;
+  quantity?: number;
 };
 
 type Product = {

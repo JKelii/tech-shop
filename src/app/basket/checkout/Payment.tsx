@@ -1,14 +1,15 @@
 "use client";
-import { Input } from "@/app/login/Inputs/input";
+import { Input } from "@/components/Inputs/input";
 import { paymentCardSchema } from "@/app/schema/userValidation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
 import { useForm } from "react-hook-form";
 import MonthsDropdown from "./MonthsDropdown";
 import YearDropdown from "./YearDropdown";
-import { cn } from "@/lib/utils";
+import { PaymentButtonsComponent } from "./PaymentButtonsComponent";
 
 const MonthPopover = () => {
+  //TODO: Change input lastName
   const {
     register,
     handleSubmit,
@@ -21,28 +22,62 @@ const MonthPopover = () => {
 
   return (
     <form
-      className="flex flex-col justify-center items-center "
+      className="flex flex-col justify-center items-center"
       onSubmit={onSubmit}
     >
-      <h2>Payment</h2>
-      <div className="flex gap-8 m-2">
-        <button className="border-2 border-gray-300 p-2 w-24 rounded-md hover:bg-gray-300">
-          Card
-        </button>
-        <button className="border-2 border-gray-300 p-2 w-24 rounded-md hover:bg-gray-300">
-          Paypal
-        </button>
-        <button className="border-2 border-gray-300 p-2 w-24 rounded-md hover:bg-gray-300">
-          Other
-        </button>
+      <h2 className="text-black font-bold text-xl py-2">Shipping Details</h2>
+      <div className="flex my-2 justify-between items-center w-full px-2">
+        <Input
+          className="w-44 self-start"
+          error={errors.name?.message}
+          {...register("name")}
+          label="First Name"
+          type="text"
+        />
+
+        <Input
+          className="w-44 self-start"
+          error={errors.lastName?.message}
+          {...register("lastName")}
+          label="Last Name"
+          type="text"
+        />
       </div>
       <Input
-        error={errors.card?.message}
-        {...register("card")}
-        label="Card number"
+        className="w-96 self-start"
+        error={errors.address?.message}
+        {...register("address")}
+        label="address"
         type="text"
-        name="card number"
       />
+      <div className="flex my-2 justify-between items-center w-full px-2">
+        <Input
+          className="w-44 self-start"
+          error={errors.city?.message}
+          {...register("city")}
+          label="city"
+          type="text"
+        />
+        <Input
+          className="w-44 self-start"
+          error={errors.zip?.message}
+          {...register("zip")}
+          label="zip"
+          type="text"
+        />
+      </div>
+      <h2 className="text-black font-bold text-xl py-2">Payment</h2>
+      <PaymentButtonsComponent />
+      <div className="self-start px-2 my-4">
+        <Input
+          error={errors.card?.message}
+          className="w-96 self-start"
+          {...register("card")}
+          label="Card number"
+          type="text"
+          name="card number"
+        />
+      </div>
       <div className="flex flex-row justify-center items-start">
         <MonthsDropdown />
         <YearDropdown />

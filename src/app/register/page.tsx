@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
 import { AtSign, Lock, User } from "lucide-react";
-import { Input } from "../login/Inputs/input";
+import { Input } from "../../components/Inputs/input";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { userSchemaRegister } from "../schema/userValidation";
-import { PasswordInput } from "../login/Inputs/passwordInput";
+import { PasswordInput } from "../../components/Inputs/passwordInput";
 import { registerUserAction } from "@/actions/register";
 import { create } from "domain";
 

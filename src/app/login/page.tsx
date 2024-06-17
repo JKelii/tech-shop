@@ -5,8 +5,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { userSchemaLogin } from "../schema/userValidation";
-import { Input } from "./Inputs/input";
-import { PasswordInput } from "./Inputs/passwordInput";
+import { Input } from "../../components/Inputs/input";
+import { PasswordInput } from "../../components/Inputs/passwordInput";
 import { signIn, useSession } from "next-auth/react";
 
 const LoginPage = () => {

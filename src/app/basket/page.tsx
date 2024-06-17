@@ -1,7 +1,6 @@
 "use client";
 import { getProductSlug } from "@/lib";
 import React, { useState } from "react";
-
 import Image from "next/image";
 import { priceUpdate } from "@/utils/priceUpdate";
 import useShopContext from "@/hooks/useShopContext";

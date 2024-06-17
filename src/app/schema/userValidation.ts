@@ -14,7 +14,7 @@ export const userSchemaRegister = yup.object().shape({
 export type LoginFormType = yup.InferType<typeof userSchemaLogin>;
 
 export const paymentCardSchema = yup.object().shape({
-  name: yup.string().required("Name is required"),
+  name: yup.string().required("First name is required"),
   lastName: yup.string().required("Last name is required"),
   address: yup.string().required("Address is required"),
   city: yup.string().required("City is required"),
