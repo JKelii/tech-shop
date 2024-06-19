@@ -14,16 +14,19 @@ export const PaymentButtonsComponent = () => {
         text={"Card"}
         active={activeButton === "Card"}
         onClick={() => handleClick("Card")}
+        type="button"
       />
       <PaymentButton
         text={"Paypal"}
         active={activeButton === "Paypal"}
         onClick={() => handleClick("Paypal")}
+        type="button"
       />
       <PaymentButton
         text={"Other"}
         active={activeButton === "Other"}
         onClick={() => handleClick("Other")}
+        type="button"
       />
     </div>
   );

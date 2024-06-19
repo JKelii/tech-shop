@@ -9,8 +9,7 @@ import { Product } from "@/lib/hygraph/generated/graphql";
 
 const Page = ({ params }: { params: { slug: string } }) => {
   const slug = params.slug;
-  const { basket, setBasket } = useShopContext();
-  const [product, setProduct] = useState<Product | null>(null);
+  const { basket, setBasket, product, setProduct } = useShopContext();
 
   //TODO: fix type errors
 
@@ -54,10 +53,10 @@ const Page = ({ params }: { params: { slug: string } }) => {
       <p className="font-bold text-3xl">
         Total price: {priceUpdate(totalPrice)}
       </p>
-      {basket.map((product) => (
+      {basket?.map((product) => (
         <div
           key={product.slug}
-          className="flex justify-center items-center gap-12 mt-10  p-4"
+          className="flex justify-center items-center gap-12 mt-10  p-4 border-2 border-black rounded-md"
         >
           <Image
             src={product?.image}
@@ -67,10 +66,18 @@ const Page = ({ params }: { params: { slug: string } }) => {
             quality={100}
             className="border-2 border-gray-500 rounded-md"
           />
-          <p>{product.quantity}</p>
+          <div className="flex flex-col">
+            <p>
+              Quantity: <strong> {product.quantity}</strong>
+            </p>
+
+            <p>
+              Size: <strong> {product.size}</strong>
+            </p>
+          </div>
           <div className="flex flex-col">
             <p className="font-bold text-lg">{product?.name}</p>
-            <p className=" text-black text-xl">
+            <p className=" text-black text-xl text-center">
               {priceUpdate(product?.price * product.quantity)}
             </p>
           </div>

@@ -2,20 +2,7 @@
 import { ChevronDown, ChevronUp } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+const months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
 const MonthsDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,6 +36,7 @@ const MonthsDropdown = () => {
       className="relative flex flex-col items-center w-[7.5rem] h-[128px] rounded-lg m-2 mt-5"
     >
       <button
+        type="button"
         onClick={() => setIsOpen((prev) => !prev)}
         className="border-gray-500  p-1 w-full flex items-center justify-between text-sm rounded-lg tracking-wider border-2 duration-200 active:ring-2 ring-gray-400"
       >

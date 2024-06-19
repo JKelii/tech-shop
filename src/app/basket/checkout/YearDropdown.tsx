@@ -38,6 +38,7 @@ const YearDropdown = () => {
       >
         <button
           onClick={() => setIsOpen((prev) => !prev)}
+          type="button"
           className="border-gray-500  p-1 w-full flex items-center justify-between text-sm rounded-lg tracking-wider border-2 duration-200 active:ring-2 ring-gray-400"
         >
           {selectedYear}

@@ -1,4 +1,4 @@
-import SingleOffers from "@/components/Main/singleOffers";
+import SingleOffers from "@/components/pages/Home/singleOffers";
 import React from "react";
 
 const page = () => {

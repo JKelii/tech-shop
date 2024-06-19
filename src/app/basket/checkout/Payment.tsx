@@ -9,7 +9,6 @@ import YearDropdown from "./YearDropdown";
 import { PaymentButtonsComponent } from "./PaymentButtonsComponent";
 
 const MonthPopover = () => {
-  //TODO: Change input lastName
   const {
     register,
     handleSubmit,
@@ -41,6 +40,7 @@ const MonthPopover = () => {
           {...register("lastName")}
           label="Last Name"
           type="text"
+          name="last name"
         />
       </div>
       <Input
