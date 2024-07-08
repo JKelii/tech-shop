@@ -26,15 +26,15 @@ const LoginPage = () => {
 
   return (
     <main className="flex  justify-center items-center min-h-screen w-full -mt-8  ">
-      <pre>{JSON.stringify(session, null, 2)}</pre>
       <div className="w-[25rem] h-[33rem] ms-6 sm:ms-0 lg:mt-0 border-2 border-gradient-to-r border-gray-500 rounded-md py-8 shadow-2xl flex justify-center items-center flex-col">
         <p className="text-2xl font-bold text-center p-2 text-black">Login</p>
         <p className="text-center text-md text-gray-600">
           Enter your email and password to access your account.
         </p>
         <form
-          className="flex items-center flex-col h-[45rem] w-[25rem] gap-8"
+          className="flex items-center flex-col h-[45rem] w-[25rem] gap-6"
           onSubmit={onSubmit}
+          noValidate
         >
           <Input
             error={errors.email?.message}
@@ -42,6 +42,7 @@ const LoginPage = () => {
             label="email"
             type="email"
           />
+
           <PasswordInput
             label="Password"
             {...register("password")}

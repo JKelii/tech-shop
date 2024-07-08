@@ -22,14 +22,26 @@ export const ProductPage = async ({ product }: { product: ProductType }) => {
   return (
     <div className="flex flex-col justify-start items-center min-h-screen">
       <div className="flex flex-col md:flex-row justify-center items-start gap-10  p-8 rounded-md">
-        <Image
-          src={product.images[0].url}
-          alt={product.name}
-          width={450}
-          height={150}
-          quality={100}
-          className="border-2 border-gray-300 rounded-md"
-        />
+        {product ? (
+          <Image
+            src={product.images[0].url}
+            alt={product.name}
+            width={450}
+            height={150}
+            quality={100}
+            className="border-2 border-gray-300 rounded-md"
+          />
+        ) : (
+          <Image
+            src=""
+            alt="product"
+            width={450}
+            height={150}
+            quality={100}
+            className="border-2 border-gray-300 rounded-md h-96"
+          />
+        )}
+
         <article className=" flex flex-col items-start justify-center gap-6">
           <div className="flex justify-between items-center w-full">
             <p className="font-bold text-3xl self-start">{product.name}</p>

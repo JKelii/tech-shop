@@ -23,14 +23,14 @@ const SelectQuantity = () => {
       <div className="flex gap-2">
         <button
           onClick={depriveQuantity}
-          className="border-[1px] border-gray-500 w-6 rounded-sm"
+          className="border-[1px] border-gray-500 w-6 rounded-sm hover:bg-gray-200"
         >
           -
         </button>
         <p>{quantity}</p>
         <button
           onClick={addQuantity}
-          className="border-[1px] border-gray-500 w-6 rounded-sm"
+          className="border-[1px] border-gray-500 w-6 rounded-sm hover:bg-gray-200"
         >
           +
         </button>

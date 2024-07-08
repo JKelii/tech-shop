@@ -19,21 +19,26 @@ export const SizeRadioGroup = () => {
       <h2 className="text-lg">Size</h2>
       <div className="flex justify-center items-center gap-2">
         {sizes.map((size) => (
-          <div
+          <label
             key={size}
-            className={`w-10 h-8 flex justify-center px-2 gap-1 items-center rounded-md border-[1px] border-zinc-400 ${
-              selectedSize === size ? "bg-zinc-200" : "hover:bg-zinc-200"
+            htmlFor={size}
+            className={`w-10 h-8 flex cursor-pointer justify-center px-2 gap-1 items-center rounded-md border-[1px] border-zinc-400 ${
+              selectedSize === size
+                ? "bg-black/90 text-gray-200"
+                : "hover:bg-zinc-200"
             }`}
           >
             <input
               type="radio"
               name="size"
               value={size}
+              id={size}
               onChange={handleChange}
               checked={selectedSize === size}
+              className="hidden"
             />
-            <label htmlFor={size}>{size}</label>
-          </div>
+            {size}
+          </label>
         ))}
       </div>
     </div>
