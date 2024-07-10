@@ -1,11 +1,15 @@
 "use client";
 
 import useShopContext from "@/hooks/useShopContext";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
-const SelectQuantity = () => {
-  const { quantity, setQuantity } = useShopContext();
-
+const SelectQuantity = ({
+  quantity,
+  setQuantity,
+}: {
+  quantity: number;
+  setQuantity: Dispatch<SetStateAction<number>>;
+}) => {
   const depriveQuantity = () => {
     setQuantity((prev) => prev - 1);
     if (quantity <= 1) {

@@ -14,16 +14,18 @@ import * as types from './graphql';
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "mutation CreateAccount($email: String!, $password: String!) {\n  createAccount(data: {email: $email, password: $password}) {\n    id\n  }\n}": types.CreateAccountDocument,
+    "mutation CreateAccount($email: String!, $password: String!, $name: String!) {\n  createAccount(data: {email: $email, password: $password, name: $name}) {\n    id\n  }\n}": types.CreateAccountDocument,
     "query GetAccount($email: String!) {\n  account(where: {email: $email}, stage: DRAFT) {\n    id\n    email\n    password\n  }\n}": types.GetAccountDocument,
-    "query GetProductBySlug($slug: String!) {\n  product(where: {slug: $slug}) {\n    description\n    id\n    name\n    price\n    images {\n      fileName\n      url\n    }\n    slug\n  }\n}": types.GetProductBySlugDocument,
+    "mutation CreateCart($quantity: Int!, $slug: String!, $email: String) {\n  createCart(\n    data: {cartProducts: {create: {quantity: $quantity, product: {connect: {slug: $slug}}, accounts: {connect: {email: $email}}}}}\n  ) {\n    id\n  }\n}": types.CreateCartDocument,
+    "query GetCartById($id: ID!) {\n  cart(where: {id: $id}) {\n    cartProducts {\n      id\n      quantity\n      product {\n        slug\n        name\n        price\n        images(first: 1) {\n          url\n        }\n      }\n    }\n  }\n}": types.GetCartByIdDocument,
+    "query GetProductBySlug($slug: String!) {\n  product(where: {slug: $slug}) {\n    description\n    id\n    name\n    price\n    reviews {\n      content\n      name\n    }\n    images {\n      fileName\n      url\n    }\n    slug\n  }\n}": types.GetProductBySlugDocument,
     "query GetProducts {\n  products {\n    description\n    id\n    name\n    price\n    images {\n      fileName\n      url\n      productImages {\n        id\n        reviews {\n          content\n          rating\n        }\n      }\n    }\n    slug\n  }\n}": types.GetProductsDocument,
 };
 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "mutation CreateAccount($email: String!, $password: String!) {\n  createAccount(data: {email: $email, password: $password}) {\n    id\n  }\n}"): typeof import('./graphql').CreateAccountDocument;
+export function graphql(source: "mutation CreateAccount($email: String!, $password: String!, $name: String!) {\n  createAccount(data: {email: $email, password: $password, name: $name}) {\n    id\n  }\n}"): typeof import('./graphql').CreateAccountDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -31,7 +33,15 @@ export function graphql(source: "query GetAccount($email: String!) {\n  account(
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query GetProductBySlug($slug: String!) {\n  product(where: {slug: $slug}) {\n    description\n    id\n    name\n    price\n    images {\n      fileName\n      url\n    }\n    slug\n  }\n}"): typeof import('./graphql').GetProductBySlugDocument;
+export function graphql(source: "mutation CreateCart($quantity: Int!, $slug: String!, $email: String) {\n  createCart(\n    data: {cartProducts: {create: {quantity: $quantity, product: {connect: {slug: $slug}}, accounts: {connect: {email: $email}}}}}\n  ) {\n    id\n  }\n}"): typeof import('./graphql').CreateCartDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query GetCartById($id: ID!) {\n  cart(where: {id: $id}) {\n    cartProducts {\n      id\n      quantity\n      product {\n        slug\n        name\n        price\n        images(first: 1) {\n          url\n        }\n      }\n    }\n  }\n}"): typeof import('./graphql').GetCartByIdDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query GetProductBySlug($slug: String!) {\n  product(where: {slug: $slug}) {\n    description\n    id\n    name\n    price\n    reviews {\n      content\n      name\n    }\n    images {\n      fileName\n      url\n    }\n    slug\n  }\n}"): typeof import('./graphql').GetProductBySlugDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

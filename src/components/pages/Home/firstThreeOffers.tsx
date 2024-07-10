@@ -10,7 +10,7 @@ const FirstThreeOffers = async ({ index }: { index: number }) => {
     <main className="flex justify-center items-center w-full">
       <Link href={`/item/${products[index].slug}`} key={products[index].id}>
         <span className="w-full h-full">
-          <article className="border-2 border-gray-500 shadow-md hover:border-gray-700 size-80 rounded-md flex justify-center items-center flex-col gap-2 hover:translate-y-[-2px] transition">
+          <article className="border-2 w-96 border-gray-500 shadow-md hover:border-gray-700 size-80 rounded-md flex justify-center items-center flex-col  hover:translate-y-[-2px] transition">
             <Image
               src={products[index].images[0].url}
               alt={products[index].name}

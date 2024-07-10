@@ -1,9 +1,12 @@
+"use client";
 import AddToCartButton from "@/components/addToCartButton";
 import { priceUpdate } from "@/utils/priceUpdate";
 import Image from "next/image";
 import SelectQuantity from "./components/SelectQuantity";
 import { WishList } from "@/components/WishList";
 import { SizeRadioGroup } from "./components/SizeRadioGroup";
+import Comments from "./components/Comments";
+import { useState } from "react";
 
 type ProductType = {
   description: string;
@@ -17,14 +20,14 @@ type ProductType = {
   }[];
 };
 
-export const ProductPage = async ({ product }: { product: ProductType }) => {
-  //TODO: Can quantity be in this form?
+export const ProductPage = ({ product }: { product: ProductType }) => {
+  const [quantity, setQuantity] = useState(1);
   return (
     <div className="flex flex-col justify-start items-center min-h-screen">
       <div className="flex flex-col md:flex-row justify-center items-start gap-10  p-8 rounded-md">
         {product ? (
           <Image
-            src={product.images[0].url}
+            src={product.images[0]?.url}
             alt={product.name}
             width={450}
             height={150}
@@ -52,18 +55,20 @@ export const ProductPage = async ({ product }: { product: ProductType }) => {
           <p className="self-start">{product?.description}</p>
 
           <SizeRadioGroup />
-          <SelectQuantity />
+          <SelectQuantity quantity={quantity} setQuantity={setQuantity} />
           <div className="flex justify-center items-center gap-4">
             <AddToCartButton
+              quantity={quantity}
               slug={product.slug}
               name={product.name}
-              image={product.images[0].url}
+              image={product.images[0]?.url}
               price={product.price}
             />
             <WishList />
           </div>
         </article>
       </div>
+      <Comments />
     </div>
   );
 };
