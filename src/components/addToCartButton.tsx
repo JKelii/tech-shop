@@ -1,7 +1,6 @@
 "use client";
 
 import { checkCart } from "@/actions/cart";
-import useShopContext from "@/hooks/useShopContext";
 import { ShoppingCart } from "lucide-react";
 import { useSession } from "next-auth/react";
 import React from "react";
@@ -40,7 +39,7 @@ export const AddToCartButton = ({
 
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
-    checkCart({ slug, quantity, email: session.data?.email });
+    checkCart({ product: { slug, quantity }, email: session.data?.email });
   });
 
   return (
