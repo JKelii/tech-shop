@@ -14,13 +14,23 @@ type ProductType = {
   name: string;
   price: number;
   slug: string;
+  reviews: {
+    content: string;
+    name: string;
+  }[];
   images: {
     fileName: string;
     url: string;
   }[];
 };
 
-export const ProductPage = ({ product }: { product: ProductType }) => {
+export const ProductPage = ({
+  product,
+  slug,
+}: {
+  product: ProductType;
+  slug: string;
+}) => {
   const [quantity, setQuantity] = useState(1);
   return (
     <div className="flex flex-col justify-start items-center min-h-screen">
@@ -68,7 +78,7 @@ export const ProductPage = ({ product }: { product: ProductType }) => {
           </div>
         </article>
       </div>
-      <Comments />
+      <Comments reviews={product.reviews} slug={slug} />
     </div>
   );
 };

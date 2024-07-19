@@ -6,6 +6,6 @@ const Page = async ({ params }: { params: { slug: string } }) => {
   const slug = params.slug;
   const { product } = await getProductSlug({ slug });
   if (!product) return <NotFound />;
-  return <ProductPage product={product} />;
+  return <ProductPage product={product} slug={slug} />;
 };
 export default Page;

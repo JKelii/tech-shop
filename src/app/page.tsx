@@ -6,7 +6,7 @@ import SwiperNavButtons from "@/components/pages/Home/SwiperNavButtons";
 const Home = async () => {
   //TODO: Change structure of folders
   return (
-    <main className="w-full flex justify-center items-center flex-col gap-12 mt-4 mb-8">
+    <main className="w-full flex justify-center items-center flex-col gap-12 mt-4 mb-8 ">
       <div className=" h-full w-full rounded-lg">
         <MainOffer />
       </div>
