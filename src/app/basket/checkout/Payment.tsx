@@ -21,7 +21,7 @@ const MonthPopover = () => {
 
   return (
     <form
-      className="flex flex-col justify-center items-center"
+      className="flex flex-col justify-center items-center mb-10"
       onSubmit={onSubmit}
     >
       <h2 className="text-black font-bold text-xl py-2">Shipping Details</h2>
@@ -91,7 +91,7 @@ const MonthPopover = () => {
         />
       </div>
       <button
-        className="text-white bg-black rounded-md py-2 px-1 m-2"
+        className="text-white bg-black rounded-md py-2 px-1 "
         type="submit"
       >
         Pay 450$

@@ -9,38 +9,38 @@ import { Product } from "@/lib/hygraph/generated/graphql";
 
 const Page = ({ params }: { params: { slug: string } }) => {
   const slug = params.slug;
-  const { basket, setBasket, product, setProduct } = useShopContext();
+  const { cart } = useShopContext();
 
   //TODO: fix type errors
 
-  const fetchProduct = async () => {
-    const data = await getProductSlug({ slug });
-    setProduct(data.product);
-  };
+  // const fetchProduct = async () => {
+  //   const data = await getProductSlug({ slug });
+  //   setProduct(data.product);
+  // };
 
-  fetchProduct();
+  // fetchProduct();
 
-  const removeFromBasket = (productToRemove: Product) => {
-    setBasket((currentBasket) => {
-      const index = currentBasket.findIndex(
-        (product) => product.slug === productToRemove.slug
-      );
+  // const removeFromBasket = (productToRemove: Product) => {
+  //   setBasket((currentBasket) => {
+  //     const index = currentBasket.findIndex(
+  //       (product) => product.slug === productToRemove.slug
+  //     );
 
-      if (index !== -1) {
-        return [
-          ...currentBasket.slice(0, index),
-          ...currentBasket.slice(index + 1),
-        ];
-      }
-      return currentBasket;
-    });
-  };
+  //     if (index !== -1) {
+  //       return [
+  //         ...currentBasket.slice(0, index),
+  //         ...currentBasket.slice(index + 1),
+  //       ];
+  //     }
+  //     return currentBasket;
+  //   });
+  // };
 
-  const totalPrice = basket.reduce(
-    (total: number, product) =>
-      total + Number(product.price) * Number(product.quantity),
-    0
-  );
+  // const totalPrice = basket.reduce(
+  //   (total: number, product) =>
+  //     total + Number(product.price) * Number(product.quantity),
+  //   0
+  // );
 
   return (
     <main className="flex flex-col justify-center items-center mt-10 mb-10 min-h-screen">
@@ -51,9 +51,9 @@ const Page = ({ params }: { params: { slug: string } }) => {
         Go to checkout
       </a>
       <p className="font-bold text-3xl">
-        Total price: {priceUpdate(totalPrice)}
+        {/* Total price: {priceUpdate(totalPrice)} */}
       </p>
-      {basket?.map((product) => (
+      {cart?.map((product) => (
         <div
           key={product.slug}
           className="flex justify-center items-center gap-12 mt-10  p-4 border-2 border-black rounded-md"
@@ -78,12 +78,12 @@ const Page = ({ params }: { params: { slug: string } }) => {
           <div className="flex flex-col">
             <p className="font-bold text-lg">{product?.name}</p>
             <p className=" text-black text-xl text-center">
-              {priceUpdate(product?.price * product.quantity)}
+              {/* {priceUpdate(product?.price * product.quantity)} */}
             </p>
           </div>
           <button
             className=" p-2 rounded-sm"
-            onClick={() => removeFromBasket(product)}
+            // onClick={() => removeFromBasket(product)}
           >
             <X />
           </button>

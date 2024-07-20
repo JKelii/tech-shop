@@ -1,5 +1,5 @@
-mutation CreateAccount($email: String!, $password: String!) {
-  createAccount(data: { email: $email, password: $password }) {
+mutation CreateAccount($email: String!, $password: String!, $name: String!) {
+  createAccount(data: { email: $email, password: $password, name: $name }) {
     id
   }
 }

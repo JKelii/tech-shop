@@ -1,0 +1,16 @@
+query GetCartById($id: ID!) {
+  cart(where: { id: $id }) {
+    cartProducts {
+      id
+      quantity
+      product {
+        slug
+        name
+        price
+        images(first: 1) {
+          url
+        }
+      }
+    }
+  }
+}

@@ -1,15 +1,17 @@
 import FirstThreeOffers from "@/components/pages/Home/firstThreeOffers";
 import MainOffer from "@/components/pages/Home/mainOffer";
 import { MainCarousel } from "@/components/pages/Home/MainCarousel";
+import SwiperNavButtons from "@/components/pages/Home/SwiperNavButtons";
 
 const Home = async () => {
   //TODO: Change structure of folders
   return (
-    <main className="w-full flex justify-center items-center flex-col gap-12 mt-4 mb-8">
+    <main className="w-full flex justify-center items-center flex-col gap-12 mt-4 mb-8 ">
       <div className=" h-full w-full rounded-lg">
         <MainOffer />
       </div>
       <MainCarousel />
+
       <div className="flex justify-between w-full font-bold text-xl ">
         <h3 className="text-3xl font-bold">Featured Products</h3>
         <a

@@ -24,11 +24,13 @@ export const Input = React.forwardRef<
       onBlur={onBlur}
       type={type}
       id={name}
-      className={twMerge("py-2 border rounded-lg w-72 text-sm px-2", className)}
+      className={twMerge("py-2 border rounded-lg w-80 text-sm px-2", className)}
       placeholder={`Enter your ${name}`}
     />
 
-    <p className="text-red-500">{error}</p>
+    <p className="text-red-500 h-2">
+      {error && error[0].toUpperCase() + error?.substring(1)}
+    </p>
   </div>
 ));
 

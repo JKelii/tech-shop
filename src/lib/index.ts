@@ -1,11 +1,15 @@
 import { getEnv } from "@/utils";
 import {
   CreateAccountDocument,
+  CreateCartDocument,
   GetAccountDocument,
+  GetCartByIdDocument,
   GetProductBySlugDocument,
   GetProductsDocument,
   TypedDocumentString,
 } from "./hygraph/generated/graphql";
+import { connect } from "http2";
+import { mapperGetCart } from "./mappers/getCart";
 
 type GraphQlError = {
   message: string;
@@ -75,6 +79,7 @@ export const getProductSlug = async ({ slug }: { slug: string }) => {
 export const createAccount = async (credentials: {
   email: string;
   password: string;
+  name: string;
 }) => {
   const data = await fetcher({
     headers: {
@@ -99,4 +104,44 @@ export const getAccount = async (email: string) => {
   });
   if (!data) throw new Error("Problem to get account");
   return data;
+};
+
+export const createCart = async ({
+  quantity,
+  slug,
+  email,
+}: {
+  slug: string;
+  quantity: number;
+  email?: string;
+}) => {
+  const data = await fetcher({
+    headers: {
+      Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
+    },
+    query: CreateCartDocument,
+    variables: {
+      quantity,
+      slug,
+      email,
+    },
+    cache: "no-store",
+  });
+  if (!data) throw new Error("Problem with creating cart");
+  return data.createCart;
+};
+
+export const getCart = async ({ id }: { id: string }) => {
+  const data = await fetcher({
+    headers: {
+      Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
+    },
+    query: GetCartByIdDocument,
+    variables: {
+      id,
+    },
+    cache: "no-store",
+  });
+  if (!data.cart) throw new Error("Problem with creating cart");
+  return mapperGetCart(data.cart);
 };

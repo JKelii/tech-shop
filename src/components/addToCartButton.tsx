@@ -1,15 +1,17 @@
 "use client";
 
-import useShopContext from "@/hooks/useShopContext";
+import { checkCart } from "@/actions/cart";
 import { ShoppingCart } from "lucide-react";
+import { useSession } from "next-auth/react";
 import React from "react";
+import { useForm } from "react-hook-form";
 
 type AddToCartType = {
   slug: string;
   name: string;
   image: string;
   price: number;
-  quantity?: number;
+  quantity: number;
   size?: string;
 };
 
@@ -29,29 +31,26 @@ export const AddToCartButton = ({
   name,
   image,
   price,
+  quantity,
 }: AddToCartType) => {
-  const { addToBasket, quantity, size } = useShopContext();
+  const { handleSubmit } = useForm();
 
-  const handleClick = (product: Product, quantity: number, size: string) => {
-    addToBasket({ ...product, quantity, size });
-  };
+  const session = useSession();
 
-  console.log(slug);
+  const onSubmit = handleSubmit(async (data) => {
+    console.log(data);
+    checkCart({ product: { slug, quantity }, email: session.data?.email });
+  });
 
   return (
-    <>
-      <button
-        className=" bg-black shadow-lg hover:translate-y-[2px] text-white font-bold h-12 py-2 px-4 rounded w-44"
-        onClick={() =>
-          handleClick({ slug, name, image, price }, quantity, size)
-        }
-      >
+    <form onSubmit={onSubmit}>
+      <button className=" bg-black shadow-lg hover:translate-y-[2px] text-white font-bold h-12 py-2 px-4 rounded w-44">
         <div className="flex justify-center items-center gap-2 md:gap-4 self-center">
           <ShoppingCart size={20} />
           <p>Add to cart</p>
         </div>
       </button>
-    </>
+    </form>
   );
 };
 

@@ -8,6 +8,7 @@ import { FreeMode, Pagination } from "swiper/modules";
 import { getAllProducts } from "@/lib";
 import Image from "next/image";
 import Link from "next/link";
+import SwiperNavButtons from "./SwiperNavButtons";
 
 export const MainCarousel = async () => {
   const { products } = await getAllProducts();

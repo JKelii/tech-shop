@@ -15,7 +15,7 @@ const SingleOffers = async () => {
             <span className="w-full h-full">
               <article className="border-2 border-gray-500  hover:border-slate-700 size-80 rounded-md gap-2 flex justify-center items-center flex-col hover:translate-y-[-3px] transition">
                 <Image
-                  src={product.images[0].url}
+                  src={product.images[0]?.url}
                   alt={product.name}
                   width={150}
                   height={150}

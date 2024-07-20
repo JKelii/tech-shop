@@ -2,9 +2,11 @@
 import { createAccount } from "@/lib";
 import * as bcrypt from "bcrypt";
 export async function registerUserAction({
+  name,
   email,
   password,
 }: {
+  name: string;
   email: string;
   password: string;
 }) {
@@ -12,6 +14,7 @@ export async function registerUserAction({
   const account = await createAccount({
     email,
     password: hashedPassword,
+    name,
   });
   return account;
 }

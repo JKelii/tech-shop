@@ -5,7 +5,7 @@ import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 
 const BasketHeader = () => {
-  const { basket } = useShopContext();
+  const { cart } = useShopContext();
   return (
     <div className="flex hover:-translate-y-1 transition justify-center items-center">
       <Link href="/basket">
@@ -18,7 +18,7 @@ const BasketHeader = () => {
         </span>
       </Link>
       <p className="text-gray-400 font-bold text-2xl self-center m-0">
-        {basket.length >= 1 && basket.length}
+        {cart?.length >= 1 && cart?.length}
       </p>
     </div>
   );
