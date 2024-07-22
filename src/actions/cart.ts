@@ -1,8 +1,10 @@
 "use server";
 
+import useShopContext from "@/hooks/useShopContext";
 import {
   createCartAuthorized,
   createCartUnAuthorized,
+  deleteCartProduct,
   getCart,
   updateCartProduct,
 } from "@/lib";
@@ -55,4 +57,30 @@ export const getCartFromCookie = async () => {
     console.log(cart);
     return cart;
   }
+};
+
+export const removeFromCart = async ({ product }: CheckCartParams) => {
+  const cartCookie = cookies().get(COOKIE_NAME_CART);
+  if (!cartCookie) return null;
+
+  const cartId = cartCookie.value;
+  const cart = await getCart({ id: cartId });
+
+  if (!cart) return null;
+
+  const productToRemove = cart.find(({ slug }) => slug === product.slug);
+
+  if (productToRemove) {
+    await deleteCartProduct({ cartProductId: productToRemove.id });
+    const updatedCart = await getCart({ id: cartId });
+
+    if (!updatedCart || updatedCart.length === 0) {
+      cookies().delete(COOKIE_NAME_CART);
+      return [];
+    } else {
+      return updatedCart;
+    }
+  }
+
+  return null;
 };
