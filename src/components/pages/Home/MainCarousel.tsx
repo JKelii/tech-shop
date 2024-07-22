@@ -14,14 +14,18 @@ export const MainCarousel = async () => {
   const { products } = await getAllProducts();
 
   return (
-    <div className="flex items-center justify-center flex-col w-full h-full">
+    <div className="flex items-center justify-center w-full h-full relative">
       <Swiper
         breakpoints={{
           340: {
-            slidesPerView: 2,
-            spaceBetween: 15,
+            slidesPerView: 1,
+            spaceBetween: 1,
           },
           700: {
+            slidesPerView: 2,
+            spaceBetween: 5,
+          },
+          1400: {
             slidesPerView: 3,
             spaceBetween: 15,
           },
@@ -31,11 +35,11 @@ export const MainCarousel = async () => {
           clickable: true,
         }}
         modules={[FreeMode, Pagination]}
-        className="max-w-[90%] "
+        className="max-w-[90%]"
       >
         {products.slice(0, 6).map((item, index) => (
           <SwiperSlide key={index}>
-            <Link href={`/item/${item.slug}`} className=" hover:bg-black/10 ">
+            <Link href={`/item/${item.slug}`} className="hover:bg-black/10">
               <div className="flex flex-col border-2 border-zinc-500 gap-6 group relative shadow-lg text-white rounded-xl px-6 py-8 h-[280px] w-[215px] lg:h-[400px] lg:w-[350px] overflow-hidden cursor-pointer">
                 <div className="absolute inset-0 bg-cover bg-center">
                   <Image
@@ -46,10 +50,7 @@ export const MainCarousel = async () => {
                     priority
                     className="w-full h-[330px] absolute"
                   />
-                  <p
-                    className="absolute inset-x-0 bottom-10 ml-2 text-xl z-10 mt-2 text-center text-black
-                   font-bold"
-                  >
+                  <p className="absolute inset-x-0 bottom-10 ml-2  text-xl z-10 mt-2 text-center text-black font-bold">
                     {item.name}
                   </p>
                 </div>
@@ -57,6 +58,20 @@ export const MainCarousel = async () => {
             </Link>
           </SwiperSlide>
         ))}
+
+        {/* Navigation Buttons */}
+        <SwiperNavButtons
+          direction="left"
+          containerStyles="absolute top-1/2 left-2 z-10"
+          btnStyles=""
+          iconsStyles=""
+        />
+        <SwiperNavButtons
+          direction="right"
+          containerStyles="absolute top-1/2  right-12 z-10"
+          btnStyles=""
+          iconsStyles=""
+        />
       </Swiper>
     </div>
   );

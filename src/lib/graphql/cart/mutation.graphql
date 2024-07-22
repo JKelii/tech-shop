@@ -1,4 +1,8 @@
-mutation CreateCart($quantity: Int!, $slug: String!, $email: String) {
+mutation CreateCartAuthorized(
+  $quantity: Int!
+  $slug: String!
+  $email: String!
+) {
   createCart(
     data: {
       cartProducts: {
@@ -7,6 +11,18 @@ mutation CreateCart($quantity: Int!, $slug: String!, $email: String) {
           product: { connect: { slug: $slug } }
           accounts: { connect: { email: $email } }
         }
+      }
+    }
+  ) {
+    id
+  }
+}
+
+mutation CreateCartUnAuthorized($quantity: Int!, $slug: String!) {
+  createCart(
+    data: {
+      cartProducts: {
+        create: { quantity: $quantity, product: { connect: { slug: $slug } } }
       }
     }
   ) {

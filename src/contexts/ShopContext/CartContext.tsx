@@ -1,6 +1,7 @@
 import React, { createContext, useState } from "react";
 
 export type ProductInCart = {
+  id: string;
   slug: string;
   name: string;
   image: string;
@@ -11,6 +12,8 @@ export type ProductInCart = {
 
 export type ShopContextType = {
   cart?: ProductInCart[] | null;
+  quantity: number;
+  setQuantity: React.Dispatch<React.SetStateAction<number>>;
   addToCart?: (product: ProductInCart[]) => void;
   setCart: React.Dispatch<React.SetStateAction<ProductInCart[] | undefined>>;
 };
@@ -29,13 +32,14 @@ export const CartContext = ({
   const [cart, setCart] = useState<ProductInCart[] | undefined>(
     cartFromDatabase
   );
-
+  const [quantity, setQuantity] = useState(1);
   return (
     <ShopContext.Provider
       value={{
         cart,
-
         setCart,
+        quantity,
+        setQuantity,
       }}
     >
       {children}

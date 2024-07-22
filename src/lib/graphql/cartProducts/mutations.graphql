@@ -1,0 +1,23 @@
+mutation UpdateCartProduct($quantity: Int!, $cartProductId: ID!) {
+  updateCartProduct(
+    where: { id: $cartProductId }
+    data: { quantity: $quantity }
+  ) {
+    id
+  }
+}
+
+mutation DeleteCartProduct($cartProductId: ID!) {
+  deleteCartProduct(where: { id: $cartProductId }) {
+    id
+  }
+}
+
+mutation UpdateCartQuantity($quantity: Int!, $cartProductId: ID!) {
+  updateCartProduct(
+    where: { id: $cartProductId }
+    data: { quantity: $quantity }
+  ) {
+    id
+  }
+}

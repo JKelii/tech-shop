@@ -48,7 +48,7 @@ export const Comments = ({
   }, [currentPage]);
 
   return (
-    <section className="flex justify-start items-start flex-col my-10 w-[27rem] gap-4 ">
+    <section className="flex justify-start items-start flex-col my-10 w-80 lg:w-[27rem] gap-4 ">
       <h3 className="text-black font-black text-2xl ml-10 self-start">
         Comments
       </h3>

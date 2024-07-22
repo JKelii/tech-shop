@@ -31,6 +31,7 @@ const LoginPage = () => {
         <p className="text-center text-md text-gray-600">
           Enter your email and password to access your account.
         </p>
+
         <form
           className="flex items-center flex-col h-[45rem] w-[25rem] gap-6"
           onSubmit={onSubmit}

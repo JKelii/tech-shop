@@ -27,4 +27,8 @@ export const paymentCardSchema = yup.object().shape({
     .required("Insert cvc number from back of the card"),
 });
 
+export const userSchemaNewsletter = yup.object().shape({
+  email: yup.string().email().required("Email is required"),
+});
+
 export type PaymentFormType = yup.InferType<typeof paymentCardSchema>;

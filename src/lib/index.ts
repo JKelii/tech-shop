@@ -1,12 +1,16 @@
 import { getEnv } from "@/utils";
 import {
   CreateAccountDocument,
-  CreateCartDocument,
+  CreateCartAuthorizedDocument,
+  CreateCartUnAuthorizedDocument,
+  DeleteCartProductDocument,
   GetAccountDocument,
   GetCartByIdDocument,
   GetProductBySlugDocument,
   GetProductsDocument,
   TypedDocumentString,
+  UpdateCartProductDocument,
+  UpdateCartQuantityDocument,
 } from "./hygraph/generated/graphql";
 import { connect } from "http2";
 import { mapperGetCart } from "./mappers/getCart";
@@ -106,20 +110,20 @@ export const getAccount = async (email: string) => {
   return data;
 };
 
-export const createCart = async ({
+export const createCartAuthorized = async ({
   quantity,
   slug,
   email,
 }: {
   slug: string;
   quantity: number;
-  email?: string;
+  email: string;
 }) => {
   const data = await fetcher({
     headers: {
       Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
     },
-    query: CreateCartDocument,
+    query: CreateCartAuthorizedDocument,
     variables: {
       quantity,
       slug,
@@ -127,7 +131,29 @@ export const createCart = async ({
     },
     cache: "no-store",
   });
-  if (!data) throw new Error("Problem with creating cart");
+  if (!data) throw new Error("Problem with creating authorized cart");
+  return data.createCart;
+};
+
+export const createCartUnAuthorized = async ({
+  quantity,
+  slug,
+}: {
+  slug: string;
+  quantity: number;
+}) => {
+  const data = await fetcher({
+    headers: {
+      Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
+    },
+    query: CreateCartUnAuthorizedDocument,
+    variables: {
+      quantity,
+      slug,
+    },
+    cache: "no-store",
+  });
+  if (!data) throw new Error("Problem with creating unauthorized cart");
   return data.createCart;
 };
 
@@ -142,6 +168,73 @@ export const getCart = async ({ id }: { id: string }) => {
     },
     cache: "no-store",
   });
-  if (!data.cart) throw new Error("Problem with creating cart");
+  console.log(data.cart);
+  if (!data.cart) return;
   return mapperGetCart(data.cart);
+};
+
+export const updateCartProduct = async ({
+  quantity,
+  cartProductId,
+}: {
+  quantity: number;
+  cartProductId: string;
+}) => {
+  const data = await fetcher({
+    headers: {
+      Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
+    },
+    query: UpdateCartProductDocument,
+    variables: {
+      quantity,
+      cartProductId,
+    },
+    cache: "no-store",
+  });
+
+  if (!data) return;
+  return data;
+};
+
+export const deleteCartProduct = async ({
+  cartProductId,
+}: {
+  cartProductId: string;
+}) => {
+  const data = await fetcher({
+    headers: {
+      Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
+    },
+    query: DeleteCartProductDocument,
+    variables: {
+      cartProductId,
+    },
+    cache: "no-store",
+  });
+
+  if (!data) return;
+  return data;
+};
+
+export const updateProductQuantity = async ({
+  cartProductId,
+  quantity,
+}: {
+  cartProductId: string;
+  quantity: number;
+}) => {
+  const data = await fetcher({
+    headers: {
+      Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
+    },
+    query: UpdateCartQuantityDocument,
+    variables: {
+      quantity,
+      cartProductId,
+    },
+    cache: "no-store",
+  });
+
+  if (!data) return;
+  return data;
 };

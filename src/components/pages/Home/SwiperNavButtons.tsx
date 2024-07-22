@@ -1,29 +1,47 @@
-"use client";
-
 import { useSwiper } from "swiper/react";
-import { PiCaretLeftBold, PiCaretRightBold } from "react-icons/pi";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
-function SwiperNavButtons({
+const SwiperNavButtons = ({
+  direction,
   containerStyles,
   btnStyles,
   iconsStyles,
 }: {
+  direction: string;
   containerStyles: string;
   btnStyles: string;
   iconsStyles: string;
-}) {
+}) => {
   const swiper = useSwiper();
 
+  const handlePrev = () => {
+    if (swiper) swiper.slidePrev();
+  };
+
+  const handleNext = () => {
+    if (swiper) swiper.slideNext();
+  };
+
   return (
-    <div className={`${containerStyles}`}>
-      <button className={`${btnStyles} `} onClick={() => swiper.slidePrev()}>
-        <PiCaretLeftBold className={`${iconsStyles}`} />
-      </button>
-      <button className={`${btnStyles} `} onClick={() => swiper.slideNext()}>
-        <PiCaretRightBold className={`${iconsStyles}`} />
-      </button>
+    <div className={`flex ${containerStyles}`}>
+      {direction === "left" && (
+        <button
+          onClick={handlePrev}
+          className={`bg-gray-800 text-white p-2 rounded-full shadow-md hover:bg-gray-700 ${btnStyles}`}
+        >
+          <FaArrowLeft className={`text-xl ${iconsStyles}`} />
+        </button>
+      )}
+      {direction === "right" && (
+        <button
+          onClick={handleNext}
+          className={`bg-gray-800 text-white p-2 rounded-full shadow-md hover:bg-gray-700 ${btnStyles}`}
+        >
+          <FaArrowRight className={`text-xl ${iconsStyles}`} />
+        </button>
+      )}
     </div>
   );
-}
+};
 
 export default SwiperNavButtons;

@@ -28,9 +28,7 @@ type Product = {
 
 export const AddToCartButton = ({
   slug,
-  name,
-  image,
-  price,
+
   quantity,
 }: AddToCartType) => {
   const { handleSubmit } = useForm();
