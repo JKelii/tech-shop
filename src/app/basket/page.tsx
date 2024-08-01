@@ -10,20 +10,22 @@ import SelectQuantity from "@/components/pages/Product/components/SelectQuantity
 import { checkCart, getCartFromCookie, removeFromCart } from "@/actions/cart";
 import { useSession } from "next-auth/react";
 import { string } from "yup";
-import { useToast } from "@/components/ui/use-toast";
+import { toast, useToast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 
 const Page = ({ params }: { params: { slug: string } }) => {
   const slug = params.slug;
   const { cart, setCart, quantity, setQuantity } = useShopContext();
   const session = useSession();
-  const { toast } = useToast();
+
   //TODO: Change toaster so useEffect doesn't reload
   const handleDelete = async (productSlug: string) => {
     toast({
       title: "Item removed from cart ❌",
       className: "bg-red-500/15",
+      duration: 3000,
     });
+
     const updatedCart = await removeFromCart({
       product: { slug: productSlug, quantity },
     });

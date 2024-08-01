@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const FirstThreeOffers = async ({ index }: { index: number }) => {
+const ProductOffer = async ({ index }: { index: number }) => {
   const { products } = await getAllProducts();
   return (
     <main className="flex justify-center items-center w-full">
@@ -34,4 +34,4 @@ const FirstThreeOffers = async ({ index }: { index: number }) => {
   );
 };
 
-export default FirstThreeOffers;
+export default ProductOffer;

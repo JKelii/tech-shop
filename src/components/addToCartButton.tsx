@@ -44,6 +44,7 @@ export const AddToCartButton = ({
     toast({
       title: "Item added to cart ✔",
       className: "bg-green-500/15",
+      duration: 3000,
     });
   });
 

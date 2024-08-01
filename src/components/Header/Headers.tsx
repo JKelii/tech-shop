@@ -6,9 +6,10 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import Searchbar from "./searchbar";
 import BasketHeader from "./basketHeader";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
-import { Menu } from "lucide-react";
+import { HeartIcon, Mail, Menu, Package, User } from "lucide-react";
+import { Separator } from "../ui/separator";
 
 const Headers = () => {
   return (
@@ -20,9 +21,10 @@ const Headers = () => {
 };
 
 const items = [
-  { label: "Favorites", link: "/favorites" },
-  { label: "Contact", link: "/contact" },
-  { label: "Account", link: "/login" },
+  { label: "Favorites", link: "/favorites", icon: <HeartIcon /> },
+  { label: "Contact", link: "/contact", icon: <Mail /> },
+  { label: "Items", link: "/items", icon: <Package /> },
+  { label: "Account", link: "/login", icon: <User /> },
 ];
 
 const MobileNavbar = () => {
@@ -50,31 +52,37 @@ const MobileNavbar = () => {
             </div>
           </SheetContent>
         </Sheet>
+        <Searchbar />
         <div className="flex h-[80px] min-h-[60px] items-center gap-x-4">
           <div className="flex items-center gap-2">
             <BasketHeader />
           </div>
         </div>
       </nav>
-      <div className="bg-gray-400 w-full h-[2px] mt-2" />
+      <Separator className="bg-gray-400 h-[2px] w-full" />
     </div>
   );
 };
-
+//TODO: CHange mediaQueries for 200?
 const DesktopNavbar = () => {
   return (
     <div className="hidden border-separate border-b bg-background md:block w-full rounded-b-lg shadow-md">
-      <nav className="container flex items-center justify-between px-8">
+      <nav className="container flex flex-wrap items-center justify-between px-8">
         <div className="flex h-[80px] min-h-[60px] items-center gap-x-2 md:gap-x-4">
           <Logo />
-          <div className="flex full">
-            {items.map((item, index) => (
-              <NavbarItem key={index} label={item.label} link={item.link} />
-            ))}
-          </div>
-          <Searchbar />
         </div>
-        <BasketHeader />
+        <Searchbar />
+        <div className="flex full">
+          {items.map((item, index) => (
+            <NavbarItem
+              key={index}
+              label={item.label}
+              link={item.link}
+              icon={item.icon}
+            />
+          ))}
+          <BasketHeader />
+        </div>
       </nav>
     </div>
   );
@@ -86,29 +94,33 @@ const NavbarItem = ({
   label,
   link,
   clickCallback,
+  icon,
 }: {
   label: string;
   link: string;
   clickCallback?: () => void;
+  icon?: ReactNode;
 }) => {
   const pathname = usePathname();
   const isActive = pathname === link;
 
   return (
-    <div className="relative flex items-center">
+    <div className="relative flex items-center justify-center">
       <Link
         href={link}
         className={cn(
           buttonVariants({ variant: "ghost" }),
-          "w-full justify-start  md:text-sm text-lg lg:text-lg text-muted-foreground hover:text-foreground",
+          "w-full justify-start text-sm xl:text-lg text-muted-foreground hover:text-foreground",
           isActive && "text-foreground"
         )}
         onClick={() => {
           if (clickCallback) clickCallback();
         }}
       >
+        {icon && <span className="mr-2 size-5 ">{icon}</span>}
         {label}
       </Link>
+
       {isActive && (
         <div className="absolute -bottom-[20px] left-1/2 hidden h-[2px] w-[80%] -translate-x-1/2 rounded-xl bg-foreground md:block"></div>
       )}
