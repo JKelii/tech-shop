@@ -8,7 +8,7 @@ type SearchbarType = {
 const Searchbar = ({ className }: SearchbarType) => {
   return (
     <form>
-      <div className="relative">
+      <div className="relative lg:ml-20 ">
         <input
           type="text"
           className={twMerge(

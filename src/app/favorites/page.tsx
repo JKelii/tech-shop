@@ -3,6 +3,7 @@ import useShopContext from "@/hooks/useShopContext";
 import React from "react";
 
 const FavoritesPage = () => {
+  //TODO: Add some links to all items and a text about this page
   const { wishlist } = useShopContext();
   return (
     <main className="min-h-screen">

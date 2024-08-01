@@ -35,7 +35,7 @@ export const ProductPage = ({
   const { quantity, setQuantity } = useShopContext();
 
   return (
-    <div className="flex flex-col justify-start items-center min-h-screen">
+    <div className="flex flex-col justify-start shadow-md container mx-auto items-center min-h-screen bg-gray-100/50 border-2 border-gray-200 mt-10 rounded-lg mb-10">
       <div className="flex flex-col md:flex-row justify-center items-start gap-10  p-8 rounded-md">
         {product ? (
           <Image

@@ -7,20 +7,19 @@ import Link from "next/link";
 const BasketHeader = () => {
   const { cart } = useShopContext();
   return (
-    <div className="flex hover:-translate-y-1 transition justify-center items-center">
-      <Link href="/basket">
-        <span>
-          <ShoppingCart
-            width={30}
-            height={30}
-            className="text-gray-400 hover:text-gray-500 transition p-0 m-0 w-12"
-          />
-        </span>
-      </Link>
-      <p className="text-gray-400 font-bold text-2xl self-center m-0">
-        {cart?.length >= 1 && cart?.length}
-      </p>
-    </div>
+    <Link href="/basket">
+      <div className="flex  flex-col shadow-md border-gray-400 duration-300 justify-center hover:text-gray-500 text-gray-400 items-center lg:hover:-translate-y-1 border-2 p-3 rounded-lg">
+        <div className="flex justify-center items-center  mb-1">
+          <span>
+            <ShoppingCart className=" size-8  p-0 m-0 " />
+          </span>
+
+          <p className=" text-2xl  font-bold ml-2 self-center">
+            {cart?.length}
+          </p>
+        </div>
+      </div>
+    </Link>
   );
 };
 
