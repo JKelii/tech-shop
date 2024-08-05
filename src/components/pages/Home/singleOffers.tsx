@@ -6,9 +6,8 @@ import Link from "next/link";
 const SingleOffers = async () => {
   const { products } = await getAllProducts();
 
-  //TODO: Carousel for products
   return (
-    <main className="flex justify-center items-center w-full">
+    <main className="flex justify-center flex-wrap items-center w-full border-2 border-gray-400 rounded-lg p-16">
       <div className="grid min-w-[320px] grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-24 lg:gap-20">
         {products.map((product) => (
           <Link href={`/item/${product.slug}`} key={product.id}>
@@ -21,7 +20,9 @@ const SingleOffers = async () => {
                   height={150}
                 />
                 <p className="font-semibold self-start ml-4">{product.name}</p>
-                <p className="text-sm self-start ml-4">{product.description}</p>
+                <p className="text-sm self-start ml-4 text-muted-foreground">
+                  {product.description}
+                </p>
                 <p className="font-bold self-start ml-4">
                   {" "}
                   {priceUpdate(product.price)}

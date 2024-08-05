@@ -5,7 +5,7 @@ import ProductOffer from "@/components/pages/Home/ProductOffer";
 const Home = async () => {
   //TODO: Change structure of folders
   return (
-    <main className="container mx-auto flex justify-center items-center flex-col  shadow-md gap-12 mt-4 mb-8 bg-gray-100/50 border-2 border-gray-200 p-10 rounded-lg">
+    <main className="container mx-auto flex justify-center items-center flex-col  shadow-md gap-12 mt-4 mb-8 bg-gray-100/50 border-2 border-gray-200 pt-10 rounded-lg pb-10">
       <div className="h-full w-full rounded-lg ">
         <MainOffer />
       </div>

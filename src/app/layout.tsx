@@ -20,6 +20,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const cartFromDatabase = await getCartFromCookie();
+
   return (
     <html lang="en">
       <body

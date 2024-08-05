@@ -157,7 +157,10 @@ export const createCartUnAuthorized = async ({
   return data.createCart;
 };
 
-export const getCart = async ({ id }: { id: string }) => {
+export const getCart = async ({ id }: { id: string | undefined }) => {
+  if (!id) {
+    throw new Error("Problem to get cart id");
+  }
   const data = await fetcher({
     headers: {
       Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
@@ -168,7 +171,7 @@ export const getCart = async ({ id }: { id: string }) => {
     },
     cache: "no-store",
   });
-  console.log(data.cart);
+
   if (!data.cart) return;
   return mapperGetCart(data.cart);
 };

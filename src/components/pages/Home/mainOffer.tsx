@@ -10,7 +10,7 @@ const MainOffer = async () => {
   return (
     <>
       <Card className="bg-gray-100/50">
-        <h2 className="text-3xl font-bold mb-4 ml-2">Bestsellers</h2>
+        <h2 className="text-3xl font-bold mb-4 ml-2 mt-4">Bestsellers</h2>
         <p className="text-muted-foreground mb-6  ml-2">
           Check out our most popular tech products to elevate your digital
           experience.

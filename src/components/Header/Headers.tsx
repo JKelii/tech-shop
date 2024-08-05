@@ -10,6 +10,8 @@ import { ReactNode, useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { HeartIcon, Mail, Menu, Package, User } from "lucide-react";
 import { Separator } from "../ui/separator";
+import { useSession } from "next-auth/react";
+import { SearchBox } from "react-instantsearch";
 
 const Headers = () => {
   return (
@@ -30,7 +32,7 @@ const items = [
 const MobileNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="block border-separate bg-background md:hidden w-full">
+    <div className="block border-separate bg-background md:hidden w-full min-w-[380px]">
       <nav className="container flex items-center justify-between px-8 ">
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
@@ -40,7 +42,7 @@ const MobileNavbar = () => {
           </SheetTrigger>
           <SheetContent className="w-[400px] sm:w-[540px]" side="left">
             <MobileLogo />
-            <div className="flex flex-col pt-4">
+            <div className="flex flex-col items-center justify-center pt-4">
               {items.map((item) => (
                 <NavbarItem
                   key={item.label}
@@ -52,7 +54,7 @@ const MobileNavbar = () => {
             </div>
           </SheetContent>
         </Sheet>
-        <Searchbar />
+
         <div className="flex h-[80px] min-h-[60px] items-center gap-x-4">
           <div className="flex items-center gap-2">
             <BasketHeader />
@@ -63,7 +65,7 @@ const MobileNavbar = () => {
     </div>
   );
 };
-//TODO: CHange mediaQueries for 200?
+
 const DesktopNavbar = () => {
   return (
     <div className="hidden border-separate border-b bg-background md:block w-full rounded-b-lg shadow-md">
@@ -81,7 +83,7 @@ const DesktopNavbar = () => {
               icon={item.icon}
             />
           ))}
-          <BasketHeader />
+          <BasketHeader styles="mt-2" />
         </div>
       </nav>
     </div>
@@ -103,14 +105,14 @@ const NavbarItem = ({
 }) => {
   const pathname = usePathname();
   const isActive = pathname === link;
-
+  const session = useSession();
   return (
     <div className="relative flex items-center justify-center">
       <Link
         href={link}
         className={cn(
           buttonVariants({ variant: "ghost" }),
-          "w-full justify-start text-sm xl:text-lg text-muted-foreground hover:text-foreground",
+          "w-full justify-start flex-col lg:flex-row text-sm xl:text-lg text-muted-foreground hover:text-foreground",
           isActive && "text-foreground"
         )}
         onClick={() => {

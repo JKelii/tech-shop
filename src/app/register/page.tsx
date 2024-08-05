@@ -22,7 +22,7 @@ const Register = () => {
   });
 
   return (
-    <main className="flex  justify-center items-center min-h-screen w-full -mt-8">
+    <main className="flex  justify-center flex-wrap items-center min-h-screen w-full -mt-8">
       <div className="w-[25rem] h-[35rem] m-6 mt-10 md:mt-10 lg:mt-0 sm:ms-0 border-2 border-gradient-to-r border-gray-500 rounded-md py-8 shadow-2xl flex justify-center items-center flex-col ">
         <p className="text-2xl font-bold text-center px-4 text-black">
           Register

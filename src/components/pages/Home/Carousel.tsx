@@ -11,6 +11,8 @@ import {
 import { getAllProducts } from "@/lib";
 import Image from "next/image";
 import Link from "next/link";
+import { priceUpdate } from "@/utils/priceUpdate";
+import { Separator } from "@/components/ui/separator";
 
 export const CarouselSize = async () => {
   const { products } = await getAllProducts();
@@ -23,18 +25,21 @@ export const CarouselSize = async () => {
     >
       <CarouselContent>
         {products.slice(0, 6).map((product, index) => (
-          <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-            <div className="p-2">
+          <CarouselItem
+            key={index}
+            className="md:basis-1/2 lg:basis-1/3 w-full"
+          >
+            <div className="w-full">
               <Card>
-                <CardContent className="flex flex-col aspect-square items-center justify-center p-8">
+                <CardContent className="flex flex-col aspect-square items-center justify-center  w-full">
                   <Link
                     href={`/item/${products[index].slug}`}
-                    className="flex justify-center items-center flex-col"
+                    className="flex justify-center items-center flex-col w-full"
                   >
                     {product.images && product.images[0] ? (
                       <Image
-                        width={250}
-                        height={250}
+                        width={300}
+                        height={300}
                         alt={product.name}
                         src={product.images[0].url}
                         className="w-full h-full object-cover"
@@ -44,9 +49,13 @@ export const CarouselSize = async () => {
                         <span>No Image Available</span>
                       </div>
                     )}
-                    <p className=" font-semibold mt-2 text-lg">
-                      {product.name}
-                    </p>
+                    <Separator className="h-[1px] w-full" />
+                    <div className=" flex flex-col justify-center items-center p-4 w-full bg-white rounded-b-md ">
+                      <h2 className="text-xl font-bold">{product.name}</h2>
+                      <p className="font-bold text-lg text-muted-foreground">
+                        {priceUpdate(product.price)}
+                      </p>
+                    </div>
                   </Link>
                 </CardContent>
               </Card>

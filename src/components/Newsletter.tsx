@@ -5,8 +5,14 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { userSchemaNewsletter } from "@/app/schema/userValidation";
 import { Mail } from "lucide-react";
+import { signUpNewsletter } from "@/app/api/auth/[...nextauth]/signUpNewsletter";
+import { toast } from "sonner";
 
-const Newsletter = () => {
+const Newsletter = ({
+  isSignedInNewsletter,
+}: {
+  isSignedInNewsletter: boolean;
+}) => {
   const {
     register,
     handleSubmit,
@@ -15,15 +21,18 @@ const Newsletter = () => {
     resolver: yupResolver(userSchemaNewsletter),
   });
 
-  const [newsletter, setNewsletter] = useState(false);
-
-  const onSubmit = handleSubmit(() => {
-    setNewsletter(true);
+  const onSubmit = handleSubmit((data) => {
+    try {
+      signUpNewsletter(data.email);
+      console.log("success");
+    } catch (error) {
+      console.log(error);
+    }
   });
 
   return (
     <div className="bg-neutral-100 w-[22rem] md:w-[35rem] h-96 flex flex-col justify-start items-center rounded-lg shadow-lg ">
-      {newsletter ? (
+      {isSignedInNewsletter ? (
         <>
           <div className="flex justify-center items-center mt-5 flex-col w-3/4">
             <h2 className="text-xl font-bold">Thank you for subscribing!</h2>
