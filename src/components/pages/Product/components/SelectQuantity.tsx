@@ -22,7 +22,7 @@ const SelectQuantity = ({
   };
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex gap-2">
       <p className="text-lg">Quantity:</p>
       <div className="flex gap-2">
         <button

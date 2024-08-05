@@ -24,7 +24,7 @@ export const mapperGetCart = (
   if (!cart || cart === null) return undefined;
 
   return cart.cartProducts
-    .map(({ quantity, product }) => {
+    .map(({ quantity, id, product }) => {
       if (product) {
         return {
           quantity,
@@ -32,6 +32,7 @@ export const mapperGetCart = (
           price: product?.price,
           name: product?.name,
           slug: product?.slug,
+          id,
         };
       }
     })

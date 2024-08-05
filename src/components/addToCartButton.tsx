@@ -5,6 +5,8 @@ import { ShoppingCart } from "lucide-react";
 import { useSession } from "next-auth/react";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useToast } from "./ui/use-toast";
+import { Toaster } from "./ui/toaster";
 
 type AddToCartType = {
   slug: string;
@@ -28,18 +30,22 @@ type Product = {
 
 export const AddToCartButton = ({
   slug,
-  name,
-  image,
-  price,
+
   quantity,
 }: AddToCartType) => {
   const { handleSubmit } = useForm();
 
   const session = useSession();
+  const { toast } = useToast();
 
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
     checkCart({ product: { slug, quantity }, email: session.data?.email });
+    toast({
+      title: "Item added to cart ✔",
+      className: "bg-green-500/15",
+      duration: 3000,
+    });
   });
 
   return (
@@ -50,6 +56,7 @@ export const AddToCartButton = ({
           <p>Add to cart</p>
         </div>
       </button>
+      <Toaster style="text-green-600" />
     </form>
   );
 };

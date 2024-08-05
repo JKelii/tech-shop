@@ -3,6 +3,7 @@
 import {
   createCartAuthorized,
   createCartUnAuthorized,
+  deleteCartProduct,
   getCart,
   updateCartProduct,
 } from "@/lib";
@@ -55,4 +56,65 @@ export const getCartFromCookie = async () => {
     console.log(cart);
     return cart;
   }
+};
+
+export const removeFromCart = async ({ product }: CheckCartParams) => {
+  const cartCookie = cookies().get(COOKIE_NAME_CART);
+  if (!cartCookie) return null;
+
+  const cartId = cartCookie.value;
+  const cart = await getCart({ id: cartId });
+
+  if (!cart) return null;
+
+  const productToRemove = cart.find(({ slug }) => slug === product.slug);
+
+  if (productToRemove) {
+    await deleteCartProduct({ cartProductId: productToRemove.id });
+    const updatedCart = await getCart({ id: cartId });
+
+    if (!updatedCart || updatedCart.length === 0) {
+      cookies().delete(COOKIE_NAME_CART);
+      return [];
+    } else {
+      return updatedCart;
+    }
+  }
+};
+
+export const updateCartQuantity = async ({ product }: CheckCartParams) => {
+  const cartCookie = cookies().get(COOKIE_NAME_CART);
+  if (!cartCookie) return;
+
+  const cartId = cartCookie.value;
+  const cart = await getCart({ id: cartId });
+
+  if (!cart) return;
+
+  const productToUpdate = cart.find(({ slug }) => slug === product.slug);
+
+  if (productToUpdate) {
+    await updateCartProduct({
+      quantity: product.quantity,
+      cartProductId: productToUpdate.id,
+    });
+  }
+};
+
+const COOKIE_NAME_QUANTITY = "quantity";
+
+export const getQuantityFromCookies = (req: any) => {
+  const cookieStore = cookies();
+  const quantityCookie = cookieStore.get(COOKIE_NAME_QUANTITY);
+  return quantityCookie ? parseInt(quantityCookie.value, 10) : 1;
+};
+
+export const setQuantityInCookies = (quantity: string) => {
+  const cookieStore = cookies();
+  cookieStore.set(COOKIE_NAME_QUANTITY, quantity.toString(), {
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+    maxAge: 60 * 60 * 24 * 7, // 7 days
+  });
 };

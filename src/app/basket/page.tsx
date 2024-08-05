@@ -1,26 +1,36 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 import useShopContext from "@/hooks/useShopContext";
-import { X } from "lucide-react";
+import { Check, X } from "lucide-react";
 
 import SelectQuantity from "@/components/pages/Product/components/SelectQuantity";
 import { checkCart, getCartFromCookie, removeFromCart } from "@/actions/cart";
 import { useSession } from "next-auth/react";
+import { string } from "yup";
+import { toast, useToast } from "@/components/ui/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 
 const Page = ({ params }: { params: { slug: string } }) => {
   const slug = params.slug;
   const { cart, setCart, quantity, setQuantity } = useShopContext();
   const session = useSession();
 
-  const handleDelete = async () => {
-    const updatedCart = await removeFromCart({
-      product: { slug, quantity },
+  //TODO: Change toaster so useEffect doesn't reload
+  const handleDelete = async (productSlug: string) => {
+    toast({
+      title: "Item removed from cart ❌",
+      className: "bg-red-500/15",
+      duration: 3000,
     });
 
-    if (updatedCart) {
+    const updatedCart = await removeFromCart({
+      product: { slug: productSlug, quantity },
+    });
+
+    if (updatedCart !== null) {
       setCart(updatedCart);
     } else {
       setCart([]);
@@ -28,7 +38,16 @@ const Page = ({ params }: { params: { slug: string } }) => {
     setQuantity(0);
   };
 
-  console.log(cart);
+  useEffect(() => {
+    const fetchCart = async () => {
+      const cartData = await getCartFromCookie();
+      if (cartData) {
+        setCart(cartData);
+      }
+    };
+    fetchCart();
+  }, [setCart]);
+
   return (
     <main className="flex flex-col justify-center items-center mt-10 mb-10 min-h-screen">
       <a
@@ -40,41 +59,44 @@ const Page = ({ params }: { params: { slug: string } }) => {
       <p className="font-bold text-3xl">
         {/* Total price: {priceUpdate(totalPrice)} */}
       </p>
-      {quantity >= 1 &&
-        cart?.map((product) => (
-          <div
-            key={product.slug}
-            className="flex justify-center items-center gap-12 mt-10  p-4 border-2 border-black rounded-md"
-          >
-            <Image
-              src={product?.image}
-              alt={product?.name}
-              width={100}
-              height={100}
-              quality={100}
-              className="border-2 border-gray-500 rounded-md"
-            />
+      {cart?.map((product) => (
+        <div
+          key={product.slug}
+          className="flex justify-center items-center gap-12 mt-10 p-4 border-2 border-black rounded-md"
+        >
+          <Image
+            src={product?.image}
+            alt={product?.name}
+            width={100}
+            height={100}
+            quality={100}
+            className="border-2 border-gray-500 rounded-md"
+          />
 
-            <div className="flex flex-col">
-              <SelectQuantity quantity={quantity} setQuantity={setQuantity} />
+          <div className="flex flex-col">
+            <SelectQuantity quantity={quantity} setQuantity={setQuantity} />
 
-              <div className="flx-col">
-                <p>
-                  Size: <strong> {product.size}</strong>
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <p className="font-bold text-lg">{product?.name}</p>
-              <p className=" text-black text-xl text-center">
-                {/* {priceUpdate(product?.price * product.quantity)} */}
+            <div className="flx-col">
+              <p className="text-lg">
+                Size: <strong>{product.size}</strong>
               </p>
             </div>
-            <button className=" p-2 rounded-sm" onClick={handleDelete}>
-              <X />
-            </button>
           </div>
-        ))}
+          <div className="flex flex-col">
+            <p className="font-bold text-lg">{product?.name}</p>
+            <p className="text-black text-xl text-center">
+              {/* {priceUpdate(product?.price * product.quantity)} */}
+            </p>
+          </div>
+          <button
+            className="p-2 rounded-sm"
+            onClick={() => handleDelete(product.slug)}
+          >
+            <X />
+          </button>
+          <Toaster style="text-red-500" />
+        </div>
+      ))}
     </main>
   );
 };

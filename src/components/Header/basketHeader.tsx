@@ -1,26 +1,21 @@
-"use client";
-
 import useShopContext from "@/hooks/useShopContext";
+import { getAllProducts, getCart } from "@/lib";
+import { cn } from "@/lib/utils";
 import { ShoppingCart } from "lucide-react";
+import { cookies } from "next/headers";
 import Link from "next/link";
 
-const BasketHeader = () => {
-  const { cart } = useShopContext();
+const BasketHeader = async ({ styles }: { styles?: string }) => {
   return (
-    <div className="flex hover:-translate-y-1 transition justify-center items-center">
-      <Link href="/basket">
-        <span>
-          <ShoppingCart
-            width={30}
-            height={30}
-            className="text-gray-400 hover:text-gray-500 transition p-0 m-0 w-12"
-          />
-        </span>
-      </Link>
-      <p className="text-gray-400 font-bold text-2xl self-center m-0">
-        {cart?.length >= 1 && cart?.length}
-      </p>
-    </div>
+    <Link href="/basket">
+      <div className="flex ml-1 flex-col duration-300 justify-center hover:text-gray-500 text-gray-400 items-center lg:hover:-translate-y-1 rounded-lg">
+        <div className={cn("flex justify-center items-center mt-1", styles)}>
+          <span>
+            <ShoppingCart className=" size-6  p-0 " />
+          </span>
+        </div>
+      </div>
+    </Link>
   );
 };
 
