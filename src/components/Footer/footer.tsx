@@ -1,5 +1,7 @@
-import { MountainIcon, ShoppingBasket } from "lucide-react";
+import { ShoppingBasket } from "lucide-react";
 import Link from "next/link";
+
+//TODO: What to do with min-h-screen if component doesn't take full height
 
 const Footer = () => {
   return (

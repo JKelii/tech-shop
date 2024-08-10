@@ -1,6 +1,10 @@
 "use client";
 import React, { ReactNode } from "react";
-import { CartContext, ProductInCart } from "./ShopContext/CartContext";
+import {
+  CartContext,
+  ProductInCart,
+  ProductInFavorite,
+} from "./ShopContext/CartContext";
 import { SessionProvider } from "next-auth/react";
 
 export const ClientContexts = ({

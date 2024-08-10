@@ -9,7 +9,7 @@ const MainOffer = async () => {
   const { products } = await getAllProducts();
   return (
     <>
-      <Card className="bg-gray-100/50">
+      <Card className="border-0 shadow-lg mt-2 rounded-lg bg-gray-100/60 border-[1px]">
         <h2 className="text-3xl font-bold mb-4 ml-2 mt-4">Bestsellers</h2>
         <p className="text-muted-foreground mb-6  ml-2">
           Check out our most popular tech products to elevate your digital

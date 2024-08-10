@@ -1,4 +1,7 @@
+"use server";
+
 import { env } from "@/utils";
+import { cookies } from "next/headers";
 
 export const signUpNewsletter = async (email: string) => {
   const response = await fetch(
@@ -14,5 +17,20 @@ export const signUpNewsletter = async (email: string) => {
     }
   );
 
-  return response.json();
+  const data = response.json();
+
+  const cookieStore = cookies();
+  const existingEmail = cookieStore.get("email")?.value || "[]";
+  const emailList = JSON.parse(existingEmail);
+
+  if (!emailList.includes(email)) {
+    emailList.push(email);
+  }
+
+  cookieStore.set("email", JSON.stringify(emailList), {
+    path: "/contact",
+    maxAge: 60 * 60 * 24 * 365,
+  });
+
+  return data;
 };

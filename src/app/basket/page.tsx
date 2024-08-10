@@ -49,7 +49,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
   }, [setCart]);
 
   return (
-    <main className="flex flex-col justify-center items-center mt-10 mb-10 min-h-screen">
+    <main className="min-h-screen container mx-auto flex justify-center items-center flex-col  shadow-md gap-12 mt-4 mb-8 bg-gray-100/50 border-2 border-gray-200 pt-10 rounded-lg pb-10">
       <a
         href="/basket/checkout"
         className="w-32 text-center border-2 border-black rounded-md m-6"

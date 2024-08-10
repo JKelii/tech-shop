@@ -38,6 +38,7 @@ export type Account = Entity & Node & {
   /** Get the document in other stages */
   documentInStages: Array<Account>;
   email: Scalars['String']['output'];
+  favoriteProduct: Array<FavoriteProduct>;
   /** List of Account versions */
   history: Array<Version>;
   /** The unique identifier */
@@ -74,6 +75,19 @@ export type AccountDocumentInStagesArgs = {
   includeCurrent?: Scalars['Boolean']['input'];
   inheritLocale?: Scalars['Boolean']['input'];
   stages?: Array<Stage>;
+};
+
+
+export type AccountFavoriteProductArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  locales?: InputMaybe<Array<Locale>>;
+  orderBy?: InputMaybe<FavoriteProductOrderByInput>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<FavoriteProductWhereInput>;
 };
 
 
@@ -128,6 +142,7 @@ export type AccountCreateInput = {
   clyec7crl00c608w0a0erbqiu?: InputMaybe<CartProductCreateManyInlineInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   email: Scalars['String']['input'];
+  favoriteProduct?: InputMaybe<FavoriteProductCreateManyInlineInput>;
   name: Scalars['String']['input'];
   password: Scalars['String']['input'];
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -204,6 +219,9 @@ export type AccountManyWhereInput = {
   email_not_starts_with?: InputMaybe<Scalars['String']['input']>;
   /** All values starting with the given string. */
   email_starts_with?: InputMaybe<Scalars['String']['input']>;
+  favoriteProduct_every?: InputMaybe<FavoriteProductWhereInput>;
+  favoriteProduct_none?: InputMaybe<FavoriteProductWhereInput>;
+  favoriteProduct_some?: InputMaybe<FavoriteProductWhereInput>;
   id?: InputMaybe<Scalars['ID']['input']>;
   /** All values containing the given string. */
   id_contains?: InputMaybe<Scalars['ID']['input']>;
@@ -319,6 +337,7 @@ export type AccountUpdateInput = {
   cart?: InputMaybe<CartUpdateOneInlineInput>;
   clyec7crl00c608w0a0erbqiu?: InputMaybe<CartProductUpdateManyInlineInput>;
   email?: InputMaybe<Scalars['String']['input']>;
+  favoriteProduct?: InputMaybe<FavoriteProductUpdateManyInlineInput>;
   name?: InputMaybe<Scalars['String']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
 };
@@ -443,6 +462,9 @@ export type AccountWhereInput = {
   email_not_starts_with?: InputMaybe<Scalars['String']['input']>;
   /** All values starting with the given string. */
   email_starts_with?: InputMaybe<Scalars['String']['input']>;
+  favoriteProduct_every?: InputMaybe<FavoriteProductWhereInput>;
+  favoriteProduct_none?: InputMaybe<FavoriteProductWhereInput>;
+  favoriteProduct_some?: InputMaybe<FavoriteProductWhereInput>;
   id?: InputMaybe<Scalars['ID']['input']>;
   /** All values containing the given string. */
   id_contains?: InputMaybe<Scalars['ID']['input']>;
@@ -4261,6 +4283,7 @@ export enum EntityTypeName {
   Collection = 'Collection',
   CreateReview = 'CreateReview',
   Currency = 'Currency',
+  FavoriteProduct = 'FavoriteProduct',
   Order = 'Order',
   OrderItem = 'OrderItem',
   Product = 'Product',
@@ -4284,6 +4307,413 @@ export type EntityWhereInput = {
   stage: Stage;
   /** The Type name of an object */
   typename: EntityTypeName;
+};
+
+export type FavoriteProduct = Entity & Node & {
+  account?: Maybe<Account>;
+  /** The time the document was created */
+  createdAt: Scalars['DateTime']['output'];
+  /** User that created this document */
+  createdBy?: Maybe<User>;
+  /** Get the document in other stages */
+  documentInStages: Array<FavoriteProduct>;
+  /** List of FavoriteProduct versions */
+  history: Array<Version>;
+  /** The unique identifier */
+  id: Scalars['ID']['output'];
+  product?: Maybe<Product>;
+  /** The time the document was published. Null on documents in draft stage. */
+  publishedAt?: Maybe<Scalars['DateTime']['output']>;
+  /** User that last published this document */
+  publishedBy?: Maybe<User>;
+  scheduledIn: Array<ScheduledOperation>;
+  /** System stage field */
+  stage: Stage;
+  /** The time the document was updated */
+  updatedAt: Scalars['DateTime']['output'];
+  /** User that last updated this document */
+  updatedBy?: Maybe<User>;
+};
+
+
+export type FavoriteProductAccountArgs = {
+  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
+  locales?: InputMaybe<Array<Locale>>;
+};
+
+
+export type FavoriteProductCreatedByArgs = {
+  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
+  locales?: InputMaybe<Array<Locale>>;
+};
+
+
+export type FavoriteProductDocumentInStagesArgs = {
+  includeCurrent?: Scalars['Boolean']['input'];
+  inheritLocale?: Scalars['Boolean']['input'];
+  stages?: Array<Stage>;
+};
+
+
+export type FavoriteProductHistoryArgs = {
+  limit?: Scalars['Int']['input'];
+  skip?: Scalars['Int']['input'];
+  stageOverride?: InputMaybe<Stage>;
+};
+
+
+export type FavoriteProductProductArgs = {
+  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
+  locales?: InputMaybe<Array<Locale>>;
+};
+
+
+export type FavoriteProductPublishedByArgs = {
+  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
+  locales?: InputMaybe<Array<Locale>>;
+};
+
+
+export type FavoriteProductScheduledInArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  locales?: InputMaybe<Array<Locale>>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<ScheduledOperationWhereInput>;
+};
+
+
+export type FavoriteProductUpdatedByArgs = {
+  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
+  locales?: InputMaybe<Array<Locale>>;
+};
+
+export type FavoriteProductConnectInput = {
+  /** Allow to specify document position in list of connected documents, will default to appending at end of list */
+  position?: InputMaybe<ConnectPositionInput>;
+  /** Document to connect */
+  where: FavoriteProductWhereUniqueInput;
+};
+
+/** A connection to a list of items. */
+export type FavoriteProductConnection = {
+  aggregate: Aggregate;
+  /** A list of edges. */
+  edges: Array<FavoriteProductEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+export type FavoriteProductCreateInput = {
+  account?: InputMaybe<AccountCreateOneInlineInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  product?: InputMaybe<ProductCreateOneInlineInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type FavoriteProductCreateManyInlineInput = {
+  /** Connect multiple existing FavoriteProduct documents */
+  connect?: InputMaybe<Array<FavoriteProductWhereUniqueInput>>;
+  /** Create and connect multiple existing FavoriteProduct documents */
+  create?: InputMaybe<Array<FavoriteProductCreateInput>>;
+};
+
+export type FavoriteProductCreateOneInlineInput = {
+  /** Connect one existing FavoriteProduct document */
+  connect?: InputMaybe<FavoriteProductWhereUniqueInput>;
+  /** Create and connect one FavoriteProduct document */
+  create?: InputMaybe<FavoriteProductCreateInput>;
+};
+
+/** An edge in a connection. */
+export type FavoriteProductEdge = {
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of the edge. */
+  node: FavoriteProduct;
+};
+
+/** Identifies documents */
+export type FavoriteProductManyWhereInput = {
+  /** Logical AND on all given filters. */
+  AND?: InputMaybe<Array<FavoriteProductWhereInput>>;
+  /** Logical NOT on all given filters combined by AND. */
+  NOT?: InputMaybe<Array<FavoriteProductWhereInput>>;
+  /** Logical OR on all given filters. */
+  OR?: InputMaybe<Array<FavoriteProductWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']['input']>;
+  account?: InputMaybe<AccountWhereInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than the given value. */
+  createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than or equal the given value. */
+  createdAt_gte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are contained in given list. */
+  createdAt_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  /** All values less than the given value. */
+  createdAt_lt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values less than or equal the given value. */
+  createdAt_lte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  createdAt_not?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are not contained in given list. */
+  createdAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  createdBy?: InputMaybe<UserWhereInput>;
+  documentInStages_every?: InputMaybe<FavoriteProductWhereStageInput>;
+  documentInStages_none?: InputMaybe<FavoriteProductWhereStageInput>;
+  documentInStages_some?: InputMaybe<FavoriteProductWhereStageInput>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  /** All values containing the given string. */
+  id_contains?: InputMaybe<Scalars['ID']['input']>;
+  /** All values ending with the given string. */
+  id_ends_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values that are contained in given list. */
+  id_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  id_not?: InputMaybe<Scalars['ID']['input']>;
+  /** All values not containing the given string. */
+  id_not_contains?: InputMaybe<Scalars['ID']['input']>;
+  /** All values not ending with the given string */
+  id_not_ends_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values that are not contained in given list. */
+  id_not_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** All values not starting with the given string. */
+  id_not_starts_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values starting with the given string. */
+  id_starts_with?: InputMaybe<Scalars['ID']['input']>;
+  product?: InputMaybe<ProductWhereInput>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than the given value. */
+  publishedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than or equal the given value. */
+  publishedAt_gte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are contained in given list. */
+  publishedAt_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  /** All values less than the given value. */
+  publishedAt_lt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values less than or equal the given value. */
+  publishedAt_lte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  publishedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are not contained in given list. */
+  publishedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  publishedBy?: InputMaybe<UserWhereInput>;
+  scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
+  scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
+  scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than the given value. */
+  updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than or equal the given value. */
+  updatedAt_gte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are contained in given list. */
+  updatedAt_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  /** All values less than the given value. */
+  updatedAt_lt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values less than or equal the given value. */
+  updatedAt_lte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  updatedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are not contained in given list. */
+  updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  updatedBy?: InputMaybe<UserWhereInput>;
+};
+
+export enum FavoriteProductOrderByInput {
+  CreatedAtAsc = 'createdAt_ASC',
+  CreatedAtDesc = 'createdAt_DESC',
+  IdAsc = 'id_ASC',
+  IdDesc = 'id_DESC',
+  PublishedAtAsc = 'publishedAt_ASC',
+  PublishedAtDesc = 'publishedAt_DESC',
+  UpdatedAtAsc = 'updatedAt_ASC',
+  UpdatedAtDesc = 'updatedAt_DESC'
+}
+
+export type FavoriteProductUpdateInput = {
+  account?: InputMaybe<AccountUpdateOneInlineInput>;
+  product?: InputMaybe<ProductUpdateOneInlineInput>;
+};
+
+export type FavoriteProductUpdateManyInlineInput = {
+  /** Connect multiple existing FavoriteProduct documents */
+  connect?: InputMaybe<Array<FavoriteProductConnectInput>>;
+  /** Create and connect multiple FavoriteProduct documents */
+  create?: InputMaybe<Array<FavoriteProductCreateInput>>;
+  /** Delete multiple FavoriteProduct documents */
+  delete?: InputMaybe<Array<FavoriteProductWhereUniqueInput>>;
+  /** Disconnect multiple FavoriteProduct documents */
+  disconnect?: InputMaybe<Array<FavoriteProductWhereUniqueInput>>;
+  /** Override currently-connected documents with multiple existing FavoriteProduct documents */
+  set?: InputMaybe<Array<FavoriteProductWhereUniqueInput>>;
+  /** Update multiple FavoriteProduct documents */
+  update?: InputMaybe<Array<FavoriteProductUpdateWithNestedWhereUniqueInput>>;
+  /** Upsert multiple FavoriteProduct documents */
+  upsert?: InputMaybe<Array<FavoriteProductUpsertWithNestedWhereUniqueInput>>;
+};
+
+export type FavoriteProductUpdateManyInput = {
+  /** No fields in updateMany data input */
+  _?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type FavoriteProductUpdateManyWithNestedWhereInput = {
+  /** Update many input */
+  data: FavoriteProductUpdateManyInput;
+  /** Document search */
+  where: FavoriteProductWhereInput;
+};
+
+export type FavoriteProductUpdateOneInlineInput = {
+  /** Connect existing FavoriteProduct document */
+  connect?: InputMaybe<FavoriteProductWhereUniqueInput>;
+  /** Create and connect one FavoriteProduct document */
+  create?: InputMaybe<FavoriteProductCreateInput>;
+  /** Delete currently connected FavoriteProduct document */
+  delete?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Disconnect currently connected FavoriteProduct document */
+  disconnect?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Update single FavoriteProduct document */
+  update?: InputMaybe<FavoriteProductUpdateWithNestedWhereUniqueInput>;
+  /** Upsert single FavoriteProduct document */
+  upsert?: InputMaybe<FavoriteProductUpsertWithNestedWhereUniqueInput>;
+};
+
+export type FavoriteProductUpdateWithNestedWhereUniqueInput = {
+  /** Document to update */
+  data: FavoriteProductUpdateInput;
+  /** Unique document search */
+  where: FavoriteProductWhereUniqueInput;
+};
+
+export type FavoriteProductUpsertInput = {
+  /** Create document if it didn't exist */
+  create: FavoriteProductCreateInput;
+  /** Update document if it exists */
+  update: FavoriteProductUpdateInput;
+};
+
+export type FavoriteProductUpsertWithNestedWhereUniqueInput = {
+  /** Upsert data */
+  data: FavoriteProductUpsertInput;
+  /** Unique document search */
+  where: FavoriteProductWhereUniqueInput;
+};
+
+/** This contains a set of filters that can be used to compare values internally */
+export type FavoriteProductWhereComparatorInput = {
+  /** This field can be used to request to check if the entry is outdated by internal comparison */
+  outdated_to?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Identifies documents */
+export type FavoriteProductWhereInput = {
+  /** Logical AND on all given filters. */
+  AND?: InputMaybe<Array<FavoriteProductWhereInput>>;
+  /** Logical NOT on all given filters combined by AND. */
+  NOT?: InputMaybe<Array<FavoriteProductWhereInput>>;
+  /** Logical OR on all given filters. */
+  OR?: InputMaybe<Array<FavoriteProductWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']['input']>;
+  account?: InputMaybe<AccountWhereInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than the given value. */
+  createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than or equal the given value. */
+  createdAt_gte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are contained in given list. */
+  createdAt_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  /** All values less than the given value. */
+  createdAt_lt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values less than or equal the given value. */
+  createdAt_lte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  createdAt_not?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are not contained in given list. */
+  createdAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  createdBy?: InputMaybe<UserWhereInput>;
+  documentInStages_every?: InputMaybe<FavoriteProductWhereStageInput>;
+  documentInStages_none?: InputMaybe<FavoriteProductWhereStageInput>;
+  documentInStages_some?: InputMaybe<FavoriteProductWhereStageInput>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  /** All values containing the given string. */
+  id_contains?: InputMaybe<Scalars['ID']['input']>;
+  /** All values ending with the given string. */
+  id_ends_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values that are contained in given list. */
+  id_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  id_not?: InputMaybe<Scalars['ID']['input']>;
+  /** All values not containing the given string. */
+  id_not_contains?: InputMaybe<Scalars['ID']['input']>;
+  /** All values not ending with the given string */
+  id_not_ends_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values that are not contained in given list. */
+  id_not_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** All values not starting with the given string. */
+  id_not_starts_with?: InputMaybe<Scalars['ID']['input']>;
+  /** All values starting with the given string. */
+  id_starts_with?: InputMaybe<Scalars['ID']['input']>;
+  product?: InputMaybe<ProductWhereInput>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than the given value. */
+  publishedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than or equal the given value. */
+  publishedAt_gte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are contained in given list. */
+  publishedAt_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  /** All values less than the given value. */
+  publishedAt_lt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values less than or equal the given value. */
+  publishedAt_lte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  publishedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are not contained in given list. */
+  publishedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  publishedBy?: InputMaybe<UserWhereInput>;
+  scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
+  scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
+  scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than the given value. */
+  updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values greater than or equal the given value. */
+  updatedAt_gte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are contained in given list. */
+  updatedAt_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  /** All values less than the given value. */
+  updatedAt_lt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values less than or equal the given value. */
+  updatedAt_lte?: InputMaybe<Scalars['DateTime']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  updatedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
+  /** All values that are not contained in given list. */
+  updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
+  updatedBy?: InputMaybe<UserWhereInput>;
+};
+
+/** The document in stages filter allows specifying a stage entry to cross compare the same document between different stages */
+export type FavoriteProductWhereStageInput = {
+  /** Logical AND on all given filters. */
+  AND?: InputMaybe<Array<FavoriteProductWhereStageInput>>;
+  /** Logical NOT on all given filters combined by AND. */
+  NOT?: InputMaybe<Array<FavoriteProductWhereStageInput>>;
+  /** Logical OR on all given filters. */
+  OR?: InputMaybe<Array<FavoriteProductWhereStageInput>>;
+  /** This field contains fields which can be set as true or false to specify an internal comparison */
+  compareWithParent?: InputMaybe<FavoriteProductWhereComparatorInput>;
+  /** Specify the stage to compare with */
+  stage?: InputMaybe<Stage>;
+};
+
+/** References FavoriteProduct record uniquely */
+export type FavoriteProductWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export enum ImageFit {
@@ -4358,6 +4788,8 @@ export type Mutation = {
   createCreateReview?: Maybe<CreateReview>;
   /** Create one currency */
   createCurrency?: Maybe<Currency>;
+  /** Create one favoriteProduct */
+  createFavoriteProduct?: Maybe<FavoriteProduct>;
   /** Create one order */
   createOrder?: Maybe<Order>;
   /** Create one orderItem */
@@ -4390,6 +4822,8 @@ export type Mutation = {
   deleteCreateReview?: Maybe<CreateReview>;
   /** Delete one currency from _all_ existing stages. Returns deleted document. */
   deleteCurrency?: Maybe<Currency>;
+  /** Delete one favoriteProduct from _all_ existing stages. Returns deleted document. */
+  deleteFavoriteProduct?: Maybe<FavoriteProduct>;
   /**
    * Delete many Account documents
    * @deprecated Please use the new paginated many mutation (deleteManyAccountsConnection)
@@ -4446,6 +4880,13 @@ export type Mutation = {
   deleteManyCurrencies: BatchPayload;
   /** Delete many Currency documents, return deleted documents */
   deleteManyCurrenciesConnection: CurrencyConnection;
+  /**
+   * Delete many FavoriteProduct documents
+   * @deprecated Please use the new paginated many mutation (deleteManyFavoriteProductsConnection)
+   */
+  deleteManyFavoriteProducts: BatchPayload;
+  /** Delete many FavoriteProduct documents, return deleted documents */
+  deleteManyFavoriteProductsConnection: FavoriteProductConnection;
   /**
    * Delete many OrderItem documents
    * @deprecated Please use the new paginated many mutation (deleteManyOrderItemsConnection)
@@ -4529,6 +4970,8 @@ export type Mutation = {
   publishCreateReview?: Maybe<CreateReview>;
   /** Publish one currency */
   publishCurrency?: Maybe<Currency>;
+  /** Publish one favoriteProduct */
+  publishFavoriteProduct?: Maybe<FavoriteProduct>;
   /**
    * Publish many Account documents
    * @deprecated Please use the new paginated many mutation (publishManyAccountsConnection)
@@ -4585,6 +5028,13 @@ export type Mutation = {
   publishManyCurrencies: BatchPayload;
   /** Publish many Currency documents */
   publishManyCurrenciesConnection: CurrencyConnection;
+  /**
+   * Publish many FavoriteProduct documents
+   * @deprecated Please use the new paginated many mutation (publishManyFavoriteProductsConnection)
+   */
+  publishManyFavoriteProducts: BatchPayload;
+  /** Publish many FavoriteProduct documents */
+  publishManyFavoriteProductsConnection: FavoriteProductConnection;
   /**
    * Publish many OrderItem documents
    * @deprecated Please use the new paginated many mutation (publishManyOrderItemsConnection)
@@ -4664,6 +5114,8 @@ export type Mutation = {
   schedulePublishCreateReview?: Maybe<CreateReview>;
   /** Schedule to publish one currency */
   schedulePublishCurrency?: Maybe<Currency>;
+  /** Schedule to publish one favoriteProduct */
+  schedulePublishFavoriteProduct?: Maybe<FavoriteProduct>;
   /** Schedule to publish one order */
   schedulePublishOrder?: Maybe<Order>;
   /** Schedule to publish one orderItem */
@@ -4694,6 +5146,8 @@ export type Mutation = {
   scheduleUnpublishCreateReview?: Maybe<CreateReview>;
   /** Unpublish one currency from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
   scheduleUnpublishCurrency?: Maybe<Currency>;
+  /** Unpublish one favoriteProduct from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
+  scheduleUnpublishFavoriteProduct?: Maybe<FavoriteProduct>;
   /** Unpublish one order from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
   scheduleUnpublishOrder?: Maybe<Order>;
   /** Unpublish one orderItem from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
@@ -4724,6 +5178,8 @@ export type Mutation = {
   unpublishCreateReview?: Maybe<CreateReview>;
   /** Unpublish one currency from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
   unpublishCurrency?: Maybe<Currency>;
+  /** Unpublish one favoriteProduct from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
+  unpublishFavoriteProduct?: Maybe<FavoriteProduct>;
   /**
    * Unpublish many Account documents
    * @deprecated Please use the new paginated many mutation (unpublishManyAccountsConnection)
@@ -4780,6 +5236,13 @@ export type Mutation = {
   unpublishManyCurrencies: BatchPayload;
   /** Find many Currency documents that match criteria in specified stage and unpublish from target stages */
   unpublishManyCurrenciesConnection: CurrencyConnection;
+  /**
+   * Unpublish many FavoriteProduct documents
+   * @deprecated Please use the new paginated many mutation (unpublishManyFavoriteProductsConnection)
+   */
+  unpublishManyFavoriteProducts: BatchPayload;
+  /** Find many FavoriteProduct documents that match criteria in specified stage and unpublish from target stages */
+  unpublishManyFavoriteProductsConnection: FavoriteProductConnection;
   /**
    * Unpublish many OrderItem documents
    * @deprecated Please use the new paginated many mutation (unpublishManyOrderItemsConnection)
@@ -4859,6 +5322,8 @@ export type Mutation = {
   updateCreateReview?: Maybe<CreateReview>;
   /** Update one currency */
   updateCurrency?: Maybe<Currency>;
+  /** Update one favoriteProduct */
+  updateFavoriteProduct?: Maybe<FavoriteProduct>;
   /**
    * Update many accounts
    * @deprecated Please use the new paginated many mutation (updateManyAccountsConnection)
@@ -4915,6 +5380,13 @@ export type Mutation = {
   updateManyCurrencies: BatchPayload;
   /** Update many Currency documents */
   updateManyCurrenciesConnection: CurrencyConnection;
+  /**
+   * Update many favoriteProducts
+   * @deprecated Please use the new paginated many mutation (updateManyFavoriteProductsConnection)
+   */
+  updateManyFavoriteProducts: BatchPayload;
+  /** Update many FavoriteProduct documents */
+  updateManyFavoriteProductsConnection: FavoriteProductConnection;
   /**
    * Update many orderItems
    * @deprecated Please use the new paginated many mutation (updateManyOrderItemsConnection)
@@ -4996,6 +5468,8 @@ export type Mutation = {
   upsertCreateReview?: Maybe<CreateReview>;
   /** Upsert one currency */
   upsertCurrency?: Maybe<Currency>;
+  /** Upsert one favoriteProduct */
+  upsertFavoriteProduct?: Maybe<FavoriteProduct>;
   /** Upsert one order */
   upsertOrder?: Maybe<Order>;
   /** Upsert one orderItem */
@@ -5050,6 +5524,11 @@ export type MutationCreateCreateReviewArgs = {
 
 export type MutationCreateCurrencyArgs = {
   data: CurrencyCreateInput;
+};
+
+
+export type MutationCreateFavoriteProductArgs = {
+  data: FavoriteProductCreateInput;
 };
 
 
@@ -5130,6 +5609,11 @@ export type MutationDeleteCreateReviewArgs = {
 
 export type MutationDeleteCurrencyArgs = {
   where: CurrencyWhereUniqueInput;
+};
+
+
+export type MutationDeleteFavoriteProductArgs = {
+  where: FavoriteProductWhereUniqueInput;
 };
 
 
@@ -5250,6 +5734,21 @@ export type MutationDeleteManyCurrenciesConnectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<CurrencyManyWhereInput>;
+};
+
+
+export type MutationDeleteManyFavoriteProductsArgs = {
+  where?: InputMaybe<FavoriteProductManyWhereInput>;
+};
+
+
+export type MutationDeleteManyFavoriteProductsConnectionArgs = {
+  after?: InputMaybe<Scalars['ID']['input']>;
+  before?: InputMaybe<Scalars['ID']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<FavoriteProductManyWhereInput>;
 };
 
 
@@ -5460,6 +5959,12 @@ export type MutationPublishCurrencyArgs = {
 };
 
 
+export type MutationPublishFavoriteProductArgs = {
+  to?: Array<Stage>;
+  where: FavoriteProductWhereUniqueInput;
+};
+
+
 export type MutationPublishManyAccountsArgs = {
   to?: Array<Stage>;
   where?: InputMaybe<AccountManyWhereInput>;
@@ -5619,6 +6124,24 @@ export type MutationPublishManyCurrenciesConnectionArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   to?: Array<Stage>;
   where?: InputMaybe<CurrencyManyWhereInput>;
+};
+
+
+export type MutationPublishManyFavoriteProductsArgs = {
+  to?: Array<Stage>;
+  where?: InputMaybe<FavoriteProductManyWhereInput>;
+};
+
+
+export type MutationPublishManyFavoriteProductsConnectionArgs = {
+  after?: InputMaybe<Scalars['ID']['input']>;
+  before?: InputMaybe<Scalars['ID']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  from?: InputMaybe<Stage>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  to?: Array<Stage>;
+  where?: InputMaybe<FavoriteProductManyWhereInput>;
 };
 
 
@@ -5899,6 +6422,14 @@ export type MutationSchedulePublishCurrencyArgs = {
 };
 
 
+export type MutationSchedulePublishFavoriteProductArgs = {
+  releaseAt?: InputMaybe<Scalars['DateTime']['input']>;
+  releaseId?: InputMaybe<Scalars['String']['input']>;
+  to?: Array<Stage>;
+  where: FavoriteProductWhereUniqueInput;
+};
+
+
 export type MutationSchedulePublishOrderArgs = {
   releaseAt?: InputMaybe<Scalars['DateTime']['input']>;
   releaseId?: InputMaybe<Scalars['String']['input']>;
@@ -6037,6 +6568,14 @@ export type MutationScheduleUnpublishCurrencyArgs = {
 };
 
 
+export type MutationScheduleUnpublishFavoriteProductArgs = {
+  from?: Array<Stage>;
+  releaseAt?: InputMaybe<Scalars['DateTime']['input']>;
+  releaseId?: InputMaybe<Scalars['String']['input']>;
+  where: FavoriteProductWhereUniqueInput;
+};
+
+
 export type MutationScheduleUnpublishOrderArgs = {
   from?: Array<Stage>;
   releaseAt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -6152,6 +6691,12 @@ export type MutationUnpublishCreateReviewArgs = {
 export type MutationUnpublishCurrencyArgs = {
   from?: Array<Stage>;
   where: CurrencyWhereUniqueInput;
+};
+
+
+export type MutationUnpublishFavoriteProductArgs = {
+  from?: Array<Stage>;
+  where: FavoriteProductWhereUniqueInput;
 };
 
 
@@ -6308,6 +6853,24 @@ export type MutationUnpublishManyCurrenciesConnectionArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   stage?: InputMaybe<Stage>;
   where?: InputMaybe<CurrencyManyWhereInput>;
+};
+
+
+export type MutationUnpublishManyFavoriteProductsArgs = {
+  from?: Array<Stage>;
+  where?: InputMaybe<FavoriteProductManyWhereInput>;
+};
+
+
+export type MutationUnpublishManyFavoriteProductsConnectionArgs = {
+  after?: InputMaybe<Scalars['ID']['input']>;
+  before?: InputMaybe<Scalars['ID']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  from?: Array<Stage>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  stage?: InputMaybe<Stage>;
+  where?: InputMaybe<FavoriteProductManyWhereInput>;
 };
 
 
@@ -6551,6 +7114,12 @@ export type MutationUpdateCurrencyArgs = {
 };
 
 
+export type MutationUpdateFavoriteProductArgs = {
+  data: FavoriteProductUpdateInput;
+  where: FavoriteProductWhereUniqueInput;
+};
+
+
 export type MutationUpdateManyAccountsArgs = {
   data: AccountUpdateManyInput;
   where?: InputMaybe<AccountManyWhereInput>;
@@ -6684,6 +7253,23 @@ export type MutationUpdateManyCurrenciesConnectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<CurrencyManyWhereInput>;
+};
+
+
+export type MutationUpdateManyFavoriteProductsArgs = {
+  data: FavoriteProductUpdateManyInput;
+  where?: InputMaybe<FavoriteProductManyWhereInput>;
+};
+
+
+export type MutationUpdateManyFavoriteProductsConnectionArgs = {
+  after?: InputMaybe<Scalars['ID']['input']>;
+  before?: InputMaybe<Scalars['ID']['input']>;
+  data: FavoriteProductUpdateManyInput;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<FavoriteProductManyWhereInput>;
 };
 
 
@@ -6899,6 +7485,12 @@ export type MutationUpsertCreateReviewArgs = {
 export type MutationUpsertCurrencyArgs = {
   upsert: CurrencyUpsertInput;
   where: CurrencyWhereUniqueInput;
+};
+
+
+export type MutationUpsertFavoriteProductArgs = {
+  upsert: FavoriteProductUpsertInput;
+  where: FavoriteProductWhereUniqueInput;
 };
 
 
@@ -8705,6 +9297,7 @@ export type ProductConnection = {
 export type ProductCreateInput = {
   categories?: InputMaybe<CategoryCreateManyInlineInput>;
   clyd7w1bu0wdr07uldyt3ht51?: InputMaybe<CartProductCreateManyInlineInput>;
+  clzikyo3q06nq07w71ep18c90?: InputMaybe<FavoriteProductCreateManyInlineInput>;
   collections?: InputMaybe<CollectionCreateManyInlineInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** description input for default locale (en) */
@@ -10013,6 +10606,7 @@ export type ProductSizeVariantWhereUniqueInput = {
 export type ProductUpdateInput = {
   categories?: InputMaybe<CategoryUpdateManyInlineInput>;
   clyd7w1bu0wdr07uldyt3ht51?: InputMaybe<CartProductUpdateManyInlineInput>;
+  clzikyo3q06nq07w71ep18c90?: InputMaybe<FavoriteProductUpdateManyInlineInput>;
   collections?: InputMaybe<CollectionUpdateManyInlineInput>;
   /** description input for default locale (en) */
   description?: InputMaybe<Scalars['String']['input']>;
@@ -10529,6 +11123,14 @@ export type Query = {
   currencyVersion?: Maybe<DocumentVersion>;
   /** Fetches an object given its ID */
   entities?: Maybe<Array<Entity>>;
+  /** Retrieve a single favoriteProduct */
+  favoriteProduct?: Maybe<FavoriteProduct>;
+  /** Retrieve document version */
+  favoriteProductVersion?: Maybe<DocumentVersion>;
+  /** Retrieve multiple favoriteProducts */
+  favoriteProducts: Array<FavoriteProduct>;
+  /** Retrieve multiple favoriteProducts using the Relay connection interface */
+  favoriteProductsConnection: FavoriteProductConnection;
   /** Fetches an object given its ID */
   node?: Maybe<Node>;
   /** Retrieve a single order */
@@ -10915,6 +11517,44 @@ export type QueryCurrencyVersionArgs = {
 export type QueryEntitiesArgs = {
   locales?: InputMaybe<Array<Locale>>;
   where: Array<EntityWhereInput>;
+};
+
+
+export type QueryFavoriteProductArgs = {
+  locales?: Array<Locale>;
+  stage?: Stage;
+  where: FavoriteProductWhereUniqueInput;
+};
+
+
+export type QueryFavoriteProductVersionArgs = {
+  where: VersionWhereInput;
+};
+
+
+export type QueryFavoriteProductsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  locales?: Array<Locale>;
+  orderBy?: InputMaybe<FavoriteProductOrderByInput>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  stage?: Stage;
+  where?: InputMaybe<FavoriteProductWhereInput>;
+};
+
+
+export type QueryFavoriteProductsConnectionArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  locales?: Array<Locale>;
+  orderBy?: InputMaybe<FavoriteProductOrderByInput>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  stage?: Stage;
+  where?: InputMaybe<FavoriteProductWhereInput>;
 };
 
 
@@ -11986,7 +12626,7 @@ export type ScheduledOperationUpdatedByArgs = {
   locales?: InputMaybe<Array<Locale>>;
 };
 
-export type ScheduledOperationAffectedDocument = Account | Asset | Cart | CartProduct | Category | Collection | CreateReview | Currency | Order | OrderItem | Product | ProductColorVariant | ProductSizeColorVariant | ProductSizeVariant | Review;
+export type ScheduledOperationAffectedDocument = Account | Asset | Cart | CartProduct | Category | Collection | CreateReview | Currency | FavoriteProduct | Order | OrderItem | Product | ProductColorVariant | ProductSizeColorVariant | ProductSizeVariant | Review;
 
 export type ScheduledOperationConnectInput = {
   /** Allow to specify document position in list of connected documents, will default to appending at end of list */
@@ -13485,6 +14125,36 @@ export type UpdateCartQuantityMutationVariables = Exact<{
 
 export type UpdateCartQuantityMutation = { updateCartProduct?: { id: string } | null };
 
+export type CreateFavoriteProductMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type CreateFavoriteProductMutation = { createFavoriteProduct?: { id: string } | null };
+
+export type DeleteFavoriteProductMutationVariables = Exact<{
+  favoriteProductId: Scalars['ID']['input'];
+}>;
+
+
+export type DeleteFavoriteProductMutation = { deleteFavoriteProduct?: { id: string } | null };
+
+export type GetFavoriteProductQueryVariables = Exact<{
+  email: Scalars['String']['input'];
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type GetFavoriteProductQuery = { favoriteProducts: Array<{ id: string }> };
+
+export type GetFavoritesQueryVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type GetFavoritesQuery = { favoriteProducts: Array<{ id: string, product?: { name: string, id: string, slug: string, price: number, description: string, images: Array<{ url: string, fileName: string }> } | null }> };
+
 export type GetProductBySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
 }>;
@@ -13585,6 +14255,50 @@ export const UpdateCartQuantityDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UpdateCartQuantityMutation, UpdateCartQuantityMutationVariables>;
+export const CreateFavoriteProductDocument = new TypedDocumentString(`
+    mutation CreateFavoriteProduct($email: String!, $slug: String!) {
+  createFavoriteProduct(
+    data: {product: {connect: {slug: $slug}}, account: {connect: {email: $email}}}
+  ) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<CreateFavoriteProductMutation, CreateFavoriteProductMutationVariables>;
+export const DeleteFavoriteProductDocument = new TypedDocumentString(`
+    mutation DeleteFavoriteProduct($favoriteProductId: ID!) {
+  deleteFavoriteProduct(where: {id: $favoriteProductId}) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<DeleteFavoriteProductMutation, DeleteFavoriteProductMutationVariables>;
+export const GetFavoriteProductDocument = new TypedDocumentString(`
+    query GetFavoriteProduct($email: String!, $slug: String!) {
+  favoriteProducts(
+    where: {account: {email: $email}, AND: {product: {slug: $slug}}}
+    stage: DRAFT
+  ) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<GetFavoriteProductQuery, GetFavoriteProductQueryVariables>;
+export const GetFavoritesDocument = new TypedDocumentString(`
+    query getFavorites($email: String!) {
+  favoriteProducts(where: {account: {email: $email}}, stage: DRAFT) {
+    id
+    product {
+      name
+      id
+      slug
+      price
+      description
+      images {
+        url
+        fileName
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetFavoritesQuery, GetFavoritesQueryVariables>;
 export const GetProductBySlugDocument = new TypedDocumentString(`
     query GetProductBySlug($slug: String!) {
   product(where: {slug: $slug}) {

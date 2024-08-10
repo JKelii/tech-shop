@@ -100,21 +100,3 @@ export const updateCartQuantity = async ({ product }: CheckCartParams) => {
     });
   }
 };
-
-const COOKIE_NAME_QUANTITY = "quantity";
-
-export const getQuantityFromCookies = (req: any) => {
-  const cookieStore = cookies();
-  const quantityCookie = cookieStore.get(COOKIE_NAME_QUANTITY);
-  return quantityCookie ? parseInt(quantityCookie.value, 10) : 1;
-};
-
-export const setQuantityInCookies = (quantity: string) => {
-  const cookieStore = cookies();
-  cookieStore.set(COOKIE_NAME_QUANTITY, quantity.toString(), {
-    httpOnly: true,
-    secure: true,
-    sameSite: "strict",
-    maxAge: 60 * 60 * 24 * 7, // 7 days
-  });
-};

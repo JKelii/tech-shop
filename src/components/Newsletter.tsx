@@ -1,17 +1,19 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Input } from "./Inputs/input";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { userSchemaNewsletter } from "@/app/schema/userValidation";
 import { Mail } from "lucide-react";
 import { signUpNewsletter } from "@/app/api/auth/[...nextauth]/signUpNewsletter";
-import { toast } from "sonner";
+import { useSession } from "next-auth/react";
 
 const Newsletter = ({
   isSignedInNewsletter,
+  emailCookie,
 }: {
   isSignedInNewsletter: boolean;
+  emailCookie: string | undefined;
 }) => {
   const {
     register,
@@ -21,10 +23,20 @@ const Newsletter = ({
     resolver: yupResolver(userSchemaNewsletter),
   });
 
-  const onSubmit = handleSubmit((data) => {
+  const { data: session } = useSession();
+
+  console.log(isSignedInNewsletter);
+  console.log(emailCookie);
+
+  if (emailCookie?.includes(session?.user?.email ?? "")) {
+    isSignedInNewsletter = true;
+  }
+
+  const onSubmit = handleSubmit(async (data) => {
     try {
-      signUpNewsletter(data.email);
+      await signUpNewsletter(data.email);
       console.log("success");
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }

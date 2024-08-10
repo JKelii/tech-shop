@@ -28,9 +28,11 @@ type ProductType = {
 export const ProductPage = ({
   product,
   slug,
+  favoriteId,
 }: {
   product: ProductType;
   slug: string;
+  favoriteId: string | undefined;
 }) => {
   const { quantity, setQuantity } = useShopContext();
 
@@ -76,7 +78,14 @@ export const ProductPage = ({
               image={product.images[0]?.url}
               price={product.price}
             />
-            <WishList />
+            <WishList
+              favoriteId={favoriteId}
+              id={product.id}
+              slug={product.slug}
+              name={product.name}
+              image={product.images[0]?.url}
+              price={product.price}
+            />
           </div>
         </article>
       </div>
