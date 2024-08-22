@@ -14140,6 +14140,13 @@ export type DeleteFavoriteProductMutationVariables = Exact<{
 
 export type DeleteFavoriteProductMutation = { deleteFavoriteProduct?: { id: string } | null };
 
+export type CreateFavoriteUnAuthorizedMutationVariables = Exact<{
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type CreateFavoriteUnAuthorizedMutation = { createFavoriteProduct?: { id: string } | null };
+
 export type GetFavoriteProductQueryVariables = Exact<{
   email: Scalars['String']['input'];
   slug: Scalars['String']['input'];
@@ -14271,6 +14278,13 @@ export const DeleteFavoriteProductDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<DeleteFavoriteProductMutation, DeleteFavoriteProductMutationVariables>;
+export const CreateFavoriteUnAuthorizedDocument = new TypedDocumentString(`
+    mutation CreateFavoriteUnAuthorized($slug: String!) {
+  createFavoriteProduct(data: {product: {connect: {slug: $slug}}}) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<CreateFavoriteUnAuthorizedMutation, CreateFavoriteUnAuthorizedMutationVariables>;
 export const GetFavoriteProductDocument = new TypedDocumentString(`
     query GetFavoriteProduct($email: String!, $slug: String!) {
   favoriteProducts(

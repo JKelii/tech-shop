@@ -1,10 +1,14 @@
 "use client";
-import { deleteProductFromFavorite } from "@/actions/favorite";
+import {
+  deleteProductFromFavorite,
+  getFavoriteAuthorized,
+} from "@/actions/favorite";
 import { Button } from "@/components/ui/button";
+import { getFavorites } from "@/lib";
 
 import { X } from "lucide-react";
 import { Session } from "next-auth";
-import React from "react";
+import React, { useEffect } from "react";
 import { toast } from "sonner";
 
 export const DeleteFavoriteButton = ({

@@ -6,10 +6,9 @@ import SelectQuantity from "./components/SelectQuantity";
 import { WishList } from "@/components/WishList";
 import { SizeRadioGroup } from "./components/SizeRadioGroup";
 import Comments from "./components/Comments";
-import { useState } from "react";
 import useShopContext from "@/hooks/useShopContext";
 
-type ProductType = {
+export type ProductType = {
   description: string;
   id: string;
   name: string;
@@ -69,7 +68,11 @@ export const ProductPage = ({
           <p className="self-start">{product?.description}</p>
 
           <SizeRadioGroup />
-          <SelectQuantity quantity={quantity} setQuantity={setQuantity} />
+          <SelectQuantity
+            quantity={quantity}
+            setQuantity={setQuantity}
+            productSlug={product.slug}
+          />
           <div className="flex justify-center items-center gap-4">
             <AddToCartButton
               quantity={quantity}

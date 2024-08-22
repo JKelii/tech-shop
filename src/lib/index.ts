@@ -4,6 +4,7 @@ import {
   CreateCartAuthorizedDocument,
   CreateCartUnAuthorizedDocument,
   CreateFavoriteProductDocument,
+  CreateFavoriteUnAuthorizedDocument,
   DeleteCartProductDocument,
   DeleteFavoriteProductDocument,
   GetAccountDocument,
@@ -330,5 +331,24 @@ export const deleteFavoriteProduct = async ({
   });
 
   if (!data) return;
+  return data;
+};
+
+export const createFavoriteUnAuthorized = async ({
+  slug,
+}: {
+  slug: string;
+}) => {
+  const data = await fetcher({
+    headers: {
+      Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
+    },
+    query: CreateFavoriteUnAuthorizedDocument,
+    variables: {
+      slug,
+    },
+    cache: "no-store",
+  });
+
   return data;
 };

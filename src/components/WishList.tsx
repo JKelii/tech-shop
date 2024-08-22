@@ -40,6 +40,7 @@ export const WishList = ({
       });
       return;
     }
+
     addToFavoriteAuthorized({ email, slug });
     toast({
       title: "Added to wishlist",

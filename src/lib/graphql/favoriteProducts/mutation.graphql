@@ -14,3 +14,9 @@ mutation DeleteFavoriteProduct($favoriteProductId: ID!) {
     id
   }
 }
+
+mutation CreateFavoriteUnAuthorized($slug: String!) {
+  createFavoriteProduct(data: { product: { connect: { slug: $slug } } }) {
+    id
+  }
+}

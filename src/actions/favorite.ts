@@ -37,8 +37,6 @@ export const addToFavoriteAuthorized = async ({
   slug,
   email,
 }: AddToFavoriteAuthorizedParams) => {
-  // const findFavorite = cookies().get(COOKIE_NAME_FAVORITE);
-
   const createdFavorite = createFavoriteProduct({ email, slug });
   if (!createdFavorite) {
     throw new Error("Can't save product in favorites");

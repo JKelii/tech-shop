@@ -82,7 +82,13 @@ export const removeFromCart = async ({ product }: CheckCartParams) => {
   }
 };
 
-export const updateCartQuantity = async ({ product }: CheckCartParams) => {
+export const updateCartQuantity = async ({
+  slug,
+  quantity,
+}: {
+  slug: string;
+  quantity: number;
+}) => {
   const cartCookie = cookies().get(COOKIE_NAME_CART);
   if (!cartCookie) return;
 
@@ -91,11 +97,13 @@ export const updateCartQuantity = async ({ product }: CheckCartParams) => {
 
   if (!cart) return;
 
-  const productToUpdate = cart.find(({ slug }) => slug === product.slug);
+  const productToUpdate = cart.find(
+    (product: { slug: string }) => product.slug === slug
+  );
 
   if (productToUpdate) {
     await updateCartProduct({
-      quantity: product.quantity,
+      quantity: quantity,
       cartProductId: productToUpdate.id,
     });
   }

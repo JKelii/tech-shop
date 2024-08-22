@@ -74,7 +74,11 @@ const Page = ({ params }: { params: { slug: string } }) => {
           />
 
           <div className="flex flex-col">
-            <SelectQuantity quantity={quantity} setQuantity={setQuantity} />
+            <SelectQuantity
+              quantity={quantity}
+              setQuantity={setQuantity}
+              productSlug={product.slug}
+            />
 
             <div className="flx-col">
               <p className="text-lg">
