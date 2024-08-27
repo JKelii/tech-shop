@@ -1,3 +1,4 @@
+import { updateCartQuantity } from "@/actions/cart";
 import { GetFavoriteByIdQuery } from "@/lib/hygraph/generated/graphql";
 import React, { createContext, useState } from "react";
 

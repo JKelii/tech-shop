@@ -1,52 +1,36 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
 import Image from "next/image";
-
-import useShopContext from "@/hooks/useShopContext";
-import { Check, X } from "lucide-react";
-
+import { X } from "lucide-react";
 import SelectQuantity from "@/components/pages/Product/components/SelectQuantity";
-import { checkCart, getCartFromCookie, removeFromCart } from "@/actions/cart";
-import { useSession } from "next-auth/react";
-import { string } from "yup";
-import { toast, useToast } from "@/components/ui/use-toast";
+import { getSession } from "next-auth/react";
 import { Toaster } from "@/components/ui/toaster";
+import { getCart } from "@/lib";
+import { cookies } from "next/headers";
 
-const Page = ({ params }: { params: { slug: string } }) => {
+const Page = async ({ params }: { params: { slug: string } }) => {
   const slug = params.slug;
-  const { cart, setCart, quantity, setQuantity } = useShopContext();
-  const session = useSession();
+
+  const session = getSession();
+  const cart = await getCart({ id: cookies().get("cart")?.value });
 
   //TODO: Change toaster so useEffect doesn't reload
-  const handleDelete = async (productSlug: string) => {
-    toast({
-      title: "Item removed from cart ❌",
-      className: "bg-red-500/15",
-      duration: 3000,
-    });
+  // const handleDelete = async (productSlug: string) => {
+  //   toast({
+  //     title: "Item removed from cart ❌",
+  //     className: "bg-red-500/15",
+  //     duration: 3000,
+  //   });
 
-    const updatedCart = await removeFromCart({
-      product: { slug: productSlug, quantity },
-    });
+  //   const updatedCart = await removeFromCart({
+  //     product: { slug: productSlug, quantity },
+  //   });
 
-    if (updatedCart !== null) {
-      setCart(updatedCart);
-    } else {
-      setCart([]);
-    }
-    setQuantity(0);
-  };
-
-  useEffect(() => {
-    const fetchCart = async () => {
-      const cartData = await getCartFromCookie();
-      if (cartData) {
-        setCart(cartData);
-      }
-    };
-    fetchCart();
-  }, [setCart]);
+  //   if (updatedCart !== null) {
+  //     setCart(updatedCart);
+  //   } else {
+  //     setCart([]);
+  //   }
+  //   setQuantity(0);
+  // // };
 
   return (
     <main className="min-h-screen container mx-auto flex justify-center items-center flex-col  shadow-md gap-12 mt-4 mb-8 bg-gray-100/50 border-2 border-gray-200 pt-10 rounded-lg pb-10">
@@ -74,11 +58,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
           />
 
           <div className="flex flex-col">
-            <SelectQuantity
-              quantity={quantity}
-              setQuantity={setQuantity}
-              productSlug={product.slug}
-            />
+            <SelectQuantity productSlug={product.slug} />
 
             <div className="flx-col">
               <p className="text-lg">
@@ -94,7 +74,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
           </div>
           <button
             className="p-2 rounded-sm"
-            onClick={() => handleDelete(product.slug)}
+            // onClick={() => handleDelete(product.slug)}
           >
             <X />
           </button>

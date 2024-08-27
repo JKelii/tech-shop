@@ -1,12 +1,9 @@
 "use client";
-import AddToCartButton from "@/components/addToCartButton";
 import { priceUpdate } from "@/utils/priceUpdate";
 import Image from "next/image";
-import SelectQuantity from "./components/SelectQuantity";
-import { WishList } from "@/components/WishList";
-import { SizeRadioGroup } from "./components/SizeRadioGroup";
 import Comments from "./components/Comments";
 import useShopContext from "@/hooks/useShopContext";
+import { ProductManagement } from "./components/ProductManagement";
 
 export type ProductType = {
   description: string;
@@ -45,7 +42,7 @@ export const ProductPage = ({
             width={450}
             height={150}
             quality={100}
-            className="border-2 border-gray-300 rounded-md"
+            className="border-2 border-gray-300 rounded-md h-96"
           />
         ) : (
           <Image
@@ -66,30 +63,14 @@ export const ProductPage = ({
             </p>
           </div>
           <p className="self-start">{product?.description}</p>
-
-          <SizeRadioGroup />
-          <SelectQuantity
+          {/* //TODO: Add If item doesnt have size radio group won't show */}
+          {/* TODO: Change radio group select quantity and add to cart Manage product */}
+          <ProductManagement
+            favoriteId={favoriteId}
             quantity={quantity}
             setQuantity={setQuantity}
-            productSlug={product.slug}
+            product={product}
           />
-          <div className="flex justify-center items-center gap-4">
-            <AddToCartButton
-              quantity={quantity}
-              slug={product.slug}
-              name={product.name}
-              image={product.images[0]?.url}
-              price={product.price}
-            />
-            <WishList
-              favoriteId={favoriteId}
-              id={product.id}
-              slug={product.slug}
-              name={product.name}
-              image={product.images[0]?.url}
-              price={product.price}
-            />
-          </div>
         </article>
       </div>
       <Comments reviews={product.reviews} slug={slug} />

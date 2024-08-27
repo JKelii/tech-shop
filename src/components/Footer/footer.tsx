@@ -1,7 +1,7 @@
 import { ShoppingBasket } from "lucide-react";
 import Link from "next/link";
 
-//TODO: What to do with min-h-screen if component doesn't take full height
+//TODO: What to do with min-h-screen if component doesn't take full height with css from course
 
 const Footer = () => {
   return (

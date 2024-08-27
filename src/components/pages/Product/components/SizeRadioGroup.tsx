@@ -4,6 +4,7 @@ import useShopContext from "@/hooks/useShopContext";
 import { useState } from "react";
 
 export const SizeRadioGroup = () => {
+  //TODO: Add size query
   const { size, setSize } = useShopContext();
   const [selectedSize, setSelectedSize] = useState(size);
 
@@ -17,7 +18,7 @@ export const SizeRadioGroup = () => {
   return (
     <div className="flex flex-col gap-2">
       <h2 className="text-lg">Size</h2>
-      <div className="flex justify-center items-center gap-2">
+      <div className="flex justify-start items-center gap-2">
         {sizes.map((size) => (
           <label
             key={size}
@@ -28,6 +29,7 @@ export const SizeRadioGroup = () => {
                 : "hover:bg-zinc-200"
             }`}
           >
+            {/* TODO: ADD NextUi radio button */}
             <input
               type="radio"
               name="size"

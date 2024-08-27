@@ -51,6 +51,7 @@ const page = () => {
       </div>
       <div className="flex flex-col  justify-center items-center lg:flex-row  gap-4">
         <AskedQuestions />
+        {/*Change Testimonials */}
         <Testimonials />
       </div>
     </div>

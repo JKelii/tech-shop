@@ -4,16 +4,8 @@ import { updateCartQuantity } from "@/actions/cart";
 import useShopContext from "@/hooks/useShopContext";
 import React, { Dispatch, SetStateAction, useEffect } from "react";
 
-const SelectQuantity = ({
-  quantity,
-  setQuantity,
-  productSlug,
-}: {
-  quantity: number;
-  setQuantity: Dispatch<SetStateAction<number>>;
-  productSlug: string;
-}) => {
-  useEffect(() => {}, [quantity, productSlug]);
+const SelectQuantity = ({ productSlug }: { productSlug: string }) => {
+  const { quantity, setQuantity } = useShopContext();
 
   const depriveQuantity = () => {
     setQuantity((prev) => prev - 1);

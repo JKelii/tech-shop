@@ -16,7 +16,6 @@ type MappedGetCart =
       }>;
     }
   | undefined;
-//   I was expecting a type matching { id: string; name: string; price: number; slug: string; images: { url: string; }[]; } | undefined, but instead you passed null.
 
 export const mapperGetCart = (
   cart: MappedGetCart

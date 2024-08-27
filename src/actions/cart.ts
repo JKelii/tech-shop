@@ -7,11 +7,12 @@ import {
   getCart,
   updateCartProduct,
 } from "@/lib";
+import { error } from "console";
 import { cookies } from "next/headers";
 
 const COOKIE_NAME_CART = "cart";
 
-type CheckCartParams = {
+export type ManageCartParams = {
   product: {
     slug: string;
     quantity: number;
@@ -19,7 +20,7 @@ type CheckCartParams = {
   email?: string;
 };
 
-export const checkCart = async ({ product, email }: CheckCartParams) => {
+export const manageCart = async ({ product, email }: ManageCartParams) => {
   const findCart = cookies().get(COOKIE_NAME_CART);
   if (!findCart) {
     const createdCart = email
@@ -31,20 +32,19 @@ export const checkCart = async ({ product, email }: CheckCartParams) => {
       httpOnly: true,
       secure: true,
     });
+    return;
   }
 
-  if (findCart) {
-    const cart = await getCart({ id: findCart.value });
-    if (!cart) {
-      return;
-    }
-    const updateProduct = cart.find(({ slug }) => slug === product.slug);
-    if (updateProduct) {
-      updateCartProduct({
-        quantity: product.quantity + updateProduct.quantity,
-        cartProductId: updateProduct.id,
-      });
-    }
+  const cart = await getCart({ id: findCart.value });
+  if (!cart) {
+    throw error("Cart not found");
+  }
+  const updateProduct = cart.find(({ slug }) => slug === product.slug);
+  if (updateProduct) {
+    updateCartProduct({
+      quantity: product.quantity,
+      cartProductId: updateProduct.id,
+    });
   }
 };
 
@@ -58,7 +58,7 @@ export const getCartFromCookie = async () => {
   }
 };
 
-export const removeFromCart = async ({ product }: CheckCartParams) => {
+export const removeFromCart = async ({ product }: ManageCartParams) => {
   const cartCookie = cookies().get(COOKIE_NAME_CART);
   if (!cartCookie) return null;
 
