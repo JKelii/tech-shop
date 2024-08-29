@@ -1,15 +1,13 @@
 "use client";
 
-import useShopContext from "@/hooks/useShopContext";
 import { useState } from "react";
 
 export const SizeRadioGroup = () => {
   //TODO: Add size query
-  const { size, setSize } = useShopContext();
-  const [selectedSize, setSelectedSize] = useState(size);
+
+  const [selectedSize, setSelectedSize] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSize(e.target.value);
     setSelectedSize(e.target.value);
   };
 

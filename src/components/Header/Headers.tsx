@@ -1,4 +1,11 @@
-import { HeartIcon, Mail, Menu, Package, User } from "lucide-react";
+import {
+  HeartIcon,
+  Mail,
+  Menu,
+  Package,
+  ShoppingCartIcon,
+  User,
+} from "lucide-react";
 
 import { DesktopNavbar } from "./DesktopNavbar";
 import { MobileNavbar } from "./MobileNavbar";

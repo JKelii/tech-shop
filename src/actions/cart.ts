@@ -37,12 +37,12 @@ export const manageCart = async ({ product, email }: ManageCartParams) => {
 
   const cart = await getCart({ id: findCart.value });
   if (!cart) {
-    throw error("Cart not found");
+    throw error("Can't find cart");
   }
   const updateProduct = cart.find(({ slug }) => slug === product.slug);
   if (updateProduct) {
     updateCartProduct({
-      quantity: product.quantity,
+      quantity: product.quantity + updateProduct.quantity,
       cartProductId: updateProduct.id,
     });
   }
@@ -50,7 +50,6 @@ export const manageCart = async ({ product, email }: ManageCartParams) => {
 
 export const getCartFromCookie = async () => {
   const cartId = cookies().get(COOKIE_NAME_CART)?.value;
-  console.log(cartId);
   if (cartId) {
     const cart = await getCart({ id: cartId });
     console.log(cart);

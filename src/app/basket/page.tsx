@@ -5,12 +5,19 @@ import { getSession } from "next-auth/react";
 import { Toaster } from "@/components/ui/toaster";
 import { getCart } from "@/lib";
 import { cookies } from "next/headers";
+import { removeFromCart } from "@/actions/cart";
+
+import { useQuantityProduct } from "@/components/pages/Product/hooks/useQuantityProduct";
+import { Button } from "@/components/ui/button";
+
+import { toast } from "@/components/ui/use-toast";
 
 const Page = async ({ params }: { params: { slug: string } }) => {
   const slug = params.slug;
 
   const session = getSession();
   const cart = await getCart({ id: cookies().get("cart")?.value });
+  console.log(cart);
 
   //TODO: Change toaster so useEffect doesn't reload
   // const handleDelete = async (productSlug: string) => {
@@ -19,18 +26,17 @@ const Page = async ({ params }: { params: { slug: string } }) => {
   //     className: "bg-red-500/15",
   //     duration: 3000,
   //   });
-
-  //   const updatedCart = await removeFromCart({
-  //     product: { slug: productSlug, quantity },
-  //   });
-
-  //   if (updatedCart !== null) {
-  //     setCart(updatedCart);
-  //   } else {
-  //     setCart([]);
-  //   }
-  //   setQuantity(0);
-  // // };
+  // };
+  // const updatedCart = await removeFromCart({
+  //   product: { slug: slug, quantity: 1 },
+  // });
+  // //   if (updatedCart !== null) {
+  // //     setCart(updatedCart);
+  // //   } else {
+  // //     setCart([]);
+  // //   }
+  // //   setQuantity(0);
+  // // // };
 
   return (
     <main className="min-h-screen container mx-auto flex justify-center items-center flex-col  shadow-md gap-12 mt-4 mb-8 bg-gray-100/50 border-2 border-gray-200 pt-10 rounded-lg pb-10">
@@ -56,9 +62,10 @@ const Page = async ({ params }: { params: { slug: string } }) => {
             quality={100}
             className="border-2 border-gray-500 rounded-md"
           />
-
           <div className="flex flex-col">
-            <SelectQuantity productSlug={product.slug} />
+            <p className="text-lg font-semi-bold">
+              Quantity: {product.quantity}
+            </p>
 
             <div className="flx-col">
               <p className="text-lg">
@@ -72,11 +79,8 @@ const Page = async ({ params }: { params: { slug: string } }) => {
               {/* {priceUpdate(product?.price * product.quantity)} */}
             </p>
           </div>
-          <button
-            className="p-2 rounded-sm"
-            // onClick={() => handleDelete(product.slug)}
-          >
-            <X />
+          <button>
+            <X className="cursor-pointer" />
           </button>
           <Toaster style="text-red-500" />
         </div>

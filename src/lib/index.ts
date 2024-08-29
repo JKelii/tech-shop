@@ -19,6 +19,7 @@ import {
 } from "./hygraph/generated/graphql";
 import { connect } from "http2";
 import { mapperGetCart } from "./mappers/getCart";
+import { error } from "console";
 
 type GraphQlError = {
   message: string;
@@ -164,7 +165,7 @@ export const createCartUnAuthorized = async ({
 
 export const getCart = async ({ id }: { id: string | undefined }) => {
   if (!id) {
-    throw new Error("Problem to get cart id");
+    throw error("Problem to get cart id");
   }
   const data = await fetcher({
     headers: {

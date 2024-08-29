@@ -1,28 +1,19 @@
-"use client";
-
-import {
-  manageCart,
-  ManageCartParams,
-  updateCartQuantity,
-} from "@/actions/cart";
+import { ManageCartParams } from "@/actions/cart";
 import { ShoppingCart } from "lucide-react";
 import { useSession } from "next-auth/react";
-import React, { startTransition, useActionState } from "react";
+import React, { startTransition } from "react";
 import { useForm } from "react-hook-form";
 import { useToast } from "./ui/use-toast";
 import { Toaster } from "./ui/toaster";
-import { useFormState } from "react-dom";
 import { Button } from "./ui/button";
-import SelectQuantity from "./pages/Product/components/SelectQuantity";
 import { SizeRadioGroup } from "./pages/Product/components/SizeRadioGroup";
-import useShopContext from "@/hooks/useShopContext";
+import { useQuantityProduct } from "./pages/Product/hooks/useQuantityProduct";
 
 type AddToCartType = {
   slug: string;
   name: string;
   image: string;
   price: number;
-  quantity: number;
   size?: string;
   manageCart: (params: ManageCartParams) => Promise<Error | void>;
 };
@@ -32,26 +23,11 @@ export const AddToCartButton = ({ slug, manageCart }: AddToCartType) => {
   const session = useSession();
   const { toast } = useToast();
 
-  const { quantity, setQuantity } = useShopContext();
-
-  const depriveQuantity = () => {
-    setQuantity((prev) => prev - 1);
-    if (quantity <= 1) {
-      setQuantity((prev) => (prev = 1));
-    }
-    updateCartQuantity({ slug, quantity });
-  };
-
-  const addQuantity = () => {
-    setQuantity((prev) => prev + 1);
-    updateCartQuantity({ slug, quantity });
-  };
+  const { depriveQuantity, addQuantity, selectedQuantity } =
+    useQuantityProduct();
 
   // const onSubmit = handleSubmit(async (data) => {
   //   try {
-  //     startTransition(() => {
-  //       manageCart();
-  //     });
   //     toast({
   //       title: "Item added to cart ✔",
   //       className: "bg-green-500/15",
@@ -72,7 +48,7 @@ export const AddToCartButton = ({ slug, manageCart }: AddToCartType) => {
     <form
       action={() =>
         manageCart({
-          product: { slug, quantity },
+          product: { slug, quantity: selectedQuantity },
           email: session.data?.email,
         })
       }
@@ -89,7 +65,7 @@ export const AddToCartButton = ({ slug, manageCart }: AddToCartType) => {
             >
               -
             </button>
-            <p>{quantity}</p>
+            <p className="w-4 text-center">{selectedQuantity}</p>
             <button
               onClick={addQuantity}
               className="border-[1px] border-gray-500 w-6 rounded-sm hover:bg-gray-200"
