@@ -1,4 +1,4 @@
-import { ManageCartParams } from "@/actions/cart";
+import { manageCart, ManageCartParams } from "@/actions/cart";
 import { ShoppingCart } from "lucide-react";
 import { useSession } from "next-auth/react";
 import React, { startTransition } from "react";
@@ -15,10 +15,9 @@ type AddToCartType = {
   image: string;
   price: number;
   size?: string;
-  manageCart: (params: ManageCartParams) => Promise<Error | void>;
 };
 
-export const AddToCartButton = ({ slug, manageCart }: AddToCartType) => {
+export const AddToCartButton = ({ slug }: AddToCartType) => {
   const { handleSubmit } = useForm();
   const session = useSession();
   const { toast } = useToast();
@@ -26,7 +25,12 @@ export const AddToCartButton = ({ slug, manageCart }: AddToCartType) => {
   const { depriveQuantity, addQuantity, selectedQuantity } =
     useQuantityProduct();
 
-  // const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async () => {
+    manageCart({
+      product: { slug, quantity: selectedQuantity },
+      email: session.data?.email,
+    });
+  });
   //   try {
   //     toast({
   //       title: "Item added to cart ✔",
@@ -45,21 +49,14 @@ export const AddToCartButton = ({ slug, manageCart }: AddToCartType) => {
   // });
 
   return (
-    <form
-      action={() =>
-        manageCart({
-          product: { slug, quantity: selectedQuantity },
-          email: session.data?.email,
-        })
-      }
-      className="flex flex-col"
-    >
+    <form onSubmit={onSubmit} className="flex flex-col">
       <div className="flex flex-col gap-2">
         <SizeRadioGroup />
         <div className="flex gap-2">
           <p className="text-lg">Quantity:</p>
           <div className="flex gap-2">
             <button
+              type="button"
               onClick={depriveQuantity}
               className="border-[1px] border-gray-500 w-6 rounded-sm hover:bg-gray-200"
             >
@@ -67,6 +64,7 @@ export const AddToCartButton = ({ slug, manageCart }: AddToCartType) => {
             </button>
             <p className="w-4 text-center">{selectedQuantity}</p>
             <button
+              type="button"
               onClick={addQuantity}
               className="border-[1px] border-gray-500 w-6 rounded-sm hover:bg-gray-200"
             >

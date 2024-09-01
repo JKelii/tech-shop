@@ -16,7 +16,6 @@ export const ProductManagement = ({
     <div className="flex flex-col gap-4">
       <div className="flex">
         <AddToCartButton
-          manageCart={manageCart}
           slug={product.slug}
           name={product.name}
           image={product.images[0]?.url}

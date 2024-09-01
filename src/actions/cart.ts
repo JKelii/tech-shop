@@ -1,13 +1,13 @@
 "use server";
 
 import {
-  createCartAuthorized,
-  createCartUnAuthorized,
+  createCart,
+  createCartProduct,
   deleteCartProduct,
   getCart,
   updateCartProduct,
 } from "@/lib";
-import { error } from "console";
+
 import { cookies } from "next/headers";
 
 const COOKIE_NAME_CART = "cart";
@@ -17,35 +17,47 @@ export type ManageCartParams = {
     slug: string;
     quantity: number;
   };
-  email?: string;
+  email: string | undefined;
 };
 
 export const manageCart = async ({ product, email }: ManageCartParams) => {
   const findCart = cookies().get(COOKIE_NAME_CART);
   if (!findCart) {
-    const createdCart = email
-      ? await createCartAuthorized({ ...product, email })
-      : await createCartUnAuthorized(product);
+    const createdCart = await createCart({ ...product, email });
 
-    if (!createdCart) return;
+    if (!createdCart) {
+      return { error: "Can't create cart" };
+    }
+
     cookies().set(COOKIE_NAME_CART, createdCart.id, {
       httpOnly: true,
       secure: true,
     });
-    return;
+    return { message: "Product added to cart" };
   }
 
   const cart = await getCart({ id: findCart.value });
+
   if (!cart) {
-    throw error("Can't find cart");
+    cookies().delete(COOKIE_NAME_CART);
+    return { error: "Can't find cart" };
   }
+
   const updateProduct = cart.find(({ slug }) => slug === product.slug);
+
   if (updateProduct) {
     updateCartProduct({
       quantity: product.quantity + updateProduct.quantity,
       cartProductId: updateProduct.id,
     });
+    return { message: "Product added to cart" };
   }
+  createCartProduct({
+    cartId: findCart.value,
+    quantity: product.quantity,
+    slug: product.slug,
+  });
+  return { message: "Product added to cart" };
 };
 
 export const getCartFromCookie = async () => {

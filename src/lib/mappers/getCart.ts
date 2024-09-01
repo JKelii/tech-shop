@@ -1,8 +1,6 @@
-import { ProductInCart } from "@/contexts/ShopContext/CartContext";
-
 type MappedGetCart =
   | {
-      cartProducts: Array<{
+      cartProduct: Array<{
         id: string;
         quantity: number;
         product?: {
@@ -17,12 +15,21 @@ type MappedGetCart =
     }
   | undefined;
 
+type ResponseGetCart = {
+  id: string;
+  quantity: number;
+  image: string;
+  price: number;
+  name: string;
+  slug: string;
+};
+
 export const mapperGetCart = (
   cart: MappedGetCart
-): ProductInCart[] | undefined => {
+): ResponseGetCart[] | undefined => {
   if (!cart || cart === null) return undefined;
 
-  return cart.cartProducts
+  return cart.cartProduct
     .map(({ quantity, id, product }) => {
       if (product) {
         return {
@@ -35,5 +42,5 @@ export const mapperGetCart = (
         };
       }
     })
-    .filter((v): v is ProductInCart => Boolean(v));
+    .filter((v): v is ResponseGetCart => Boolean(v));
 };

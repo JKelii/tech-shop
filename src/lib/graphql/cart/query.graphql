@@ -1,6 +1,6 @@
 query GetCartById($id: ID!) {
   cart(where: { id: $id }, stage: DRAFT) {
-    cartProducts {
+    cartProduct {
       id
       quantity
       product {

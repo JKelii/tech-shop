@@ -1,16 +1,11 @@
 import Image from "next/image";
 import { X } from "lucide-react";
-import SelectQuantity from "@/components/pages/Product/components/SelectQuantity";
 import { getSession } from "next-auth/react";
 import { Toaster } from "@/components/ui/toaster";
 import { getCart } from "@/lib";
 import { cookies } from "next/headers";
-import { removeFromCart } from "@/actions/cart";
-
-import { useQuantityProduct } from "@/components/pages/Product/hooks/useQuantityProduct";
-import { Button } from "@/components/ui/button";
-
-import { toast } from "@/components/ui/use-toast";
+import { createOrder } from "@/actions/order";
+import { CheckoutButton } from "@/components/pages/Basket/CheckoutButton";
 
 const Page = async ({ params }: { params: { slug: string } }) => {
   const slug = params.slug;
@@ -40,12 +35,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
 
   return (
     <main className="min-h-screen container mx-auto flex justify-center items-center flex-col  shadow-md gap-12 mt-4 mb-8 bg-gray-100/50 border-2 border-gray-200 pt-10 rounded-lg pb-10">
-      <a
-        href="/basket/checkout"
-        className="w-32 text-center border-2 border-black rounded-md m-6"
-      >
-        Go to checkout
-      </a>
+      <CheckoutButton />
       <p className="font-bold text-3xl">
         {/* Total price: {priceUpdate(totalPrice)} */}
       </p>
@@ -69,7 +59,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
 
             <div className="flx-col">
               <p className="text-lg">
-                Size: <strong>{product.size}</strong>
+                Size: <strong>?</strong>
               </p>
             </div>
           </div>

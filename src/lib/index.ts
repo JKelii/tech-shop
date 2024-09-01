@@ -1,10 +1,12 @@
 import { getEnv } from "@/utils";
 import {
   CreateAccountDocument,
-  CreateCartAuthorizedDocument,
-  CreateCartUnAuthorizedDocument,
+  CreateCartDocument,
+  CreateCartProductDocument,
+  CreateCartUnauthorizedDocument,
   CreateFavoriteProductDocument,
   CreateFavoriteUnAuthorizedDocument,
+  CreateProductCartDocument,
   DeleteCartProductDocument,
   DeleteFavoriteProductDocument,
   GetAccountDocument,
@@ -116,20 +118,20 @@ export const getAccount = async (email: string) => {
   return data;
 };
 
-export const createCartAuthorized = async ({
+export const createCart = async ({
   quantity,
   slug,
   email,
 }: {
   slug: string;
   quantity: number;
-  email: string;
+  email: string | undefined;
 }) => {
   const data = await fetcher({
     headers: {
       Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
     },
-    query: CreateCartAuthorizedDocument,
+    query: email ? CreateCartDocument : CreateCartUnauthorizedDocument,
     variables: {
       quantity,
       slug,
@@ -138,28 +140,6 @@ export const createCartAuthorized = async ({
     cache: "no-store",
   });
   if (!data) throw new Error("Problem with creating authorized cart");
-  return data.createCart;
-};
-
-export const createCartUnAuthorized = async ({
-  quantity,
-  slug,
-}: {
-  slug: string;
-  quantity: number;
-}) => {
-  const data = await fetcher({
-    headers: {
-      Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
-    },
-    query: CreateCartUnAuthorizedDocument,
-    variables: {
-      quantity,
-      slug,
-    },
-    cache: "no-store",
-  });
-  if (!data) throw new Error("Problem with creating unauthorized cart");
   return data.createCart;
 };
 
@@ -179,7 +159,7 @@ export const getCart = async ({ id }: { id: string | undefined }) => {
   });
 
   if (!data.cart) return;
-  return mapperGetCart(data.cart);
+  return mapperGetCart(data?.cart);
 };
 
 export const updateCartProduct = async ({
@@ -335,21 +315,28 @@ export const deleteFavoriteProduct = async ({
   return data;
 };
 
-export const createFavoriteUnAuthorized = async ({
+export const createCartProduct = async ({
+  cartId,
+  quantity,
   slug,
 }: {
+  cartId: string;
+  quantity: number;
   slug: string;
 }) => {
   const data = await fetcher({
     headers: {
       Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
     },
-    query: CreateFavoriteUnAuthorizedDocument,
+    query: CreateCartProductDocument,
     variables: {
+      quantity,
+      cartId,
       slug,
     },
     cache: "no-store",
   });
 
+  if (!data) return;
   return data;
 };
