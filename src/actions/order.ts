@@ -1,9 +1,13 @@
 "use server";
 
-import { getCart } from "@/lib";
+import { createOrderId, getCart } from "@/lib";
 import { getEnv } from "@/utils";
+import { email } from "envalid";
+import { getServerSession } from "next-auth";
+import { getSession, useSession } from "next-auth/react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { toNamespacedPath } from "path";
 import { Stripe } from "stripe";
 
 const stripeClient = new Stripe(getEnv(process.env.STRIPE_KEY), {
@@ -38,8 +42,24 @@ export const createOrder = async () => {
     currency: "eur",
     success_url: "http://localhost:3000",
   });
+  const session = await getServerSession();
+  const email = session?.user?.email;
+
   if (!url) return { message: "Problem with creating order" };
   if (id) {
+    const orderId = await createOrderId({
+      email: email,
+      stripeCheckoutId: id,
+      total: cart.reduce((acc, curr) => acc + curr.price * curr.quantity, 0),
+    });
+    if (orderId) {
+      return { message: "Order created" };
+    }
+    if (!orderId) {
+      return { error: "Can't create order" };
+    }
   }
-  redirect(url);
+  if (url) {
+    redirect(url);
+  }
 };

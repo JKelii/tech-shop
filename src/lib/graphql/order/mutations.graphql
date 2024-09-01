@@ -1,0 +1,27 @@
+mutation CreateOrderId(
+  $stripeCheckoutId: String!
+  $total: Int!
+  $email: String!
+) {
+  createOrder(
+    data: {
+      stripeCheckoutId: $stripeCheckoutId
+      total: $total
+      account: { connect: { email: $email } }
+    }
+  ) {
+    id
+    stripeCheckoutId
+    orderItems {
+      quantity
+      product {
+        slug
+        name
+        price
+        images(first: 1) {
+          url
+        }
+      }
+    }
+  }
+}

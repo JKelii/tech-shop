@@ -6,6 +6,7 @@ import {
   CreateCartUnauthorizedDocument,
   CreateFavoriteProductDocument,
   CreateFavoriteUnAuthorizedDocument,
+  CreateOrderIdDocument,
   CreateProductCartDocument,
   DeleteCartProductDocument,
   DeleteFavoriteProductDocument,
@@ -338,5 +339,32 @@ export const createCartProduct = async ({
   });
 
   if (!data) return;
+  return data;
+};
+
+export const createOrderId = async ({
+  email,
+  stripeCheckoutId,
+  total,
+}: {
+  email: string | undefined | null;
+  stripeCheckoutId: string;
+  total: number;
+}) => {
+  if (!email) return;
+
+  const data = await fetcher({
+    headers: {
+      Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
+    },
+    query: CreateOrderIdDocument,
+    variables: {
+      email,
+      stripeCheckoutId,
+      total,
+    },
+    cache: "no-store",
+  });
+  console.log(data);
   return data;
 };

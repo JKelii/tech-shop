@@ -140,6 +140,7 @@ export type AccountConnection = {
 export type AccountCreateInput = {
   cart?: InputMaybe<CartCreateOneInlineInput>;
   cm0fhi2xk06oa07w2bwfu11e1?: InputMaybe<CartCreateManyInlineInput>;
+  cm0jx9qmr0hw907w5ewd97fl7?: InputMaybe<OrderCreateManyInlineInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   email: Scalars['String']['input'];
   favoriteProduct?: InputMaybe<FavoriteProductCreateManyInlineInput>;
@@ -336,6 +337,7 @@ export enum AccountOrderByInput {
 export type AccountUpdateInput = {
   cart?: InputMaybe<CartUpdateOneInlineInput>;
   cm0fhi2xk06oa07w2bwfu11e1?: InputMaybe<CartUpdateManyInlineInput>;
+  cm0jx9qmr0hw907w5ewd97fl7?: InputMaybe<OrderUpdateManyInlineInput>;
   email?: InputMaybe<Scalars['String']['input']>;
   favoriteProduct?: InputMaybe<FavoriteProductUpdateManyInlineInput>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -7553,13 +7555,13 @@ export type Node = {
 };
 
 export type Order = Entity & Node & {
+  account: Array<Account>;
   /** The time the document was created */
   createdAt: Scalars['DateTime']['output'];
   /** User that created this document */
   createdBy?: Maybe<User>;
   /** Get the document in other stages */
   documentInStages: Array<Order>;
-  email: Scalars['String']['output'];
   /** List of Order versions */
   history: Array<Version>;
   /** The unique identifier */
@@ -7578,6 +7580,19 @@ export type Order = Entity & Node & {
   updatedAt: Scalars['DateTime']['output'];
   /** User that last updated this document */
   updatedBy?: Maybe<User>;
+};
+
+
+export type OrderAccountArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  locales?: InputMaybe<Array<Locale>>;
+  orderBy?: InputMaybe<AccountOrderByInput>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<AccountWhereInput>;
 };
 
 
@@ -7654,8 +7669,8 @@ export type OrderConnection = {
 };
 
 export type OrderCreateInput = {
+  account?: InputMaybe<AccountCreateManyInlineInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  email: Scalars['String']['input'];
   orderItems?: InputMaybe<OrderItemCreateManyInlineInput>;
   stripeCheckoutId: Scalars['String']['input'];
   total: Scalars['Int']['input'];
@@ -8171,6 +8186,9 @@ export type OrderManyWhereInput = {
   OR?: InputMaybe<Array<OrderWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']['input']>;
+  account_every?: InputMaybe<AccountWhereInput>;
+  account_none?: InputMaybe<AccountWhereInput>;
+  account_some?: InputMaybe<AccountWhereInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -8190,25 +8208,6 @@ export type OrderManyWhereInput = {
   documentInStages_every?: InputMaybe<OrderWhereStageInput>;
   documentInStages_none?: InputMaybe<OrderWhereStageInput>;
   documentInStages_some?: InputMaybe<OrderWhereStageInput>;
-  email?: InputMaybe<Scalars['String']['input']>;
-  /** All values containing the given string. */
-  email_contains?: InputMaybe<Scalars['String']['input']>;
-  /** All values ending with the given string. */
-  email_ends_with?: InputMaybe<Scalars['String']['input']>;
-  /** All values that are contained in given list. */
-  email_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  /** Any other value that exists and is not equal to the given value. */
-  email_not?: InputMaybe<Scalars['String']['input']>;
-  /** All values not containing the given string. */
-  email_not_contains?: InputMaybe<Scalars['String']['input']>;
-  /** All values not ending with the given string */
-  email_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  /** All values that are not contained in given list. */
-  email_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  /** All values not starting with the given string. */
-  email_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  /** All values starting with the given string. */
-  email_starts_with?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['ID']['input']>;
   /** All values containing the given string. */
   id_contains?: InputMaybe<Scalars['ID']['input']>;
@@ -8305,8 +8304,6 @@ export type OrderManyWhereInput = {
 export enum OrderOrderByInput {
   CreatedAtAsc = 'createdAt_ASC',
   CreatedAtDesc = 'createdAt_DESC',
-  EmailAsc = 'email_ASC',
-  EmailDesc = 'email_DESC',
   IdAsc = 'id_ASC',
   IdDesc = 'id_DESC',
   PublishedAtAsc = 'publishedAt_ASC',
@@ -8320,7 +8317,7 @@ export enum OrderOrderByInput {
 }
 
 export type OrderUpdateInput = {
-  email?: InputMaybe<Scalars['String']['input']>;
+  account?: InputMaybe<AccountUpdateManyInlineInput>;
   orderItems?: InputMaybe<OrderItemUpdateManyInlineInput>;
   stripeCheckoutId?: InputMaybe<Scalars['String']['input']>;
   total?: InputMaybe<Scalars['Int']['input']>;
@@ -8344,7 +8341,6 @@ export type OrderUpdateManyInlineInput = {
 };
 
 export type OrderUpdateManyInput = {
-  email?: InputMaybe<Scalars['String']['input']>;
   stripeCheckoutId?: InputMaybe<Scalars['String']['input']>;
   total?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -8408,6 +8404,9 @@ export type OrderWhereInput = {
   OR?: InputMaybe<Array<OrderWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']['input']>;
+  account_every?: InputMaybe<AccountWhereInput>;
+  account_none?: InputMaybe<AccountWhereInput>;
+  account_some?: InputMaybe<AccountWhereInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -8427,25 +8426,6 @@ export type OrderWhereInput = {
   documentInStages_every?: InputMaybe<OrderWhereStageInput>;
   documentInStages_none?: InputMaybe<OrderWhereStageInput>;
   documentInStages_some?: InputMaybe<OrderWhereStageInput>;
-  email?: InputMaybe<Scalars['String']['input']>;
-  /** All values containing the given string. */
-  email_contains?: InputMaybe<Scalars['String']['input']>;
-  /** All values ending with the given string. */
-  email_ends_with?: InputMaybe<Scalars['String']['input']>;
-  /** All values that are contained in given list. */
-  email_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  /** Any other value that exists and is not equal to the given value. */
-  email_not?: InputMaybe<Scalars['String']['input']>;
-  /** All values not containing the given string. */
-  email_not_contains?: InputMaybe<Scalars['String']['input']>;
-  /** All values not ending with the given string */
-  email_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  /** All values that are not contained in given list. */
-  email_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  /** All values not starting with the given string. */
-  email_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  /** All values starting with the given string. */
-  email_starts_with?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['ID']['input']>;
   /** All values containing the given string. */
   id_contains?: InputMaybe<Scalars['ID']['input']>;
@@ -14189,6 +14169,15 @@ export type GetFavoritesQueryVariables = Exact<{
 
 export type GetFavoritesQuery = { favoriteProducts: Array<{ id: string, product?: { name: string, id: string, slug: string, price: number, description: string, images: Array<{ url: string, fileName: string }> } | null }> };
 
+export type CreateOrderIdMutationVariables = Exact<{
+  stripeCheckoutId: Scalars['String']['input'];
+  total: Scalars['Int']['input'];
+  email: Scalars['String']['input'];
+}>;
+
+
+export type CreateOrderIdMutation = { createOrder?: { id: string, stripeCheckoutId: string, orderItems: Array<{ quantity: number, product?: { slug: string, name: string, price: number, images: Array<{ url: string }> } | null }> } | null };
+
 export type GetProductBySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
 }>;
@@ -14358,6 +14347,27 @@ export const GetFavoritesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<GetFavoritesQuery, GetFavoritesQueryVariables>;
+export const CreateOrderIdDocument = new TypedDocumentString(`
+    mutation CreateOrderId($stripeCheckoutId: String!, $total: Int!, $email: String!) {
+  createOrder(
+    data: {stripeCheckoutId: $stripeCheckoutId, total: $total, account: {connect: {email: $email}}}
+  ) {
+    id
+    stripeCheckoutId
+    orderItems {
+      quantity
+      product {
+        slug
+        name
+        price
+        images(first: 1) {
+          url
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateOrderIdMutation, CreateOrderIdMutationVariables>;
 export const GetProductBySlugDocument = new TypedDocumentString(`
     query GetProductBySlug($slug: String!) {
   product(where: {slug: $slug}) {
