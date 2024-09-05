@@ -21,3 +21,15 @@ mutation UpdateCartQuantity($quantity: Int!, $cartProductId: ID!) {
     id
   }
 }
+
+mutation CreateCartProduct($quantity: Int!, $cartId: ID!, $slug: String!) {
+  createCartProduct(
+    data: {
+      quantity: $quantity
+      product: { connect: { slug: $slug } }
+      cart: { connect: { id: $cartId } }
+    }
+  ) {
+    id
+  }
+}

@@ -19,8 +19,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cartFromDatabase = await getCartFromCookie();
-
   return (
     <html lang="en">
       <body
@@ -28,7 +26,7 @@ export default async function RootLayout({
           `${inter.className} min-h-screen items-center flex flex-col w-full`
         )}
       >
-        <ClientContexts cartFromDatabase={cartFromDatabase}>
+        <ClientContexts>
           <Headers />
           {children}
           <Footer />

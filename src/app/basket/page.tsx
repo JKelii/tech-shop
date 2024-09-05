@@ -1,61 +1,41 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
 import Image from "next/image";
-
-import useShopContext from "@/hooks/useShopContext";
-import { Check, X } from "lucide-react";
-
-import SelectQuantity from "@/components/pages/Product/components/SelectQuantity";
-import { checkCart, getCartFromCookie, removeFromCart } from "@/actions/cart";
-import { useSession } from "next-auth/react";
-import { string } from "yup";
-import { toast, useToast } from "@/components/ui/use-toast";
+import { X } from "lucide-react";
+import { getSession } from "next-auth/react";
 import { Toaster } from "@/components/ui/toaster";
+import { getCart } from "@/lib";
+import { cookies } from "next/headers";
+import { createOrder } from "@/actions/order";
+import { CheckoutButton } from "@/components/pages/Basket/CheckoutButton";
 
-const Page = ({ params }: { params: { slug: string } }) => {
+const Page = async ({ params }: { params: { slug: string } }) => {
   const slug = params.slug;
-  const { cart, setCart, quantity, setQuantity } = useShopContext();
-  const session = useSession();
+
+  const session = getSession();
+  const cart = await getCart({ id: cookies().get("cart")?.value });
+  console.log(cart);
 
   //TODO: Change toaster so useEffect doesn't reload
-  const handleDelete = async (productSlug: string) => {
-    toast({
-      title: "Item removed from cart ❌",
-      className: "bg-red-500/15",
-      duration: 3000,
-    });
-
-    const updatedCart = await removeFromCart({
-      product: { slug: productSlug, quantity },
-    });
-
-    if (updatedCart !== null) {
-      setCart(updatedCart);
-    } else {
-      setCart([]);
-    }
-    setQuantity(0);
-  };
-
-  useEffect(() => {
-    const fetchCart = async () => {
-      const cartData = await getCartFromCookie();
-      if (cartData) {
-        setCart(cartData);
-      }
-    };
-    fetchCart();
-  }, [setCart]);
+  // const handleDelete = async (productSlug: string) => {
+  //   toast({
+  //     title: "Item removed from cart ❌",
+  //     className: "bg-red-500/15",
+  //     duration: 3000,
+  //   });
+  // };
+  // const updatedCart = await removeFromCart({
+  //   product: { slug: slug, quantity: 1 },
+  // });
+  // //   if (updatedCart !== null) {
+  // //     setCart(updatedCart);
+  // //   } else {
+  // //     setCart([]);
+  // //   }
+  // //   setQuantity(0);
+  // // // };
 
   return (
-    <main className="flex flex-col justify-center items-center mt-10 mb-10 min-h-screen">
-      <a
-        href="/basket/checkout"
-        className="w-32 text-center border-2 border-black rounded-md m-6"
-      >
-        Go to checkout
-      </a>
+    <main className="min-h-screen container mx-auto flex justify-center items-center flex-col  shadow-md gap-12 mt-4 mb-8 bg-gray-100/50 border-2 border-gray-200 pt-10 rounded-lg pb-10">
+      <CheckoutButton />
       <p className="font-bold text-3xl">
         {/* Total price: {priceUpdate(totalPrice)} */}
       </p>
@@ -72,13 +52,14 @@ const Page = ({ params }: { params: { slug: string } }) => {
             quality={100}
             className="border-2 border-gray-500 rounded-md"
           />
-
           <div className="flex flex-col">
-            <SelectQuantity quantity={quantity} setQuantity={setQuantity} />
+            <p className="text-lg font-semi-bold">
+              Quantity: {product.quantity}
+            </p>
 
             <div className="flx-col">
               <p className="text-lg">
-                Size: <strong>{product.size}</strong>
+                Size: <strong>?</strong>
               </p>
             </div>
           </div>
@@ -88,11 +69,8 @@ const Page = ({ params }: { params: { slug: string } }) => {
               {/* {priceUpdate(product?.price * product.quantity)} */}
             </p>
           </div>
-          <button
-            className="p-2 rounded-sm"
-            onClick={() => handleDelete(product.slug)}
-          >
-            <X />
+          <button>
+            <X className="cursor-pointer" />
           </button>
           <Toaster style="text-red-500" />
         </div>

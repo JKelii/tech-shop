@@ -52,7 +52,7 @@ export const CarouselSize = async () => {
                     <Separator className="h-[1px] w-full" />
                     <div className=" flex flex-col justify-center items-center p-4 w-full bg-white rounded-b-md ">
                       <h2 className="text-xl font-bold">{product.name}</h2>
-                      <p className="font-bold text-lg text-muted-foreground">
+                      <p className="font-bold text-lg text-black">
                         {priceUpdate(product.price)}
                       </p>
                     </div>

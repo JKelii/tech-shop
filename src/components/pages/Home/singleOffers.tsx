@@ -12,7 +12,7 @@ const SingleOffers = async () => {
         {products.map((product) => (
           <Link href={`/item/${product.slug}`} key={product.id}>
             <span className="w-full h-full">
-              <article className="border-2 border-gray-500  hover:border-slate-700 size-80 rounded-md gap-2 flex justify-center items-center flex-col hover:translate-y-[-3px] transition">
+              <article className="border-[1px] border-gray-500  hover:border-slate-700 size-80 rounded-md gap-2 flex justify-center items-center flex-col hover:translate-y-[-3px] transition">
                 <Image
                   src={product.images[0]?.url}
                   alt={product.name}

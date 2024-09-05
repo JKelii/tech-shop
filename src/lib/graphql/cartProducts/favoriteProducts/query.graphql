@@ -1,0 +1,25 @@
+query GetFavoriteProduct($email: String!, $slug: String!) {
+  favoriteProducts(
+    where: { account: { email: $email }, AND: { product: { slug: $slug } } }
+    stage: DRAFT
+  ) {
+    id
+  }
+}
+
+query getFavorites($email: String!) {
+  favoriteProducts(where: { account: { email: $email } }, stage: DRAFT) {
+    id
+    product {
+      name
+      id
+      slug
+      price
+      description
+      images {
+        url
+        fileName
+      }
+    }
+  }
+}

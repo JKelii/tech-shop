@@ -1,56 +1,67 @@
 "use server";
 
 import {
-  createCartAuthorized,
-  createCartUnAuthorized,
+  createCart,
+  createCartProduct,
   deleteCartProduct,
   getCart,
   updateCartProduct,
 } from "@/lib";
+
 import { cookies } from "next/headers";
 
 const COOKIE_NAME_CART = "cart";
 
-type CheckCartParams = {
+export type ManageCartParams = {
   product: {
     slug: string;
     quantity: number;
   };
-  email?: string;
+  email: string | undefined;
 };
 
-export const checkCart = async ({ product, email }: CheckCartParams) => {
+export const manageCart = async ({ product, email }: ManageCartParams) => {
   const findCart = cookies().get(COOKIE_NAME_CART);
   if (!findCart) {
-    const createdCart = email
-      ? await createCartAuthorized({ ...product, email })
-      : await createCartUnAuthorized(product);
+    const createdCart = await createCart({ ...product, email });
 
-    if (!createdCart) return;
+    if (!createdCart) {
+      return { error: "Can't create cart" };
+    }
+
     cookies().set(COOKIE_NAME_CART, createdCart.id, {
       httpOnly: true,
       secure: true,
     });
+    return { message: "Product added to cart" };
   }
 
-  if (findCart) {
-    const cart = await getCart({ id: findCart.value });
-    if (!cart) {
-      return;
-    }
-    const updateProduct = cart.find(({ slug }) => slug === product.slug);
-    if (updateProduct) {
-      updateCartProduct({
-        quantity: product.quantity + updateProduct.quantity,
-        cartProductId: updateProduct.id,
-      });
-    }
+  const cart = await getCart({ id: findCart.value });
+
+  if (!cart) {
+    cookies().delete(COOKIE_NAME_CART);
+    return { error: "Can't find cart" };
   }
+
+  const updateProduct = cart.find(({ slug }) => slug === product.slug);
+
+  if (updateProduct) {
+    updateCartProduct({
+      quantity: product.quantity + updateProduct.quantity,
+      cartProductId: updateProduct.id,
+    });
+    return { message: "Product added to cart" };
+  }
+  createCartProduct({
+    cartId: findCart.value,
+    quantity: product.quantity,
+    slug: product.slug,
+  });
+  return { message: "Product added to cart" };
 };
 
 export const getCartFromCookie = async () => {
   const cartId = cookies().get(COOKIE_NAME_CART)?.value;
-  console.log(cartId);
   if (cartId) {
     const cart = await getCart({ id: cartId });
     console.log(cart);
@@ -58,7 +69,7 @@ export const getCartFromCookie = async () => {
   }
 };
 
-export const removeFromCart = async ({ product }: CheckCartParams) => {
+export const removeFromCart = async ({ product }: ManageCartParams) => {
   const cartCookie = cookies().get(COOKIE_NAME_CART);
   if (!cartCookie) return null;
 
@@ -82,7 +93,13 @@ export const removeFromCart = async ({ product }: CheckCartParams) => {
   }
 };
 
-export const updateCartQuantity = async ({ product }: CheckCartParams) => {
+export const updateCartQuantity = async ({
+  slug,
+  quantity,
+}: {
+  slug: string;
+  quantity: number;
+}) => {
   const cartCookie = cookies().get(COOKIE_NAME_CART);
   if (!cartCookie) return;
 
@@ -91,30 +108,14 @@ export const updateCartQuantity = async ({ product }: CheckCartParams) => {
 
   if (!cart) return;
 
-  const productToUpdate = cart.find(({ slug }) => slug === product.slug);
+  const productToUpdate = cart.find(
+    (product: { slug: string }) => product.slug === slug
+  );
 
   if (productToUpdate) {
     await updateCartProduct({
-      quantity: product.quantity,
+      quantity: quantity,
       cartProductId: productToUpdate.id,
     });
   }
-};
-
-const COOKIE_NAME_QUANTITY = "quantity";
-
-export const getQuantityFromCookies = (req: any) => {
-  const cookieStore = cookies();
-  const quantityCookie = cookieStore.get(COOKIE_NAME_QUANTITY);
-  return quantityCookie ? parseInt(quantityCookie.value, 10) : 1;
-};
-
-export const setQuantityInCookies = (quantity: string) => {
-  const cookieStore = cookies();
-  cookieStore.set(COOKIE_NAME_QUANTITY, quantity.toString(), {
-    httpOnly: true,
-    secure: true,
-    sameSite: "strict",
-    maxAge: 60 * 60 * 24 * 7, // 7 days
-  });
 };

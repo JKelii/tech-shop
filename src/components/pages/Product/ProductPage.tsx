@@ -1,15 +1,11 @@
 "use client";
-import AddToCartButton from "@/components/addToCartButton";
 import { priceUpdate } from "@/utils/priceUpdate";
 import Image from "next/image";
-import SelectQuantity from "./components/SelectQuantity";
-import { WishList } from "@/components/WishList";
-import { SizeRadioGroup } from "./components/SizeRadioGroup";
 import Comments from "./components/Comments";
-import { useState } from "react";
-import useShopContext from "@/hooks/useShopContext";
 
-type ProductType = {
+import { ProductManagement } from "./components/ProductManagement";
+
+export type ProductType = {
   description: string;
   id: string;
   name: string;
@@ -27,36 +23,24 @@ type ProductType = {
 
 export const ProductPage = ({
   product,
-  slug,
+
+  favoriteId,
 }: {
   product: ProductType;
   slug: string;
+  favoriteId: string | undefined;
 }) => {
-  const { quantity, setQuantity } = useShopContext();
-
   return (
     <div className="flex flex-col justify-start shadow-md container mx-auto items-center min-h-screen bg-gray-100/50 border-2 border-gray-200 mt-10 rounded-lg mb-10">
       <div className="flex flex-col md:flex-row justify-center items-start gap-10  p-8 rounded-md">
-        {product ? (
-          <Image
-            src={product.images[0]?.url}
-            alt={product.name}
-            width={450}
-            height={150}
-            quality={100}
-            className="border-2 border-gray-300 rounded-md"
-          />
-        ) : (
-          <Image
-            src=""
-            alt="product"
-            width={450}
-            height={150}
-            quality={100}
-            className="border-2 border-gray-300 rounded-md h-96"
-          />
-        )}
-
+        <Image
+          src={product.images[0]?.url}
+          alt={product.name}
+          width={450}
+          height={150}
+          quality={100}
+          className="border-2 border-gray-300 rounded-md h-96"
+        />
         <article className=" flex flex-col items-start justify-center gap-6">
           <div className="flex justify-between items-center w-full">
             <p className="font-bold text-3xl self-start">{product.name}</p>
@@ -65,22 +49,12 @@ export const ProductPage = ({
             </p>
           </div>
           <p className="self-start">{product?.description}</p>
-
-          <SizeRadioGroup />
-          <SelectQuantity quantity={quantity} setQuantity={setQuantity} />
-          <div className="flex justify-center items-center gap-4">
-            <AddToCartButton
-              quantity={quantity}
-              slug={product.slug}
-              name={product.name}
-              image={product.images[0]?.url}
-              price={product.price}
-            />
-            <WishList />
-          </div>
+          {/* //TODO: Add If item doesnt have size radio group won't show */}
+          {/* TODO: Change radio group select quantity and add to cart Manage product */}
+          <ProductManagement favoriteId={favoriteId} product={product} />
         </article>
       </div>
-      <Comments reviews={product.reviews} slug={slug} />
+      <Comments reviews={product.reviews} slug={product.slug} />
     </div>
   );
 };

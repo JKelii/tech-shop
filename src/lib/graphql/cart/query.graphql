@@ -1,12 +1,13 @@
 query GetCartById($id: ID!) {
   cart(where: { id: $id }, stage: DRAFT) {
-    cartProducts {
+    cartProduct {
       id
       quantity
       product {
         slug
         name
         price
+        id
         images(first: 1) {
           url
         }

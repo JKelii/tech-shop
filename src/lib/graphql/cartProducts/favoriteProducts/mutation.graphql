@@ -1,0 +1,22 @@
+mutation CreateFavoriteProduct($email: String!, $slug: String!) {
+  createFavoriteProduct(
+    data: {
+      product: { connect: { slug: $slug } }
+      account: { connect: { email: $email } }
+    }
+  ) {
+    id
+  }
+}
+
+mutation DeleteFavoriteProduct($favoriteProductId: ID!) {
+  deleteFavoriteProduct(where: { id: $favoriteProductId }) {
+    id
+  }
+}
+
+mutation CreateFavoriteUnAuthorized($slug: String!) {
+  createFavoriteProduct(data: { product: { connect: { slug: $slug } } }) {
+    id
+  }
+}

@@ -1,6 +1,5 @@
 import Newsletter from "@/components/Newsletter";
 import { Facebook, Instagram, Twitter } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { AskedQuestions } from "./_components/AskedQuestions";
@@ -9,11 +8,12 @@ import { cookies } from "next/headers";
 
 const page = () => {
   const isSignedInNewsletter = Boolean(cookies().get("newsletter")?.value);
+  const emailCookie = cookies().get("email")?.value;
 
   return (
     <div className="min-h-screen flex flex-col justify-start items-center gap-8   border-2 bg-gray-200/50 rounded-lg border-gray-500 p-10 mt-10 mb-10">
-      <div className="flex gap-4">
-        <div className="bg-neutral-100 w-[22rem] md:w-[35rem] h-96 flex justify-center shadow-lg rounded-lg">
+      <div className="flex flex-col lg:flex-row gap-4">
+        <div className="bg-neutral-100 w-[22rem] md:w-[35rem] h-96 flex justify-center shadow-lg rounded-lg p-4">
           <article className="w-96 flex flex-col justify-start items-start gap-4 mt-8">
             <h2 className="text-xl font-bold">Get in Touch</h2>
             <p className="text-muted-foreground ">
@@ -44,10 +44,14 @@ const page = () => {
             </div>
           </article>
         </div>
-        <Newsletter isSignedInNewsletter={isSignedInNewsletter} />
+        <Newsletter
+          isSignedInNewsletter={isSignedInNewsletter}
+          emailCookie={emailCookie}
+        />
       </div>
-      <div className="flex gap-4">
+      <div className="flex flex-col  justify-center items-center lg:flex-row  gap-4">
         <AskedQuestions />
+        {/*Change Testimonials */}
         <Testimonials />
       </div>
     </div>

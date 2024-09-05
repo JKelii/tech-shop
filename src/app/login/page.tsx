@@ -9,6 +9,7 @@ import { Input } from "../../components/Inputs/input";
 import { PasswordInput } from "../../components/Inputs/passwordInput";
 import { signIn, useSession } from "next-auth/react";
 
+//TODO: ADD CART COMPONENT instead main
 const LoginPage = () => {
   const {
     register,
@@ -25,8 +26,8 @@ const LoginPage = () => {
   const session = useSession();
 
   return (
-    <main className="flex justify-center flex-wrap items-center min-h-screen w-full -mt-8  ">
-      <div className="w-[25rem] h-[33rem]  lg:mt-0 border-2 border-gradient-to-r border-gray-500 rounded-md py-8 shadow-2xl flex justify-center items-center flex-col">
+    <main className="flex justify-center flex-wrap items-center min-h-screen w-full mt-10 lg:mt-4 xl:mt-0 mb-10 lg:mb-4 xl:mb-0">
+      <div className="w-[25rem] h-[33rem] lg:mt-0 border-2 border-gradient-to-r border-gray-500 rounded-md py-8 shadow-2xl flex justify-center items-center flex-col">
         <p className="text-2xl font-bold text-center p-2 text-black">Login</p>
         <p className="text-center text-md text-gray-600">
           Enter your email and password to access your account.
