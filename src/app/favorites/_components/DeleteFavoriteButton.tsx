@@ -26,10 +26,6 @@ export const DeleteFavoriteButton = ({
     });
     console.log(deleteFavorite);
     toast.success("Product removed from favorites");
-
-    if (!deleteFavorite) {
-      console.log("Error deleting favorite");
-    }
   };
 
   return (
