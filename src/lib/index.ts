@@ -5,24 +5,24 @@ import {
   CreateCartProductDocument,
   CreateCartUnauthorizedDocument,
   CreateFavoriteProductDocument,
-  CreateFavoriteUnAuthorizedDocument,
-  CreateOrderIdDocument,
-  CreateProductCartDocument,
+  CreateOrderDocument,
   DeleteCartProductDocument,
   DeleteFavoriteProductDocument,
   GetAccountDocument,
   GetCartByIdDocument,
   GetFavoriteProductDocument,
   GetFavoritesDocument,
+  GetOrdersDocument,
   GetProductBySlugDocument,
   GetProductsDocument,
   TypedDocumentString,
   UpdateCartProductDocument,
   UpdateCartQuantityDocument,
 } from "./hygraph/generated/graphql";
-import { connect } from "http2";
 import { mapperGetCart } from "./mappers/getCart";
 import { error } from "console";
+import { getServerSession } from "next-auth";
+import { connect } from "http2";
 
 type GraphQlError = {
   message: string;
@@ -342,14 +342,20 @@ export const createCartProduct = async ({
   return data;
 };
 
-export const createOrderId = async ({
+export const createOrderHygraph = async ({
   email,
   stripeCheckoutId,
   total,
+  orderItems,
 }: {
   email: string | undefined | null;
   stripeCheckoutId: string;
   total: number;
+  orderItems: {
+    productId: string;
+    total: number;
+    quantity: number;
+  }[];
 }) => {
   if (!email) return;
 
@@ -357,14 +363,40 @@ export const createOrderId = async ({
     headers: {
       Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
     },
-    query: CreateOrderIdDocument,
+    query: CreateOrderDocument,
     variables: {
       email,
       stripeCheckoutId,
       total,
+      orderItems: orderItems.map((item) => ({
+        product: { connect: { id: item.productId } },
+        quantity: item.quantity,
+        total: item.total,
+      })),
     },
     cache: "no-store",
   });
   console.log(data);
   return data;
+};
+
+export const getOrders = async () => {
+  const session = await getServerSession();
+  const userEmail = session?.user?.email;
+  if (!userEmail) return { error: "You are not logged in" };
+
+  const data = await fetcher({
+    headers: {
+      Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
+    },
+    query: GetOrdersDocument,
+    variables: {
+      email: userEmail,
+    },
+    cache: "no-store",
+  });
+  console.log(data);
+
+  if (!data.orders) return { error: "Can't get orders" };
+  return data.orders;
 };

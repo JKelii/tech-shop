@@ -11,7 +11,7 @@ export const CheckoutButton = () => {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        createOrder({ email });
+        createOrder();
       }}
       className="w-32 text-center border-2 border-black rounded-md m-6"
     >

@@ -1,0 +1,18 @@
+query GetOrders($email: String!) {
+  orders(where: { account: { email: $email } }, stage: DRAFT) {
+    total
+    stripeCheckoutId
+    createdAt
+    orderItems {
+      product {
+        slug
+        name
+        images {
+          url
+          fileName
+        }
+        price
+      }
+    }
+  }
+}

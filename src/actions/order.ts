@@ -1,13 +1,10 @@
 "use server";
 
-import { createOrderId, getCart } from "@/lib";
+import { createOrderHygraph, getCart, getOrders } from "@/lib";
 import { getEnv } from "@/utils";
-import { email } from "envalid";
 import { getServerSession } from "next-auth";
-import { getSession, useSession } from "next-auth/react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { toNamespacedPath } from "path";
 import { Stripe } from "stripe";
 
 const stripeClient = new Stripe(getEnv(process.env.STRIPE_KEY), {
@@ -47,19 +44,21 @@ export const createOrder = async () => {
 
   if (!url) return { message: "Problem with creating order" };
   if (id) {
-    const orderId = await createOrderId({
+    const orderId = await createOrderHygraph({
       email: email,
       stripeCheckoutId: id,
       total: cart.reduce((acc, curr) => acc + curr.price * curr.quantity, 0),
+      orderItems: cart.map((item) => ({
+        productId: item.id,
+        quantity: item.quantity,
+        total: item.price * item.quantity,
+      })),
     });
     if (orderId) {
-      return { message: "Order created" };
+      redirect(url);
     }
     if (!orderId) {
       return { error: "Can't create order" };
     }
-  }
-  if (url) {
-    redirect(url);
   }
 };

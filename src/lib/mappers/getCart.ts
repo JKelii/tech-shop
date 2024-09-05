@@ -4,6 +4,7 @@ type MappedGetCart =
         id: string;
         quantity: number;
         product?: {
+          id: string;
           slug: string;
           name: string;
           price: number;
@@ -38,7 +39,7 @@ export const mapperGetCart = (
           price: product?.price,
           name: product?.name,
           slug: product?.slug,
-          id,
+          id: product.id,
         };
       }
     })
