@@ -6,8 +6,6 @@ import {
   getFavoriteProduct,
   getFavorites,
 } from "@/lib";
-import { cookies } from "next/headers";
-import { string } from "yup";
 
 const COOKIE_NAME_FAVORITE = "favorite";
 

@@ -23,6 +23,7 @@ import { mapperGetCart } from "./mappers/getCart";
 import { error } from "console";
 import { getServerSession } from "next-auth";
 import { connect } from "http2";
+import { mapperGetFavorites } from "./mappers/getFavorites";
 
 type GraphQlError = {
   message: string;
@@ -292,8 +293,8 @@ export const getFavorites = async ({
     },
     cache: "no-store",
   });
-  console.log(data);
-  return data;
+
+  return mapperGetFavorites(data);
 };
 
 export const deleteFavoriteProduct = async ({
