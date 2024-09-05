@@ -49,9 +49,11 @@ export const getFavoriteAuthorized = async ({
   email: string | undefined | null;
 }) => {
   const favoriteProducts = getFavorites({ email });
+
   if (!favoriteProducts) {
     throw new Error("Can't get products");
   }
+
   return favoriteProducts;
 };
 

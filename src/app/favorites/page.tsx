@@ -6,14 +6,14 @@ import { DeleteFavoriteButton } from "./_components/DeleteFavoriteButton";
 import { priceUpdate } from "@/utils/priceUpdate";
 import Link from "next/link";
 
+//TODO: Create mapper
+
 const FavoritesPage = async () => {
   const session = await getServerSession();
 
   const favoriteProducts = await getFavoriteAuthorized({
     email: session?.user?.email,
   });
-
-  console.log(favoriteProducts);
 
   const favorite = favoriteProducts?.favoriteProducts;
 
@@ -35,20 +35,20 @@ const FavoritesPage = async () => {
             className="flex justify-center items-center"
           >
             <Image
-              src={item.product?.images[0].url}
+              src={item.product?.images[0].url || ""}
               width={200}
               height={200}
-              alt={item.product?.name}
+              alt={item.product?.name || ""}
             />
             <div className="flex flex-col w-96 items-center justify-center gap-6 p-4 m-4">
               <h2 className="text-xl font-bold text-black">
-                {item.product.name}
+                {item.product?.name}
               </h2>
               <p className="text-sm text-muted-foreground ">
                 {item.product?.description}
               </p>
               <p className="text-lg text-black">
-                {priceUpdate(item.product?.price)}
+                {priceUpdate(item.product?.price) || ""}
               </p>
             </div>
             <div className="flex justify-center items-center"></div>
