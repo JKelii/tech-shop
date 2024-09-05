@@ -6,8 +6,7 @@ import { DeleteFavoriteButton } from "./_components/DeleteFavoriteButton";
 import { priceUpdate } from "@/utils/priceUpdate";
 import Link from "next/link";
 
-//TODO: Create mapper
-
+//TODO: Create mapper for favorite products
 const FavoritesPage = async () => {
   const session = await getServerSession();
 
@@ -48,7 +47,9 @@ const FavoritesPage = async () => {
                 {item.product?.description}
               </p>
               <p className="text-lg text-black">
-                {priceUpdate(item.product?.price) || ""}
+                {item.product?.price !== undefined
+                  ? priceUpdate(item.product.price)
+                  : "Can't find price"}
               </p>
             </div>
             <div className="flex justify-center items-center"></div>
