@@ -22,7 +22,16 @@ export type ManageCartParams = {
   email: string | undefined;
 };
 
-export const manageCart = async ({ product, email }: ManageCartParams) => {
+export const manageCart = async ({
+  product,
+  email,
+}: {
+  email: string | undefined;
+  product: {
+    slug: string;
+    quantity: number;
+  };
+}) => {
   const findCart = cookies().get(COOKIE_NAME_CART);
   if (!findCart) {
     const createdCart = await createCart({ ...product, email });
