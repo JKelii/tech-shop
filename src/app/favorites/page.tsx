@@ -2,11 +2,10 @@ import { getFavoriteAuthorized } from "@/actions/favorite";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
 import React from "react";
-import { DeleteFavoriteButton } from "./_components/DeleteFavoriteButton";
+
 import { priceUpdate } from "@/utils/priceUpdate";
 import Link from "next/link";
-
-//TODO: Create mapper for favorite products
+import { DeleteFavoriteButton } from "./_components/DeleteFavoriteButton";
 
 const FavoritesPage = async () => {
   const session = await getServerSession();
@@ -29,20 +28,32 @@ const FavoritesPage = async () => {
           key={index}
         >
           <Link
-            href={`/item/${item.slug}`}
+            href={`/item/${item.product?.slug}`}
             className="flex justify-center items-center"
           >
-            <Image src={item.image} width={200} height={200} alt={item.name} />
+            <Image
+              src={item.product?.image}
+              width={200}
+              height={200}
+              alt={item.product?.name}
+            />
             <div className="flex flex-col w-96 items-center justify-center gap-6 p-4 m-4">
-              <h2 className="text-xl font-bold text-black">{item.name}</h2>
+              <h2 className="text-xl font-bold text-black">
+                {item.product?.name}
+              </h2>
               <p className="text-sm text-muted-foreground ">
-                {item.description}
+                {item.product?.description}
               </p>
-              <p className="text-lg text-black">{priceUpdate(item.price)}</p>
+              <p className="text-lg text-black font-semibold">
+                {priceUpdate(item.product?.price)}
+              </p>
             </div>
             <div className="flex justify-center items-center"></div>
           </Link>
-          <DeleteFavoriteButton favoriteId={item.id} session={session} />
+          <DeleteFavoriteButton
+            favoriteId={item.favoriteId}
+            session={session}
+          />
         </div>
       ))}
     </main>

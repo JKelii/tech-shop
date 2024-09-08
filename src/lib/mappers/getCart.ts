@@ -16,7 +16,7 @@ type MappedGetCart =
     }
   | undefined;
 
-type ResponseGetCart = {
+export type ResponseGetCart = {
   id: string;
   quantity: number;
   image: string;

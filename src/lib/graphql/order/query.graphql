@@ -3,6 +3,7 @@ query GetOrders($email: String!) {
     total
     stripeCheckoutId
     createdAt
+    orderStatus
     orderItems {
       product {
         slug

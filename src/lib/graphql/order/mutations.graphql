@@ -3,6 +3,7 @@ mutation CreateOrder(
   $total: Int!
   $email: String!
   $orderItems: [OrderItemCreateInput!]
+  $orderStatus: OrderStatus!
 ) {
   createOrder(
     data: {
@@ -10,10 +11,12 @@ mutation CreateOrder(
       total: $total
       account: { connect: { email: $email } }
       orderItems: { create: $orderItems }
+      orderStatus: $orderStatus
     }
   ) {
     id
     stripeCheckoutId
+    orderStatus
     orderItems {
       quantity
       product {

@@ -15,6 +15,7 @@ import {
   GetOrdersDocument,
   GetProductBySlugDocument,
   GetProductsDocument,
+  OrderStatus,
   TypedDocumentString,
   UpdateCartProductDocument,
   UpdateCartQuantityDocument,
@@ -24,6 +25,7 @@ import { error } from "console";
 import { getServerSession } from "next-auth";
 import { connect } from "http2";
 import { mapperGetFavorites } from "./mappers/getFavorites";
+import { mapperGetOrders } from "./mappers/getOrders";
 
 type GraphQlError = {
   message: string;
@@ -346,12 +348,14 @@ export const createCartProduct = async ({
 export const createOrderHygraph = async ({
   email,
   stripeCheckoutId,
+  orderStatus,
   total,
   orderItems,
 }: {
   email: string | undefined | null;
   stripeCheckoutId: string;
   total: number;
+  orderStatus: OrderStatus;
   orderItems: {
     productId: string;
     total: number;
@@ -366,6 +370,7 @@ export const createOrderHygraph = async ({
     },
     query: CreateOrderDocument,
     variables: {
+      orderStatus,
       email,
       stripeCheckoutId,
       total,
@@ -399,5 +404,11 @@ export const getOrders = async () => {
   console.log(data);
 
   if (!data.orders) return { error: "Can't get orders" };
-  return data.orders;
+  return data.orders.map((order) => ({
+    total: order.total,
+    stripeCheckoutId: order.stripeCheckoutId,
+    createdAt: order.createdAt,
+    orderItems: order.orderItems.map((item) => item.product),
+    orderStatus: order.orderStatus,
+  }));
 };

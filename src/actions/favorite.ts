@@ -7,25 +7,6 @@ import {
   getFavorites,
 } from "@/lib";
 
-const COOKIE_NAME_FAVORITE = "favorite";
-
-type FavoriteItem =
-  | {
-      id: string;
-      product?: {
-        name: string;
-        id: string;
-        slug: string;
-        price: number;
-        description: string;
-        images: Array<{
-          url: string;
-          fileName: string;
-        }>;
-      } | null;
-    }[]
-  | undefined;
-
 type AddToFavoriteAuthorizedParams = {
   slug: string;
   email: string;
@@ -64,16 +45,17 @@ export const deleteProductFromFavorite = async ({
 }) => {
   const favorite = await getFavoriteAuthorized({ email });
 
-  const favoriteToRemove = favorite?.favoriteProducts.find(
-    ({ id }) => id === favoriteProductId
+  const favoriteToRemove = favorite?.find(
+    ({ favoriteId }) => favoriteId === favoriteProductId
   );
 
   if (!favoriteToRemove) {
     throw new Error("Product not found in favorites");
   }
-
-  const deletedProduct = deleteFavoriteProduct({ favoriteProductId });
-  if (!deletedProduct) {
-    throw new Error("Can't delete product from favorites");
+  if (favoriteToRemove) {
+    const deletedProduct = deleteFavoriteProduct({ favoriteProductId });
+    if (!deletedProduct) {
+      throw new Error("Can't delete product from favorites");
+    }
   }
 };

@@ -1,6 +1,7 @@
 "use client";
 import { createOrder } from "@/actions/order";
 import { Button } from "@/components/ui/button";
+import { CardFooter } from "@/components/ui/card";
 import { getSession, useSession } from "next-auth/react";
 import React from "react";
 
@@ -13,9 +14,16 @@ export const CheckoutButton = () => {
         e.preventDefault();
         createOrder();
       }}
-      className="w-32 text-center border-2 border-black rounded-md m-6"
+      className=""
     >
-      <Button>Go to checkout</Button>
+      <CardFooter>
+        <Button
+          variant={"outline"}
+          className="w-96  text-center border-2 border-black rounded-md m-6 bg-black text-white hover:bg-white hover:text-black"
+        >
+          Go to Checkout
+        </Button>
+      </CardFooter>
     </form>
   );
 };

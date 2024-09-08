@@ -18,12 +18,15 @@ type MappedGetFavorites =
   | undefined;
 
 type ResponseGetFavorites = {
-  id: string;
-  image: string;
-  price: number;
-  name: string;
-  slug: string;
-  description: string;
+  favoriteId: string;
+  product: {
+    id: string;
+    image: string;
+    price: number;
+    name: string;
+    slug: string;
+    description: string;
+  };
 };
 
 export const mapperGetFavorites = (
@@ -35,12 +38,15 @@ export const mapperGetFavorites = (
     .map(({ id, product }) => {
       if (product) {
         return {
-          image: product?.images[0].url,
-          price: product?.price,
-          name: product?.name,
-          description: product.description,
-          slug: product?.slug,
-          id: product.id,
+          favoriteId: id,
+          product: {
+            description: product.description,
+            image: product?.images[0].url,
+            price: product?.price,
+            name: product?.name,
+            slug: product?.slug,
+            id: product.id,
+          },
         };
       }
     })

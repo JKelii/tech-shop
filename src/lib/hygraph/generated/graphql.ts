@@ -7587,6 +7587,7 @@ export type Order = Entity & Node & {
   /** The unique identifier */
   id: Scalars['ID']['output'];
   orderItems: Array<OrderItem>;
+  orderStatus: OrderStatus;
   /** The time the document was published. Null on documents in draft stage. */
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   /** User that last published this document */
@@ -7685,6 +7686,7 @@ export type OrderCreateInput = {
   account?: InputMaybe<AccountCreateOneInlineInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   orderItems?: InputMaybe<OrderItemCreateManyInlineInput>;
+  orderStatus: OrderStatus;
   stripeCheckoutId: Scalars['String']['input'];
   total: Scalars['Int']['input'];
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -8241,6 +8243,13 @@ export type OrderManyWhereInput = {
   orderItems_every?: InputMaybe<OrderItemWhereInput>;
   orderItems_none?: InputMaybe<OrderItemWhereInput>;
   orderItems_some?: InputMaybe<OrderItemWhereInput>;
+  orderStatus?: InputMaybe<OrderStatus>;
+  /** All values that are contained in given list. */
+  orderStatus_in?: InputMaybe<Array<InputMaybe<OrderStatus>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  orderStatus_not?: InputMaybe<OrderStatus>;
+  /** All values that are not contained in given list. */
+  orderStatus_not_in?: InputMaybe<Array<InputMaybe<OrderStatus>>>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   publishedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -8317,6 +8326,8 @@ export enum OrderOrderByInput {
   CreatedAtDesc = 'createdAt_DESC',
   IdAsc = 'id_ASC',
   IdDesc = 'id_DESC',
+  OrderStatusAsc = 'orderStatus_ASC',
+  OrderStatusDesc = 'orderStatus_DESC',
   PublishedAtAsc = 'publishedAt_ASC',
   PublishedAtDesc = 'publishedAt_DESC',
   StripeCheckoutIdAsc = 'stripeCheckoutId_ASC',
@@ -8327,9 +8338,16 @@ export enum OrderOrderByInput {
   UpdatedAtDesc = 'updatedAt_DESC'
 }
 
+export enum OrderStatus {
+  Created = 'created',
+  Paid = 'paid',
+  Pending = 'pending'
+}
+
 export type OrderUpdateInput = {
   account?: InputMaybe<AccountUpdateOneInlineInput>;
   orderItems?: InputMaybe<OrderItemUpdateManyInlineInput>;
+  orderStatus?: InputMaybe<OrderStatus>;
   stripeCheckoutId?: InputMaybe<Scalars['String']['input']>;
   total?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -8352,6 +8370,7 @@ export type OrderUpdateManyInlineInput = {
 };
 
 export type OrderUpdateManyInput = {
+  orderStatus?: InputMaybe<OrderStatus>;
   stripeCheckoutId?: InputMaybe<Scalars['String']['input']>;
   total?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -8457,6 +8476,13 @@ export type OrderWhereInput = {
   orderItems_every?: InputMaybe<OrderItemWhereInput>;
   orderItems_none?: InputMaybe<OrderItemWhereInput>;
   orderItems_some?: InputMaybe<OrderItemWhereInput>;
+  orderStatus?: InputMaybe<OrderStatus>;
+  /** All values that are contained in given list. */
+  orderStatus_in?: InputMaybe<Array<InputMaybe<OrderStatus>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  orderStatus_not?: InputMaybe<OrderStatus>;
+  /** All values that are not contained in given list. */
+  orderStatus_not_in?: InputMaybe<Array<InputMaybe<OrderStatus>>>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   publishedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -14183,17 +14209,18 @@ export type CreateOrderMutationVariables = Exact<{
   total: Scalars['Int']['input'];
   email: Scalars['String']['input'];
   orderItems?: InputMaybe<Array<OrderItemCreateInput> | OrderItemCreateInput>;
+  orderStatus: OrderStatus;
 }>;
 
 
-export type CreateOrderMutation = { createOrder?: { id: string, stripeCheckoutId: string, orderItems: Array<{ quantity: number, product?: { slug: string, name: string, price: number, images: Array<{ url: string }> } | null }> } | null };
+export type CreateOrderMutation = { createOrder?: { id: string, stripeCheckoutId: string, orderStatus: OrderStatus, orderItems: Array<{ quantity: number, product?: { slug: string, name: string, price: number, images: Array<{ url: string }> } | null }> } | null };
 
 export type GetOrdersQueryVariables = Exact<{
   email: Scalars['String']['input'];
 }>;
 
 
-export type GetOrdersQuery = { orders: Array<{ total: number, stripeCheckoutId: string, createdAt: string, orderItems: Array<{ product?: { slug: string, name: string, price: number, images: Array<{ url: string, fileName: string }> } | null }> }> };
+export type GetOrdersQuery = { orders: Array<{ total: number, stripeCheckoutId: string, createdAt: string, orderStatus: OrderStatus, orderItems: Array<{ product?: { slug: string, name: string, price: number, images: Array<{ url: string, fileName: string }> } | null }> }> };
 
 export type GetProductBySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
@@ -14366,12 +14393,13 @@ export const CreateCartProductDocument = new TypedDocumentString(`
 }
     `) as unknown as TypedDocumentString<CreateCartProductMutation, CreateCartProductMutationVariables>;
 export const CreateOrderDocument = new TypedDocumentString(`
-    mutation CreateOrder($stripeCheckoutId: String!, $total: Int!, $email: String!, $orderItems: [OrderItemCreateInput!]) {
+    mutation CreateOrder($stripeCheckoutId: String!, $total: Int!, $email: String!, $orderItems: [OrderItemCreateInput!], $orderStatus: OrderStatus!) {
   createOrder(
-    data: {stripeCheckoutId: $stripeCheckoutId, total: $total, account: {connect: {email: $email}}, orderItems: {create: $orderItems}}
+    data: {stripeCheckoutId: $stripeCheckoutId, total: $total, account: {connect: {email: $email}}, orderItems: {create: $orderItems}, orderStatus: $orderStatus}
   ) {
     id
     stripeCheckoutId
+    orderStatus
     orderItems {
       quantity
       product {
@@ -14392,6 +14420,7 @@ export const GetOrdersDocument = new TypedDocumentString(`
     total
     stripeCheckoutId
     createdAt
+    orderStatus
     orderItems {
       product {
         slug

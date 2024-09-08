@@ -73,9 +73,10 @@ export const AddToCartButton = ({ slug }: AddToCartType) => {
           </div>
         </div>
       </div>
+
       <Button
         type="submit"
-        className=" bg-black shadow-lg hover:translate-y-[2px] text-white font-bold h-12 py-2 px-4 rounded w-44"
+        className=" bg-black shadow-lg hover:translate-y-[2px] text-white font-bold h-12 py-2 px-4 rounded w-44 mt-6"
       >
         <div className="flex justify-center items-center gap-2 md:gap-4 self-center">
           <ShoppingCart size={20} />

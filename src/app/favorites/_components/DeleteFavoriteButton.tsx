@@ -1,15 +1,12 @@
 "use client";
-import {
-  deleteProductFromFavorite,
-  getFavoriteAuthorized,
-} from "@/actions/favorite";
+import { deleteProductFromFavorite } from "@/actions/favorite";
 import { Button } from "@/components/ui/button";
-import { getFavorites } from "@/lib";
+import { toast } from "@/components/ui/use-toast";
 
 import { X } from "lucide-react";
 import { Session } from "next-auth";
-import React, { useEffect } from "react";
-import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import React from "react";
 
 export const DeleteFavoriteButton = ({
   favoriteId,
@@ -18,14 +15,14 @@ export const DeleteFavoriteButton = ({
   favoriteId: string;
   session: Session | null;
 }) => {
+  const router = useRouter();
+
   const handleClick = async () => {
-    console.log(favoriteId);
     const deleteFavorite = await deleteProductFromFavorite({
       favoriteProductId: favoriteId,
       email: session?.user?.email as string,
     });
-    console.log(deleteFavorite);
-    toast.success("Product removed from favorites");
+    router.refresh();
   };
 
   return (

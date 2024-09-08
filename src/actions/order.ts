@@ -1,6 +1,7 @@
 "use server";
 
 import { createOrderHygraph, getCart, getOrders } from "@/lib";
+import { OrderStatus } from "@/lib/hygraph/generated/graphql";
 import { getEnv } from "@/utils";
 import { getServerSession } from "next-auth";
 import { cookies } from "next/headers";
@@ -47,6 +48,7 @@ export const createOrder = async () => {
     const orderId = await createOrderHygraph({
       email: email,
       stripeCheckoutId: id,
+      orderStatus: OrderStatus.Created,
       total: cart.reduce((acc, curr) => acc + curr.price * curr.quantity, 0),
       orderItems: cart.map((item) => ({
         productId: item.id,
