@@ -3,7 +3,7 @@ import { ShoppingCart } from "lucide-react";
 import { useSession } from "next-auth/react";
 import React, { startTransition } from "react";
 import { useForm } from "react-hook-form";
-import { useToast } from "./ui/use-toast";
+
 import { Toaster } from "./ui/toaster";
 import { Button } from "./ui/button";
 import { SizeRadioGroup } from "./pages/Product/components/SizeRadioGroup";
@@ -20,7 +20,6 @@ type AddToCartType = {
 export const AddToCartButton = ({ slug }: AddToCartType) => {
   const { handleSubmit } = useForm();
   const session = useSession();
-  const { toast } = useToast();
 
   const { depriveQuantity, addQuantity, selectedQuantity } =
     useQuantityProduct();
@@ -31,23 +30,9 @@ export const AddToCartButton = ({ slug }: AddToCartType) => {
       email: session.data?.email,
     });
   });
-  //   try {
-  //     toast({
-  //       title: "Item added to cart ✔",
-  //       className: "bg-green-500/15",
-  //       duration: 3000,
-  //     });
-  //   } catch (error) {
-  //     if (error instanceof Error) {
-  //       toast({
-  //         title: error.message,
-  //         className: "bg-red-500/15",
-  //         duration: 3000,
-  //       });
-  //     }
-  //   }
-  // });
-
+  {
+    /* TODO: Change radio group select quantity and add to cart Manage product */
+  }
   return (
     <form onSubmit={onSubmit} className="flex flex-col">
       <div className="flex flex-col gap-2">

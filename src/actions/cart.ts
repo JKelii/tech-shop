@@ -1,5 +1,6 @@
 "use server";
 
+import index from "@/app/pages";
 import {
   createCart,
   createCartProduct,
@@ -13,6 +14,7 @@ import { cookies } from "next/headers";
 const COOKIE_NAME_CART = "cart";
 
 export type ManageCartParams = {
+  productId: string;
   product: {
     slug: string;
     quantity: number;
@@ -68,8 +70,7 @@ export const getCartFromCookie = async () => {
     return cart;
   }
 };
-
-export const removeFromCart = async ({ product }: ManageCartParams) => {
+export const removeFromCart = async (productId: string) => {
   const cartCookie = cookies().get(COOKIE_NAME_CART);
   if (!cartCookie) return null;
 
@@ -78,10 +79,10 @@ export const removeFromCart = async ({ product }: ManageCartParams) => {
 
   if (!cart) return null;
 
-  const productToRemove = cart.find(({ slug }) => slug === product.slug);
+  const productToRemove = productId;
 
   if (productToRemove) {
-    await deleteCartProduct({ cartProductId: productToRemove.id });
+    await deleteCartProduct({ cartProductId: productId });
     const updatedCart = await getCart({ id: cartId });
 
     if (!updatedCart || updatedCart.length === 0) {

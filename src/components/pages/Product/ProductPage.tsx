@@ -50,7 +50,7 @@ export const ProductPage = ({
           </div>
           <p className="self-start">{product?.description}</p>
           {/* //TODO: Add If item doesnt have size radio group won't show */}
-          {/* TODO: Change radio group select quantity and add to cart Manage product */}
+
           <ProductManagement favoriteId={favoriteId} product={product} />
         </article>
       </div>

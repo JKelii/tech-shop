@@ -23,6 +23,7 @@ export type ResponseGetCart = {
   price: number;
   name: string;
   slug: string;
+  productId: string;
 };
 
 export const mapperGetCart = (
@@ -35,6 +36,7 @@ export const mapperGetCart = (
       if (product) {
         return {
           quantity,
+          productId: id,
           image: product?.images[0].url,
           price: product?.price,
           name: product?.name,

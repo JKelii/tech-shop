@@ -1,16 +1,11 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ResponseGetCart } from "@/lib/mappers/getCart";
 import { X } from "lucide-react";
 import Image from "next/image";
 import React from "react";
+import RemoveFromBasket from "./RemoveFromBasket";
 
 const BasketItems = ({ cart }: { cart: ResponseGetCart[] | undefined }) => {
   return (
@@ -39,12 +34,12 @@ const BasketItems = ({ cart }: { cart: ResponseGetCart[] | undefined }) => {
                   <p className="text-sm text-gray-500">
                     Quantity: {product.quantity}
                   </p>
+                  <RemoveFromBasket
+                    product={product}
+                    productId={product.productId}
+                  />
                 </div>
               </div>
-              <Button variant="ghost" size="icon" onClick={() => product.id}>
-                <X className="h-6 w-6" />
-                <span className="sr-only">Remove item</span>
-              </Button>
             </div>
           ))}
         </CardContent>
