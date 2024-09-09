@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { useToast } from "./ui/use-toast";
 import { addToFavoriteAuthorized } from "@/actions/favorite";
 import { cn } from "@/lib/utils";
+import { Button } from "./ui/button";
 
 type Product = {
   id: string;
@@ -51,13 +52,16 @@ export const WishList = ({
 
   return (
     <form onSubmit={onSubmit}>
-      <button className="flex justify-center h-12 items-center gap-2 p-2 rounded-md border-2 border-gray-400 hover:translate-y-[2px]">
+      <Button
+        variant={"outline"}
+        className="flex justify-center h-12 w-44 items-center gap-2 p-2 rounded-md border-2 border-gray-400 hover:translate-y-[2px]"
+      >
         <Heart
           size={20}
           className={cn(favoriteId && "fill-gray-500 text-gray-500")}
         />
         Add to wishlist
-      </button>
+      </Button>
     </form>
   );
 };

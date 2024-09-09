@@ -33,9 +33,9 @@ export const manageCart = async ({
   };
 }) => {
   const findCart = cookies().get(COOKIE_NAME_CART);
+
   if (!findCart) {
     const createdCart = await createCart({ ...product, email });
-
     if (!createdCart) {
       return { error: "Can't create cart" };
     }

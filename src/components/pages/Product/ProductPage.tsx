@@ -21,6 +21,16 @@ export type ProductType = {
   }[];
 };
 
+export const generateMetadata = ({ product }: { product: ProductType }) => {
+  return {
+    title: product.name,
+    description: product.description,
+    openGraph: {
+      images: product.images[0]?.url,
+    },
+  };
+};
+
 export const ProductPage = ({
   product,
 

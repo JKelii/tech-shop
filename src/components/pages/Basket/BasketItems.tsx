@@ -18,7 +18,7 @@ const BasketItems = ({ cart }: { cart: ResponseGetCart[] | undefined }) => {
           {cart?.map((product) => (
             <div
               key={product.id}
-              className="flex items-center justify-between border-b py-4 h-52"
+              className="flex items-center justify-between border-b py-4 h-52 w-full"
             >
               <div className="flex items-center space-x-4">
                 <Image
@@ -34,12 +34,12 @@ const BasketItems = ({ cart }: { cart: ResponseGetCart[] | undefined }) => {
                   <p className="text-sm text-gray-500">
                     Quantity: {product.quantity}
                   </p>
-                  <RemoveFromBasket
-                    product={product}
-                    productId={product.productId}
-                  />
                 </div>
               </div>
+              <RemoveFromBasket
+                product={product}
+                productId={product.productId}
+              />
             </div>
           ))}
         </CardContent>
