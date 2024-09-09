@@ -5,8 +5,6 @@ export const getEnv = (env: string | undefined) => {
   return env;
 };
 
-//TODO: fix env
-
-// export const env = cleanEnv(process.env, {
-//   MAILERLITE: str(),
-// });
+export const env = cleanEnv(process.env, {
+  MAILERLITE: str(),
+});
