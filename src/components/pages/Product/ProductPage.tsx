@@ -4,6 +4,8 @@ import Image from "next/image";
 import Comments from "./components/Comments";
 
 import { ProductManagement } from "./components/ProductManagement";
+import { Metadata, ResolvingMetadata } from "next";
+import { getProductSlug } from "@/lib";
 
 export type ProductType = {
   description: string;
@@ -19,16 +21,6 @@ export type ProductType = {
     fileName: string;
     url: string;
   }[];
-};
-
-export const generateMetadata = ({ product }: { product: ProductType }) => {
-  return {
-    title: product.name,
-    description: product.description,
-    openGraph: {
-      images: product.images[0]?.url,
-    },
-  };
 };
 
 export const ProductPage = ({

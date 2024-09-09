@@ -6,12 +6,14 @@ import Footer from "@/components/Footer/footer";
 import { ClientContexts } from "@/contexts/ClientContexts";
 import { getCartFromCookie } from "@/actions/cart";
 import Headers from "@/components/Header/Headers";
-import { getProductSlug } from "@/lib";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Tech-shop",
+  title: {
+    template: " Tech-shop",
+    default: "Tech-shop",
+  },
   description: "NextJs project",
 };
 
