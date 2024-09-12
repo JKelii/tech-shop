@@ -6,6 +6,7 @@ import Footer from "@/components/Footer/footer";
 import { ClientContexts } from "@/contexts/ClientContexts";
 import { getCartFromCookie } from "@/actions/cart";
 import Headers from "@/components/Header/Headers";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,6 +34,7 @@ export default async function RootLayout({
           <Headers />
           {children}
           <Footer />
+          <Toaster />
         </ClientContexts>
       </body>
     </html>

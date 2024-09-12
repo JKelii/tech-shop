@@ -8,6 +8,7 @@ import { Toaster } from "./ui/toaster";
 import { Button } from "./ui/button";
 import { SizeRadioGroup } from "./pages/Product/components/SizeRadioGroup";
 import { useQuantityProduct } from "./pages/Product/hooks/useQuantityProduct";
+import { toast } from "sonner";
 
 type AddToCartType = {
   slug: string;
@@ -29,6 +30,7 @@ export const AddToCartButton = ({ slug }: AddToCartType) => {
       product: { slug, quantity: selectedQuantity },
       email: session.data?.email,
     });
+    toast("Item added to cart ✅");
   });
   {
     /* TODO: Change radio group select quantity and add to cart Manage product */

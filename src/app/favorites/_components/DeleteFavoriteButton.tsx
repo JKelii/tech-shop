@@ -1,12 +1,12 @@
 "use client";
 import { deleteProductFromFavorite } from "@/actions/favorite";
 import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/use-toast";
 
 import { X } from "lucide-react";
 import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { toast } from "sonner";
 
 export const DeleteFavoriteButton = ({
   favoriteId,
@@ -22,6 +22,7 @@ export const DeleteFavoriteButton = ({
       favoriteProductId: favoriteId,
       email: session?.user?.email as string,
     });
+    toast("Item removed from wishlist ❌");
     router.refresh();
   };
 

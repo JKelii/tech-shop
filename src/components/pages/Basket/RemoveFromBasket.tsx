@@ -1,10 +1,11 @@
 "use client";
 import { removeFromCart } from "@/actions/cart";
 import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/use-toast";
+
 import { X } from "lucide-react";
 import { useSession } from "next-auth/react";
 import React from "react";
+import { toast } from "sonner";
 
 type RemoveFromBasketType = {
   productId: string;
@@ -19,11 +20,9 @@ const RemoveFromBasket = ({ productId }: RemoveFromBasketType) => {
   const session = useSession();
   const handleDelete = async () => {
     const updatedCart = await removeFromCart(productId);
-    toast({
-      title: "Item removed from cart ❌",
-      className: "bg-red-500/15",
-      duration: 3000,
-    });
+    if (updatedCart) {
+      toast("Item removed from cart ❌");
+    }
   };
 
   return (

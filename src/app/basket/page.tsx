@@ -1,14 +1,7 @@
-import Image from "next/image";
-import { X } from "lucide-react";
-import { getSession, useSession } from "next-auth/react";
-import { Toaster } from "@/components/ui/toaster";
 import { getCart } from "@/lib";
 import { cookies } from "next/headers";
-import { createOrder } from "@/actions/order";
 import { CheckoutButton } from "@/components/pages/Basket/CheckoutButton";
-import { removeFromCart } from "@/actions/cart";
 import BasketItems from "@/components/pages/Basket/BasketItems";
-import { toast } from "@/components/ui/use-toast";
 import { getServerSession } from "next-auth";
 
 const Page = async ({ params }: { params: { slug: string } }) => {

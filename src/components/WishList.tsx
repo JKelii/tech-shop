@@ -4,10 +4,11 @@ import { Heart } from "lucide-react";
 import { useSession } from "next-auth/react";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useToast } from "./ui/use-toast";
+
 import { addToFavoriteAuthorized } from "@/actions/favorite";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
+import { toast } from "sonner";
 
 type Product = {
   id: string;
@@ -28,26 +29,17 @@ export const WishList = ({
 }: Product) => {
   const { handleSubmit } = useForm();
   const { data: session } = useSession();
-  const { toast } = useToast();
 
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
     const email = session?.user?.email;
     if (!email) {
-      toast({
-        title: "You are not authorized",
-        className: "bg-red-500/15",
-        duration: 3000,
-      });
+      toast("You are not authorized ❌");
       return;
     }
 
     addToFavoriteAuthorized({ email, slug });
-    toast({
-      title: "Added to wishlist",
-      className: "bg-green-500/15",
-      duration: 3000,
-    });
+    toast("Added to wishlist ✅");
   });
 
   return (

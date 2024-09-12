@@ -148,7 +148,7 @@ export const createCart = async ({
 
 export const getCart = async ({ id }: { id: string | undefined }) => {
   if (!id) {
-    throw new Error("Problem to get cart id");
+    return;
   }
   const data = await fetcher({
     headers: {
