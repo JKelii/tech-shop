@@ -14,5 +14,10 @@ export const useQuantityProduct = () => {
     setSelectedQuantity((prev) => prev + 1);
   };
 
-  return { depriveQuantity, addQuantity, selectedQuantity };
+  return {
+    depriveQuantity,
+    addQuantity,
+    selectedQuantity,
+    setSelectedQuantity,
+  };
 };

@@ -1550,6 +1550,7 @@ export type CartProduct = Entity & Node & {
   publishedBy?: Maybe<User>;
   quantity: Scalars['Int']['output'];
   scheduledIn: Array<ScheduledOperation>;
+  size?: Maybe<ProductSize>;
   /** System stage field */
   stage: Stage;
   /** The time the document was updated */
@@ -1635,6 +1636,7 @@ export type CartProductCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   product?: InputMaybe<ProductCreateOneInlineInput>;
   quantity: Scalars['Int']['input'];
+  size?: InputMaybe<ProductSize>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
@@ -1744,6 +1746,13 @@ export type CartProductManyWhereInput = {
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
+  size?: InputMaybe<ProductSize>;
+  /** All values that are contained in given list. */
+  size_in?: InputMaybe<Array<InputMaybe<ProductSize>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  size_not?: InputMaybe<ProductSize>;
+  /** All values that are not contained in given list. */
+  size_not_in?: InputMaybe<Array<InputMaybe<ProductSize>>>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -1771,6 +1780,8 @@ export enum CartProductOrderByInput {
   PublishedAtDesc = 'publishedAt_DESC',
   QuantityAsc = 'quantity_ASC',
   QuantityDesc = 'quantity_DESC',
+  SizeAsc = 'size_ASC',
+  SizeDesc = 'size_DESC',
   UpdatedAtAsc = 'updatedAt_ASC',
   UpdatedAtDesc = 'updatedAt_DESC'
 }
@@ -1779,6 +1790,7 @@ export type CartProductUpdateInput = {
   cart?: InputMaybe<CartUpdateOneInlineInput>;
   product?: InputMaybe<ProductUpdateOneInlineInput>;
   quantity?: InputMaybe<Scalars['Int']['input']>;
+  size?: InputMaybe<ProductSize>;
 };
 
 export type CartProductUpdateManyInlineInput = {
@@ -1935,6 +1947,13 @@ export type CartProductWhereInput = {
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
+  size?: InputMaybe<ProductSize>;
+  /** All values that are contained in given list. */
+  size_in?: InputMaybe<Array<InputMaybe<ProductSize>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  size_not?: InputMaybe<ProductSize>;
+  /** All values that are not contained in given list. */
+  size_not_in?: InputMaybe<Array<InputMaybe<ProductSize>>>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -1970,6 +1989,7 @@ export type CartProductWhereStageInput = {
 /** References CartProduct record uniquely */
 export type CartProductWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
+  size?: InputMaybe<ProductSize>;
 };
 
 export type CartUpdateInput = {
@@ -14100,7 +14120,7 @@ export type GetAccountQueryVariables = Exact<{
 }>;
 
 
-export type GetAccountQuery = { account?: { id: string, email: string, password: string } | null };
+export type GetAccountQuery = { account?: { id: string, name: string, email: string, password: string } | null };
 
 export type CreateCartMutationVariables = Exact<{
   quantity: Scalars['Int']['input'];
@@ -14215,6 +14235,14 @@ export type CreateOrderMutationVariables = Exact<{
 
 export type CreateOrderMutation = { createOrder?: { id: string, stripeCheckoutId: string, orderStatus: OrderStatus, orderItems: Array<{ quantity: number, product?: { slug: string, name: string, price: number, images: Array<{ url: string }> } | null }> } | null };
 
+export type UpdateOrderMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  orderStatus: OrderStatus;
+}>;
+
+
+export type UpdateOrderMutation = { updateOrder?: { stripeCheckoutId: string, orderStatus: OrderStatus } | null };
+
 export type GetOrdersQueryVariables = Exact<{
   email: Scalars['String']['input'];
 }>;
@@ -14227,7 +14255,7 @@ export type GetProductBySlugQueryVariables = Exact<{
 }>;
 
 
-export type GetProductBySlugQuery = { product?: { description: string, id: string, name: string, price: number, slug: string, reviews: Array<{ content: string, name: string }>, images: Array<{ fileName: string, url: string }> } | null };
+export type GetProductBySlugQuery = { product?: { description: string, id: string, name: string, price: number, quantity: number, slug: string, reviews: Array<{ content: string, name: string }>, images: Array<{ fileName: string, url: string }> } | null };
 
 export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -14260,6 +14288,7 @@ export const GetAccountDocument = new TypedDocumentString(`
     query GetAccount($email: String!) {
   account(where: {email: $email}, stage: DRAFT) {
     id
+    name
     email
     password
   }
@@ -14414,6 +14443,14 @@ export const CreateOrderDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CreateOrderMutation, CreateOrderMutationVariables>;
+export const UpdateOrderDocument = new TypedDocumentString(`
+    mutation UpdateOrder($id: ID!, $orderStatus: OrderStatus!) {
+  updateOrder(where: {id: $id}, data: {orderStatus: $orderStatus}) {
+    stripeCheckoutId
+    orderStatus
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateOrderMutation, UpdateOrderMutationVariables>;
 export const GetOrdersDocument = new TypedDocumentString(`
     query GetOrders($email: String!) {
   orders(where: {account: {email: $email}}, stage: DRAFT) {
@@ -14446,6 +14483,7 @@ export const GetProductBySlugDocument = new TypedDocumentString(`
       content
       name
     }
+    quantity
     images {
       fileName
       url

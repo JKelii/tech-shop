@@ -18,12 +18,17 @@ export const DeleteFavoriteButton = ({
   const router = useRouter();
 
   const handleClick = async () => {
-    const deleteFavorite = await deleteProductFromFavorite({
-      favoriteProductId: favoriteId,
-      email: session?.user?.email as string,
-    });
-    toast("Item removed from wishlist ❌");
-    router.refresh();
+    try {
+      await deleteProductFromFavorite({
+        favoriteProductId: favoriteId,
+        email: session?.user?.email as string,
+      });
+      toast("Item removed from wishlist ❌");
+      router.refresh();
+    } catch (error) {
+      console.error("Error removing from favorites:", error);
+      toast("An error occurred while removing the item");
+    }
   };
 
   return (

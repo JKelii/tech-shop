@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 
 import { X } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
 import React from "react";
 import { toast } from "sonner";
 
@@ -18,11 +20,14 @@ type RemoveFromBasketType = {
 const RemoveFromBasket = ({ productId }: RemoveFromBasketType) => {
   console.log(productId);
   const session = useSession();
+  const router = useRouter();
   const handleDelete = async () => {
     const updatedCart = await removeFromCart(productId);
+
     if (updatedCart) {
       toast("Item removed from cart ❌");
     }
+    router.refresh();
   };
 
   return (

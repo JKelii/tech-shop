@@ -13,6 +13,10 @@ import Link from "next/link";
 
 export const MobileNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleItemClick = () => {
+    setIsOpen(false);
+  };
   return (
     <div className="block border-separate bg-background lg:hidden w-full min-w-[380px]">
       <nav className="container flex items-center justify-between px-8 ">
@@ -30,6 +34,7 @@ export const MobileNavbar = () => {
                   key={item.label}
                   label={item.label}
                   link={item.link}
+                  onClick={handleItemClick}
                 />
               ))}
             </div>

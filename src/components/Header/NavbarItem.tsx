@@ -11,11 +11,13 @@ export const NavbarItem = ({
   link,
   clickCallback,
   icon,
+  onClick,
 }: {
   label: string;
   link: string;
   clickCallback?: () => void;
   icon?: ReactNode;
+  onClick?: () => void;
 }) => {
   const pathname = usePathname();
   const isActive =
@@ -33,11 +35,12 @@ export const NavbarItem = ({
         )}
         onClick={() => {
           if (clickCallback) clickCallback();
+          if (onClick) onClick();
         }}
       >
         {icon && <span className="mr-2 size-5 ">{icon}</span>}
 
-        {session && label === "Account" ? session.user?.email : label}
+        {session && label === "Account" ? session.user?.name : label}
       </Link>
 
       {isActive && (

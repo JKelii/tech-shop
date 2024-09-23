@@ -19,6 +19,7 @@ import {
   TypedDocumentString,
   UpdateCartProductDocument,
   UpdateCartQuantityDocument,
+  UpdateOrderDocument,
 } from "./hygraph/generated/graphql";
 import { mapperGetCart } from "./mappers/getCart";
 
@@ -410,4 +411,27 @@ export const getOrders = async () => {
     orderItems: order.orderItems.map((item) => item.product),
     orderStatus: order.orderStatus,
   }));
+};
+
+export const updateOrderStatus = async ({
+  id,
+  orderStatus,
+}: {
+  id: string;
+  orderStatus: OrderStatus;
+}) => {
+  const data = await fetcher({
+    headers: {
+      Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
+    },
+    query: UpdateOrderDocument,
+    variables: {
+      id,
+      orderStatus,
+    },
+    cache: "no-store",
+  });
+
+  if (!data) return;
+  return data;
 };

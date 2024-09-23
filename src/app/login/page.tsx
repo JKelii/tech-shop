@@ -8,6 +8,7 @@ import { userSchemaLogin } from "../schema/userValidation";
 import { Input } from "../../components/Inputs/input";
 import { PasswordInput } from "../../components/Inputs/passwordInput";
 import { signIn, useSession } from "next-auth/react";
+import { toast } from "sonner";
 
 //TODO: ADD CART COMPONENT instead main
 const LoginPage = () => {
@@ -20,8 +21,8 @@ const LoginPage = () => {
   });
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
     await signIn("credentials", { ...data, redirect: true, callbackUrl: "/" });
+    toast("You are logged in ✅");
   });
   const session = useSession();
 

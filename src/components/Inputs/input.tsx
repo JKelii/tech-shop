@@ -13,8 +13,11 @@ export const Input = React.forwardRef<
 >(({ onChange, onBlur, name, className, label, error, type }, ref) => (
   <div>
     <div className="flex flex-row items-center gap-1 ">
-      <label htmlFor={name} className="text-sm ml-1">
-        {label.toUpperCase().charAt(0) + label.slice(1)}
+      <label
+        htmlFor={name}
+        className="text-sm ml-1 normal-case first-letter:capitalize"
+      >
+        {label}
       </label>
     </div>
     <input
@@ -24,12 +27,15 @@ export const Input = React.forwardRef<
       onBlur={onBlur}
       type={type}
       id={name}
-      className={twMerge("py-2 border rounded-lg w-80 text-sm px-2", className)}
+      className={twMerge(
+        "border rounded-lg w-80 h-10 text-left text-md px-2 tracking-tight py-0  ",
+        className
+      )}
       placeholder={`Enter your ${name}`}
     />
 
-    <p className="text-red-500 h-2">
-      {error && error[0].toUpperCase() + error?.substring(1)}
+    <p className="text-red-500 h-2 normal-case first-letter:capitalize">
+      {error}
     </p>
   </div>
 ));

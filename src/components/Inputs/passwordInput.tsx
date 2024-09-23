@@ -13,23 +13,21 @@ export const PasswordInput = React.forwardRef<
   const [isPassword, setIsPassword] = useState(true);
 
   return (
-    <>
-      <div className="flex flex-col gap-2 relative">
-        <Input
-          {...inputProps}
-          ref={ref}
-          type={isPassword ? "password" : "text"}
-        />
+    <div className="flex flex-col relative">
+      <Input
+        {...inputProps}
+        ref={ref}
+        type={isPassword ? "password" : "text"}
+      />
 
-        <button
-          type="button"
-          className="absolute right-4 top-[2.5rem] transform -translate-y-1/2"
-          onClick={() => setIsPassword((prevStat) => !prevStat)}
-        >
-          {isPassword ? <Eye /> : <EyeOff />}
-        </button>
-      </div>
-    </>
+      <button
+        type="button"
+        className="absolute right-4 top-1/2 transform -translate-y-1/2 bottom-5"
+        onClick={() => setIsPassword((prevState) => !prevState)}
+      >
+        {isPassword ? <Eye /> : <EyeOff />}
+      </button>
+    </div>
   );
 });
 

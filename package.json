@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "e2e-test": "npx playwright test --ui",
     "lint": "next lint",
     "codegen": "graphql-codegen --config codegen.ts"
   },
@@ -57,9 +58,11 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.0.1",
     "@graphql-codegen/cli": "5.0.2",
     "@graphql-codegen/client-preset": "4.2.6",
     "@graphql-codegen/introspection": "4.0.3",
+    "@playwright/test": "^1.47.2",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
     "@types/react": "^18",

@@ -2,10 +2,7 @@
 import { priceUpdate } from "@/utils/priceUpdate";
 import Image from "next/image";
 import Comments from "./components/Comments";
-
 import { ProductManagement } from "./components/ProductManagement";
-import { Metadata, ResolvingMetadata } from "next";
-import { getProductSlug } from "@/lib";
 
 export type ProductType = {
   description: string;
@@ -17,6 +14,7 @@ export type ProductType = {
     content: string;
     name: string;
   }[];
+  quantity: number;
   images: {
     fileName: string;
     url: string;
@@ -53,7 +51,11 @@ export const ProductPage = ({
           <p className="self-start">{product?.description}</p>
           {/* //TODO: Add If item doesnt have size radio group won't show */}
 
-          <ProductManagement favoriteId={favoriteId} product={product} />
+          <ProductManagement
+            favoriteId={favoriteId}
+            product={product}
+            productQuantity={product.quantity}
+          />
         </article>
       </div>
       <Comments reviews={product.reviews} slug={product.slug} />

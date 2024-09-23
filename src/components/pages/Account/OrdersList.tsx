@@ -21,7 +21,7 @@ type OrderItemType = {
   images: { url: string; fileName: string }[];
 };
 
-type OrderType = {
+export type OrderType = {
   total: number;
   stripeCheckoutId: string;
   createdAt: string;
@@ -31,8 +31,8 @@ type OrderType = {
 
 export const OrdersList = ({ orders }: { orders: OrderType[] }) => {
   return orders.map((order) => (
-    <div key={order.stripeCheckoutId}>
-      <Card className="w-[500px]">
+    <div key={order.stripeCheckoutId} className="w-full min-w-[360px]">
+      <Card className="">
         <CardHeader>
           <CardTitle className="flex items-center">
             <Package className="mr-2" />

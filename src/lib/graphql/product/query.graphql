@@ -8,6 +8,7 @@ query GetProductBySlug($slug: String!) {
       content
       name
     }
+    quantity
     images {
       fileName
       url

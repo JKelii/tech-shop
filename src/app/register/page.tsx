@@ -6,8 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { userSchemaRegister } from "../schema/userValidation";
 import { PasswordInput } from "../../components/Inputs/passwordInput";
 import { registerUserAction } from "@/actions/register";
-
-//TODO :Name in register?
+import { toast } from "sonner";
 
 const Register = () => {
   const {
@@ -20,7 +19,8 @@ const Register = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     const { createAccount } = await registerUserAction(data);
-    alert(createAccount?.id);
+    toast("Account created ✅");
+    return createAccount;
   });
 
   return (

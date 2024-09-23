@@ -1,7 +1,7 @@
 import { manageCart, ManageCartParams } from "@/actions/cart";
 import { ShoppingCart } from "lucide-react";
 import { useSession } from "next-auth/react";
-import React, { startTransition } from "react";
+import React, { startTransition, useTransition } from "react";
 import { useForm } from "react-hook-form";
 
 import { Toaster } from "./ui/toaster";
@@ -16,28 +16,43 @@ type AddToCartType = {
   image: string;
   price: number;
   size?: string;
+  productQuantity: number;
 };
 
-export const AddToCartButton = ({ slug }: AddToCartType) => {
+export const AddToCartButton = ({ slug, productQuantity }: AddToCartType) => {
+  const [isPending, startTransition] = useTransition();
   const { handleSubmit } = useForm();
   const session = useSession();
 
-  const { depriveQuantity, addQuantity, selectedQuantity } =
-    useQuantityProduct();
+  const {
+    depriveQuantity,
+    addQuantity,
+    selectedQuantity,
+    setSelectedQuantity,
+  } = useQuantityProduct();
+
+  const outOfStock = selectedQuantity > productQuantity;
+  if (outOfStock) {
+    setSelectedQuantity(productQuantity);
+  }
 
   const onSubmit = handleSubmit(async () => {
-    manageCart({
-      product: { slug, quantity: selectedQuantity },
-      email: session.data?.email,
-    });
-    toast("Item added to cart ✅");
+    if (selectedQuantity < productQuantity) {
+      startTransition(async () => {
+        await manageCart({
+          product: { slug, quantity: selectedQuantity },
+          email: session.data?.email,
+        });
+        toast("Item added to cart ✅");
+      });
+    }
   });
-  {
-    /* TODO: Change radio group select quantity and add to cart Manage product */
-  }
   return (
     <form onSubmit={onSubmit} className="flex flex-col">
       <div className="flex flex-col gap-2">
+        <p className="text-sm text-muted-foreground">
+          {productQuantity} available
+        </p>
         <SizeRadioGroup />
         <div className="flex gap-2">
           <p className="text-lg">Quantity:</p>

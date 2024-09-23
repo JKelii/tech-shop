@@ -20,7 +20,7 @@ export const nextAuthOptions = {
           const hashedPassword = account?.password;
           if (!hashedPassword) return null;
           bcrypt.compare(hashedPassword, password);
-          return { id: account.id, email: account.email };
+          return { id: account.id, email: account.email, name: account.name };
         } catch (error) {
           return null;
         }

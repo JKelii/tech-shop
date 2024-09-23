@@ -1,7 +1,13 @@
 "use server";
 
-import { createOrderHygraph, getCart, getOrders } from "@/lib";
-import { OrderStatus } from "@/lib/hygraph/generated/graphql";
+import { OrderType } from "@/components/pages/Account/OrdersList";
+import {
+  createOrderHygraph,
+  getCart,
+  getOrders,
+  updateOrderStatus,
+} from "@/lib";
+import { Order, OrderStatus } from "@/lib/hygraph/generated/graphql";
 import { getEnv } from "@/utils";
 import { getServerSession } from "next-auth";
 import { cookies } from "next/headers";
@@ -64,3 +70,57 @@ export const createOrder = async () => {
     }
   }
 };
+
+export const updateOrder = async (orderStatus: string, id: string) => {
+  const orders = await getOrders();
+  if (!orders) {
+    return { error: "Can't get orders" };
+  }
+
+  if (Array.isArray(orders)) {
+    const orderedId = orders.find(
+      (item: OrderType) => item.stripeCheckoutId === id
+    );
+    if (!orderedId) {
+      return { error: "Can't find order" };
+    }
+    if (orderedId) {
+      const updatedOrder = await updateOrderStatus({
+        id: orderedId.stripeCheckoutId,
+        orderStatus: orderStatus as OrderStatus,
+      });
+      if (updatedOrder) {
+        return { message: "Order updated" };
+      }
+    }
+  } else {
+    return { error: "Order is not an array" };
+  }
+};
+
+// export const updateOrder = async (orderStatus: string, id: string) => {
+//   const orders = await getOrders();
+//   if (!orders) {
+//     return { error: "Can't get orders" };
+//   }
+
+//   if (Array.isArray(orders)) {
+//     const orderedId = orders.find(
+//       (item: OrderType) => item.stripeCheckoutId === id
+//     );
+//     if (!orderedId) {
+//       return { error: "Can't find order" };
+//     }
+//     if (orderedId) {
+//       const updatedOrder = await updateOrderStatus({
+//         id: orderedId.stripeCheckoutId,
+//         orderStatus: orderStatus as OrderStatus,
+//       });
+//       if (updatedOrder) {
+//         return { message: "Order updated" };
+//       }
+//     }
+//   } else {
+//     return { error: "Order is not an array" };
+//   }
+// };
