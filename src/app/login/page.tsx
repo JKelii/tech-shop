@@ -10,7 +10,6 @@ import { PasswordInput } from "../../components/Inputs/passwordInput";
 import { signIn, useSession } from "next-auth/react";
 import { toast } from "sonner";
 
-//TODO: ADD CART COMPONENT instead main
 const LoginPage = () => {
   const {
     register,
