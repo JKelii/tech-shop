@@ -17,7 +17,7 @@ const ProductOffer = async ({ index }: { index: number }) => {
               width={175}
               height={175}
             />
-            <p className="font-semibold text-lg self-start ml-4">
+            <p className="font-semibold text-lg self-start ml-4 rounded-lg">
               {products[index].name}
             </p>
             <p className="self-start ml-4 text-sm text-muted-foreground">

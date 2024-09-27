@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
 const secretStripeWebhook = getEnv(process.env.SECRET_WEBHOOK);
-export const handler = async (req: NextRequest) => {
+const handler = async (req: NextRequest) => {
   const payload = await req.text();
   const sig = req.headers.get("stripe-signature");
   try {

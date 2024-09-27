@@ -48,7 +48,7 @@ export const Comments = ({
   }, [currentPage]);
 
   return (
-    <section className="flex justify-start items-start flex-col my-10 w-80 lg:w-[27rem] gap-4 ">
+    <section className="flex justify-start items-start flex-col my-10 w-96 lg:w-[27rem] gap-4 ">
       <h3 className="text-black font-black text-2xl ml-10 self-start">
         Comments
       </h3>
@@ -62,7 +62,7 @@ export const Comments = ({
               key={index}
               className="flex justify-center items-center gap-4 ml-8 "
             >
-              <CircleUser className="size-8 text-gray-500" />
+              <CircleUser className="size-8 min-w-[2rem] min-h-[2rem] text-gray-500" />
               <div className="flex flex-col justify-center items-start">
                 <div className="flex gap-4 justify-start items-center">
                   <p className="font-black">{item.name}</p>
@@ -81,18 +81,29 @@ export const Comments = ({
         )}
       </div>
       {reviews.length >= 1 && (
-        <div className="flex flex-col justify-center items-center gap-4 w-full">
-          <p>{currentPage}</p>
-          <Pagination>
-            <PaginationPrevious
-              className="cursor-pointer"
-              onClick={() => handlePageChange(currentPage - 1)}
-            />
-            <PaginationNext
-              className="cursor-pointer"
-              onClick={() => handlePageChange(currentPage + 1)}
-            />
-          </Pagination>
+        <div className="flex justify-center items-center w-full mt-10 ">
+          <div className="flex flex-col items-center gap-4 w-full">
+            {/* Centered the current page number */}
+            <div className="">
+              <Pagination>
+                <PaginationPrevious
+                  className={`cursor-pointer px-4 ${
+                    currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                  onClick={() => handlePageChange(currentPage - 1)}
+                />
+                <p className="text-center w-full mt-2 px-6">{currentPage}</p>{" "}
+                <PaginationNext
+                  className={`cursor-pointer px-4 ${
+                    currentPage === totalPages
+                      ? "opacity-50 cursor-not-allowed"
+                      : ""
+                  }`}
+                  onClick={() => handlePageChange(currentPage + 1)}
+                />
+              </Pagination>
+            </div>
+          </div>
         </div>
       )}
     </section>

@@ -7,7 +7,7 @@ import {
   getOrders,
   updateOrderStatus,
 } from "@/lib";
-import { Order, OrderStatus } from "@/lib/hygraph/generated/graphql";
+import { OrderStatus } from "@/lib/hygraph/generated/graphql";
 import { getEnv } from "@/utils";
 import { getServerSession } from "next-auth";
 import { cookies } from "next/headers";
@@ -81,6 +81,7 @@ export const updateOrder = async (orderStatus: string, id: string) => {
     const orderedId = orders.find(
       (item: OrderType) => item.stripeCheckoutId === id
     );
+
     if (!orderedId) {
       return { error: "Can't find order" };
     }

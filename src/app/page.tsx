@@ -21,12 +21,12 @@ const Home = async () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8 lg:gap-16">
-        <ProductOffer index={1} />
-        <ProductOffer index={4} />
-        <ProductOffer index={5} />
-        <ProductOffer index={2} />
-        <ProductOffer index={6} />
-        <ProductOffer index={0} />
+        <ProductOffer index={10} />
+        <ProductOffer index={8} />
+        <ProductOffer index={14} />
+        <ProductOffer index={10} />
+        <ProductOffer index={7} />
+        <ProductOffer index={20} />
       </div>
     </main>
   );
