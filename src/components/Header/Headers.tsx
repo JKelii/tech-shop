@@ -14,7 +14,7 @@ export const NavItems = [
   { label: "Favorites", link: "/favorites", icon: <HeartIcon /> },
   { label: "Contact", link: "/contact", icon: <Mail /> },
   { label: "Items", link: "/items", icon: <Package /> },
-  { label: "Account", link: "/login", icon: <User /> },
+  { label: "Account", link: "/account", icon: <User /> },
 ];
 
 const Headers = () => {

@@ -25,9 +25,6 @@ const Newsletter = ({
 
   const { data: session } = useSession();
 
-  console.log(isSignedInNewsletter);
-  console.log(emailCookie);
-
   if (emailCookie?.includes(session?.user?.email ?? "")) {
     isSignedInNewsletter = true;
   }

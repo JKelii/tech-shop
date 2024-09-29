@@ -1,8 +1,17 @@
 import AccountCardContent from "@/components/pages/Account/AccountCardContent";
 import { OrdersList } from "@/components/pages/Account/OrdersList";
 import { getOrders } from "@/lib";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
 const page = async () => {
+  const session = await getServerSession();
+  const email = session?.user?.email;
+
+  if (!email) {
+    redirect("/login");
+  }
+
   const orders = await getOrders();
   if ("error" in orders) {
     return <p>{orders.error}</p>;

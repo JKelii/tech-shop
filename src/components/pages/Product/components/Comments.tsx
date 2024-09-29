@@ -2,13 +2,15 @@
 
 import {
   Pagination,
+  PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { cn } from "@/lib/utils";
 import { CircleUser } from "lucide-react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { parseAsInteger, useQueryState } from "nuqs";
 
-import React, { useEffect } from "react";
+import React from "react";
 
 type ReviewsType = {
   content: string;
@@ -22,30 +24,20 @@ export const Comments = ({
   reviews: ReviewsType;
   slug: string;
 }) => {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-
   const itemsPerPage = 5;
+
+  const [page, setPage] = useQueryState("page", parseAsInteger.withDefault(1));
+
   const totalPages = Math.ceil(reviews.length / itemsPerPage);
 
-  const currentPage = parseInt(searchParams.get("reviewsPage") || "1", 10);
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = reviews.slice(indexOfFirstItem, indexOfLastItem);
+  const startIndex = (page - 1) * itemsPerPage;
+  const currentItems = reviews.slice(startIndex, startIndex + itemsPerPage);
 
   const handlePageChange = (newPage: number) => {
-    if (newPage < 1 || newPage > totalPages) return;
-    sessionStorage.setItem("scrollPosition", window.scrollY.toString());
-    router.push(`/item/${slug}?reviewsPage=${newPage}`);
-  };
-
-  useEffect(() => {
-    const savedPosition = sessionStorage.getItem("scrollPosition");
-    if (savedPosition) {
-      window.scrollTo(0, parseInt(savedPosition, 10));
+    if (newPage > 0 && newPage <= totalPages) {
+      setPage(newPage);
     }
-  }, [currentPage]);
+  };
 
   return (
     <section className="flex justify-start items-start flex-col my-10 w-96 lg:w-[27rem] gap-4 ">
@@ -83,24 +75,69 @@ export const Comments = ({
       {reviews.length >= 1 && (
         <div className="flex justify-center items-center w-full mt-10 ">
           <div className="flex flex-col items-center gap-4 w-full">
-            {/* Centered the current page number */}
             <div className="">
               <Pagination>
-                <PaginationPrevious
-                  className={`cursor-pointer px-4 ${
-                    currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
-                  onClick={() => handlePageChange(currentPage - 1)}
-                />
-                <p className="text-center w-full mt-2 px-6">{currentPage}</p>{" "}
-                <PaginationNext
-                  className={`cursor-pointer px-4 ${
-                    currentPage === totalPages
-                      ? "opacity-50 cursor-not-allowed"
-                      : ""
-                  }`}
-                  onClick={() => handlePageChange(currentPage + 1)}
-                />
+                <Pagination>
+                  <PaginationPrevious
+                    onClick={() => handlePageChange(page - 1)}
+                    className={cn(
+                      page === 1 ? "cursor-not-allowed" : "cursor-pointer"
+                    )}
+                  />
+
+                  {page - 2 >= 1 && page <= totalPages && (
+                    <PaginationLink
+                      href="#"
+                      isActive
+                      className="mx-2"
+                      onClick={() => handlePageChange(page - 2)}
+                    >
+                      {page - 2}
+                    </PaginationLink>
+                  )}
+                  {page >= 2 && (
+                    <PaginationLink
+                      href="#"
+                      isActive
+                      onClick={() => handlePageChange(page - 1)}
+                    >
+                      {page - 1}
+                    </PaginationLink>
+                  )}
+
+                  <span className="px-4 py-2 font-semibold">{page}</span>
+                  {page < totalPages && (
+                    <PaginationLink
+                      href="#"
+                      isActive
+                      onClick={() => handlePageChange(page + 1)}
+                    >
+                      {page + 1}
+                    </PaginationLink>
+                  )}
+
+                  {page < totalPages && page + 2 <= totalPages && (
+                    <div className="px-2">
+                      <PaginationLink
+                        href="#"
+                        isActive
+                        className="px-2"
+                        onClick={() => handlePageChange(page + 2)}
+                      >
+                        {page + 2}
+                      </PaginationLink>
+                    </div>
+                  )}
+
+                  <PaginationNext
+                    onClick={() => handlePageChange(page + 1)}
+                    className={cn(
+                      page === totalPages
+                        ? "cursor-not-allowed"
+                        : "cursor-pointer"
+                    )}
+                  />
+                </Pagination>
               </Pagination>
             </div>
           </div>

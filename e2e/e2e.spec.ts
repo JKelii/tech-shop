@@ -16,18 +16,27 @@ test("test", async ({ page }) => {
   await page.getByPlaceholder("Enter your password").click();
   await page.getByPlaceholder("Enter your password").fill(accountMock.password);
   await page.getByRole("button", { name: "Register" }).click();
+  await expect(page.getByText("Account created ✅")).toBeVisible();
+
   await page.getByRole("link", { name: "Login" }).click();
   await page.getByPlaceholder("Enter your email").click();
   await page.getByPlaceholder("Enter your email").fill(accountMock.email);
   await page.getByPlaceholder("Enter your password").click();
   await page.getByPlaceholder("Enter your password").fill(accountMock.password);
   await page.getByRole("button", { name: "Sign in" }).click();
+  await expect(
+    page.getByRole("link", { name: accountMock.name })
+  ).toBeVisible();
   await page
     .getByRole("link", {
       name: "Unisex Zip Hoodie Unisex Zip Hoodie Brace the wind with an exceptionally",
     })
     .click();
+  await expect(
+    page.getByRole("link", { name: accountMock.name })
+  ).toBeVisible();
   await page.getByRole("button", { name: "Add to wishlist" }).click();
+  await expect(page.getByText("Added to wishlist ✅")).toBeVisible();
   await page
     .locator("div")
     .filter({ hasText: /^Favorites$/ })

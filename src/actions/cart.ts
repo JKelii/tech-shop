@@ -75,7 +75,6 @@ export const getCartFromCookie = async () => {
   const cartId = cookies().get(COOKIE_NAME_CART)?.value;
   if (cartId) {
     const cart = await getCart({ id: cartId });
-    console.log(cart);
     return cart;
   }
 };

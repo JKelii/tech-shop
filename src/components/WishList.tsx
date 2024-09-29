@@ -2,13 +2,17 @@
 
 import { Heart } from "lucide-react";
 import { useSession } from "next-auth/react";
-import React from "react";
+import React, { useTransition } from "react";
 import { useForm } from "react-hook-form";
-
-import { addToFavoriteAuthorized } from "@/actions/favorite";
+import { useRouter } from "next/navigation";
+import {
+  addToFavoriteAuthorized,
+  deleteProductFromFavorite,
+} from "@/actions/favorite";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
+import { start } from "repl";
 
 type Product = {
   id: string;
@@ -29,17 +33,40 @@ export const WishList = ({
 }: Product) => {
   const { handleSubmit } = useForm();
   const { data: session } = useSession();
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
-    const email = session?.user?.email;
-    if (!email) {
-      toast("You are not authorized ❌");
-      return;
-    }
+    if (!favoriteId) {
+      const email = session?.user?.email;
+      if (!email) {
+        toast("You are not authorized ❌");
+        return;
+      }
+      if (email) {
+        startTransition(async () => {
+          await addToFavoriteAuthorized({ email, slug });
 
-    addToFavoriteAuthorized({ email, slug });
-    toast("Added to wishlist ✅");
+          toast("Added to wishlist ✅");
+        });
+        router.refresh();
+      }
+    }
+    if (favoriteId) {
+      try {
+        startTransition(async () => {
+          await deleteProductFromFavorite({
+            favoriteProductId: favoriteId,
+            email: session?.user?.email as string,
+          });
+          toast("Item removed from wishlist ❌");
+        });
+        router.refresh();
+      } catch (error) {
+        console.error("Error removing from favorites:", error);
+        toast("An error occurred while removing the item");
+      }
+    }
   });
 
   return (

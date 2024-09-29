@@ -8391,7 +8391,6 @@ export type OrderUpdateManyInlineInput = {
 
 export type OrderUpdateManyInput = {
   orderStatus?: InputMaybe<OrderStatus>;
-  stripeCheckoutId?: InputMaybe<Scalars['String']['input']>;
   total?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -8591,6 +8590,7 @@ export type OrderWhereStageInput = {
 /** References Order record uniquely */
 export type OrderWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
+  stripeCheckoutId?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Information about pagination in a connection. */

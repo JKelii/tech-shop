@@ -18,7 +18,6 @@ type RemoveFromBasketType = {
 };
 
 const RemoveFromBasket = ({ productId }: RemoveFromBasketType) => {
-  console.log(productId);
   const session = useSession();
   const router = useRouter();
   const handleDelete = async () => {

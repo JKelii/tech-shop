@@ -2,13 +2,16 @@
 
 import {
   Pagination,
+  PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { cn } from "@/lib/utils";
 import { priceUpdate } from "@/utils/priceUpdate";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { parseAsInteger, useQueryState } from "nuqs";
 
 import React from "react";
 
@@ -34,21 +37,18 @@ type ProductsPaginationProps = {
 };
 
 const ProductsPagination = ({ products }: ProductsPaginationProps) => {
-  const searchParams = useSearchParams();
-  const router = useRouter();
+  const [page, setPage] = useQueryState("page", parseAsInteger.withDefault(1));
 
   const itemsPerPage = 9;
+
   const totalPages = Math.ceil(products.length / itemsPerPage);
 
-  const currentPage = parseInt(searchParams.get("page") || "1", 10);
+  const startIndex = (page - 1) * itemsPerPage;
+  const currentItems = products.slice(startIndex, startIndex + itemsPerPage);
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
-
-  const handlePageChange = (page: number) => {
-    if (page > 0 && page <= totalPages) {
-      router.push(`?page=${page}`);
+  const handlePageChange = (newPage: number) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setPage(newPage);
     }
   };
 
@@ -56,9 +56,13 @@ const ProductsPagination = ({ products }: ProductsPaginationProps) => {
     <>
       <div className="grid min-w-[320px] grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-24 lg:gap-20">
         {currentItems.map((product) => (
-          <Link href={`/item/${product.slug}`} key={product.id}>
-            <span className="w-full h-full">
-              <article className="border-[1px] border-gray-500  hover:border-slate-700 size-80 rounded-md gap-2 flex justify-center items-center flex-col hover:translate-y-[-3px] transition">
+          <Link
+            href={`/item/${product.slug}`}
+            key={product.id}
+            className="bg-gray-50/80 shadow-md hover:translate-y-[-3px] transition rounded-md"
+          >
+            <span className="w-full h-full ">
+              <article className="border-[1px] border-gray-500  hover:border-slate-700 size-80 rounded-md gap-2 flex justify-center items-center flex-col transition">
                 <Image
                   src={product.images[0]?.url}
                   alt={product.name}
@@ -80,24 +84,69 @@ const ProductsPagination = ({ products }: ProductsPaginationProps) => {
       </div>
       <div className="flex justify-center items-center w-full mt-10 ">
         <div className="flex flex-col items-center gap-4 w-full">
-          {/* Centered the current page number */}
           <div className="">
             <Pagination>
-              <PaginationPrevious
-                className={`cursor-pointer px-4 ${
-                  currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
-                }`}
-                onClick={() => handlePageChange(currentPage - 1)}
-              />
-              <p className="text-center w-full mt-2 px-6">{currentPage}</p>{" "}
-              <PaginationNext
-                className={`cursor-pointer px-4 ${
-                  currentPage === totalPages
-                    ? "opacity-50 cursor-not-allowed"
-                    : ""
-                }`}
-                onClick={() => handlePageChange(currentPage + 1)}
-              />
+              <Pagination>
+                <PaginationPrevious
+                  onClick={() => handlePageChange(page - 1)}
+                  className={cn(
+                    page === 1 ? "cursor-not-allowed" : "cursor-pointer"
+                  )}
+                />
+
+                {page - 2 >= 1 && page <= totalPages && (
+                  <PaginationLink
+                    href="#"
+                    isActive
+                    className="mx-2"
+                    onClick={() => handlePageChange(page - 2)}
+                  >
+                    {page - 2}
+                  </PaginationLink>
+                )}
+                {page >= 2 && (
+                  <PaginationLink
+                    href="#"
+                    isActive
+                    onClick={() => handlePageChange(page - 1)}
+                  >
+                    {page - 1}
+                  </PaginationLink>
+                )}
+
+                <span className="px-4 py-2 font-semibold">{page}</span>
+                {page < totalPages && (
+                  <PaginationLink
+                    href="#"
+                    isActive
+                    onClick={() => handlePageChange(page + 1)}
+                  >
+                    {page + 1}
+                  </PaginationLink>
+                )}
+
+                {page < totalPages && page + 2 <= totalPages && (
+                  <div className="px-2">
+                    <PaginationLink
+                      href="#"
+                      isActive
+                      className="px-2"
+                      onClick={() => handlePageChange(page + 2)}
+                    >
+                      {page + 2}
+                    </PaginationLink>
+                  </div>
+                )}
+
+                <PaginationNext
+                  onClick={() => handlePageChange(page + 1)}
+                  className={cn(
+                    page === totalPages
+                      ? "cursor-not-allowed"
+                      : "cursor-pointer"
+                  )}
+                />
+              </Pagination>
             </Pagination>
           </div>
         </div>

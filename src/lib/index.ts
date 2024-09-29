@@ -26,6 +26,7 @@ import { mapperGetCart } from "./mappers/getCart";
 import { getServerSession } from "next-auth";
 
 import { mapperGetFavorites } from "./mappers/getFavorites";
+import Link from "next/link";
 
 type GraphQlError = {
   message: string;
@@ -274,7 +275,7 @@ export const getFavoriteProduct = async ({
     },
     cache: "no-store",
   });
-  console.log(data);
+
   return data;
 };
 
@@ -382,7 +383,7 @@ export const createOrderHygraph = async ({
     },
     cache: "no-store",
   });
-  console.log(data);
+ 
   return data;
 };
 
@@ -401,7 +402,7 @@ export const getOrders = async () => {
     },
     cache: "no-store",
   });
-  console.log(data);
+
 
   if (!data.orders) return { error: "Can't get orders" };
   return data.orders.map((order) => ({

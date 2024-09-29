@@ -9,38 +9,33 @@ import { buttonVariants } from "../ui/button";
 export const NavbarItem = ({
   label,
   link,
-  clickCallback,
+
   icon,
   onClick,
 }: {
   label: string;
   link: string;
-  clickCallback?: () => void;
+
   icon?: ReactNode;
   onClick?: () => void;
 }) => {
   const pathname = usePathname();
   const isActive =
     pathname === link || (label === "Account" && pathname === "/account");
-  const { data: session } = useSession();
 
   return (
     <div className="relative flex items-center justify-center">
       <Link
-        href={session && label === "Account" ? "/account" : link}
+        href={label === "Account" ? "/account" : link}
         className={cn(
           buttonVariants({ variant: "ghost" }),
           "w-full justify-start flex-col lg:flex-row text-sm xl:text-lg text-muted-foreground hover:text-foreground",
           isActive && "text-foreground"
         )}
-        onClick={() => {
-          if (clickCallback) clickCallback();
-          if (onClick) onClick();
-        }}
       >
         {icon && <span className="mr-2 size-5 ">{icon}</span>}
 
-        {session && label === "Account" ? session.user?.name : label}
+        {label === "Account" ? "Account" : label}
       </Link>
 
       {isActive && (

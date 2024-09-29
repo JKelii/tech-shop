@@ -1,7 +1,4 @@
 import { updateOrder } from "@/actions/order";
-import { OrderType } from "@/components/pages/Account/OrdersList";
-import { getOrders } from "@/lib";
-import { OrderStatus } from "@/lib/hygraph/generated/graphql";
 import { getEnv } from "@/utils";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
@@ -28,31 +25,27 @@ const handler = async (req: NextRequest) => {
     if (error instanceof Error)
       NextResponse.json({ message: `Webhook Error ${error.message}` });
   }
+
+  return NextResponse.json({ status: "200" });
 };
 
 export { handler as POST };
 
 const eventStripeWebhook = async (event: Stripe.Event) => {
-  const orders = await getOrders();
-  if (Array.isArray(orders)) {
-    const orderedId = orders.find(
-      (item: OrderType) => item.stripeCheckoutId === event.id
-    );
-    const type = event.type;
-    switch (type) {
-      case "charge.succeeded":
-        if (event.id) {
-          console.log(event.id);
-          if (orderedId) {
-            const order = await updateOrder(orderedId.stripeCheckoutId, "paid");
-            if (order) {
-              console.log("order is paid");
-            }
-            break;
-          }
+  const type = event.type;
+  console.log("function works");
+  console.log({ event });
+  switch (type) {
+    case "charge.succeeded":
+      console.log({ event });
+      if (event.id) {
+        const order = await updateOrder(event.id, "paid");
+        if (order) {
+          console.log("order is paid");
         }
-      default:
-        console.log(`Unhandled event type ${event.type}`);
-    }
+        break;
+      }
+    default:
+      console.log(`Unhandled event type ${event.type}`);
   }
 };
