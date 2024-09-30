@@ -27,7 +27,7 @@ export default async function RootLayout({
     <html lang="en">
       <body
         className={twMerge(
-          `${inter.className} min-h-screen items-center flex flex-col w-full`
+          `${inter.className} min-h-screen items-center flex w-screen overflow-x-hidden flex-col `
         )}
       >
         <ClientContexts>

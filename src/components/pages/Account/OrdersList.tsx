@@ -31,7 +31,7 @@ export type OrderType = {
 
 export const OrdersList = ({ orders }: { orders: OrderType[] }) => {
   return orders.map((order) => (
-    <div key={order.stripeCheckoutId} className="w-full min-w-[360px]">
+    <div key={order.stripeCheckoutId} className="w-full min-w-[360px] mt-10">
       <Card className="">
         <CardHeader>
           <CardTitle className="flex items-center">

@@ -3,6 +3,9 @@ query GetProducts {
     description
     id
     name
+    categories {
+      name
+    }
     price
     images {
       fileName

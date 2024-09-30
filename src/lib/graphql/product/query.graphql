@@ -4,6 +4,9 @@ query GetProductBySlug($slug: String!) {
     id
     name
     price
+    categories {
+      name
+    }
     reviews {
       content
       name

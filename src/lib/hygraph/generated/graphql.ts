@@ -14255,12 +14255,12 @@ export type GetProductBySlugQueryVariables = Exact<{
 }>;
 
 
-export type GetProductBySlugQuery = { product?: { description: string, id: string, name: string, price: number, quantity: number, slug: string, reviews: Array<{ content: string, name: string }>, images: Array<{ fileName: string, url: string }> } | null };
+export type GetProductBySlugQuery = { product?: { description: string, id: string, name: string, price: number, quantity: number, slug: string, categories: Array<{ name: string }>, reviews: Array<{ content: string, name: string }>, images: Array<{ fileName: string, url: string }> } | null };
 
 export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProductsQuery = { products: Array<{ description: string, id: string, name: string, price: number, slug: string, images: Array<{ fileName: string, url: string, productImages: Array<{ id: string, reviews: Array<{ content: string, rating?: number | null }> }> }> }> };
+export type GetProductsQuery = { products: Array<{ description: string, id: string, name: string, price: number, slug: string, categories: Array<{ name: string }>, images: Array<{ fileName: string, url: string, productImages: Array<{ id: string, reviews: Array<{ content: string, rating?: number | null }> }> }> }> };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -14479,6 +14479,9 @@ export const GetProductBySlugDocument = new TypedDocumentString(`
     id
     name
     price
+    categories {
+      name
+    }
     reviews {
       content
       name
@@ -14498,6 +14501,9 @@ export const GetProductsDocument = new TypedDocumentString(`
     description
     id
     name
+    categories {
+      name
+    }
     price
     images {
       fileName

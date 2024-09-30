@@ -23,8 +23,8 @@ const documents = {
     "mutation UpdateCartProduct($quantity: Int!, $cartProductId: ID!) {\n  updateCartProduct(where: {id: $cartProductId}, data: {quantity: $quantity}) {\n    id\n  }\n}\n\nmutation DeleteCartProduct($cartProductId: ID!) {\n  deleteCartProduct(where: {id: $cartProductId}) {\n    id\n  }\n}\n\nmutation UpdateCartQuantity($quantity: Int!, $cartProductId: ID!) {\n  updateCartProduct(where: {id: $cartProductId}, data: {quantity: $quantity}) {\n    id\n  }\n}\n\nmutation CreateCartProduct($quantity: Int!, $cartId: ID!, $slug: String!) {\n  createCartProduct(\n    data: {quantity: $quantity, product: {connect: {slug: $slug}}, cart: {connect: {id: $cartId}}}\n  ) {\n    id\n  }\n}": types.UpdateCartProductDocument,
     "mutation CreateOrder($stripeCheckoutId: String!, $total: Int!, $email: String!, $orderItems: [OrderItemCreateInput!], $orderStatus: OrderStatus!) {\n  createOrder(\n    data: {stripeCheckoutId: $stripeCheckoutId, total: $total, account: {connect: {email: $email}}, orderItems: {create: $orderItems}, orderStatus: $orderStatus}\n  ) {\n    id\n    stripeCheckoutId\n    orderStatus\n    orderItems {\n      quantity\n      product {\n        slug\n        name\n        price\n        images(first: 1) {\n          url\n        }\n      }\n    }\n  }\n}\n\nmutation UpdateOrder($id: ID!, $orderStatus: OrderStatus!) {\n  updateOrder(where: {id: $id}, data: {orderStatus: $orderStatus}) {\n    stripeCheckoutId\n    orderStatus\n  }\n}": types.CreateOrderDocument,
     "query GetOrders($email: String!) {\n  orders(where: {account: {email: $email}}, stage: DRAFT) {\n    total\n    stripeCheckoutId\n    createdAt\n    orderStatus\n    orderItems {\n      product {\n        slug\n        name\n        images {\n          url\n          fileName\n        }\n        price\n      }\n    }\n  }\n}": types.GetOrdersDocument,
-    "query GetProductBySlug($slug: String!) {\n  product(where: {slug: $slug}) {\n    description\n    id\n    name\n    price\n    reviews {\n      content\n      name\n    }\n    quantity\n    images {\n      fileName\n      url\n    }\n    slug\n  }\n}": types.GetProductBySlugDocument,
-    "query GetProducts {\n  products {\n    description\n    id\n    name\n    price\n    images {\n      fileName\n      url\n      productImages {\n        id\n        reviews {\n          content\n          rating\n        }\n      }\n    }\n    slug\n  }\n}": types.GetProductsDocument,
+    "query GetProductBySlug($slug: String!) {\n  product(where: {slug: $slug}) {\n    description\n    id\n    name\n    price\n    categories {\n      name\n    }\n    reviews {\n      content\n      name\n    }\n    quantity\n    images {\n      fileName\n      url\n    }\n    slug\n  }\n}": types.GetProductBySlugDocument,
+    "query GetProducts {\n  products {\n    description\n    id\n    name\n    categories {\n      name\n    }\n    price\n    images {\n      fileName\n      url\n      productImages {\n        id\n        reviews {\n          content\n          rating\n        }\n      }\n    }\n    slug\n  }\n}": types.GetProductsDocument,
 };
 
 /**
@@ -66,11 +66,11 @@ export function graphql(source: "query GetOrders($email: String!) {\n  orders(wh
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query GetProductBySlug($slug: String!) {\n  product(where: {slug: $slug}) {\n    description\n    id\n    name\n    price\n    reviews {\n      content\n      name\n    }\n    quantity\n    images {\n      fileName\n      url\n    }\n    slug\n  }\n}"): typeof import('./graphql').GetProductBySlugDocument;
+export function graphql(source: "query GetProductBySlug($slug: String!) {\n  product(where: {slug: $slug}) {\n    description\n    id\n    name\n    price\n    categories {\n      name\n    }\n    reviews {\n      content\n      name\n    }\n    quantity\n    images {\n      fileName\n      url\n    }\n    slug\n  }\n}"): typeof import('./graphql').GetProductBySlugDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query GetProducts {\n  products {\n    description\n    id\n    name\n    price\n    images {\n      fileName\n      url\n      productImages {\n        id\n        reviews {\n          content\n          rating\n        }\n      }\n    }\n    slug\n  }\n}"): typeof import('./graphql').GetProductsDocument;
+export function graphql(source: "query GetProducts {\n  products {\n    description\n    id\n    name\n    categories {\n      name\n    }\n    price\n    images {\n      fileName\n      url\n      productImages {\n        id\n        reviews {\n          content\n          rating\n        }\n      }\n    }\n    slug\n  }\n}"): typeof import('./graphql').GetProductsDocument;
 
 
 export function graphql(source: string) {
