@@ -163,7 +163,7 @@ export const getCart = async ({ id }: { id: string | undefined }) => {
   });
 
   if (!data.cart) return;
-  return mapperGetCart(data?.cart);
+  return mapperGetCart(data.cart);
 };
 
 export const updateCartProduct = async ({
@@ -432,6 +432,34 @@ export const updateOrderStatus = async ({
     cache: "no-store",
   });
 
+  if (!data) return;
+  return data;
+};
+
+export const createReview = async ({
+  email,
+  name,
+  content,
+  slug,
+}: {
+  email: string;
+  name: string;
+  content: string;
+  slug: string;
+}) => {
+  const data = await fetcher({
+    headers: {
+      Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
+    },
+    query: CreateReview,
+    variables: {
+      email,
+      name,
+      content,
+      slug,
+    },
+    cache: "no-store",
+  });
   if (!data) return;
   return data;
 };

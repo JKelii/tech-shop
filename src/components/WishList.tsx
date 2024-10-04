@@ -2,13 +2,14 @@
 
 import { Heart } from "lucide-react";
 import { useSession } from "next-auth/react";
-import React from "react";
+import React, { useReducer, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { addToFavoriteAuthorized } from "@/actions/favorite";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type Product = {
   id: string;
@@ -27,6 +28,7 @@ export const WishList = ({
   image,
   favoriteId,
 }: Product) => {
+  const router = useRouter();
   const { handleSubmit } = useForm();
   const { data: session } = useSession();
 
@@ -37,9 +39,11 @@ export const WishList = ({
       toast("You are not authorized ❌");
       return;
     }
-
-    addToFavoriteAuthorized({ email, slug });
-    toast("Added to wishlist ✅");
+    if (!favoriteId) {
+      await addToFavoriteAuthorized({ email, slug });
+      router.refresh();
+      toast("Added to wishlist ✅");
+    }
   });
 
   return (
@@ -52,7 +56,7 @@ export const WishList = ({
           size={20}
           className={cn(favoriteId && "fill-gray-500 text-gray-500")}
         />
-        Add to wishlist
+        {favoriteId ? <p>Remove from favorites</p> : <p>Add to wishlist</p>}
       </Button>
     </form>
   );
