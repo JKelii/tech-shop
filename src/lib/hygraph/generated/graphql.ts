@@ -14224,6 +14224,11 @@ export type CreateCartProductMutationVariables = Exact<{
 
 export type CreateCartProductMutation = { createCartProduct?: { id: string } | null };
 
+export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCategoriesQuery = { categories: Array<{ name: string }> };
+
 export type CreateOrderMutationVariables = Exact<{
   stripeCheckoutId: Scalars['String']['input'];
   total: Scalars['Int']['input'];
@@ -14421,6 +14426,13 @@ export const CreateCartProductDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CreateCartProductMutation, CreateCartProductMutationVariables>;
+export const GetCategoriesDocument = new TypedDocumentString(`
+    query getCategories {
+  categories {
+    name
+  }
+}
+    `) as unknown as TypedDocumentString<GetCategoriesQuery, GetCategoriesQueryVariables>;
 export const CreateOrderDocument = new TypedDocumentString(`
     mutation CreateOrder($stripeCheckoutId: String!, $total: Int!, $email: String!, $orderItems: [OrderItemCreateInput!], $orderStatus: OrderStatus!) {
   createOrder(

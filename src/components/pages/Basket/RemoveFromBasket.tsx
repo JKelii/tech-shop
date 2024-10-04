@@ -1,5 +1,5 @@
 "use client";
-import { removeFromCart } from "@/actions/cart";
+
 import { Button } from "@/components/ui/button";
 
 import { X } from "lucide-react";
@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 
 import React from "react";
 import { toast } from "sonner";
+import { removeFromCart } from "../../../../tech-shop/src/actions/cart";
 
 type RemoveFromBasketType = {
   productId: string;
@@ -15,18 +16,27 @@ type RemoveFromBasketType = {
     slug: string;
     quantity: number;
   };
+  productQuantity: number;
 };
 
-const RemoveFromBasket = ({ productId }: RemoveFromBasketType) => {
+const RemoveFromBasket = ({
+  productId,
+  productQuantity,
+}: RemoveFromBasketType) => {
   const session = useSession();
   const router = useRouter();
+
   const handleDelete = async () => {
     const updatedCart = await removeFromCart(productId);
 
     if (updatedCart) {
-      toast("Item removed from cart ❌");
+      if (productQuantity > 1) {
+        toast("Items removed from cart ❌");
+      } else {
+        toast("Item removed from cart ❌");
+      }
+      router.refresh();
     }
-    router.refresh();
   };
 
   return (

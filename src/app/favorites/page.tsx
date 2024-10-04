@@ -1,7 +1,7 @@
 import { getFavoriteAuthorized } from "@/actions/favorite";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 
 import { priceUpdate } from "@/utils/priceUpdate";
 import Link from "next/link";
@@ -13,12 +13,11 @@ const FavoritesPage = async () => {
   const favoriteProducts = await getFavoriteAuthorized({
     email: session?.user?.email,
   });
-
+  //TODO: Products can be added twice
   return (
     <main className=" min-h-screen container mx-auto flex justify-start items-center flex-col  shadow-md gap-12 mt-4 mb-8 bg-gray-100/50 border-2 border-gray-200 pt-10 rounded-lg pb-10">
       <h2 className="text-black font-bold text-2xl">Wishlist</h2>
       <p className="text-sm text-muted-foreground">
-        {" "}
         The Wishlist component allows users to curate a personalized collection
         of products they are interested in purchasing.{" "}
       </p>

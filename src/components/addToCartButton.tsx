@@ -9,6 +9,8 @@ import { Button } from "./ui/button";
 import { SizeRadioGroup } from "./pages/Product/components/SizeRadioGroup";
 import { useQuantityProduct } from "./pages/Product/hooks/useQuantityProduct";
 import { toast } from "sonner";
+import { getCart } from "@/lib";
+import { cookies } from "next/headers";
 
 type AddToCartType = {
   slug: string;
@@ -43,7 +45,11 @@ export const AddToCartButton = ({ slug, productQuantity }: AddToCartType) => {
           product: { slug, quantity: selectedQuantity },
           email: session.data?.email,
         });
-        toast("Item added to cart ✅");
+        if (selectedQuantity > 1) {
+          toast("Items added to cart ✅");
+        } else {
+          toast("Item added to cart ✅");
+        }
       });
     }
   });
@@ -53,9 +59,9 @@ export const AddToCartButton = ({ slug, productQuantity }: AddToCartType) => {
         <p className="text-sm text-muted-foreground">
           {productQuantity} available
         </p>
-        <SizeRadioGroup />
+        {/* <SizeRadioGroup /> */}
         <div className="flex gap-2">
-          <p className="text-lg">Quantity:</p>
+          <p className="text-lg font-medium">Quantity:</p>
           <div className="flex gap-2">
             <button
               type="button"
@@ -64,7 +70,7 @@ export const AddToCartButton = ({ slug, productQuantity }: AddToCartType) => {
             >
               -
             </button>
-            <p className="w-4 text-center">{selectedQuantity}</p>
+            <p className="w-4 text-center font-semibold">{selectedQuantity}</p>
             <button
               type="button"
               onClick={addQuantity}
@@ -77,8 +83,9 @@ export const AddToCartButton = ({ slug, productQuantity }: AddToCartType) => {
       </div>
 
       <Button
+        disabled={isPending || outOfStock}
         type="submit"
-        className=" bg-black shadow-lg hover:translate-y-[2px] text-white font-bold h-12 py-2 px-4 rounded w-44 mt-6"
+        className=" bg-black shadow-lg hover:translate-y-[2px] text-white font-bold h-12 py-2 px-4 rounded w-44 mt-6 mr-4"
       >
         <div className="flex justify-center items-center gap-2 md:gap-4 self-center">
           <ShoppingCart size={20} />

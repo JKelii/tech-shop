@@ -55,20 +55,26 @@ export const manageCart = async ({
   }
 
   const updateProduct = cart.find(({ slug }) => slug === product.slug);
+  const cartProductId = updateProduct?.productId;
 
-  if (updateProduct) {
-    updateCartProduct({
-      quantity: product.quantity + updateProduct.quantity,
-      cartProductId: updateProduct.id,
+  if (!updateProduct) {
+    await createCartProduct({
+      cartId: findCart.value,
+      quantity: product.quantity,
+      slug: product.slug,
     });
     return { message: "Product added to cart" };
+  } else if (updateProduct) {
+    console.log("Updating product quantity in cart");
+    if (cartProductId) {
+      await updateCartProduct({
+        quantity: product.quantity + updateProduct.quantity,
+        cartProductId: cartProductId,
+      });
+    }
   }
-  createCartProduct({
-    cartId: findCart.value,
-    quantity: product.quantity,
-    slug: product.slug,
-  });
-  return { message: "Product added to cart" };
+
+  return { message: "Product quantity updated in cart" };
 };
 
 export const getCartFromCookie = async () => {

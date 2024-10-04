@@ -1,46 +1,31 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import React from "react";
 
 const Testimonials = () => {
   return (
-    <div className="bg-neutral-100 w-[22rem] md:w-[35rem] h-96 flex justify-center shadow-lg rounded-lg flex-col">
-      <Card className="h-full">
-        <CardContent className="h-full">
-          <div className="mt-4 flex items-center space-x-4">
-            <Avatar>
-              <AvatarImage src="/placeholder-user.jpg" />
-              <AvatarFallback>JD</AvatarFallback>
-            </Avatar>
-            <div className="">
-              <p className="font-medium">John Doe</p>
-              <p className="text-sm text-muted-foreground">
-                Satisfied Customer
-              </p>
-            </div>
-          </div>
-          <blockquote className="text-muted-foreground mt-4">
-            I&apos;m absolutely thrilled with the product I purchased. The
-            quality is amazing and the customer service was top-notch.
-          </blockquote>
-        </CardContent>
-      </Card>
-      <Card className="h-full">
-        <CardContent className="h-full">
-          <div className="mt-4 flex items-center space-x-4">
-            <Avatar>
-              <AvatarImage src="/placeholder-user.jpg" />
-              <AvatarFallback>JD</AvatarFallback>
-            </Avatar>
-            <div>
-              <p className="font-medium">Jane Smith</p>
-              <p className="text-sm text-muted-foreground">Business Owner</p>
-            </div>
-          </div>
-          <blockquote className="text-muted-foreground mt-4">
-            I&apos;m absolutely thrilled with the product I purchased. The
-            quality is amazing and the customer service was top-notch.
-          </blockquote>
+    <div className="bg-gray-200 w-[22rem] md:w-[35rem] h-96 flex justify-center shadow-lg rounded-lg flex-col">
+      <Card className="bg-neutral-100 w-[22rem] md:w-[35rem] h-96 flex justify-center shadow-lg rounded-lg p-4">
+        <CardContent className="h-full flex-col gap-4">
+          <h2 className="text-xl font-semibold mt-4"> About Our Shop</h2>
+          <p className="text-muted-foreground text-md mt-4">
+            Welcome to Our Shop, where quality meets affordability. We&apos;ve
+            been serving customers since 2010, offering a wide range of products
+            from electronics to clothes. Our mission is to provide exceptional
+            shopping experiences with top-notch customer service. We carefully
+            curate our selection to ensure that every item meets our high
+            standards of quality and value.
+          </p>
+          <Separator className="mt-2" />
+
+          <p className="text-muted-foreground text-md mt-2">
+            As a customer-centric business, we&apos;re constantly evolving to
+            meet your needs. Whether you&apos;re shopping online or visiting our
+            physical store, we strive to make your experience seamless and
+            enjoyable. Thank you for choosing Our Shop - we look forward to
+            serving you!
+          </p>
         </CardContent>
       </Card>
     </div>

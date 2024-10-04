@@ -9,13 +9,10 @@ import { buttonVariants } from "../ui/button";
 export const NavbarItem = ({
   label,
   link,
-
   icon,
-  onClick,
 }: {
   label: string;
   link: string;
-
   icon?: ReactNode;
   onClick?: () => void;
 }) => {
@@ -24,7 +21,7 @@ export const NavbarItem = ({
     pathname === link || (label === "Account" && pathname === "/account");
 
   return (
-    <div className="relative flex items-center justify-center">
+    <ul className="relative flex items-center justify-center">
       <Link
         href={label === "Account" ? "/account" : link}
         className={cn(
@@ -39,8 +36,11 @@ export const NavbarItem = ({
       </Link>
 
       {isActive && (
-        <div className="absolute -bottom-[20px] left-1/2 hidden h-[2px] w-[85%] -translate-x-1/2 rounded-xl bg-foreground lg:block"></div>
+        <li
+          aria-label="Active page"
+          className="absolute -bottom-[20px] left-1/2 hidden h-[2px] w-[85%] -translate-x-1/2 rounded-xl bg-foreground lg:block"
+        ></li>
       )}
-    </div>
+    </ul>
   );
 };

@@ -12,7 +12,6 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
-import { start } from "repl";
 
 type Product = {
   id: string;
@@ -24,11 +23,8 @@ type Product = {
 };
 
 export const WishList = ({
-  id,
-  name,
-  price,
   slug,
-  image,
+
   favoriteId,
 }: Product) => {
   const { handleSubmit } = useForm();
@@ -46,10 +42,9 @@ export const WishList = ({
       if (email) {
         startTransition(async () => {
           await addToFavoriteAuthorized({ email, slug });
-
+          router.refresh();
           toast("Added to wishlist ✅");
         });
-        router.refresh();
       }
     }
     if (favoriteId) {
@@ -59,9 +54,9 @@ export const WishList = ({
             favoriteProductId: favoriteId,
             email: session?.user?.email as string,
           });
+          router.refresh();
           toast("Item removed from wishlist ❌");
         });
-        router.refresh();
       } catch (error) {
         console.error("Error removing from favorites:", error);
         toast("An error occurred while removing the item");
@@ -72,6 +67,7 @@ export const WishList = ({
   return (
     <form onSubmit={onSubmit}>
       <Button
+        disabled={isPending}
         variant={"outline"}
         className="flex justify-center h-12 w-44 items-center gap-2 p-2 rounded-md border-2 border-gray-400 hover:translate-y-[2px]"
       >
@@ -79,7 +75,7 @@ export const WishList = ({
           size={20}
           className={cn(favoriteId && "fill-gray-500 text-gray-500")}
         />
-        Add to wishlist
+        {favoriteId ? <p>Remove favorite</p> : <p>Add to wishlist </p>}
       </Button>
     </form>
   );

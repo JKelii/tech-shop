@@ -10,6 +10,7 @@ import {
   DeleteFavoriteProductDocument,
   GetAccountDocument,
   GetCartByIdDocument,
+  GetCategoriesDocument,
   GetFavoriteProductDocument,
   GetFavoritesDocument,
   GetOrdersDocument,
@@ -383,7 +384,7 @@ export const createOrderHygraph = async ({
     },
     cache: "no-store",
   });
- 
+
   return data;
 };
 
@@ -402,7 +403,6 @@ export const getOrders = async () => {
     },
     cache: "no-store",
   });
-
 
   if (!data.orders) return { error: "Can't get orders" };
   return data.orders.map((order) => ({
@@ -430,6 +430,20 @@ export const updateOrderStatus = async ({
       id,
       orderStatus,
     },
+    cache: "no-store",
+  });
+
+  if (!data) return;
+  return data;
+};
+
+export const getCategories = async () => {
+  const data = await fetcher({
+    headers: {
+      Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
+    },
+    query: GetCategoriesDocument,
+    variables: {},
     cache: "no-store",
   });
 

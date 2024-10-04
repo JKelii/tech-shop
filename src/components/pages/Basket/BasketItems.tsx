@@ -47,6 +47,7 @@ const BasketItems = ({ cart }: { cart: ResponseGetCart[] | undefined }) => {
                   <RemoveFromBasket
                     product={product}
                     productId={product.productId}
+                    productQuantity={product.quantity}
                   />
                 </div>
               </>

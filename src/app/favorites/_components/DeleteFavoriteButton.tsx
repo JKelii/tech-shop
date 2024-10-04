@@ -1,6 +1,7 @@
 "use client";
 import { deleteProductFromFavorite } from "@/actions/favorite";
 import { Button } from "@/components/ui/button";
+import { fa } from "@faker-js/faker";
 
 import { X } from "lucide-react";
 import { Session } from "next-auth";
@@ -23,8 +24,8 @@ export const DeleteFavoriteButton = ({
         favoriteProductId: favoriteId,
         email: session?.user?.email as string,
       });
-      toast("Item removed from wishlist ❌");
       router.refresh();
+      toast("Item removed from wishlist ❌");
     } catch (error) {
       console.error("Error removing from favorites:", error);
       toast("An error occurred while removing the item");

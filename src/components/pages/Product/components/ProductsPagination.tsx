@@ -6,7 +6,12 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { Category, Product } from "@/lib/hygraph/generated/graphql";
+import {
+  Category,
+  GetCategoriesQuery,
+  GetProductBySlugQuery,
+  Product,
+} from "@/lib/hygraph/generated/graphql";
 import { cn } from "@/lib/utils";
 import { priceUpdate } from "@/utils/priceUpdate";
 import Image from "next/image";
@@ -15,7 +20,7 @@ import { parseAsInteger, useQueryState } from "nuqs";
 
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { ProductType } from "../ProductPage";
+
 import {
   FormControl,
   FormField,
@@ -31,6 +36,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Scalars } from "../../../../../tech-shop/src/lib/hygraph/generated/graphql";
+import { Button } from "@/components/ui/button";
+import { Value } from "@radix-ui/react-select";
 
 type ProductsPaginationProps = {
   products: {
@@ -54,41 +61,62 @@ type ProductsPaginationProps = {
       }>;
     }>;
   }[];
-};
-
-type ProductsType = {
-  products: Product[];
+  selectedCategories?: string[] | undefined;
 };
 
 type FilterFormData = {
-  products: ProductsType[];
-  category: Category;
+  selectedCategories: string[];
 };
 
-type Categories = {
-  category: Scalars;
-};
-
-const ProductsPagination = ({ products }: ProductsPaginationProps) => {
+const ProductsPagination = ({
+  products,
+  selectedCategories,
+}: ProductsPaginationProps) => {
   const form = useForm<FilterFormData>({
     defaultValues: {
-      category: undefined,
+      selectedCategories: selectedCategories,
     },
   });
 
-  const { control, handleSubmit, reset } = form;
+  const { control, handleSubmit } = form;
 
-  const [filteredProducts, setFilteredProducts] =
-    useState<ProductsPaginationProps>({ products });
+  const [filteredProducts, setFilteredProducts] = useState(products);
 
   const [page, setPage] = useQueryState("page", parseAsInteger.withDefault(1));
 
   const itemsPerPage = 9;
 
-  const totalPages = Math.ceil(products.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
   const startIndex = (page - 1) * itemsPerPage;
-  const currentItems = products.slice(startIndex, startIndex + itemsPerPage);
+  const currentItems = filteredProducts.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
+
+  const onSubmit = (data: FilterFormData) => {
+    if (data.selectedCategories?.includes("All items")) {
+      setFilteredProducts(products);
+    } else {
+      const filtered = products.filter((product) =>
+        product.categories.some((category) =>
+          data.selectedCategories?.includes(category.name)
+        )
+      );
+      setFilteredProducts(filtered);
+    }
+    setPage(1);
+  };
+
+  const getUniqueCategories = () => {
+    const categories = new Set<string>(["All items"]);
+    products.forEach((product) => {
+      product.categories.forEach((category) => {
+        categories.add(category.name);
+      });
+    });
+    return Array.from(categories);
+  };
 
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
@@ -96,38 +124,26 @@ const ProductsPagination = ({ products }: ProductsPaginationProps) => {
     }
   };
 
-  const onSubmit = (data: FilterFormData) => {
-    const filtered = data.category
-      ? products.filter((product) =>
-          product.categories.some(
-            (category) => category.name === data.category.name
-          )
-        )
-      : products;
-
-    setFilteredProducts({ products: filtered });
-  };
-
-  const clearFilters = () => {
-    reset();
-    setFilteredProducts({ products });
-  };
-
   return (
     <>
       <FormProvider {...form}>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 px-6 py-4">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-6 px-6 py-4 mb-10"
+        >
           <FormField
             control={control}
-            name="category"
+            name="selectedCategories"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Category</FormLabel>
+
                 <Select
                   onValueChange={(value: string) => {
-                    field.onChange(value as Categories);
+                    field.onChange([value]);
+                    onSubmit({ selectedCategories: [value] });
                   }}
-                  defaultValue={field.name}
+                  defaultValue={"All items"}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -135,9 +151,11 @@ const ProductsPagination = ({ products }: ProductsPaginationProps) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent className="w-full">
-                    <SelectItem value={}>Pending</SelectItem>
-                    <SelectItem value={}>Paid</SelectItem>
-                    <SelectItem value={}>Created</SelectItem>
+                    {getUniqueCategories().map((categoryName) => (
+                      <SelectItem key={categoryName} value={categoryName}>
+                        {categoryName}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -146,7 +164,7 @@ const ProductsPagination = ({ products }: ProductsPaginationProps) => {
           />
         </form>
       </FormProvider>
-      <div className="grid min-w-[320px] grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-24 lg:gap-20">
+      <div className="grid min-w-[320px] grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-24 lg:gap-20">
         {currentItems.map((product) => (
           <Link
             href={`/item/${product.slug}`}
@@ -182,20 +200,23 @@ const ProductsPagination = ({ products }: ProductsPaginationProps) => {
             aria-label="Pagination Navigation"
           >
             <ul>
-              <Pagination>
-                <PaginationPrevious
-                  onClick={() => handlePageChange(page - 1)}
-                  aria-label="Previous page"
-                  className={cn(
-                    page === 1 ? "cursor-not-allowed" : "cursor-pointer"
-                  )}
-                />
+              <Pagination className="w-full">
+                {totalPages > 1 && (
+                  <PaginationPrevious
+                    onClick={() => handlePageChange(page - 1)}
+                    aria-label="Previous page"
+                    className={cn(
+                      "mx-2",
+                      page === 1 ? "cursor-not-allowed " : "cursor-pointer "
+                    )}
+                  />
+                )}
                 {page - 2 >= 1 && page <= totalPages && (
                   <PaginationLink
                     href="#"
                     isActive
+                    className=""
                     aria-label={`Go to ${page - 2}`}
-                    className="mx-2"
                     onClick={() => handlePageChange(page - 2)}
                   >
                     {page - 2}
@@ -205,25 +226,29 @@ const ProductsPagination = ({ products }: ProductsPaginationProps) => {
                   <PaginationLink
                     href="#"
                     isActive
+                    className="mx-2"
                     aria-label={`Go to ${page - 1}`}
                     onClick={() => handlePageChange(page - 1)}
                   >
                     {page - 1}
                   </PaginationLink>
                 )}
-                <li
-                  tabIndex={page}
-                  aria-label={`${page}`}
-                  className="px-4 py-2 font-semibold"
-                  aria-selected="true"
-                  role="tab"
-                >
-                  {page}
-                </li>
+                {totalPages > 1 && (
+                  <p
+                    tabIndex={page}
+                    aria-label={`${page}`}
+                    className="py-2 font-semibold text-center w-8"
+                    aria-selected="true"
+                    role="tab"
+                  >
+                    {page}
+                  </p>
+                )}
                 {page < totalPages && (
                   <PaginationLink
                     href="#"
                     isActive
+                    className="mx-2"
                     aria-label={`Go to ${page + 1}`}
                     onClick={() => handlePageChange(page + 1)}
                   >
@@ -236,7 +261,6 @@ const ProductsPagination = ({ products }: ProductsPaginationProps) => {
                     <PaginationLink
                       href="#"
                       isActive
-                      className="px-2"
                       aria-label={`Go to ${page + 2}`}
                       onClick={() => handlePageChange(page + 2)}
                     >
@@ -244,16 +268,18 @@ const ProductsPagination = ({ products }: ProductsPaginationProps) => {
                     </PaginationLink>
                   </div>
                 )}
-
-                <PaginationNext
-                  onClick={() => handlePageChange(page + 1)}
-                  aria-label="Next page"
-                  className={cn(
-                    page === totalPages
-                      ? "cursor-not-allowed"
-                      : "cursor-pointer"
-                  )}
-                />
+                {totalPages > 1 && (
+                  <PaginationNext
+                    onClick={() => handlePageChange(page + 1)}
+                    aria-label="Next page"
+                    className={cn(
+                      "mx-2",
+                      page === totalPages
+                        ? "cursor-not-allowed"
+                        : "cursor-pointer"
+                    )}
+                  />
+                )}
               </Pagination>
             </ul>
           </nav>

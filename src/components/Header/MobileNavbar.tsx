@@ -19,7 +19,11 @@ export const MobileNavbar = () => {
   };
   return (
     <div className="block border-separate bg-background lg:hidden w-full min-w-[380px]">
-      <nav className="container flex items-center justify-between px-8 ">
+      <nav
+        className="container flex items-center justify-between px-8 "
+        role="navigation"
+        aria-label="Pagination Navigation"
+      >
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
             <Button variant={"ghost"} size={"icon"}>
