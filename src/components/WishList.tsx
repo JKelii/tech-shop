@@ -12,6 +12,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
+import { ThreeDots } from "react-loader-spinner";
 
 type Product = {
   id: string;
@@ -75,7 +76,22 @@ export const WishList = ({
           size={20}
           className={cn(favoriteId && "fill-gray-500 text-gray-500")}
         />
-        {favoriteId ? <p>Remove favorite</p> : <p>Add to wishlist </p>}
+        {isPending ? (
+          <ThreeDots
+            visible={true}
+            height="40"
+            width="40"
+            color="#000"
+            radius="9"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+          />
+        ) : favoriteId ? (
+          <p>Remove favorite</p>
+        ) : (
+          <p>Add to wishlist </p>
+        )}
       </Button>
     </form>
   );

@@ -9,8 +9,7 @@ import { Button } from "./ui/button";
 import { SizeRadioGroup } from "./pages/Product/components/SizeRadioGroup";
 import { useQuantityProduct } from "./pages/Product/hooks/useQuantityProduct";
 import { toast } from "sonner";
-import { getCart } from "@/lib";
-import { cookies } from "next/headers";
+import { ThreeDots } from "react-loader-spinner";
 
 type AddToCartType = {
   slug: string;
@@ -45,6 +44,7 @@ export const AddToCartButton = ({ slug, productQuantity }: AddToCartType) => {
           product: { slug, quantity: selectedQuantity },
           email: session.data?.email,
         });
+
         if (selectedQuantity > 1) {
           toast("Items added to cart ✅");
         } else {
@@ -89,7 +89,20 @@ export const AddToCartButton = ({ slug, productQuantity }: AddToCartType) => {
       >
         <div className="flex justify-center items-center gap-2 md:gap-4 self-center">
           <ShoppingCart size={20} />
-          <p>Add to cart</p>
+          {isPending ? (
+            <ThreeDots
+              visible={true}
+              height="40"
+              width="40"
+              color="#fff"
+              radius="9"
+              ariaLabel="three-dots-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+            />
+          ) : (
+            <p>Add to cart</p>
+          )}
         </div>
       </Button>
       <Toaster style="text-green-600" />
