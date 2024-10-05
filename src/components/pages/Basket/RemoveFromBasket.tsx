@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { ThreeDots } from "react-loader-spinner";
 import React, { useTransition } from "react";
 import { toast } from "sonner";
-import { removeFromCart } from "../../../../tech-shop/src/actions/cart";
+import { removeFromCart } from "@/actions/cart";
 
 type RemoveFromBasketType = {
   productId: string;
