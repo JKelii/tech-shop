@@ -7,14 +7,18 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { cn } from "@/lib/utils";
-import { CircleUser } from "lucide-react";
+import { CircleUser, Clock } from "lucide-react";
 import { parseAsInteger, useQueryState } from "nuqs";
 
 import React from "react";
+import CreateComment from "./CreateComment";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 type ReviewsType = {
   content: string;
   name: string;
+  date: string;
 }[];
 
 export const Comments = ({
@@ -40,38 +44,54 @@ export const Comments = ({
   };
 
   return (
-    <section className="flex justify-start items-start flex-col my-10 w-96 lg:w-[27rem] gap-4 ">
-      <h3 className="text-black font-black text-2xl ml-10 self-start">
-        Comments
-      </h3>
-      <p className="ml-10 self-start ">
-        Share your thoughts and feedback on this product.
-      </p>
-      <div className="h-full flex justify-start items-start flex-col gap-4 w-full">
-        {currentItems.length >= 1 ? (
-          currentItems.map((item, index) => (
-            <article
-              key={index}
-              className="flex justify-center items-center gap-4 ml-8 "
-            >
-              <CircleUser className="size-8 min-w-[2rem] min-h-[2rem] text-gray-500" />
-              <div className="flex flex-col justify-center items-start">
-                <div className="flex gap-4 justify-start items-center">
-                  <p className="font-black">{item.name}</p>
-                  <p className="text-xs">2 Days ago</p>
-                </div>
-                <p className="text-sm">{item.content}</p>
-              </div>
+    <section className="flex justify-center container mx-auto items-center flex-col my-10 w-full gap-4 ">
+      <Card className="px-6 bg-gray-100/80 pb-4 w-full min-w-[350px]">
+        <CardHeader className="text-black font-black text-2xl self-start">
+          <CardTitle>Comments</CardTitle>
+        </CardHeader>
+        <Separator />
+
+        <div className="h-full flex justify-start items-start flex-col gap-4 w-full mt-6">
+          {currentItems.length >= 1 ? (
+            currentItems.map((item, index) => (
+              <Card
+                key={index}
+                className="bg-white w-full shadow-sm hover:shadow-md transition-shadow duration-200"
+              >
+                <CardContent className="p-4">
+                  <div className="flex space-x-4">
+                    <CircleUser className="size-8 min-w-[2rem] min-h-[2rem]" />
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between">
+                        <h3 className="font-semibold text-lg text-gray-500">
+                          {item.name}
+                        </h3>
+                        <span className="text-sm text-gray-500 flex items-center">
+                          <Clock className="w-4 h-4 mr-1" />
+                          {item.date}
+                        </span>
+                      </div>
+                      <p className="mt-2 text-gray-700">{item.content}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))
+          ) : (
+            <article className="flex justify-center items-center w-full">
+              <p className="text-center mt-10 font-black">
+                There are no comments yet
+              </p>
             </article>
-          ))
-        ) : (
-          <article className="flex justify-center items-center w-full">
-            <p className="text-center mt-10 font-black">
-              There are no comments yet
-            </p>
-          </article>
-        )}
+          )}
+        </div>
+      </Card>
+      <div className="w-full flex justify-center items-center">
+        <Card className="bg-gray-100/80 w-full shadow-md hover:shadow-md transition-shadow duration-200 min-w-[350px]">
+          <CreateComment slug={slug} />
+        </Card>
       </div>
+
       {reviews.length >= 1 && (
         <div className="flex justify-center items-center w-full mt-10 ">
           <div className="flex flex-col items-center gap-4 w-full">

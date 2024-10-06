@@ -70,7 +70,7 @@ export const WishList = ({
       <Button
         disabled={isPending}
         variant={"outline"}
-        className="flex justify-center h-12 w-44 items-center gap-2 p-2 rounded-md border-2 border-gray-400 hover:translate-y-[2px]"
+        className="flex justify-center h-12  w-44 items-center gap-2 p-2 rounded-md border-2 border-gray-400 hover:translate-y-[2px]"
       >
         <Heart
           size={20}

@@ -15,8 +15,8 @@ export const ProductManagement = ({
   productQuantity,
 }: ProductManagementProps) => {
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex justify-end items-end ">
+    <div className="flex flex-col md:gap-4">
+      <div className="flex justify-end items-end  ">
         <AddToCartButton
           slug={product.slug}
           name={product.name}

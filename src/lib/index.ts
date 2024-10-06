@@ -6,6 +6,7 @@ import {
   CreateCartUnauthorizedDocument,
   CreateFavoriteProductDocument,
   CreateOrderDocument,
+  CreateProductReviewDocument,
   DeleteCartProductDocument,
   DeleteFavoriteProductDocument,
   GetAccountDocument,
@@ -17,6 +18,7 @@ import {
   GetProductBySlugDocument,
   GetProductsDocument,
   OrderStatus,
+  PublishProductReviewDocument,
   TypedDocumentString,
   UpdateCartProductDocument,
   UpdateCartQuantityDocument,
@@ -28,6 +30,7 @@ import { getServerSession } from "next-auth";
 
 import { mapperGetFavorites } from "./mappers/getFavorites";
 import Link from "next/link";
+import { id } from "date-fns/locale";
 
 type GraphQlError = {
   message: string;
@@ -449,4 +452,51 @@ export const getCategories = async () => {
 
   if (!data) return;
   return data;
+};
+
+export const publishProductReview = async (id: string | undefined) => {
+  if (!id) {
+    console.error("ID is undefined or null");
+    return;
+  }
+  const data = await fetcher({
+    headers: {
+      Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
+    },
+    query: PublishProductReviewDocument,
+    variables: { id },
+    cache: "no-store",
+  });
+
+  if (!data) return;
+  return data;
+};
+
+export const createProductReview = async ({
+  email,
+  name,
+  slug,
+  content,
+  date,
+}: {
+  email: string;
+  name: string;
+  slug: string;
+  content: string;
+  date: string;
+}) => {
+  const data = await fetcher({
+    headers: {
+      Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
+    },
+    query: CreateProductReviewDocument,
+    variables: { email, name, slug, content, date },
+    cache: "no-store",
+  });
+
+  if (!data) return;
+  console.log(data.createReview?.id);
+  if (data) {
+    await publishProductReview(data.createReview?.id);
+  }
 };

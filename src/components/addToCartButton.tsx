@@ -85,7 +85,7 @@ export const AddToCartButton = ({ slug, productQuantity }: AddToCartType) => {
       <Button
         disabled={isPending || outOfStock}
         type="submit"
-        className=" bg-black shadow-lg hover:translate-y-[2px] text-white font-bold h-12 py-2 px-4 rounded w-44 mt-6 mr-4"
+        className=" bg-black shadow-lg hover:translate-y-[2px] text-white font-bold h-12 py-2 px-4 rounded w-36 md:w-44 mt-6 mr-4"
       >
         <div className="flex justify-center items-center gap-2 md:gap-4 self-center">
           <ShoppingCart size={20} />

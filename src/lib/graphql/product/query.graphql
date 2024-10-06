@@ -10,6 +10,7 @@ query GetProductBySlug($slug: String!) {
     reviews {
       content
       name
+      date
     }
     quantity
     images {

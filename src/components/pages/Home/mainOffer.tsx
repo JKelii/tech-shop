@@ -29,7 +29,7 @@ const MainOffer = async () => {
                     width={400}
                     height={400}
                     priority
-                    className="size-28 md:size-44 lg:size-96"
+                    className="size-36 md:size-44 lg:size-96"
                   />
                 </div>
                 <Separator className="h-[1px] " />
