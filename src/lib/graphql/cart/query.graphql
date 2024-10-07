@@ -3,7 +3,7 @@ query GetCartById($id: ID!) {
     cartProduct {
       id
       quantity
-
+      size
       product {
         slug
         name

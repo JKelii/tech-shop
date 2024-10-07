@@ -29,8 +29,6 @@ import { mapperGetCart } from "./mappers/getCart";
 import { getServerSession } from "next-auth";
 
 import { mapperGetFavorites } from "./mappers/getFavorites";
-import Link from "next/link";
-import { id } from "date-fns/locale";
 
 type GraphQlError = {
   message: string;
@@ -131,10 +129,12 @@ export const createCart = async ({
   quantity,
   slug,
   email,
+  size,
 }: {
   slug: string;
   quantity: number;
   email: string | undefined;
+  size: string;
 }) => {
   const data = await fetcher({
     headers: {
@@ -145,6 +145,7 @@ export const createCart = async ({
       quantity,
       slug,
       email,
+      size,
     },
     cache: "no-store",
   });
@@ -168,7 +169,7 @@ export const getCart = async ({ id }: { id: string | undefined }) => {
   });
 
   if (!data.cart) return;
-  return mapperGetCart(data?.cart);
+  return mapperGetCart(data.cart);
 };
 
 export const updateCartProduct = async ({
@@ -328,10 +329,12 @@ export const createCartProduct = async ({
   cartId,
   quantity,
   slug,
+  size,
 }: {
   cartId: string;
   quantity: number;
   slug: string;
+  size: string;
 }) => {
   const data = await fetcher({
     headers: {
@@ -342,6 +345,7 @@ export const createCartProduct = async ({
       quantity,
       cartId,
       slug,
+      size,
     },
     cache: "no-store",
   });
@@ -495,7 +499,6 @@ export const createProductReview = async ({
   });
 
   if (!data) return;
-  console.log(data.createReview?.id);
   if (data) {
     await publishProductReview(data.createReview?.id);
   }

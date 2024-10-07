@@ -33,8 +33,6 @@ export { handler as POST };
 
 const eventStripeWebhook = async (event: Stripe.Event) => {
   const type = event.type;
-  console.log("function works");
-  console.log({ event });
   switch (type) {
     case "charge.succeeded":
       console.log({ event });

@@ -4,28 +4,34 @@ import Image from "next/image";
 import Comments from "./components/Comments";
 import { ProductManagement } from "./components/ProductManagement";
 import { Separator } from "@/components/ui/separator";
+import { SizeRadioGroup } from "./components/SizeRadioGroup";
 
 export type ProductType = {
   description: string;
   id: string;
   name: string;
   price: number;
+  quantity: number;
   slug: string;
-  reviews: {
+  size: Array<{
+    productVariantSize: Array<{
+      name?: string | null;
+      productQuantity: Array<number>;
+    }>;
+  }>;
+  reviews: Array<{
     content: string;
     name: string;
     date: string;
-  }[];
-  quantity: number;
-  images: {
+  }>;
+  images: Array<{
     fileName: string;
     url: string;
-  }[];
+  }>;
 };
 
 export const ProductPage = ({
   product,
-
   favoriteId,
 }: {
   product: ProductType;

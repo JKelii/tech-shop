@@ -38,7 +38,7 @@ const BasketItems = ({ cart }: { cart: ResponseGetCart[] | undefined }) => {
                     />
                     <div>
                       <h3 className="font-semibold">{product.name}</h3>
-                      <p className="text-sm text-gray-500">Size: ?</p>
+                      <p className="text-sm text-gray-500">Size:</p>
                       <p className="text-sm text-gray-500">
                         Quantity: {product.quantity}
                       </p>

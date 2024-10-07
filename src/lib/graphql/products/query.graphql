@@ -6,6 +6,12 @@ query GetProducts {
     categories {
       name
     }
+    size {
+      productVariantSize {
+        name
+        productQuantity
+      }
+    }
     price
     images {
       fileName

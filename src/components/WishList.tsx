@@ -70,11 +70,13 @@ export const WishList = ({
       <Button
         disabled={isPending}
         variant={"outline"}
-        className="flex justify-center h-12  w-44 items-center gap-2 p-2 rounded-md border-2 border-gray-400 hover:translate-y-[2px]"
+        className="flex justify-center h-12  w-44 items-center gap-2 p-2 rounded-md border-[1px] border-gray-400 hover:translate-y-[1px]"
       >
         <Heart
           size={20}
-          className={cn(favoriteId && "fill-gray-500 text-gray-500")}
+          className={cn(
+            favoriteId ? "fill-gray-400 text-gray-400" : "text-gray-500/90"
+          )}
         />
         {isPending ? (
           <ThreeDots
@@ -88,9 +90,9 @@ export const WishList = ({
             wrapperClass=""
           />
         ) : favoriteId ? (
-          <p>Remove favorite</p>
+          <p className="text-gray-600">Remove favorite</p>
         ) : (
-          <p>Add to wishlist </p>
+          <p className="text-gray-600">Add to wishlist </p>
         )}
       </Button>
     </form>

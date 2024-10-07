@@ -1,6 +1,5 @@
 "use server";
 
-import index from "@/app/pages";
 import {
   createCart,
   createCartProduct,
@@ -17,6 +16,7 @@ export type ManageCartParams = {
   productId: string;
   product: {
     slug: string;
+    size: string;
     quantity: number;
   };
   email: string | undefined;
@@ -28,6 +28,7 @@ export const manageCart = async ({
 }: {
   email: string | undefined;
   product: {
+    size: string;
     slug: string;
     quantity: number;
   };
@@ -58,7 +59,9 @@ export const manageCart = async ({
   const cartProductId = updateProduct?.productId;
 
   if (!updateProduct) {
+    console.log("Adding product to cart");
     await createCartProduct({
+      size: product.size,
       cartId: findCart.value,
       quantity: product.quantity,
       slug: product.slug,

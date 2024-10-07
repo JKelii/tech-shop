@@ -3,6 +3,7 @@ type MappedGetCart =
       cartProduct: Array<{
         id: string;
         quantity: number;
+        size?: string | null | undefined;
         product?: {
           id: string;
           slug: string;
@@ -21,6 +22,7 @@ export type ResponseGetCart = {
   quantity: number;
   image: string;
   price: number;
+  size: string;
   name: string;
   slug: string;
   productId: string;
@@ -30,18 +32,22 @@ export const mapperGetCart = (
   cart: MappedGetCart
 ): ResponseGetCart[] | undefined => {
   if (!cart || cart === null) return undefined;
+  if (!cart) {
+    console.log("cart is null");
+  }
 
   return cart.cartProduct
-    .map(({ quantity, id, product }) => {
+    .map(({ size, quantity, id, product }) => {
       if (product) {
         return {
+          id,
           quantity,
-          productId: id,
-          image: product?.images[0].url,
-          price: product?.price,
-          name: product?.name,
-          slug: product?.slug,
-          id: product.id,
+          productId: product.id,
+          size: size,
+          image: product.images[0]?.url,
+          price: product.price,
+          name: product.name,
+          slug: product.slug,
         };
       }
     })

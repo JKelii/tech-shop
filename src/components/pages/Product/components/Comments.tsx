@@ -79,90 +79,89 @@ export const Comments = ({
             ))
           ) : (
             <article className="flex justify-center items-center w-full">
-              <p className="text-center mt-10 font-black">
+              <p className="text-center my-10 font-black">
                 There are no comments yet
               </p>
             </article>
           )}
         </div>
-      </Card>
-      <div className="w-full flex justify-center items-center">
-        <Card className="bg-gray-100/80 w-full shadow-md hover:shadow-md transition-shadow duration-200 min-w-[350px]">
-          <CreateComment slug={slug} />
-        </Card>
-      </div>
 
-      {reviews.length >= 1 && (
-        <div className="flex justify-center items-center w-full mt-10 ">
-          <div className="flex flex-col items-center gap-4 w-full">
-            <div className="">
-              <Pagination>
+        {reviews.length >= 1 && (
+          <div className="flex justify-center items-center w-full mt-10 ">
+            <div className="flex flex-col items-center gap-4 w-full">
+              <div className="">
                 <Pagination>
-                  <PaginationPrevious
-                    onClick={() => handlePageChange(page - 1)}
-                    className={cn(
-                      page === 1 ? "cursor-not-allowed" : "cursor-pointer"
-                    )}
-                  />
-
-                  {page - 2 >= 1 && page <= totalPages && (
-                    <PaginationLink
-                      href="#"
-                      isActive
-                      className="mx-2"
-                      onClick={() => handlePageChange(page - 2)}
-                    >
-                      {page - 2}
-                    </PaginationLink>
-                  )}
-                  {page >= 2 && (
-                    <PaginationLink
-                      href="#"
-                      isActive
+                  <Pagination>
+                    <PaginationPrevious
                       onClick={() => handlePageChange(page - 1)}
-                    >
-                      {page - 1}
-                    </PaginationLink>
-                  )}
+                      className={cn(
+                        page === 1 ? "cursor-not-allowed" : "cursor-pointer"
+                      )}
+                    />
 
-                  <span className="px-4 py-2 font-semibold">{page}</span>
-                  {page < totalPages && (
-                    <PaginationLink
-                      href="#"
-                      isActive
-                      onClick={() => handlePageChange(page + 1)}
-                    >
-                      {page + 1}
-                    </PaginationLink>
-                  )}
-
-                  {page < totalPages && page + 2 <= totalPages && (
-                    <div className="px-2">
+                    {page - 2 >= 1 && page <= totalPages && (
                       <PaginationLink
                         href="#"
                         isActive
-                        className="px-2"
-                        onClick={() => handlePageChange(page + 2)}
+                        className="mx-2"
+                        onClick={() => handlePageChange(page - 2)}
                       >
-                        {page + 2}
+                        {page - 2}
                       </PaginationLink>
-                    </div>
-                  )}
-
-                  <PaginationNext
-                    onClick={() => handlePageChange(page + 1)}
-                    className={cn(
-                      page === totalPages
-                        ? "cursor-not-allowed"
-                        : "cursor-pointer"
                     )}
-                  />
+                    {page >= 2 && (
+                      <PaginationLink
+                        href="#"
+                        isActive
+                        onClick={() => handlePageChange(page - 1)}
+                      >
+                        {page - 1}
+                      </PaginationLink>
+                    )}
+
+                    <span className="px-4 py-2 font-semibold">{page}</span>
+                    {page < totalPages && (
+                      <PaginationLink
+                        href="#"
+                        isActive
+                        onClick={() => handlePageChange(page + 1)}
+                      >
+                        {page + 1}
+                      </PaginationLink>
+                    )}
+
+                    {page < totalPages && page + 2 <= totalPages && (
+                      <div className="px-2">
+                        <PaginationLink
+                          href="#"
+                          isActive
+                          className="px-2"
+                          onClick={() => handlePageChange(page + 2)}
+                        >
+                          {page + 2}
+                        </PaginationLink>
+                      </div>
+                    )}
+
+                    <PaginationNext
+                      onClick={() => handlePageChange(page + 1)}
+                      className={cn(
+                        page === totalPages
+                          ? "cursor-not-allowed"
+                          : "cursor-pointer"
+                      )}
+                    />
+                  </Pagination>
                 </Pagination>
-              </Pagination>
+              </div>
+              <div className="w-full flex justify-center items-center"></div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+        <Card className="bg-gray-100/80 w-full shadow-md hover:shadow-md transition-shadow duration-200 min-w-[350px]">
+          <CreateComment slug={slug} />
+        </Card>
+      </Card>
     </section>
   );
 };

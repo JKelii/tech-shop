@@ -4,8 +4,11 @@ query GetProductBySlug($slug: String!) {
     id
     name
     price
-    categories {
-      name
+    size {
+      productVariantSize {
+        name
+        productQuantity
+      }
     }
     reviews {
       content

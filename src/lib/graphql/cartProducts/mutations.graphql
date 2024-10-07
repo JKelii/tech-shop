@@ -22,9 +22,15 @@ mutation UpdateCartQuantity($quantity: Int!, $cartProductId: ID!) {
   }
 }
 
-mutation CreateCartProduct($quantity: Int!, $cartId: ID!, $slug: String!) {
+mutation CreateCartProduct(
+  $quantity: Int!
+  $cartId: ID!
+  $slug: String!
+  $size: String!
+) {
   createCartProduct(
     data: {
+      size: $size
       quantity: $quantity
       product: { connect: { slug: $slug } }
       cart: { connect: { id: $cartId } }
