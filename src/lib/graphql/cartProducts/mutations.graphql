@@ -1,7 +1,11 @@
-mutation UpdateCartProduct($quantity: Int!, $cartProductId: ID!) {
+mutation UpdateCartProduct(
+  $quantity: Int!
+  $cartProductId: ID!
+  $size: String!
+) {
   updateCartProduct(
     where: { id: $cartProductId }
-    data: { quantity: $quantity }
+    data: { quantity: $quantity, size: $size }
   ) {
     id
   }

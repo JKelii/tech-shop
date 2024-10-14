@@ -14,6 +14,7 @@ type RemoveFromBasketType = {
   product: {
     slug: string;
     quantity: number;
+    size: string;
   };
   productQuantity: number;
 };

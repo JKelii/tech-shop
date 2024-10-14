@@ -4,9 +4,10 @@ import { Button } from "@/components/ui/button";
 import { ThreeDots } from "react-loader-spinner";
 import { X } from "lucide-react";
 import { Session } from "next-auth";
-import { useRouter } from "next/navigation";
+
 import React, { useTransition } from "react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export const DeleteFavoriteButton = ({
   favoriteId,
@@ -20,19 +21,20 @@ export const DeleteFavoriteButton = ({
 
   const handleClick = async () => {
     try {
-      startTransition(async () => {
+      const res = startTransition(async () => {
         await deleteProductFromFavorite({
           favoriteProductId: favoriteId,
           email: session?.user?.email as string,
         });
       });
+      if (res !== null) {
+        toast("Item removed from wishlist ❌");
+      }
       router.refresh();
-      toast("Item removed from wishlist ❌");
     } catch (error) {
       console.error("Error removing from favorites:", error);
       toast("An error occurred while removing the item");
     }
-    router.refresh();
   };
 
   return (

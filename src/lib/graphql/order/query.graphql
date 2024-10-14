@@ -5,6 +5,8 @@ query GetOrders($email: String!) {
     createdAt
     orderStatus
     orderItems {
+      size
+      quantity
       product {
         slug
         name

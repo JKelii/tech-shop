@@ -1,4 +1,5 @@
 import SingleOffers from "@/components/pages/Home/singleOffers";
+import { getCategories } from "@/lib";
 import React from "react";
 
 const page = () => {

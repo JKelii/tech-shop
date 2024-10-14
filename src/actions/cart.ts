@@ -7,6 +7,7 @@ import {
   getCart,
   updateCartProduct,
 } from "@/lib";
+import { Product } from "@/lib/hygraph/generated/graphql";
 
 import { cookies } from "next/headers";
 
@@ -37,6 +38,7 @@ export const manageCart = async ({
 
   if (!findCart) {
     const createdCart = await createCart({ ...product, email });
+
     if (!createdCart) {
       return { error: "Can't create cart" };
     }
@@ -55,11 +57,12 @@ export const manageCart = async ({
     return { error: "Can't find cart" };
   }
 
-  const updateProduct = cart.find(({ slug }) => slug === product.slug);
-  const cartProductId = updateProduct?.productId;
+  const updateProduct = cart.find(
+    ({ slug, size }) => slug === product.slug && size === product.size
+  );
+  const cartProductId = updateProduct?.id;
 
   if (!updateProduct) {
-    console.log("Adding product to cart");
     await createCartProduct({
       size: product.size,
       cartId: findCart.value,
@@ -68,11 +71,11 @@ export const manageCart = async ({
     });
     return { message: "Product added to cart" };
   } else if (updateProduct) {
-    console.log("Updating product quantity in cart");
     if (cartProductId) {
       await updateCartProduct({
         quantity: product.quantity + updateProduct.quantity,
         cartProductId: cartProductId,
+        size: product.size,
       });
     }
   }
@@ -111,29 +114,30 @@ export const removeFromCart = async (productId: string) => {
   }
 };
 
-export const updateCartQuantity = async ({
-  slug,
-  quantity,
-}: {
-  slug: string;
-  quantity: number;
-}) => {
-  const cartCookie = cookies().get(COOKIE_NAME_CART);
-  if (!cartCookie) return;
+// export const updateCartQuantity = async ({
+//   slug,
+//   quantity,
+// }: {
+//   slug: string;
+//   quantity: number;
+// }) => {
+//   const cartCookie = cookies().get(COOKIE_NAME_CART);
+//   if (!cartCookie) return;
 
-  const cartId = cartCookie.value;
-  const cart = await getCart({ id: cartId });
+//   const cartId = cartCookie.value;
+//   const cart = await getCart({ id: cartId });
 
-  if (!cart) return;
+//   if (!cart) return;
 
-  const productToUpdate = cart.find(
-    (product: { slug: string }) => product.slug === slug
-  );
+//   const productToUpdate = cart.find(
+//     (product: { slug: string }) => product.slug === slug
+//   );
 
-  if (productToUpdate) {
-    await updateCartProduct({
-      quantity: quantity,
-      cartProductId: productToUpdate.id,
-    });
-  }
-};
+//   if (productToUpdate) {
+//     await updateCartProduct({
+//       quantity: quantity,
+//       cartProductId: productToUpdate.id,
+//       size: productToUpdate.size,
+//     });
+//   }
+// };

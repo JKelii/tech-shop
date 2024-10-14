@@ -6,12 +6,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import {
-  Category,
-  GetCategoriesQuery,
-  GetProductBySlugQuery,
-  Product,
-} from "@/lib/hygraph/generated/graphql";
 import { cn } from "@/lib/utils";
 import { priceUpdate } from "@/utils/priceUpdate";
 import Image from "next/image";
@@ -35,9 +29,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Scalars } from "../../../../../tech-shop/src/lib/hygraph/generated/graphql";
-import { Button } from "@/components/ui/button";
-import { Value } from "@radix-ui/react-select";
 
 type ProductsPaginationProps = {
   products: {
@@ -178,7 +169,7 @@ const ProductsPagination = ({
                   alt={product.name}
                   width={150}
                   height={150}
-                  className="max-h-[150px] max-w-[150px] min-h-[120px] min-w-[120px]"
+                  className=" min-h-[120px] min-w-[120px] w-auto h-auto"
                 />
                 <p className="font-semibold self-start ml-4">{product.name}</p>
                 <p className="text-sm self-start ml-4 text-muted-foreground">
@@ -192,6 +183,7 @@ const ProductsPagination = ({
           </Link>
         ))}
       </div>
+
       <div className="flex justify-center items-center w-full mt-10 ">
         <div className="flex flex-col items-center gap-4 w-full">
           <nav

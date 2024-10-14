@@ -157,6 +157,7 @@ export const getCart = async ({ id }: { id: string | undefined }) => {
   if (!id) {
     return;
   }
+
   const data = await fetcher({
     headers: {
       Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
@@ -169,15 +170,18 @@ export const getCart = async ({ id }: { id: string | undefined }) => {
   });
 
   if (!data.cart) return;
+
   return mapperGetCart(data.cart);
 };
 
 export const updateCartProduct = async ({
   quantity,
   cartProductId,
+  size,
 }: {
   quantity: number;
   cartProductId: string;
+  size: string;
 }) => {
   const data = await fetcher({
     headers: {
@@ -187,6 +191,7 @@ export const updateCartProduct = async ({
     variables: {
       quantity,
       cartProductId,
+      size,
     },
     cache: "no-store",
   });
@@ -260,7 +265,7 @@ export const createFavoriteProduct = async ({
   return data;
 };
 
-export const getFavoriteProduct = async ({
+export const getFavoriteProducts = async ({
   email,
   slug,
 }: {
@@ -279,6 +284,7 @@ export const getFavoriteProduct = async ({
       slug,
     },
     cache: "no-store",
+    next: { tags: ["getFavoriteProducts"] },
   });
 
   return data;
@@ -369,6 +375,7 @@ export const createOrderHygraph = async ({
     productId: string;
     total: number;
     quantity: number;
+    size: string;
   }[];
 }) => {
   if (!email) return;
@@ -386,6 +393,7 @@ export const createOrderHygraph = async ({
       orderItems: orderItems.map((item) => ({
         product: { connect: { id: item.productId } },
         quantity: item.quantity,
+        size: item.size,
         total: item.total,
       })),
     },
@@ -416,7 +424,18 @@ export const getOrders = async () => {
     total: order.total,
     stripeCheckoutId: order.stripeCheckoutId,
     createdAt: order.createdAt,
-    orderItems: order.orderItems.map((item) => item.product),
+    orderItems: order.orderItems.map((item) => {
+      return {
+        size: item.size,
+        quantity: item.quantity,
+        product: {
+          image: item.product?.images[0]?.url,
+          price: item.product?.price,
+          name: item.product?.name,
+          slug: item.product?.slug,
+        },
+      };
+    }),
     orderStatus: order.orderStatus,
   }));
 };
@@ -455,6 +474,7 @@ export const getCategories = async () => {
   });
 
   if (!data) return;
+  console.log(data);
   return data;
 };
 

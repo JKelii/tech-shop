@@ -7,6 +7,7 @@ const SingleOffers = async () => {
   const { products } = await getAllProducts();
   const categories = await getCategories();
   const selectedCategories = categories?.categories.map((item) => item.name);
+  console.log(selectedCategories);
   return (
     <main className="flex justify-center flex-wrap items-center w-full border-2 border-gray-400 rounded-lg p-16">
       <div className="w-full">

@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { ThreeDots } from "react-loader-spinner";
 import { ProductType } from "./pages/Product/ProductPage";
 import { useSelectedSize } from "./pages/Product/hooks/useSelectedSize";
+import { useRouter } from "next/navigation";
 
 type AddToCartType = {
   slug: string;
@@ -32,7 +33,7 @@ export const AddToCartButton = ({ product }: { product: ProductType }) => {
   const [isPending, startTransition] = useTransition();
   const { handleSubmit } = useForm();
   const session = useSession();
-
+  const router = useRouter();
   const {
     depriveQuantity,
     addQuantity,
@@ -40,7 +41,7 @@ export const AddToCartButton = ({ product }: { product: ProductType }) => {
     setSelectedQuantity,
   } = useQuantityProduct();
 
-  const { selectedSize, setSelectedSize } = useSelectedSize();
+  const { selectedSize, onSizeSelect } = useSelectedSize();
 
   const outOfStock = selectedQuantity > productQuantity;
   if (outOfStock) {
@@ -48,27 +49,37 @@ export const AddToCartButton = ({ product }: { product: ProductType }) => {
   }
 
   const onSubmit = handleSubmit(async () => {
-    if (selectedQuantity < productQuantity) {
-      startTransition(async () => {
-        if (selectedSize) {
-      
-          await manageCart({
-            product: { size: "S", slug, quantity: selectedQuantity },
-            email: session.data?.email,
-          });
-        }
-        if (selectedQuantity > 1) {
-          toast("Items added to cart ✅");
-        } else {
-          toast("Item added to cart ✅");
-        }
-      });
+    try {
+      if (selectedQuantity < productQuantity) {
+        const res = startTransition(async () => {
+          if (selectedSize) {
+            await manageCart({
+              product: { size: selectedSize, slug, quantity: selectedQuantity },
+              email: session.data?.email,
+            });
+          }
+          if (res !== null) {
+            if (selectedQuantity > 1) {
+              toast("Items added to cart ✅");
+            } else {
+              toast("Item added to cart ✅");
+            }
+          }
+        });
+        router.refresh();
+      }
+    } catch (error) {
+      console.error("Can't add item to cart", error);
     }
   });
   return (
     <form onSubmit={onSubmit} className="flex flex-col">
       <div className="flex flex-col gap-2">
-        <SizeRadioGroup product={product} />
+        <SizeRadioGroup
+          product={product}
+          selectedSize={selectedSize}
+          onSizeSelect={onSizeSelect}
+        />
         <div className="flex gap-2 justify-center items-center">
           <p className="text-lg font-medium">Quantity:</p>
           <div className="flex gap-2  items-center border rounded-md bg-white">

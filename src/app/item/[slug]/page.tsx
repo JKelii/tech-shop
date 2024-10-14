@@ -1,5 +1,5 @@
 import { ProductPage } from "@/components/pages/Product/ProductPage";
-import { getFavoriteProduct, getProductSlug } from "@/lib";
+import { getFavoriteProducts, getProductSlug } from "@/lib";
 import NotFound from "./not-found";
 import { getServerSession } from "next-auth";
 import { Metadata } from "next";
@@ -31,7 +31,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
   const session = await getServerSession();
   const { product } = await getProductSlug({ slug });
 
-  const responseFavorite = await getFavoriteProduct({
+  const responseFavorite = await getFavoriteProducts({
     email: session?.user?.email,
     slug,
   });

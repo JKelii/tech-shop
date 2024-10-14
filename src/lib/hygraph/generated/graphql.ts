@@ -3844,402 +3844,6 @@ export type CopyOfVariantQm16WhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
 };
 
-export type CreateReview = Entity & Node & {
-  /** The time the document was created */
-  createdAt: Scalars['DateTime']['output'];
-  /** User that created this document */
-  createdBy?: Maybe<User>;
-  /** Get the document in other stages */
-  documentInStages: Array<CreateReview>;
-  /** List of CreateReview versions */
-  history: Array<Version>;
-  /** The unique identifier */
-  id: Scalars['ID']['output'];
-  /** The time the document was published. Null on documents in draft stage. */
-  publishedAt?: Maybe<Scalars['DateTime']['output']>;
-  /** User that last published this document */
-  publishedBy?: Maybe<User>;
-  review?: Maybe<Review>;
-  scheduledIn: Array<ScheduledOperation>;
-  /** System stage field */
-  stage: Stage;
-  /** The time the document was updated */
-  updatedAt: Scalars['DateTime']['output'];
-  /** User that last updated this document */
-  updatedBy?: Maybe<User>;
-};
-
-
-export type CreateReviewCreatedByArgs = {
-  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
-  locales?: InputMaybe<Array<Locale>>;
-};
-
-
-export type CreateReviewDocumentInStagesArgs = {
-  includeCurrent?: Scalars['Boolean']['input'];
-  inheritLocale?: Scalars['Boolean']['input'];
-  stages?: Array<Stage>;
-};
-
-
-export type CreateReviewHistoryArgs = {
-  limit?: Scalars['Int']['input'];
-  skip?: Scalars['Int']['input'];
-  stageOverride?: InputMaybe<Stage>;
-};
-
-
-export type CreateReviewPublishedByArgs = {
-  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
-  locales?: InputMaybe<Array<Locale>>;
-};
-
-
-export type CreateReviewReviewArgs = {
-  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
-  locales?: InputMaybe<Array<Locale>>;
-};
-
-
-export type CreateReviewScheduledInArgs = {
-  after?: InputMaybe<Scalars['String']['input']>;
-  before?: InputMaybe<Scalars['String']['input']>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  locales?: InputMaybe<Array<Locale>>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<ScheduledOperationWhereInput>;
-};
-
-
-export type CreateReviewUpdatedByArgs = {
-  forceParentLocale?: InputMaybe<Scalars['Boolean']['input']>;
-  locales?: InputMaybe<Array<Locale>>;
-};
-
-export type CreateReviewConnectInput = {
-  /** Allow to specify document position in list of connected documents, will default to appending at end of list */
-  position?: InputMaybe<ConnectPositionInput>;
-  /** Document to connect */
-  where: CreateReviewWhereUniqueInput;
-};
-
-/** A connection to a list of items. */
-export type CreateReviewConnection = {
-  aggregate: Aggregate;
-  /** A list of edges. */
-  edges: Array<CreateReviewEdge>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-};
-
-export type CreateReviewCreateInput = {
-  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  review?: InputMaybe<ReviewCreateOneInlineInput>;
-  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
-};
-
-export type CreateReviewCreateManyInlineInput = {
-  /** Connect multiple existing CreateReview documents */
-  connect?: InputMaybe<Array<CreateReviewWhereUniqueInput>>;
-  /** Create and connect multiple existing CreateReview documents */
-  create?: InputMaybe<Array<CreateReviewCreateInput>>;
-};
-
-export type CreateReviewCreateOneInlineInput = {
-  /** Connect one existing CreateReview document */
-  connect?: InputMaybe<CreateReviewWhereUniqueInput>;
-  /** Create and connect one CreateReview document */
-  create?: InputMaybe<CreateReviewCreateInput>;
-};
-
-/** An edge in a connection. */
-export type CreateReviewEdge = {
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String']['output'];
-  /** The item at the end of the edge. */
-  node: CreateReview;
-};
-
-/** Identifies documents */
-export type CreateReviewManyWhereInput = {
-  /** Logical AND on all given filters. */
-  AND?: InputMaybe<Array<CreateReviewWhereInput>>;
-  /** Logical NOT on all given filters combined by AND. */
-  NOT?: InputMaybe<Array<CreateReviewWhereInput>>;
-  /** Logical OR on all given filters. */
-  OR?: InputMaybe<Array<CreateReviewWhereInput>>;
-  /** Contains search across all appropriate fields. */
-  _search?: InputMaybe<Scalars['String']['input']>;
-  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values greater than the given value. */
-  createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values greater than or equal the given value. */
-  createdAt_gte?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values that are contained in given list. */
-  createdAt_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
-  /** All values less than the given value. */
-  createdAt_lt?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values less than or equal the given value. */
-  createdAt_lte?: InputMaybe<Scalars['DateTime']['input']>;
-  /** Any other value that exists and is not equal to the given value. */
-  createdAt_not?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values that are not contained in given list. */
-  createdAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
-  createdBy?: InputMaybe<UserWhereInput>;
-  documentInStages_every?: InputMaybe<CreateReviewWhereStageInput>;
-  documentInStages_none?: InputMaybe<CreateReviewWhereStageInput>;
-  documentInStages_some?: InputMaybe<CreateReviewWhereStageInput>;
-  id?: InputMaybe<Scalars['ID']['input']>;
-  /** All values containing the given string. */
-  id_contains?: InputMaybe<Scalars['ID']['input']>;
-  /** All values ending with the given string. */
-  id_ends_with?: InputMaybe<Scalars['ID']['input']>;
-  /** All values that are contained in given list. */
-  id_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Any other value that exists and is not equal to the given value. */
-  id_not?: InputMaybe<Scalars['ID']['input']>;
-  /** All values not containing the given string. */
-  id_not_contains?: InputMaybe<Scalars['ID']['input']>;
-  /** All values not ending with the given string */
-  id_not_ends_with?: InputMaybe<Scalars['ID']['input']>;
-  /** All values that are not contained in given list. */
-  id_not_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** All values not starting with the given string. */
-  id_not_starts_with?: InputMaybe<Scalars['ID']['input']>;
-  /** All values starting with the given string. */
-  id_starts_with?: InputMaybe<Scalars['ID']['input']>;
-  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values greater than the given value. */
-  publishedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values greater than or equal the given value. */
-  publishedAt_gte?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values that are contained in given list. */
-  publishedAt_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
-  /** All values less than the given value. */
-  publishedAt_lt?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values less than or equal the given value. */
-  publishedAt_lte?: InputMaybe<Scalars['DateTime']['input']>;
-  /** Any other value that exists and is not equal to the given value. */
-  publishedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values that are not contained in given list. */
-  publishedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
-  publishedBy?: InputMaybe<UserWhereInput>;
-  review?: InputMaybe<ReviewWhereInput>;
-  scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
-  scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
-  scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
-  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values greater than the given value. */
-  updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values greater than or equal the given value. */
-  updatedAt_gte?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values that are contained in given list. */
-  updatedAt_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
-  /** All values less than the given value. */
-  updatedAt_lt?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values less than or equal the given value. */
-  updatedAt_lte?: InputMaybe<Scalars['DateTime']['input']>;
-  /** Any other value that exists and is not equal to the given value. */
-  updatedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values that are not contained in given list. */
-  updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
-  updatedBy?: InputMaybe<UserWhereInput>;
-};
-
-export enum CreateReviewOrderByInput {
-  CreatedAtAsc = 'createdAt_ASC',
-  CreatedAtDesc = 'createdAt_DESC',
-  IdAsc = 'id_ASC',
-  IdDesc = 'id_DESC',
-  PublishedAtAsc = 'publishedAt_ASC',
-  PublishedAtDesc = 'publishedAt_DESC',
-  UpdatedAtAsc = 'updatedAt_ASC',
-  UpdatedAtDesc = 'updatedAt_DESC'
-}
-
-export type CreateReviewUpdateInput = {
-  review?: InputMaybe<ReviewUpdateOneInlineInput>;
-};
-
-export type CreateReviewUpdateManyInlineInput = {
-  /** Connect multiple existing CreateReview documents */
-  connect?: InputMaybe<Array<CreateReviewConnectInput>>;
-  /** Create and connect multiple CreateReview documents */
-  create?: InputMaybe<Array<CreateReviewCreateInput>>;
-  /** Delete multiple CreateReview documents */
-  delete?: InputMaybe<Array<CreateReviewWhereUniqueInput>>;
-  /** Disconnect multiple CreateReview documents */
-  disconnect?: InputMaybe<Array<CreateReviewWhereUniqueInput>>;
-  /** Override currently-connected documents with multiple existing CreateReview documents */
-  set?: InputMaybe<Array<CreateReviewWhereUniqueInput>>;
-  /** Update multiple CreateReview documents */
-  update?: InputMaybe<Array<CreateReviewUpdateWithNestedWhereUniqueInput>>;
-  /** Upsert multiple CreateReview documents */
-  upsert?: InputMaybe<Array<CreateReviewUpsertWithNestedWhereUniqueInput>>;
-};
-
-export type CreateReviewUpdateManyInput = {
-  /** No fields in updateMany data input */
-  _?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type CreateReviewUpdateManyWithNestedWhereInput = {
-  /** Update many input */
-  data: CreateReviewUpdateManyInput;
-  /** Document search */
-  where: CreateReviewWhereInput;
-};
-
-export type CreateReviewUpdateOneInlineInput = {
-  /** Connect existing CreateReview document */
-  connect?: InputMaybe<CreateReviewWhereUniqueInput>;
-  /** Create and connect one CreateReview document */
-  create?: InputMaybe<CreateReviewCreateInput>;
-  /** Delete currently connected CreateReview document */
-  delete?: InputMaybe<Scalars['Boolean']['input']>;
-  /** Disconnect currently connected CreateReview document */
-  disconnect?: InputMaybe<Scalars['Boolean']['input']>;
-  /** Update single CreateReview document */
-  update?: InputMaybe<CreateReviewUpdateWithNestedWhereUniqueInput>;
-  /** Upsert single CreateReview document */
-  upsert?: InputMaybe<CreateReviewUpsertWithNestedWhereUniqueInput>;
-};
-
-export type CreateReviewUpdateWithNestedWhereUniqueInput = {
-  /** Document to update */
-  data: CreateReviewUpdateInput;
-  /** Unique document search */
-  where: CreateReviewWhereUniqueInput;
-};
-
-export type CreateReviewUpsertInput = {
-  /** Create document if it didn't exist */
-  create: CreateReviewCreateInput;
-  /** Update document if it exists */
-  update: CreateReviewUpdateInput;
-};
-
-export type CreateReviewUpsertWithNestedWhereUniqueInput = {
-  /** Upsert data */
-  data: CreateReviewUpsertInput;
-  /** Unique document search */
-  where: CreateReviewWhereUniqueInput;
-};
-
-/** This contains a set of filters that can be used to compare values internally */
-export type CreateReviewWhereComparatorInput = {
-  /** This field can be used to request to check if the entry is outdated by internal comparison */
-  outdated_to?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-/** Identifies documents */
-export type CreateReviewWhereInput = {
-  /** Logical AND on all given filters. */
-  AND?: InputMaybe<Array<CreateReviewWhereInput>>;
-  /** Logical NOT on all given filters combined by AND. */
-  NOT?: InputMaybe<Array<CreateReviewWhereInput>>;
-  /** Logical OR on all given filters. */
-  OR?: InputMaybe<Array<CreateReviewWhereInput>>;
-  /** Contains search across all appropriate fields. */
-  _search?: InputMaybe<Scalars['String']['input']>;
-  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values greater than the given value. */
-  createdAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values greater than or equal the given value. */
-  createdAt_gte?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values that are contained in given list. */
-  createdAt_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
-  /** All values less than the given value. */
-  createdAt_lt?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values less than or equal the given value. */
-  createdAt_lte?: InputMaybe<Scalars['DateTime']['input']>;
-  /** Any other value that exists and is not equal to the given value. */
-  createdAt_not?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values that are not contained in given list. */
-  createdAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
-  createdBy?: InputMaybe<UserWhereInput>;
-  documentInStages_every?: InputMaybe<CreateReviewWhereStageInput>;
-  documentInStages_none?: InputMaybe<CreateReviewWhereStageInput>;
-  documentInStages_some?: InputMaybe<CreateReviewWhereStageInput>;
-  id?: InputMaybe<Scalars['ID']['input']>;
-  /** All values containing the given string. */
-  id_contains?: InputMaybe<Scalars['ID']['input']>;
-  /** All values ending with the given string. */
-  id_ends_with?: InputMaybe<Scalars['ID']['input']>;
-  /** All values that are contained in given list. */
-  id_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Any other value that exists and is not equal to the given value. */
-  id_not?: InputMaybe<Scalars['ID']['input']>;
-  /** All values not containing the given string. */
-  id_not_contains?: InputMaybe<Scalars['ID']['input']>;
-  /** All values not ending with the given string */
-  id_not_ends_with?: InputMaybe<Scalars['ID']['input']>;
-  /** All values that are not contained in given list. */
-  id_not_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** All values not starting with the given string. */
-  id_not_starts_with?: InputMaybe<Scalars['ID']['input']>;
-  /** All values starting with the given string. */
-  id_starts_with?: InputMaybe<Scalars['ID']['input']>;
-  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values greater than the given value. */
-  publishedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values greater than or equal the given value. */
-  publishedAt_gte?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values that are contained in given list. */
-  publishedAt_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
-  /** All values less than the given value. */
-  publishedAt_lt?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values less than or equal the given value. */
-  publishedAt_lte?: InputMaybe<Scalars['DateTime']['input']>;
-  /** Any other value that exists and is not equal to the given value. */
-  publishedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values that are not contained in given list. */
-  publishedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
-  publishedBy?: InputMaybe<UserWhereInput>;
-  review?: InputMaybe<ReviewWhereInput>;
-  scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
-  scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
-  scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
-  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values greater than the given value. */
-  updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values greater than or equal the given value. */
-  updatedAt_gte?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values that are contained in given list. */
-  updatedAt_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
-  /** All values less than the given value. */
-  updatedAt_lt?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values less than or equal the given value. */
-  updatedAt_lte?: InputMaybe<Scalars['DateTime']['input']>;
-  /** Any other value that exists and is not equal to the given value. */
-  updatedAt_not?: InputMaybe<Scalars['DateTime']['input']>;
-  /** All values that are not contained in given list. */
-  updatedAt_not_in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']['input']>>>;
-  updatedBy?: InputMaybe<UserWhereInput>;
-};
-
-/** The document in stages filter allows specifying a stage entry to cross compare the same document between different stages */
-export type CreateReviewWhereStageInput = {
-  /** Logical AND on all given filters. */
-  AND?: InputMaybe<Array<CreateReviewWhereStageInput>>;
-  /** Logical NOT on all given filters combined by AND. */
-  NOT?: InputMaybe<Array<CreateReviewWhereStageInput>>;
-  /** Logical OR on all given filters. */
-  OR?: InputMaybe<Array<CreateReviewWhereStageInput>>;
-  /** This field contains fields which can be set as true or false to specify an internal comparison */
-  compareWithParent?: InputMaybe<CreateReviewWhereComparatorInput>;
-  /** Specify the stage to compare with */
-  stage?: InputMaybe<Stage>;
-};
-
-/** References CreateReview record uniquely */
-export type CreateReviewWhereUniqueInput = {
-  id?: InputMaybe<Scalars['ID']['input']>;
-};
-
 export type Currency = Entity & Node & {
   code: Scalars['String']['output'];
   /** The time the document was created */
@@ -4798,7 +4402,6 @@ export enum EntityTypeName {
   /** Collection of products, e.g. Winter Sale. */
   Collection = 'Collection',
   CopyOfVariantQm16 = 'CopyOfVariantQm16',
-  CreateReview = 'CreateReview',
   Currency = 'Currency',
   FavoriteProduct = 'FavoriteProduct',
   Order = 'Order',
@@ -5305,8 +4908,6 @@ export type Mutation = {
   createCollection?: Maybe<Collection>;
   /** Create one copyOfVariantQm16 */
   createCopyOfVariantQm16?: Maybe<CopyOfVariantQm16>;
-  /** Create one createReview */
-  createCreateReview?: Maybe<CreateReview>;
   /** Create one currency */
   createCurrency?: Maybe<Currency>;
   /** Create one favoriteProduct */
@@ -5345,8 +4946,6 @@ export type Mutation = {
   deleteCollection?: Maybe<Collection>;
   /** Delete one copyOfVariantQm16 from _all_ existing stages. Returns deleted document. */
   deleteCopyOfVariantQm16?: Maybe<CopyOfVariantQm16>;
-  /** Delete one createReview from _all_ existing stages. Returns deleted document. */
-  deleteCreateReview?: Maybe<CreateReview>;
   /** Delete one currency from _all_ existing stages. Returns deleted document. */
   deleteCurrency?: Maybe<Currency>;
   /** Delete one favoriteProduct from _all_ existing stages. Returns deleted document. */
@@ -5400,13 +4999,6 @@ export type Mutation = {
   deleteManyCopyOfVariantQm16S: BatchPayload;
   /** Delete many CopyOfVariantQm16 documents, return deleted documents */
   deleteManyCopyOfVariantQm16SConnection: CopyOfVariantQm16Connection;
-  /**
-   * Delete many CreateReview documents
-   * @deprecated Please use the new paginated many mutation (deleteManyCreateReviewsConnection)
-   */
-  deleteManyCreateReviews: BatchPayload;
-  /** Delete many CreateReview documents, return deleted documents */
-  deleteManyCreateReviewsConnection: CreateReviewConnection;
   /**
    * Delete many Currency documents
    * @deprecated Please use the new paginated many mutation (deleteManyCurrenciesConnection)
@@ -5520,8 +5112,6 @@ export type Mutation = {
   publishCollection?: Maybe<Collection>;
   /** Publish one copyOfVariantQm16 */
   publishCopyOfVariantQm16?: Maybe<CopyOfVariantQm16>;
-  /** Publish one createReview */
-  publishCreateReview?: Maybe<CreateReview>;
   /** Publish one currency */
   publishCurrency?: Maybe<Currency>;
   /** Publish one favoriteProduct */
@@ -5575,13 +5165,6 @@ export type Mutation = {
   publishManyCopyOfVariantQm16S: BatchPayload;
   /** Publish many CopyOfVariantQm16 documents */
   publishManyCopyOfVariantQm16SConnection: CopyOfVariantQm16Connection;
-  /**
-   * Publish many CreateReview documents
-   * @deprecated Please use the new paginated many mutation (publishManyCreateReviewsConnection)
-   */
-  publishManyCreateReviews: BatchPayload;
-  /** Publish many CreateReview documents */
-  publishManyCreateReviewsConnection: CreateReviewConnection;
   /**
    * Publish many Currency documents
    * @deprecated Please use the new paginated many mutation (publishManyCurrenciesConnection)
@@ -5691,8 +5274,6 @@ export type Mutation = {
   schedulePublishCollection?: Maybe<Collection>;
   /** Schedule to publish one copyOfVariantQm16 */
   schedulePublishCopyOfVariantQm16?: Maybe<CopyOfVariantQm16>;
-  /** Schedule to publish one createReview */
-  schedulePublishCreateReview?: Maybe<CreateReview>;
   /** Schedule to publish one currency */
   schedulePublishCurrency?: Maybe<Currency>;
   /** Schedule to publish one favoriteProduct */
@@ -5729,8 +5310,6 @@ export type Mutation = {
   scheduleUnpublishCollection?: Maybe<Collection>;
   /** Unpublish one copyOfVariantQm16 from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
   scheduleUnpublishCopyOfVariantQm16?: Maybe<CopyOfVariantQm16>;
-  /** Unpublish one createReview from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
-  scheduleUnpublishCreateReview?: Maybe<CreateReview>;
   /** Unpublish one currency from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
   scheduleUnpublishCurrency?: Maybe<Currency>;
   /** Unpublish one favoriteProduct from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
@@ -5767,8 +5346,6 @@ export type Mutation = {
   unpublishCollection?: Maybe<Collection>;
   /** Unpublish one copyOfVariantQm16 from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
   unpublishCopyOfVariantQm16?: Maybe<CopyOfVariantQm16>;
-  /** Unpublish one createReview from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
-  unpublishCreateReview?: Maybe<CreateReview>;
   /** Unpublish one currency from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
   unpublishCurrency?: Maybe<Currency>;
   /** Unpublish one favoriteProduct from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
@@ -5822,13 +5399,6 @@ export type Mutation = {
   unpublishManyCopyOfVariantQm16S: BatchPayload;
   /** Find many CopyOfVariantQm16 documents that match criteria in specified stage and unpublish from target stages */
   unpublishManyCopyOfVariantQm16SConnection: CopyOfVariantQm16Connection;
-  /**
-   * Unpublish many CreateReview documents
-   * @deprecated Please use the new paginated many mutation (unpublishManyCreateReviewsConnection)
-   */
-  unpublishManyCreateReviews: BatchPayload;
-  /** Find many CreateReview documents that match criteria in specified stage and unpublish from target stages */
-  unpublishManyCreateReviewsConnection: CreateReviewConnection;
   /**
    * Unpublish many Currency documents
    * @deprecated Please use the new paginated many mutation (unpublishManyCurrenciesConnection)
@@ -5938,8 +5508,6 @@ export type Mutation = {
   updateCollection?: Maybe<Collection>;
   /** Update one copyOfVariantQm16 */
   updateCopyOfVariantQm16?: Maybe<CopyOfVariantQm16>;
-  /** Update one createReview */
-  updateCreateReview?: Maybe<CreateReview>;
   /** Update one currency */
   updateCurrency?: Maybe<Currency>;
   /** Update one favoriteProduct */
@@ -5993,13 +5561,6 @@ export type Mutation = {
   updateManyCopyOfVariantQm16S: BatchPayload;
   /** Update many CopyOfVariantQm16 documents */
   updateManyCopyOfVariantQm16SConnection: CopyOfVariantQm16Connection;
-  /**
-   * Update many createReviews
-   * @deprecated Please use the new paginated many mutation (updateManyCreateReviewsConnection)
-   */
-  updateManyCreateReviews: BatchPayload;
-  /** Update many CreateReview documents */
-  updateManyCreateReviewsConnection: CreateReviewConnection;
   /**
    * Update many currencies
    * @deprecated Please use the new paginated many mutation (updateManyCurrenciesConnection)
@@ -6111,8 +5672,6 @@ export type Mutation = {
   upsertCollection?: Maybe<Collection>;
   /** Upsert one copyOfVariantQm16 */
   upsertCopyOfVariantQm16?: Maybe<CopyOfVariantQm16>;
-  /** Upsert one createReview */
-  upsertCreateReview?: Maybe<CreateReview>;
   /** Upsert one currency */
   upsertCurrency?: Maybe<Currency>;
   /** Upsert one favoriteProduct */
@@ -6170,11 +5729,6 @@ export type MutationCreateCollectionArgs = {
 
 export type MutationCreateCopyOfVariantQm16Args = {
   data: CopyOfVariantQm16CreateInput;
-};
-
-
-export type MutationCreateCreateReviewArgs = {
-  data: CreateReviewCreateInput;
 };
 
 
@@ -6270,11 +5824,6 @@ export type MutationDeleteCollectionArgs = {
 
 export type MutationDeleteCopyOfVariantQm16Args = {
   where: CopyOfVariantQm16WhereUniqueInput;
-};
-
-
-export type MutationDeleteCreateReviewArgs = {
-  where: CreateReviewWhereUniqueInput;
 };
 
 
@@ -6390,21 +5939,6 @@ export type MutationDeleteManyCopyOfVariantQm16SConnectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<CopyOfVariantQm16ManyWhereInput>;
-};
-
-
-export type MutationDeleteManyCreateReviewsArgs = {
-  where?: InputMaybe<CreateReviewManyWhereInput>;
-};
-
-
-export type MutationDeleteManyCreateReviewsConnectionArgs = {
-  after?: InputMaybe<Scalars['ID']['input']>;
-  before?: InputMaybe<Scalars['ID']['input']>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<CreateReviewManyWhereInput>;
 };
 
 
@@ -6679,12 +6213,6 @@ export type MutationPublishCopyOfVariantQm16Args = {
 };
 
 
-export type MutationPublishCreateReviewArgs = {
-  to?: Array<Stage>;
-  where: CreateReviewWhereUniqueInput;
-};
-
-
 export type MutationPublishCurrencyArgs = {
   to?: Array<Stage>;
   where: CurrencyWhereUniqueInput;
@@ -6838,24 +6366,6 @@ export type MutationPublishManyCopyOfVariantQm16SConnectionArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   to?: Array<Stage>;
   where?: InputMaybe<CopyOfVariantQm16ManyWhereInput>;
-};
-
-
-export type MutationPublishManyCreateReviewsArgs = {
-  to?: Array<Stage>;
-  where?: InputMaybe<CreateReviewManyWhereInput>;
-};
-
-
-export type MutationPublishManyCreateReviewsConnectionArgs = {
-  after?: InputMaybe<Scalars['ID']['input']>;
-  before?: InputMaybe<Scalars['ID']['input']>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  from?: InputMaybe<Stage>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  to?: Array<Stage>;
-  where?: InputMaybe<CreateReviewManyWhereInput>;
 };
 
 
@@ -7203,14 +6713,6 @@ export type MutationSchedulePublishCopyOfVariantQm16Args = {
 };
 
 
-export type MutationSchedulePublishCreateReviewArgs = {
-  releaseAt?: InputMaybe<Scalars['DateTime']['input']>;
-  releaseId?: InputMaybe<Scalars['String']['input']>;
-  to?: Array<Stage>;
-  where: CreateReviewWhereUniqueInput;
-};
-
-
 export type MutationSchedulePublishCurrencyArgs = {
   releaseAt?: InputMaybe<Scalars['DateTime']['input']>;
   releaseId?: InputMaybe<Scalars['String']['input']>;
@@ -7370,14 +6872,6 @@ export type MutationScheduleUnpublishCopyOfVariantQm16Args = {
 };
 
 
-export type MutationScheduleUnpublishCreateReviewArgs = {
-  from?: Array<Stage>;
-  releaseAt?: InputMaybe<Scalars['DateTime']['input']>;
-  releaseId?: InputMaybe<Scalars['String']['input']>;
-  where: CreateReviewWhereUniqueInput;
-};
-
-
 export type MutationScheduleUnpublishCurrencyArgs = {
   from?: Array<Stage>;
   releaseAt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -7517,12 +7011,6 @@ export type MutationUnpublishCollectionArgs = {
 export type MutationUnpublishCopyOfVariantQm16Args = {
   from?: Array<Stage>;
   where: CopyOfVariantQm16WhereUniqueInput;
-};
-
-
-export type MutationUnpublishCreateReviewArgs = {
-  from?: Array<Stage>;
-  where: CreateReviewWhereUniqueInput;
 };
 
 
@@ -7673,24 +7161,6 @@ export type MutationUnpublishManyCopyOfVariantQm16SConnectionArgs = {
   skip?: InputMaybe<Scalars['Int']['input']>;
   stage?: InputMaybe<Stage>;
   where?: InputMaybe<CopyOfVariantQm16ManyWhereInput>;
-};
-
-
-export type MutationUnpublishManyCreateReviewsArgs = {
-  from?: Array<Stage>;
-  where?: InputMaybe<CreateReviewManyWhereInput>;
-};
-
-
-export type MutationUnpublishManyCreateReviewsConnectionArgs = {
-  after?: InputMaybe<Scalars['ID']['input']>;
-  before?: InputMaybe<Scalars['ID']['input']>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  from?: Array<Stage>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  stage?: InputMaybe<Stage>;
-  where?: InputMaybe<CreateReviewManyWhereInput>;
 };
 
 
@@ -8006,12 +7476,6 @@ export type MutationUpdateCopyOfVariantQm16Args = {
 };
 
 
-export type MutationUpdateCreateReviewArgs = {
-  data: CreateReviewUpdateInput;
-  where: CreateReviewWhereUniqueInput;
-};
-
-
 export type MutationUpdateCurrencyArgs = {
   data: CurrencyUpdateInput;
   where: CurrencyWhereUniqueInput;
@@ -8140,23 +7604,6 @@ export type MutationUpdateManyCopyOfVariantQm16SConnectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<CopyOfVariantQm16ManyWhereInput>;
-};
-
-
-export type MutationUpdateManyCreateReviewsArgs = {
-  data: CreateReviewUpdateManyInput;
-  where?: InputMaybe<CreateReviewManyWhereInput>;
-};
-
-
-export type MutationUpdateManyCreateReviewsConnectionArgs = {
-  after?: InputMaybe<Scalars['ID']['input']>;
-  before?: InputMaybe<Scalars['ID']['input']>;
-  data: CreateReviewUpdateManyInput;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<CreateReviewManyWhereInput>;
 };
 
 
@@ -8449,12 +7896,6 @@ export type MutationUpsertCopyOfVariantQm16Args = {
 };
 
 
-export type MutationUpsertCreateReviewArgs = {
-  upsert: CreateReviewUpsertInput;
-  where: CreateReviewWhereUniqueInput;
-};
-
-
 export type MutationUpsertCurrencyArgs = {
   upsert: CurrencyUpsertInput;
   where: CurrencyWhereUniqueInput;
@@ -8687,6 +8128,7 @@ export type OrderItem = Entity & Node & {
   publishedBy?: Maybe<User>;
   quantity: Scalars['Int']['output'];
   scheduledIn: Array<ScheduledOperation>;
+  size?: Maybe<Scalars['String']['output']>;
   /** System stage field */
   stage: Stage;
   total: Scalars['Int']['output'];
@@ -8773,6 +8215,7 @@ export type OrderItemCreateInput = {
   order?: InputMaybe<OrderCreateOneInlineInput>;
   product?: InputMaybe<ProductCreateOneInlineInput>;
   quantity: Scalars['Int']['input'];
+  size?: InputMaybe<Scalars['String']['input']>;
   total: Scalars['Int']['input'];
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
@@ -8883,6 +8326,25 @@ export type OrderItemManyWhereInput = {
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
+  size?: InputMaybe<Scalars['String']['input']>;
+  /** All values containing the given string. */
+  size_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values ending with the given string. */
+  size_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are contained in given list. */
+  size_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  size_not?: InputMaybe<Scalars['String']['input']>;
+  /** All values not containing the given string. */
+  size_not_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values not ending with the given string */
+  size_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are not contained in given list. */
+  size_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** All values not starting with the given string. */
+  size_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values starting with the given string. */
+  size_starts_with?: InputMaybe<Scalars['String']['input']>;
   total?: InputMaybe<Scalars['Int']['input']>;
   /** All values greater than the given value. */
   total_gt?: InputMaybe<Scalars['Int']['input']>;
@@ -8925,6 +8387,8 @@ export enum OrderItemOrderByInput {
   PublishedAtDesc = 'publishedAt_DESC',
   QuantityAsc = 'quantity_ASC',
   QuantityDesc = 'quantity_DESC',
+  SizeAsc = 'size_ASC',
+  SizeDesc = 'size_DESC',
   TotalAsc = 'total_ASC',
   TotalDesc = 'total_DESC',
   UpdatedAtAsc = 'updatedAt_ASC',
@@ -8935,6 +8399,7 @@ export type OrderItemUpdateInput = {
   order?: InputMaybe<OrderUpdateOneInlineInput>;
   product?: InputMaybe<ProductUpdateOneInlineInput>;
   quantity?: InputMaybe<Scalars['Int']['input']>;
+  size?: InputMaybe<Scalars['String']['input']>;
   total?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -8957,6 +8422,7 @@ export type OrderItemUpdateManyInlineInput = {
 
 export type OrderItemUpdateManyInput = {
   quantity?: InputMaybe<Scalars['Int']['input']>;
+  size?: InputMaybe<Scalars['String']['input']>;
   total?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -9093,6 +8559,25 @@ export type OrderItemWhereInput = {
   scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
   scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
+  size?: InputMaybe<Scalars['String']['input']>;
+  /** All values containing the given string. */
+  size_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values ending with the given string. */
+  size_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are contained in given list. */
+  size_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  size_not?: InputMaybe<Scalars['String']['input']>;
+  /** All values not containing the given string. */
+  size_not_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values not ending with the given string */
+  size_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are not contained in given list. */
+  size_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** All values not starting with the given string. */
+  size_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values starting with the given string. */
+  size_starts_with?: InputMaybe<Scalars['String']['input']>;
   total?: InputMaybe<Scalars['Int']['input']>;
   /** All values greater than the given value. */
   total_gt?: InputMaybe<Scalars['Int']['input']>;
@@ -12368,14 +11853,6 @@ export type Query = {
   copyOfVariantQm16SConnection: CopyOfVariantQm16Connection;
   /** Retrieve document version */
   copyOfVariantQm16Version?: Maybe<DocumentVersion>;
-  /** Retrieve a single createReview */
-  createReview?: Maybe<CreateReview>;
-  /** Retrieve document version */
-  createReviewVersion?: Maybe<DocumentVersion>;
-  /** Retrieve multiple createReviews */
-  createReviews: Array<CreateReview>;
-  /** Retrieve multiple createReviews using the Relay connection interface */
-  createReviewsConnection: CreateReviewConnection;
   /** Retrieve multiple currencies */
   currencies: Array<Currency>;
   /** Retrieve multiple currencies using the Relay connection interface */
@@ -12752,44 +12229,6 @@ export type QueryCopyOfVariantQm16SConnectionArgs = {
 
 export type QueryCopyOfVariantQm16VersionArgs = {
   where: VersionWhereInput;
-};
-
-
-export type QueryCreateReviewArgs = {
-  locales?: Array<Locale>;
-  stage?: Stage;
-  where: CreateReviewWhereUniqueInput;
-};
-
-
-export type QueryCreateReviewVersionArgs = {
-  where: VersionWhereInput;
-};
-
-
-export type QueryCreateReviewsArgs = {
-  after?: InputMaybe<Scalars['String']['input']>;
-  before?: InputMaybe<Scalars['String']['input']>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  locales?: Array<Locale>;
-  orderBy?: InputMaybe<CreateReviewOrderByInput>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  stage?: Stage;
-  where?: InputMaybe<CreateReviewWhereInput>;
-};
-
-
-export type QueryCreateReviewsConnectionArgs = {
-  after?: InputMaybe<Scalars['String']['input']>;
-  before?: InputMaybe<Scalars['String']['input']>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  locales?: Array<Locale>;
-  orderBy?: InputMaybe<CreateReviewOrderByInput>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  stage?: Stage;
-  where?: InputMaybe<CreateReviewWhereInput>;
 };
 
 
@@ -13449,7 +12888,6 @@ export type ReviewConnection = {
 };
 
 export type ReviewCreateInput = {
-  clyh71qhr02qw06w5dzcw6695?: InputMaybe<CreateReviewCreateManyInlineInput>;
   clyh73jz602su06w588p5ddx6?: InputMaybe<ReviewCreateManyInlineInput>;
   content: Scalars['String']['input'];
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -13682,7 +13120,6 @@ export enum ReviewOrderByInput {
 }
 
 export type ReviewUpdateInput = {
-  clyh71qhr02qw06w5dzcw6695?: InputMaybe<CreateReviewUpdateManyInlineInput>;
   clyh73jz602su06w588p5ddx6?: InputMaybe<ReviewUpdateManyInlineInput>;
   content?: InputMaybe<Scalars['String']['input']>;
   date?: InputMaybe<Scalars['Date']['input']>;
@@ -14055,7 +13492,7 @@ export type ScheduledOperationUpdatedByArgs = {
   locales?: InputMaybe<Array<Locale>>;
 };
 
-export type ScheduledOperationAffectedDocument = Account | Asset | Cart | CartProduct | Category | Collection | CopyOfVariantQm16 | CreateReview | Currency | FavoriteProduct | Order | OrderItem | Product | ProductColorVariant | ProductSizeColorVariant | ProductSizeVariant | ProductVariantStandard | Review | Size;
+export type ScheduledOperationAffectedDocument = Account | Asset | Cart | CartProduct | Category | Collection | CopyOfVariantQm16 | Currency | FavoriteProduct | Order | OrderItem | Product | ProductColorVariant | ProductSizeColorVariant | ProductSizeVariant | ProductVariantStandard | Review | Size;
 
 export type ScheduledOperationConnectInput = {
   /** Allow to specify document position in list of connected documents, will default to appending at end of list */
@@ -15992,6 +15429,7 @@ export type GetFavoritesQuery = { favoriteProducts: Array<{ id: string, product?
 export type UpdateCartProductMutationVariables = Exact<{
   quantity: Scalars['Int']['input'];
   cartProductId: Scalars['ID']['input'];
+  size: Scalars['String']['input'];
 }>;
 
 
@@ -16054,7 +15492,7 @@ export type CreateOrderMutationVariables = Exact<{
 }>;
 
 
-export type CreateOrderMutation = { createOrder?: { id: string, stripeCheckoutId: string, orderStatus: OrderStatus, orderItems: Array<{ quantity: number, product?: { slug: string, name: string, price: number, images: Array<{ url: string }> } | null }> } | null };
+export type CreateOrderMutation = { createOrder?: { id: string, stripeCheckoutId: string, orderStatus: OrderStatus, orderItems: Array<{ size?: string | null, product?: { slug: string, name: string, price: number, images: Array<{ url: string }> } | null }> } | null };
 
 export type UpdateOrderMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -16069,7 +15507,7 @@ export type GetOrdersQueryVariables = Exact<{
 }>;
 
 
-export type GetOrdersQuery = { orders: Array<{ total: number, stripeCheckoutId: string, createdAt: string, orderStatus: OrderStatus, orderItems: Array<{ product?: { slug: string, name: string, price: number, images: Array<{ url: string, fileName: string }> } | null }> }> };
+export type GetOrdersQuery = { orders: Array<{ total: number, stripeCheckoutId: string, createdAt: string, orderStatus: OrderStatus, orderItems: Array<{ size?: string | null, quantity: number, product?: { slug: string, name: string, price: number, images: Array<{ url: string, fileName: string }> } | null }> }> };
 
 export type GetProductBySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
@@ -16214,8 +15652,11 @@ export const GetFavoritesDocument = new TypedDocumentString(`
 }
     `) as unknown as TypedDocumentString<GetFavoritesQuery, GetFavoritesQueryVariables>;
 export const UpdateCartProductDocument = new TypedDocumentString(`
-    mutation UpdateCartProduct($quantity: Int!, $cartProductId: ID!) {
-  updateCartProduct(where: {id: $cartProductId}, data: {quantity: $quantity}) {
+    mutation UpdateCartProduct($quantity: Int!, $cartProductId: ID!, $size: String!) {
+  updateCartProduct(
+    where: {id: $cartProductId}
+    data: {quantity: $quantity, size: $size}
+  ) {
     id
   }
 }
@@ -16283,7 +15724,7 @@ export const CreateOrderDocument = new TypedDocumentString(`
     stripeCheckoutId
     orderStatus
     orderItems {
-      quantity
+      size
       product {
         slug
         name
@@ -16312,6 +15753,8 @@ export const GetOrdersDocument = new TypedDocumentString(`
     createdAt
     orderStatus
     orderItems {
+      size
+      quantity
       product {
         slug
         name

@@ -39,11 +39,17 @@ import {
 } from "@/components/ui/pagination";
 import { priceUpdate } from "@/utils/priceUpdate";
 
+type ProductType = {
+  image: string | undefined;
+  price: number | undefined;
+  name: string | undefined;
+  slug: string | undefined;
+};
+
 type OrderItemType = {
-  slug: string;
-  name: string;
-  price: number;
-  images: { url: string; fileName: string }[];
+  size: string | null | undefined;
+  quantity: number;
+  product: ProductType;
 };
 
 export type OrderType = {

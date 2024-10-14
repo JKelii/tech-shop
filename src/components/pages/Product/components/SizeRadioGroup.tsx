@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelectedSize } from "../hooks/useSelectedSize";
+import index from "@/app/pages";
 
 export type ProductType = {
   size: Array<{
@@ -10,13 +11,22 @@ export type ProductType = {
   }>;
 };
 
-export const SizeRadioGroup = ({ product }: { product: ProductType }) => {
-  const { selectedSize, setSelectedSize } = useSelectedSize();
+export type SizeRadioGroupProps = {
+  product: ProductType;
+  selectedSize: string | null;
+  onSizeSelect: (size: string) => void;
+};
 
+export const SizeRadioGroup = ({
+  product,
+  selectedSize,
+  onSizeSelect,
+}: SizeRadioGroupProps) => {
   const [selectedQuantity, setSelectedQuantity] = useState<number | null>(null);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const size = e.target.value;
-    setSelectedSize(size);
+    onSizeSelect(size);
     const sizeIndex = product.size[0].productVariantSize.findIndex(
       (item) => item.name === size
     );
@@ -51,11 +61,15 @@ export const SizeRadioGroup = ({ product }: { product: ProductType }) => {
               <span
                 className={`flex justify-center items-center text-center py-2 h-10 px-2 w-10 border rounded-md transition-colors ${
                   selectedSize === size
-                    ? "bg-black text-primary-foreground border-primary"
+                    ? "bg-black text-primary-foreground border-primary "
                     : "bg-background text-foreground border-input hover:bg-accent hover:text-accent-foreground"
                 } ${
                   size === "Standard" ? "w-32 text-semibold tracking-wide" : ""
-                }`}
+                }
+              ${size === "128GB" ? "w-16 text-semibold tracking-wide" : ""}
+               ${size === "256GB" ? "w-16  text-semibold tracking-wide" : ""}
+                ${size === "512GB" ? "w-16  text-semibold tracking-wide" : ""}
+              `}
               >
                 {size}
               </span>
@@ -64,7 +78,7 @@ export const SizeRadioGroup = ({ product }: { product: ProductType }) => {
       </div>
       {selectedQuantity !== null && (
         <p className="text-sm text-muted-foreground">
-          Stock: {selectedQuantity}
+          Left in stock: {selectedQuantity}
         </p>
       )}
     </div>

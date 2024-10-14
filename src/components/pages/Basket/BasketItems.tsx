@@ -23,34 +23,35 @@ const BasketItems = ({ cart }: { cart: ResponseGetCart[] | undefined }) => {
           </p>
           {cart ? (
             cart?.map((product) => (
-              <>
-                <div
-                  key={product.id}
-                  className="flex items-center justify-between border-b py-4 h-52 w-full"
-                >
-                  <div className="flex items-center space-x-4">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      width={100}
-                      height={100}
-                      className="rounded-md"
-                    />
-                    <div>
-                      <h3 className="font-semibold">{product.name}</h3>
-                      <p className="text-sm text-gray-500">Size:</p>
-                      <p className="text-sm text-gray-500">
-                        Quantity: {product.quantity}
-                      </p>
-                    </div>
-                  </div>
-                  <RemoveFromBasket
-                    product={product}
-                    productId={product.productId}
-                    productQuantity={product.quantity}
+              <div
+                key={product.id}
+                className="flex items-center justify-between border-b py-4 h-52 w-full"
+              >
+                <div className="flex items-center space-x-4">
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    width={100}
+                    height={100}
+                    priority
+                    className="rounded-md"
                   />
+                  <div>
+                    <h3 className="font-semibold">{product.name}</h3>
+                    <p className="text-sm text-gray-500">
+                      Size: {product.size}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      Quantity: {product.quantity}
+                    </p>
+                  </div>
                 </div>
-              </>
+                <RemoveFromBasket
+                  product={product}
+                  productId={product.id}
+                  productQuantity={product.quantity}
+                />
+              </div>
             ))
           ) : (
             <div className="flex justify-start items-start h-full">

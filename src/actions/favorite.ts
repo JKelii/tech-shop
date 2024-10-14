@@ -3,9 +3,9 @@
 import {
   createFavoriteProduct,
   deleteFavoriteProduct,
-  getFavoriteProduct,
   getFavorites,
 } from "@/lib";
+import { revalidateTag } from "next/cache";
 
 type AddToFavoriteAuthorizedParams = {
   slug: string;
@@ -20,20 +20,7 @@ export const addToFavoriteAuthorized = async ({
   if (!createdFavorite) {
     throw new Error("Can't save product in favorites");
   }
-};
-
-export const getFavoriteAuthorized = async ({
-  email,
-}: {
-  email: string | undefined | null;
-}) => {
-  const favoriteProducts = getFavorites({ email });
-
-  if (!favoriteProducts) {
-    throw new Error("Can't get products");
-  }
-
-  return favoriteProducts;
+  revalidateTag("getFavoriteProducts");
 };
 
 export const deleteProductFromFavorite = async ({
@@ -43,7 +30,7 @@ export const deleteProductFromFavorite = async ({
   favoriteProductId: string;
   email: string;
 }) => {
-  const favorite = await getFavoriteAuthorized({ email });
+  const favorite = await getFavorites({ email });
 
   const favoriteToRemove = favorite?.find(
     ({ favoriteId }) => favoriteId === favoriteProductId

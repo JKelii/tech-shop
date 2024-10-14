@@ -1,54 +1,46 @@
 type MappedGetOrders = {
-  orders: Array<{
-    total: number;
-    stripeCheckoutId: string;
-    createdAt: string;
-    orderItems: Array<{
+  orders: {
+    orderItems: {
+      size: string | null | undefined;
+      quantity: number;
       product: {
         id: string;
-        slug: string;
-        name: string;
+        images: { url: string }[];
         price: number;
-        description: string;
-        images: Array<{
-          url: string;
-          fileName: string;
-        }>;
+        name: string;
+        slug: string;
       };
-    }>;
-  }>;
+    }[];
+  }[];
 } | null;
 
 type ResponseGetOrders = {
-  id: string;
-  image: string;
-  price: number;
-  name: string;
-  slug: string;
+  size: string | null | undefined;
+  product: {
+    id: string;
+    image: string;
+    price: number;
+    name: string;
+    slug: string;
+  };
 }[];
 
 export const mapperGetOrders = (
   orders: MappedGetOrders
-): ResponseGetOrders[] | undefined => {
+): ResponseGetOrders | undefined => {
   if (!orders || orders.orders.length === 0) return undefined;
 
-  const filteredOrders = orders.orders.map((order) =>
-    order.orderItems.map((item) => item.product)
+  return orders.orders.flatMap((order) =>
+    order.orderItems.map((item) => ({
+      size: item.size,
+      quantity: item.quantity,
+      product: {
+        id: item.product.id,
+        image: item.product.images[0]?.url,
+        price: item.product.price,
+        name: item.product.name,
+        slug: item.product.slug,
+      },
+    }))
   );
-
-  filteredOrders
-    .map((item) =>
-      item.map((item) => {
-        if (item) {
-          return {
-            id: item.id,
-            image: item.images[0].url,
-            price: item.price,
-            name: item.name,
-            slug: item.slug,
-          };
-        }
-      })
-    )
-    .filter((v): v is ResponseGetOrders => Boolean(v));
 };

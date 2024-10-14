@@ -51,18 +51,22 @@ export const createOrder = async () => {
 
   if (!url) return { message: "Problem with creating order" };
   if (id) {
+    console.log(id);
     const orderId = await createOrderHygraph({
       email: email,
       stripeCheckoutId: id,
       orderStatus: OrderStatus.Created,
       total: cart.reduce((acc, curr) => acc + curr.price * curr.quantity, 0),
       orderItems: cart.map((item) => ({
-        productId: item.id,
+        size: item.size,
+        productId: item.productId,
         quantity: item.quantity,
         total: item.price * item.quantity,
       })),
     });
+    console.log(orderId);
     if (orderId) {
+      cookies().delete("cart");
       redirect(url);
     }
     if (!orderId) {

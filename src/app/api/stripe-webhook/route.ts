@@ -19,24 +19,25 @@ const handler = async (req: NextRequest) => {
       sig,
       secretStripeWebhook
     );
+    console.log("To jest event", event);
     await eventStripeWebhook(event);
     NextResponse.json({ status: 200 });
   } catch (error) {
     if (error instanceof Error)
       NextResponse.json({ message: `Webhook Error ${error.message}` });
   }
-
-  return NextResponse.json({ status: "200" });
 };
 
 export { handler as POST };
 
 const eventStripeWebhook = async (event: Stripe.Event) => {
   const type = event.type;
+
   switch (type) {
-    case "charge.succeeded":
-      console.log({ event });
+    case "checkout.session.completed":
+      const session = event.data.object as Stripe.Checkout.Session;
       if (event.id) {
+        console.log({ event });
         const order = await updateOrder(event.id, "paid");
         if (order) {
           console.log("order is paid");

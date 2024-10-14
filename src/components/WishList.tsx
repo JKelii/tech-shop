@@ -23,45 +23,52 @@ type Product = {
   favoriteId: string | undefined;
 };
 
-export const WishList = ({
-  slug,
-
-  favoriteId,
-}: Product) => {
+export const WishList = ({ slug, favoriteId }: Product) => {
   const { handleSubmit } = useForm();
   const { data: session } = useSession();
   const router = useRouter();
+
   const [isPending, startTransition] = useTransition();
+
+  //TODO: Create 2 separate functions
+  const addToFavorites = async () => {};
 
   const onSubmit = handleSubmit(async (data) => {
     if (!favoriteId) {
       const email = session?.user?.email;
-      if (!email) {
-        toast("You are not authorized ❌");
-        return;
-      }
-      if (email) {
-        startTransition(async () => {
-          await addToFavoriteAuthorized({ email, slug });
+      try {
+        if (!email) {
+          toast("You are not authorized ❌");
+          return;
+        }
+        if (email) {
+          const res = await addToFavoriteAuthorized({ email, slug });
+
+          if (res !== null) {
+            toast("Added to wishlist ✅");
+          }
           router.refresh();
-          toast("Added to wishlist ✅");
-        });
+        }
+      } catch (error) {
+        console.error("Error adding to favorites:", error);
+        toast("An error occurred while adding the item");
       }
     }
-    if (favoriteId) {
-      try {
-        startTransition(async () => {
-          await deleteProductFromFavorite({
-            favoriteProductId: favoriteId,
-            email: session?.user?.email as string,
-          });
-          router.refresh();
-          toast("Item removed from wishlist ❌");
+
+    try {
+      if (favoriteId) {
+        const res = await deleteProductFromFavorite({
+          favoriteProductId: favoriteId,
+          email: session?.user?.email as string,
         });
-      } catch (error) {
-        console.error("Error removing from favorites:", error);
-        toast("An error occurred while removing the item");
+        if (res !== null) {
+          toast("Item removed from wishlist ❌");
+        }
+        router.refresh();
       }
+    } catch (error) {
+      console.error("Error removing from favorites:", error);
+      toast("An error occurred while removing the item");
     }
   });
 
