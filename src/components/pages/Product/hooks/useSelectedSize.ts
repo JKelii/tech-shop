@@ -1,7 +1,8 @@
+import { useQueryState } from "nuqs";
 import { useState } from "react";
 
 export const useSelectedSize = () => {
-  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [selectedSize, setSelectedSize] = useQueryState("size");
   const onSizeSelect = (size: string) => {
     setSelectedSize(size);
   };

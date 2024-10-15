@@ -1,6 +1,4 @@
-import { useState } from "react";
-import { useSelectedSize } from "../hooks/useSelectedSize";
-import index from "@/app/pages";
+import { useSelectedProductQuantity } from "../hooks/useSelectedProductQuantity";
 
 export type ProductType = {
   size: Array<{
@@ -22,20 +20,23 @@ export const SizeRadioGroup = ({
   selectedSize,
   onSizeSelect,
 }: SizeRadioGroupProps) => {
-  const [selectedQuantity, setSelectedQuantity] = useState<number | null>(null);
+  const { selectedProductQuantity, onSelectedProductQuantity } =
+    useSelectedProductQuantity();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const size = e.target.value;
     onSizeSelect(size);
+
     const sizeIndex = product.size[0].productVariantSize.findIndex(
       (item) => item.name === size
     );
     if (sizeIndex !== -1) {
-      setSelectedQuantity(
+      onSelectedProductQuantity(
         product.size[0].productVariantSize[sizeIndex].productQuantity[0]
       );
     }
   };
+  console.log(selectedProductQuantity);
 
   const sizes = product.size[0].productVariantSize.map((size) => size.name);
   const options = ["128GB", "256GB", "512GB", "1TB"];
@@ -76,11 +77,11 @@ export const SizeRadioGroup = ({
             </label>
           ))}
       </div>
-      {selectedQuantity !== null && (
-        <p className="text-sm text-muted-foreground">
-          Left in stock: {selectedQuantity}
-        </p>
-      )}
+      <p className="text-sm text-muted-foreground h-[20px]">
+        {selectedProductQuantity && selectedProductQuantity > 0
+          ? `Left in stock: ${selectedProductQuantity}`
+          : selectedProductQuantity === 0 && "Out of stock"}
+      </p>
     </div>
   );
 };

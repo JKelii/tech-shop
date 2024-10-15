@@ -47,6 +47,7 @@ export const ProductPage = ({
           width={450}
           height={150}
           quality={100}
+          priority
           className="border-2 border-gray-300 rounded-md h-96"
         />
         <article className="flex flex-col items-start justify-center gap-6">

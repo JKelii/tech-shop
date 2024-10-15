@@ -13,6 +13,9 @@ import { ThreeDots } from "react-loader-spinner";
 import { ProductType } from "./pages/Product/ProductPage";
 import { useSelectedSize } from "./pages/Product/hooks/useSelectedSize";
 import { useRouter } from "next/navigation";
+import { useQueryState } from "nuqs";
+import { useSelectedProductQuantity } from "./pages/Product/hooks/useSelectedProductQuantity";
+import { cn } from "@/lib/utils";
 
 type AddToCartType = {
   slug: string;
@@ -43,11 +46,14 @@ export const AddToCartButton = ({ product }: { product: ProductType }) => {
 
   const { selectedSize, onSizeSelect } = useSelectedSize();
 
-  const outOfStock = selectedQuantity > productQuantity;
-  if (outOfStock) {
+  const { selectedProductQuantity } = useSelectedProductQuantity();
+  const overStockQuantity = selectedQuantity > productQuantity;
+
+  if (overStockQuantity) {
     setSelectedQuantity(productQuantity);
   }
 
+  console.log(selectedProductQuantity && selectedProductQuantity > 0);
   const onSubmit = handleSubmit(async () => {
     try {
       if (selectedQuantity < productQuantity) {
@@ -74,7 +80,7 @@ export const AddToCartButton = ({ product }: { product: ProductType }) => {
   });
   return (
     <form onSubmit={onSubmit} className="flex flex-col">
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col ">
         <SizeRadioGroup
           product={product}
           selectedSize={selectedSize}
@@ -82,7 +88,7 @@ export const AddToCartButton = ({ product }: { product: ProductType }) => {
         />
         <div className="flex gap-2 justify-center items-center">
           <p className="text-lg font-medium">Quantity:</p>
-          <div className="flex gap-2  items-center border rounded-md bg-white">
+          <div className="flex gap-2 items-center border rounded-md bg-white">
             <Button
               type="button"
               size="icon"
@@ -111,7 +117,7 @@ export const AddToCartButton = ({ product }: { product: ProductType }) => {
       </div>
 
       <Button
-        disabled={isPending || outOfStock}
+        disabled={isPending || overStockQuantity || !selectedSize}
         type="submit"
         className=" bg-black hover:bg-black/90 shadow-lg hover:translate-y-[1px] text-white font-bold h-12 py-2 px-4 rounded w-36 md:w-44 mt-6 mr-4"
       >
