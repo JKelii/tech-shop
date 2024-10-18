@@ -13,9 +13,7 @@ import { ThreeDots } from "react-loader-spinner";
 import { ProductType } from "./pages/Product/ProductPage";
 import { useSelectedSize } from "./pages/Product/hooks/useSelectedSize";
 import { useRouter } from "next/navigation";
-import { useQueryState } from "nuqs";
 import { useSelectedProductQuantity } from "./pages/Product/hooks/useSelectedProductQuantity";
-import { cn } from "@/lib/utils";
 
 type AddToCartType = {
   slug: string;
@@ -46,34 +44,24 @@ export const AddToCartButton = ({ product }: { product: ProductType }) => {
 
   const { selectedSize, onSizeSelect } = useSelectedSize();
 
-  const { selectedProductQuantity } = useSelectedProductQuantity();
-  const overStockQuantity = selectedQuantity > productQuantity;
-
-  if (overStockQuantity) {
-    setSelectedQuantity(productQuantity);
-  }
-
-  console.log(selectedProductQuantity && selectedProductQuantity > 0);
   const onSubmit = handleSubmit(async () => {
     try {
-      if (selectedQuantity < productQuantity) {
-        const res = startTransition(async () => {
-          if (selectedSize) {
-            await manageCart({
-              product: { size: selectedSize, slug, quantity: selectedQuantity },
-              email: session.data?.email,
-            });
+      const res = startTransition(async () => {
+        if (selectedSize) {
+          await manageCart({
+            product: { size: selectedSize, slug, quantity: selectedQuantity },
+            email: session.data?.email,
+          });
+        }
+        if (res !== null) {
+          if (selectedQuantity > 1) {
+            toast("Items added to cart ✅");
+          } else {
+            toast("Item added to cart ✅");
           }
-          if (res !== null) {
-            if (selectedQuantity > 1) {
-              toast("Items added to cart ✅");
-            } else {
-              toast("Item added to cart ✅");
-            }
-          }
-        });
-        router.refresh();
-      }
+        }
+      });
+      router.refresh();
     } catch (error) {
       console.error("Can't add item to cart", error);
     }
@@ -106,7 +94,6 @@ export const AddToCartButton = ({ product }: { product: ProductType }) => {
               type="button"
               size="icon"
               variant={"ghost"}
-              disabled={selectedQuantity === productQuantity}
               onClick={addQuantity}
               className="text-black w-8 rounded-sm  hover:bg-gray-100"
             >
@@ -117,7 +104,7 @@ export const AddToCartButton = ({ product }: { product: ProductType }) => {
       </div>
 
       <Button
-        disabled={isPending || overStockQuantity || !selectedSize}
+        disabled={isPending || !selectedSize}
         type="submit"
         className=" bg-black hover:bg-black/90 shadow-lg hover:translate-y-[1px] text-white font-bold h-12 py-2 px-4 rounded w-36 md:w-44 mt-6 mr-4"
       >

@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { CheckoutButton } from "@/components/pages/Basket/CheckoutButton";
 import BasketItems from "@/components/pages/Basket/BasketItems";
 import { getServerSession } from "next-auth";
+import Image from "next/image";
 
 const Page = async ({ params }: { params: { slug: string } }) => {
   const slug = params.slug;

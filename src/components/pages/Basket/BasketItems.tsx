@@ -1,10 +1,10 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ResponseGetCart } from "@/lib/mappers/getCart";
-import Image from "next/image";
 import React from "react";
 import RemoveFromBasket from "./RemoveFromBasket";
 import { priceUpdate } from "@/utils/priceUpdate";
+import Image from "next/image";
 
 const BasketItems = ({ cart }: { cart: ResponseGetCart[] | undefined }) => {
   const total = cart
@@ -14,11 +14,13 @@ const BasketItems = ({ cart }: { cart: ResponseGetCart[] | undefined }) => {
   return (
     <div className="container mx-auto p-4">
       <Card>
-        <CardHeader className={cart ? "min-h-24" : "h-24"}>
-          <CardTitle>Your Basket</CardTitle>
-        </CardHeader>
+        {cart && (
+          <CardHeader className={cart ? "min-h-24" : "h-24"}>
+            <CardTitle>Your Basket</CardTitle>
+          </CardHeader>
+        )}
         <CardContent className="flex flex-col gap-4">
-          <p className="text-black/90 text-xl font-semibold">
+          <p className="text-black/90 text-xl font-semibold mt-2">
             Total: {cart && total && priceUpdate(total)}
           </p>
           {cart ? (

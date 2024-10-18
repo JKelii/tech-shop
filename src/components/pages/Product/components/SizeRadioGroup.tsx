@@ -26,17 +26,7 @@ export const SizeRadioGroup = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const size = e.target.value;
     onSizeSelect(size);
-
-    const sizeIndex = product.size[0].productVariantSize.findIndex(
-      (item) => item.name === size
-    );
-    if (sizeIndex !== -1) {
-      onSelectedProductQuantity(
-        product.size[0].productVariantSize[sizeIndex].productQuantity[0]
-      );
-    }
   };
-  console.log(selectedProductQuantity);
 
   const sizes = product.size[0].productVariantSize.map((size) => size.name);
   const options = ["128GB", "256GB", "512GB", "1TB"];

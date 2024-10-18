@@ -30,10 +30,7 @@ export const WishList = ({ slug, favoriteId }: Product) => {
 
   const [isPending, startTransition] = useTransition();
 
-  //TODO: Create 2 separate functions
-  const addToFavorites = async () => {};
-
-  const onSubmit = handleSubmit(async (data) => {
+  const addFavorite = async () => {
     if (!favoriteId) {
       const email = session?.user?.email;
       try {
@@ -54,7 +51,9 @@ export const WishList = ({ slug, favoriteId }: Product) => {
         toast("An error occurred while adding the item");
       }
     }
+  };
 
+  const removeFavorite = async () => {
     try {
       if (favoriteId) {
         const res = await deleteProductFromFavorite({
@@ -69,6 +68,20 @@ export const WishList = ({ slug, favoriteId }: Product) => {
     } catch (error) {
       console.error("Error removing from favorites:", error);
       toast("An error occurred while removing the item");
+    }
+  };
+
+  const onSubmit = handleSubmit(() => {
+    if (favoriteId) {
+      startTransition(async () => {
+        await removeFavorite();
+      });
+      router.refresh();
+    } else if (!favoriteId) {
+      startTransition(async () => {
+        await addFavorite();
+      });
+      router.refresh();
     }
   });
 

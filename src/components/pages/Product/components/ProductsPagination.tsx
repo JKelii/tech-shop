@@ -29,6 +29,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cookies } from "next/headers";
+import SaveInCookiesDiv from "./SaveInCookiesDiv";
+import { LastSeen } from "./LastSeen";
 
 type ProductsPaginationProps = {
   products: {

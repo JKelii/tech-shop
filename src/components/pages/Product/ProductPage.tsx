@@ -4,7 +4,12 @@ import Image from "next/image";
 import Comments from "./components/Comments";
 import { ProductManagement } from "./components/ProductManagement";
 import { Separator } from "@/components/ui/separator";
-import { SizeRadioGroup } from "./components/SizeRadioGroup";
+import LastSeen from "./components/LastSeen";
+import {
+  GetProductBySlugQuery,
+  Product,
+} from "@/lib/hygraph/generated/graphql";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 export type ProductType = {
   description: string;
@@ -48,15 +53,16 @@ export const ProductPage = ({
           height={150}
           quality={100}
           priority
-          className="border-2 border-gray-300 rounded-md h-96"
+          className="border-2 border-gray-300 rounded-md aspect-auto"
         />
-        <article className="flex flex-col items-start justify-center gap-6">
-          <div className="flex justify-between items-center w-full">
+        <article className="flex flex-col items-start justify-center gap-6 mr-4">
+          <div className="flex flex-col gap-2 md:gap-0 md:flex-row justify-between items-center w-full">
             <p className="font-bold text-3xl self-start">{product.name}</p>
             <p className="self-start text-black font-bold text-3xl">
               {priceUpdate(product.price)}
             </p>
           </div>
+
           <p className="self-start">{product?.description}</p>
           <ProductManagement
             favoriteId={favoriteId}
@@ -66,6 +72,7 @@ export const ProductPage = ({
         </article>
       </div>
       <Separator className="h-[2px]" />
+      {/* <LastSeen lastSeen={lastSeen} /> */}
       <div className="w-full p-8">
         <Comments reviews={product.reviews} slug={product.slug} />
       </div>

@@ -19,9 +19,13 @@ const page = async () => {
   }
 
   return (
-    <div className="min-h-screen container mx-auto flex justify-center items-center flex-col  shadow-md gap-12 mt-4 mb-8 bg-gray-100/50 border-2 border-gray-200 pt-10 rounded-lg pb-10">
+    <div className="min-h-screen container mx-auto flex justify-start items-center flex-col  shadow-md gap-12 mt-4 mb-8 bg-gray-100/50 border-2 border-gray-200 pt-10 rounded-lg pb-10">
       <AccountCardContent />
-      <FilterOrders orders={orders} />
+      {orders.length >= 1 ? (
+        <FilterOrders orders={orders} />
+      ) : (
+        <p className="text-muted-foreground text-xl">There are no orders yet</p>
+      )}
     </div>
   );
 };

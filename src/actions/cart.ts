@@ -7,7 +7,6 @@ import {
   getCart,
   updateCartProduct,
 } from "@/lib";
-import { Product } from "@/lib/hygraph/generated/graphql";
 
 import { cookies } from "next/headers";
 
