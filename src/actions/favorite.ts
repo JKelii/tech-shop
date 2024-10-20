@@ -46,3 +46,9 @@ export const deleteProductFromFavorite = async ({
     }
   }
 };
+
+const handleFavorites = async (formData: FormData) => {
+  const favoriteId = formData.get("favoriteId");
+  if (favoriteId) {
+  }
+};

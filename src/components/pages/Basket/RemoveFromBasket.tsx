@@ -31,13 +31,11 @@ const RemoveFromBasket = ({
     startTransition(async () => {
       const updatedCart = await removeFromCart(productId);
       if (updatedCart) {
-        if (productQuantity > 1) {
-          toast("Items removed from cart ❌");
-        } else {
-          toast("Item removed from cart ❌");
-        }
-        router.refresh();
+        productQuantity > 1
+          ? toast("Items removed from cart ❌")
+          : toast("Item removed from cart ❌");
       }
+      router.refresh();
     });
   };
 

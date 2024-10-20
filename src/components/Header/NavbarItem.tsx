@@ -10,11 +10,13 @@ export const NavbarItem = ({
   label,
   link,
   icon,
+  setIsOpen,
 }: {
   label: string;
   link: string;
   icon?: ReactNode;
-  onClick?: () => void;
+  handleItemClick?: () => void;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const pathname = usePathname();
   const isActive =
@@ -29,6 +31,7 @@ export const NavbarItem = ({
           "w-full justify-start flex-col lg:flex-row text-sm xl:text-lg text-muted-foreground hover:text-foreground",
           isActive && "text-foreground"
         )}
+        onClick={() => setIsOpen(false)}
       >
         {icon && <span className="mr-2 size-5 ">{icon}</span>}
 

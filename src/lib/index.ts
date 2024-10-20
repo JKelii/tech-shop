@@ -29,6 +29,7 @@ import { mapperGetCart } from "./mappers/getCart";
 import { getServerSession } from "next-auth";
 
 import { mapperGetFavorites } from "./mappers/getFavorites";
+import { mapperCategories } from "./mappers/getCategories";
 
 type GraphQlError = {
   message: string;
@@ -475,7 +476,8 @@ export const getCategories = async () => {
 
   if (!data) return;
   console.log(data);
-  return data;
+
+  return mapperCategories(data.categories);
 };
 
 export const publishProductReview = async (id: string | undefined) => {

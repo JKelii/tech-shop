@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { CardFooter } from "@/components/ui/card";
 import { ResponseGetCart } from "@/lib/mappers/getCart";
 import { priceUpdate } from "@/utils/priceUpdate";
-import { getSession, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import React, { useTransition } from "react";
 import { ThreeDots } from "react-loader-spinner";
 

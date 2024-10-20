@@ -3,11 +3,8 @@ import { getFavoriteProducts, getProductSlug } from "@/lib";
 import NotFound from "./not-found";
 import { getServerSession } from "next-auth";
 import { Metadata } from "next";
-import {
-  createLastSeenCookie,
-  getProductsFromCookies,
-} from "@/actions/lastSeen";
-import SaveInCookiesDiv from "@/components/pages/Product/components/SaveInCookiesDiv";
+import { SaveProductInLastSeen } from "@/components/pages/Product/components/SaveProductInLastSeen";
+import { getLastSeenFromCookies } from "@/actions/lastSeen";
 
 export async function generateMetadata({
   params,
@@ -35,20 +32,22 @@ const Page = async ({ params }: { params: { slug: string } }) => {
   const slug = params.slug;
   const session = await getServerSession();
   const { product } = await getProductSlug({ slug });
-  const lastSeen = await getProductsFromCookies();
+  const lastSeenItems = await getLastSeenFromCookies();
   const responseFavorite = await getFavoriteProducts({
     email: session?.user?.email,
     slug,
   });
   if (!product) return <NotFound />;
+
   //TODO: Create component
 
   return (
     <>
+      <SaveProductInLastSeen slug={slug} />
       <ProductPage
         product={product}
+        lastSeenItems={lastSeenItems}
         slug={slug}
-        // lastSeen={lastSeen}
         favoriteId={responseFavorite?.favoriteProducts[0]?.id}
       />
     </>

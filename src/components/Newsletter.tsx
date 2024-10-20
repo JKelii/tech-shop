@@ -82,7 +82,7 @@ const Newsletter = ({
               <Mail />
               Subscribe
             </button>
-            <p className="text-sm text-gray-600 mt-2">
+            <p className="text-sm text-gray-600 mt-2 ml-4">
               We&apos;ll never share your email. Read our{" "}
               <span className="underline cursor-pointer"> privacy policy</span>.
             </p>

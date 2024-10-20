@@ -4,12 +4,8 @@ import Image from "next/image";
 import Comments from "./components/Comments";
 import { ProductManagement } from "./components/ProductManagement";
 import { Separator } from "@/components/ui/separator";
-import LastSeen from "./components/LastSeen";
-import {
-  GetProductBySlugQuery,
-  Product,
-} from "@/lib/hygraph/generated/graphql";
-import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import { GetProductBySlugQuery } from "@/lib/hygraph/generated/graphql";
+import { LastSeenItems } from "./components/LastSeenItems";
 
 export type ProductType = {
   description: string;
@@ -36,9 +32,11 @@ export type ProductType = {
 };
 
 export const ProductPage = ({
+  lastSeenItems,
   product,
   favoriteId,
 }: {
+  lastSeenItems: GetProductBySlugQuery[] | undefined;
   product: ProductType;
   slug: string;
   favoriteId: string | undefined;
@@ -62,7 +60,6 @@ export const ProductPage = ({
               {priceUpdate(product.price)}
             </p>
           </div>
-
           <p className="self-start">{product?.description}</p>
           <ProductManagement
             favoriteId={favoriteId}
@@ -71,9 +68,12 @@ export const ProductPage = ({
           />
         </article>
       </div>
+
       <Separator className="h-[2px]" />
-      {/* <LastSeen lastSeen={lastSeen} /> */}
       <div className="w-full p-8">
+        {lastSeenItems && lastSeenItems.length >= 1 && (
+          <LastSeenItems lastSeenItems={lastSeenItems} slug={product.slug} />
+        )}
         <Comments reviews={product.reviews} slug={product.slug} />
       </div>
     </div>

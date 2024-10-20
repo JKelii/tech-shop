@@ -18,14 +18,6 @@ const Testimonials = () => {
             standards of quality and value.
           </p>
           <Separator className="mt-2" />
-
-          <p className="text-muted-foreground text-md mt-2">
-            As a customer-centric business, we&apos;re constantly evolving to
-            meet your needs. Whether you&apos;re shopping online or visiting our
-            physical store, we strive to make your experience seamless and
-            enjoyable. Thank you for choosing Our Shop - we look forward to
-            serving you!
-          </p>
         </CardContent>
       </Card>
     </div>
