@@ -3,31 +3,15 @@ import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { useSession } from "next-auth/react";
 import React, { startTransition, useTransition } from "react";
 import { useForm } from "react-hook-form";
-
-import { Toaster } from "./ui/toaster";
-import { Button } from "./ui/button";
-import { SizeRadioGroup } from "./pages/Product/components/SizeRadioGroup";
-import { useQuantityProduct } from "./pages/Product/hooks/useQuantityProduct";
-import { toast } from "sonner";
-import { ThreeDots } from "react-loader-spinner";
-import { ProductType } from "./pages/Product/ProductPage";
-import { useSelectedSize } from "./pages/Product/hooks/useSelectedSize";
+import { ProductType } from "../ProductPage";
 import { useRouter } from "next/navigation";
-import { useSelectedProductQuantity } from "./pages/Product/hooks/useSelectedProductQuantity";
-
-type AddToCartType = {
-  slug: string;
-  name: string;
-  image: string;
-  price: number;
-  size: Array<{
-    productVariantSize: Array<{
-      name?: string | null;
-      productQuantity: Array<number>;
-    }>;
-  }>;
-  productQuantity: number;
-};
+import { useQuantityProduct } from "../hooks/useQuantityProduct";
+import { useSelectedSize } from "../hooks/useSelectedSize";
+import { toast } from "sonner";
+import { SizeRadioGroup } from "./SizeRadioGroup";
+import { Button } from "@/components/ui/button";
+import { ThreeDots } from "react-loader-spinner";
+import { Toaster } from "@/components/ui/toaster";
 
 export const AddToCartButton = ({ product }: { product: ProductType }) => {
   const { slug, quantity: productQuantity, size } = product;

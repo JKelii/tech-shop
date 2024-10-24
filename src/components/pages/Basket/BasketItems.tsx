@@ -21,7 +21,10 @@ const BasketItems = ({ cart }: { cart: ResponseGetCart[] | undefined }) => {
         )}
         <CardContent className="flex flex-col gap-4">
           <p className="text-black/90 text-xl font-semibold mt-2">
-            Total: {cart && total && priceUpdate(total)}
+            {cart &&
+              cart.length >= 1 &&
+              total &&
+              `Total: ${priceUpdate(total)}`}
           </p>
           {cart ? (
             cart?.map((product) => (

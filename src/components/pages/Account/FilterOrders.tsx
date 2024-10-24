@@ -58,46 +58,42 @@ export type OrderType = {
   createdAt: string;
   orderStatus: OrderStatus;
   orderItems: (OrderItemType | null | undefined)[];
-};
+}[];
 
 type FilterFormData = {
-  status?: OrderStatus;
-  minPrice?: number;
-  maxPrice?: number;
-  startDate?: Date;
-  endDate?: Date;
+  order: {
+    status?: OrderStatus;
+    minPrice?: number;
+    maxPrice?: number;
+    startDate?: Date;
+    endDate?: Date;
+  };
 };
 
-export default function FilterOrders({ orders }: { orders: OrderType[] }) {
-  const form = useForm<FilterFormData>({
-    defaultValues: {
-      status: undefined,
-      minPrice: undefined,
-      maxPrice: undefined,
-      startDate: undefined,
-      endDate: undefined,
-    },
-  });
+export default function FilterOrders({ orders }: { orders: OrderType }) {
+  const form = useForm<FilterFormData>({});
 
   const { control, handleSubmit, reset } = form;
 
-  const [filteredOrders, setFilteredOrders] = useState<OrderType[]>(orders);
+  const [filteredOrders, setFilteredOrders] = useState<OrderType>(orders);
 
   const onSubmit = (data: FilterFormData) => {
     const filtered = orders.filter((order) => {
-      const orderDate = new Date(order.createdAt);
+      const firstOrder = order;
+      const orderDate = new Date(firstOrder.createdAt);
 
-      const matchesStatus = data.status
-        ? order.orderStatus === data.status
-        : true;
+      const matchesStatus =
+        !data.order.status || firstOrder.orderStatus === data.order.status;
 
       const matchesPrice =
-        (!data.minPrice || order.total >= data.minPrice * 100) &&
-        (!data.maxPrice || order.total <= data.maxPrice * 100);
+        (!data.order.minPrice ||
+          firstOrder.total >= data.order.minPrice * 100) &&
+        (!data.order.maxPrice || firstOrder.total <= data.order.maxPrice * 100);
 
       const matchesDate =
-        (!data.startDate || orderDate >= data.startDate) &&
-        (!data.endDate || orderDate <= data.endDate);
+        (!data.order.startDate ||
+          orderDate >= new Date(data.order.startDate)) &&
+        (!data.order.endDate || orderDate <= new Date(data.order.endDate));
 
       return matchesStatus && matchesPrice && matchesDate;
     });
@@ -146,7 +142,7 @@ export default function FilterOrders({ orders }: { orders: OrderType[] }) {
           >
             <FormField
               control={control}
-              name="status"
+              name="order.status"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Status</FormLabel>
@@ -180,7 +176,7 @@ export default function FilterOrders({ orders }: { orders: OrderType[] }) {
             <div className="flex space-x-4">
               <FormField
                 control={control}
-                name="minPrice"
+                name="order.minPrice"
                 render={({ field }) => (
                   <FormItem className="flex-1">
                     <FormLabel>Min Price</FormLabel>
@@ -201,7 +197,7 @@ export default function FilterOrders({ orders }: { orders: OrderType[] }) {
 
               <FormField
                 control={control}
-                name="maxPrice"
+                name="order.maxPrice"
                 render={({ field }) => (
                   <FormItem className="flex-1">
                     <FormLabel>Max Price</FormLabel>
@@ -224,7 +220,7 @@ export default function FilterOrders({ orders }: { orders: OrderType[] }) {
             <div className="flex space-x-4">
               <FormField
                 control={control}
-                name="startDate"
+                name="order.startDate"
                 render={({ field }) => (
                   <FormItem className="flex flex-col flex-1">
                     <FormLabel>Start Date</FormLabel>
@@ -266,7 +262,7 @@ export default function FilterOrders({ orders }: { orders: OrderType[] }) {
 
               <FormField
                 control={control}
-                name="endDate"
+                name="order.endDate"
                 render={({ field }) => (
                   <FormItem className="flex flex-col flex-1">
                     <FormLabel>End Date</FormLabel>

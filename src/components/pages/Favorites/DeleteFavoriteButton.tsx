@@ -3,28 +3,27 @@ import { deleteProductFromFavorite } from "@/actions/favorite";
 import { Button } from "@/components/ui/button";
 import { ThreeDots } from "react-loader-spinner";
 import { X } from "lucide-react";
-import { Session } from "next-auth";
 
 import React, { useTransition } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export const DeleteFavoriteButton = ({
   favoriteId,
-  session,
 }: {
   favoriteId: string;
-  session: Session | null;
 }) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const session = useSession();
 
   const handleClick = async () => {
     try {
       const res = startTransition(async () => {
         await deleteProductFromFavorite({
           favoriteProductId: favoriteId,
-          email: session?.user?.email as string,
+          email: session?.data?.user?.email as string,
         });
       });
       if (res !== null) {

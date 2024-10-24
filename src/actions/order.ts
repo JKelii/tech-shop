@@ -1,6 +1,5 @@
 "use server";
 
-import { OrderType } from "@/components/pages/Account/OrdersList";
 import {
   createOrderHygraph,
   getCart,
@@ -64,7 +63,7 @@ export const createOrder = async () => {
         total: item.price * item.quantity,
       })),
     });
-    console.log(orderId);
+
     if (orderId) {
       cookies().delete("cart");
       redirect(url);
@@ -75,57 +74,18 @@ export const createOrder = async () => {
   }
 };
 
-export const updateOrder = async (orderStatus: string, id: string) => {
-  const orders = await getOrders();
-  if (!orders) {
-    return { error: "Can't get orders" };
+export const updateOrder = async (
+  orderStatus: string,
+  stripeCheckoutId: string
+) => {
+  const updatedOrder = await updateOrderStatus({
+    stripeCheckoutId: stripeCheckoutId,
+    orderStatus: orderStatus as OrderStatus,
+  });
+
+  if (updatedOrder) {
+    return { message: "Order updated" };
   }
 
-  if (Array.isArray(orders)) {
-    const orderedId = orders.find(
-      (item: OrderType) => item.stripeCheckoutId === id
-    );
-
-    if (!orderedId) {
-      return { error: "Can't find order" };
-    }
-    if (orderedId) {
-      const updatedOrder = await updateOrderStatus({
-        id: orderedId.stripeCheckoutId,
-        orderStatus: orderStatus as OrderStatus,
-      });
-      if (updatedOrder) {
-        return { message: "Order updated" };
-      }
-    }
-  } else {
-    return { error: "Order is not an array" };
-  }
+  return { error: "Failed to update order" };
 };
-
-// export const updateOrder = async (orderStatus: string, id: string) => {
-//   const orders = await getOrders();
-//   if (!orders) {
-//     return { error: "Can't get orders" };
-//   }
-
-//   if (Array.isArray(orders)) {
-//     const orderedId = orders.find(
-//       (item: OrderType) => item.stripeCheckoutId === id
-//     );
-//     if (!orderedId) {
-//       return { error: "Can't find order" };
-//     }
-//     if (orderedId) {
-//       const updatedOrder = await updateOrderStatus({
-//         id: orderedId.stripeCheckoutId,
-//         orderStatus: orderStatus as OrderStatus,
-//       });
-//       if (updatedOrder) {
-//         return { message: "Order updated" };
-//       }
-//     }
-//   } else {
-//     return { error: "Order is not an array" };
-//   }
-// };

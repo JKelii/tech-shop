@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Input } from "./Inputs/input";
+import { Input } from "../../Inputs/input";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { userSchemaNewsletter } from "@/app/schema/userValidation";

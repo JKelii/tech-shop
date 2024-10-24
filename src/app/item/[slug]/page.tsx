@@ -37,9 +37,8 @@ const Page = async ({ params }: { params: { slug: string } }) => {
     email: session?.user?.email,
     slug,
   });
-  if (!product) return <NotFound />;
 
-  //TODO: Create component
+  if (!product) return <NotFound />;
 
   return (
     <>

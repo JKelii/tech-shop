@@ -15495,7 +15495,7 @@ export type CreateOrderMutationVariables = Exact<{
 export type CreateOrderMutation = { createOrder?: { id: string, stripeCheckoutId: string, orderStatus: OrderStatus, orderItems: Array<{ size?: string | null, product?: { slug: string, name: string, price: number, images: Array<{ url: string }> } | null }> } | null };
 
 export type UpdateOrderMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
+  stripeCheckoutId: Scalars['String']['input'];
   orderStatus: OrderStatus;
 }>;
 
@@ -15507,7 +15507,7 @@ export type GetOrdersQueryVariables = Exact<{
 }>;
 
 
-export type GetOrdersQuery = { orders: Array<{ total: number, stripeCheckoutId: string, createdAt: string, orderStatus: OrderStatus, orderItems: Array<{ size?: string | null, quantity: number, product?: { slug: string, name: string, price: number, images: Array<{ url: string, fileName: string }> } | null }> }> };
+export type GetOrdersQuery = { orders: Array<{ total: number, stripeCheckoutId: string, createdAt: string, orderStatus: OrderStatus, id: string, orderItems: Array<{ size?: string | null, quantity: number, product?: { slug: string, name: string, price: number, images: Array<{ url: string, fileName: string }> } | null }> }> };
 
 export type GetProductBySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
@@ -15738,8 +15738,11 @@ export const CreateOrderDocument = new TypedDocumentString(`
 }
     `) as unknown as TypedDocumentString<CreateOrderMutation, CreateOrderMutationVariables>;
 export const UpdateOrderDocument = new TypedDocumentString(`
-    mutation UpdateOrder($id: ID!, $orderStatus: OrderStatus!) {
-  updateOrder(where: {id: $id}, data: {orderStatus: $orderStatus}) {
+    mutation UpdateOrder($stripeCheckoutId: String!, $orderStatus: OrderStatus!) {
+  updateOrder(
+    where: {stripeCheckoutId: $stripeCheckoutId}
+    data: {orderStatus: $orderStatus}
+  ) {
     stripeCheckoutId
     orderStatus
   }
@@ -15752,6 +15755,7 @@ export const GetOrdersDocument = new TypedDocumentString(`
     stripeCheckoutId
     createdAt
     orderStatus
+    id
     orderItems {
       size
       quantity

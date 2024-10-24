@@ -4,6 +4,7 @@ query GetOrders($email: String!) {
     stripeCheckoutId
     createdAt
     orderStatus
+    id
     orderItems {
       size
       quantity

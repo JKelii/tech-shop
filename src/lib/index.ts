@@ -30,6 +30,8 @@ import { getServerSession } from "next-auth";
 
 import { mapperGetFavorites } from "./mappers/getFavorites";
 import { mapperCategories } from "./mappers/getCategories";
+import { mapperGetOrders } from "./mappers/getOrders";
+import { error } from "console";
 
 type GraphQlError = {
   message: string;
@@ -407,6 +409,7 @@ export const createOrderHygraph = async ({
 export const getOrders = async () => {
   const session = await getServerSession();
   const userEmail = session?.user?.email;
+  console.log("To jest email", userEmail);
   if (!userEmail) return { error: "You are not logged in" };
 
   const data = await fetcher({
@@ -420,32 +423,15 @@ export const getOrders = async () => {
     cache: "no-store",
   });
 
-  if (!data.orders) return { error: "Can't get orders" };
-  return data.orders.map((order) => ({
-    total: order.total,
-    stripeCheckoutId: order.stripeCheckoutId,
-    createdAt: order.createdAt,
-    orderItems: order.orderItems.map((item) => {
-      return {
-        size: item.size,
-        quantity: item.quantity,
-        product: {
-          image: item.product?.images[0]?.url,
-          price: item.product?.price,
-          name: item.product?.name,
-          slug: item.product?.slug,
-        },
-      };
-    }),
-    orderStatus: order.orderStatus,
-  }));
+  if (!data) return;
+  return mapperGetOrders(data.orders);
 };
 
 export const updateOrderStatus = async ({
-  id,
+  stripeCheckoutId,
   orderStatus,
 }: {
-  id: string;
+  stripeCheckoutId: string;
   orderStatus: OrderStatus;
 }) => {
   const data = await fetcher({
@@ -454,7 +440,7 @@ export const updateOrderStatus = async ({
     },
     query: UpdateOrderDocument,
     variables: {
-      id,
+      stripeCheckoutId,
       orderStatus,
     },
     cache: "no-store",

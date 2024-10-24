@@ -3,12 +3,11 @@
 import React, { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";
-import { Menu, ShoppingBasket, ShoppingCart } from "lucide-react";
+import { Menu, ShoppingCart } from "lucide-react";
 import { Logo } from "./logo";
 import { NavItems } from "./Headers";
 import { NavbarItem } from "./NavbarItem";
 import { Separator } from "../ui/separator";
-import { BasketHeader } from "./basketHeader";
 import Link from "next/link";
 
 export const MobileNavbar = () => {
@@ -27,7 +26,11 @@ export const MobileNavbar = () => {
               <Menu className="text-gray-400" />
             </Button>
           </SheetTrigger>
-          <SheetContent className="w-[400px] sm:w-[540px]" side="left">
+          <SheetContent
+            className="w-[400px] sm:w-[540px]"
+            side="left"
+            onClick={() => setIsOpen(false)}
+          >
             <Logo />
             <div className="flex flex-col items-center justify-center pt-4">
               {NavItems.map((item) => (

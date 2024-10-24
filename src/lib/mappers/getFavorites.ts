@@ -17,7 +17,7 @@ type MappedGetFavorites =
     }
   | undefined;
 
-type ResponseGetFavorites = {
+export type ResponseGetFavorites = {
   favoriteId: string;
   product: {
     id: string;

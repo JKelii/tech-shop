@@ -1,6 +1,8 @@
-import AddToCartButton from "@/components/addToCartButton";
-import { WishList } from "@/components/WishList";
+"use client";
+
+import { WishList } from "@/components/pages/Product/components/WishList";
 import { ProductType } from "../ProductPage";
+import AddToCartButton from "./addToCartButton";
 
 type ProductManagementProps = {
   product: ProductType;

@@ -1,4 +1,4 @@
-import Newsletter from "@/components/Newsletter";
+import Newsletter from "@/components/pages/Contact/Newsletter";
 import {
   Facebook,
   Instagram,
@@ -9,8 +9,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import { AskedQuestions } from "./_components/AskedQuestions";
-import Testimonials from "./_components/Testimonials";
+import { AskedQuestions } from "../../components/pages/Contact/AskedQuestions";
+import Testimonials from "../../components/pages/Contact/Testimonials";
 import { cookies } from "next/headers";
 import { Card } from "@/components/ui/card";
 

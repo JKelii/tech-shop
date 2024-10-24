@@ -10,7 +10,7 @@ import {
   deleteProductFromFavorite,
 } from "@/actions/favorite";
 import { cn } from "@/lib/utils";
-import { Button } from "./ui/button";
+import { Button } from "../../../ui/button";
 import { toast } from "sonner";
 import { ThreeDots } from "react-loader-spinner";
 
@@ -81,7 +81,9 @@ export const WishList = ({ slug, favoriteId }: Product) => {
       startTransition(async () => {
         await addFavorite();
       });
-      router.refresh();
+      setTimeout(() => {
+        router.refresh();
+      }, 1400);
     }
   });
 
