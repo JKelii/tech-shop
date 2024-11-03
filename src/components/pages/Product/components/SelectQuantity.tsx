@@ -4,8 +4,7 @@ import React from "react";
 import { useQuantityProduct } from "../hooks/useQuantityProduct";
 
 const SelectQuantity = ({ quantity }: { quantity: number }) => {
-  const { depriveQuantity, addQuantity, selectedQuantity } =
-    useQuantityProduct();
+  const { depriveQuantity, addQuantity } = useQuantityProduct();
   return (
     <div className="flex gap-2">
       <p className="text-lg">Quantity:</p>

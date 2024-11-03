@@ -10,13 +10,12 @@ export const NavbarItem = ({
   label,
   link,
   icon,
-  setIsOpen,
 }: {
   label: string;
   link: string;
   icon?: ReactNode;
   handleItemClick?: () => void;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const pathname = usePathname();
   const isActive =
@@ -28,11 +27,11 @@ export const NavbarItem = ({
         href={label === "Account" ? "/account" : link}
         className={cn(
           buttonVariants({ variant: "ghost" }),
-          "w-full justify-start flex-col lg:flex-row text-sm xl:text-lg text-muted-foreground hover:text-foreground",
+          "w-full justify-start flex-col lg:flex-row text-sm xl:text-md text-black hover:text-foreground",
           isActive && "text-foreground"
         )}
       >
-        {icon && <span className="mr-2 size-5 ">{icon}</span>}
+        {icon && <span className="mr-1 size-6 ">{icon}</span>}
 
         {label === "Account" ? "Account" : label}
       </Link>
@@ -40,7 +39,7 @@ export const NavbarItem = ({
       {isActive && (
         <li
           aria-label="Active page"
-          className="absolute -bottom-[20px] left-1/2 hidden h-[2px] w-[85%] -translate-x-1/2 rounded-xl bg-foreground lg:block"
+          className="absolute -bottom-[20px] left-1/2 hidden h-[2px] w-[85%] -translate-x-1/2 rounded-xl bg-black lg:block"
         ></li>
       )}
     </ul>

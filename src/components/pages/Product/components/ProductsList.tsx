@@ -4,24 +4,8 @@ import { priceUpdate } from "@/utils/priceUpdate";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { ITEMS_PER_PAGE } from "@/utils/constants";
 import { usePaginationQueryState } from "../hooks/usePaginationQueryState";
-
 import { ProductsFilters } from "./ProductsFilters";
 import { ProductsPagination } from "./ProductsPagination";
 

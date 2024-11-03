@@ -30,6 +30,8 @@ export const WishList = ({ slug, favoriteId }: Product) => {
 
   const [isPending, startTransition] = useTransition();
 
+  const present = Boolean(favoriteId);
+
   const addFavorite = async () => {
     if (!favoriteId) {
       const email = session?.user?.email;
@@ -53,31 +55,8 @@ export const WishList = ({ slug, favoriteId }: Product) => {
     }
   };
 
-  const removeFavorite = async () => {
-    try {
-      if (favoriteId) {
-        const res = await deleteProductFromFavorite({
-          favoriteProductId: favoriteId,
-          email: session?.user?.email as string,
-        });
-        if (res !== null) {
-          toast("Item removed from wishlist ❌");
-        }
-        router.refresh();
-      }
-    } catch (error) {
-      console.error("Error removing from favorites:", error);
-      toast("An error occurred while removing the item");
-    }
-  };
-
   const onSubmit = handleSubmit(() => {
-    if (favoriteId) {
-      startTransition(async () => {
-        await removeFavorite();
-      });
-      router.refresh();
-    } else if (!favoriteId) {
+    if (!favoriteId) {
       startTransition(async () => {
         await addFavorite();
       });
@@ -90,7 +69,7 @@ export const WishList = ({ slug, favoriteId }: Product) => {
   return (
     <form onSubmit={onSubmit}>
       <Button
-        disabled={isPending}
+        disabled={isPending || present}
         variant={"outline"}
         className="flex justify-center h-12  w-44 items-center gap-2 p-2 rounded-md border-[1px] border-gray-400 hover:translate-y-[1px]"
       >
@@ -100,7 +79,7 @@ export const WishList = ({ slug, favoriteId }: Product) => {
             favoriteId ? "fill-gray-400 text-gray-400" : "text-gray-500/90"
           )}
         />
-        {isPending ? (
+        {isPending && (
           <ThreeDots
             visible={true}
             height="40"
@@ -111,11 +90,8 @@ export const WishList = ({ slug, favoriteId }: Product) => {
             wrapperStyle={{}}
             wrapperClass=""
           />
-        ) : favoriteId ? (
-          <p className="text-gray-600">Remove favorite</p>
-        ) : (
-          <p className="text-gray-600">Add to wishlist </p>
         )}
+        <p className="text-gray-600">Add to wishlist </p>
       </Button>
     </form>
   );

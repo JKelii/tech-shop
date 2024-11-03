@@ -31,7 +31,7 @@ const handler = async (req: NextRequest, res: NextResponse) => {
     );
 
     await eventStripeWebhook(event);
-    console.log("event stripe webhook works");
+
     return NextResponse.json({ status: 200, event: event.type });
   } catch (error) {
     if (error instanceof Error) {

@@ -1,11 +1,12 @@
 "use client";
 import { priceUpdate } from "@/utils/priceUpdate";
 import Image from "next/image";
-import Comments from "./components/Comments";
-import { ProductManagement } from "./components/ProductManagement";
+import Comments from "./Comments";
+
 import { Separator } from "@/components/ui/separator";
 import { GetProductBySlugQuery } from "@/lib/hygraph/generated/graphql";
-import { LastSeenItems } from "./components/LastSeenItems";
+import { ProductManagement } from "./ProductManagement";
+import { LastSeenItems } from "./LastSeenItems";
 
 export type ProductType = {
   description: string;

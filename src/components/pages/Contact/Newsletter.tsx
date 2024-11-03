@@ -32,10 +32,10 @@ const Newsletter = ({
   const onSubmit = handleSubmit(async (data) => {
     try {
       await signUpNewsletter(data.email);
-      console.log("success");
+
       window.location.reload();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   });
 

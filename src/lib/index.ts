@@ -409,7 +409,6 @@ export const createOrderHygraph = async ({
 export const getOrders = async () => {
   const session = await getServerSession();
   const userEmail = session?.user?.email;
-  console.log("To jest email", userEmail);
   if (!userEmail) return { error: "You are not logged in" };
 
   const data = await fetcher({
@@ -461,7 +460,6 @@ export const getCategories = async () => {
   });
 
   if (!data) return;
-  console.log(data);
 
   return mapperCategories(data.categories);
 };

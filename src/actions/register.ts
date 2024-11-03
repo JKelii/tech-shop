@@ -11,6 +11,7 @@ export async function registerUserAction({
   password: string;
 }) {
   const hashedPassword = bcrypt.hashSync(password, 12);
+
   const account = await createAccount({
     email,
     password: hashedPassword,

@@ -4,7 +4,13 @@ import ProductOffer from "@/components/pages/Home/ProductOffer";
 
 const Home = async () => {
   return (
-    <main className="container mx-auto flex justify-center items-center flex-col  shadow-md gap-12 mt-4 mb-8 bg-gray-100/50 border-2 border-gray-200 pt-10 rounded-lg pb-10">
+    <main className="container mx-auto flex justify-center items-center flex-col  shadow-md gap-8 mt-4 mb-8 bg-gray-100/50 border-2 border-gray-200 pt-6 rounded-lg pb-10">
+      <article className="flex justify-center items-center flex-col">
+        <h1 className="text-4xl font-semibold">Welcome to TechShop</h1>
+        <p className="text-xl text-gray-700/80">
+          Discover the latest in technology and gadgets
+        </p>
+      </article>
       <div className="h-full w-full rounded-lg ">
         <MainOffer />
       </div>

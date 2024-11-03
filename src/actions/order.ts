@@ -50,7 +50,6 @@ export const createOrder = async () => {
 
   if (!url) return { message: "Problem with creating order" };
   if (id) {
-    console.log(id);
     const orderId = await createOrderHygraph({
       email: email,
       stripeCheckoutId: id,

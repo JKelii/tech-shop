@@ -1,4 +1,6 @@
+import { Input } from "@/components/ui/input";
 import { useSelectedProductQuantity } from "../hooks/useSelectedProductQuantity";
+import { Label } from "@/components/ui/label";
 
 export type ProductType = {
   size: Array<{
@@ -15,6 +17,8 @@ export type SizeRadioGroupProps = {
   onSizeSelect: (size: string) => void;
 };
 
+const options = ["128GB", "256GB", "512GB", "1TB"];
+
 export const SizeRadioGroup = ({
   product,
   selectedSize,
@@ -29,19 +33,21 @@ export const SizeRadioGroup = ({
   };
 
   const sizes = product.size[0].productVariantSize.map((size) => size.name);
-  const options = ["128GB", "256GB", "512GB", "1TB"];
   const isOptionSize = sizes.some((size) => options.includes(size as string));
-
+  {
+    isOptionSize ? "Memory Storage:" : "Size:";
+  }
+  //TODO: HTMLFORM refactor, category
   return (
     <div className="flex flex-col gap-2 mb-4">
-      <h2 className="text-lg font-bold">
+      <Label className="text-lg font-bold">
         {isOptionSize ? "Memory Storage:" : "Size:"}
-      </h2>
+      </Label>
       <div className="flex justify-start items-center gap-2">
         {sizes &&
           sizes.map((size) => (
-            <label key={size} className={`flex-1 cursor-pointer`}>
-              <input
+            <Label key={size} className={`flex-1 cursor-pointer`}>
+              <Input
                 type="radio"
                 name="size"
                 value={size || ""}
@@ -64,7 +70,7 @@ export const SizeRadioGroup = ({
               >
                 {size}
               </span>
-            </label>
+            </Label>
           ))}
       </div>
       <p className="text-sm text-muted-foreground h-[20px]">

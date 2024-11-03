@@ -9,6 +9,7 @@ import { NavItems } from "./Headers";
 import { NavbarItem } from "./NavbarItem";
 import { Separator } from "../ui/separator";
 import Link from "next/link";
+import Searchbar from "./searchbar";
 
 export const MobileNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,7 +28,7 @@ export const MobileNavbar = () => {
             </Button>
           </SheetTrigger>
           <SheetContent
-            className="w-[400px] sm:w-[540px]"
+            className="w-[400px] sm:w-[540px] flex justify-start items-center flex-col "
             side="left"
             onClick={() => setIsOpen(false)}
           >

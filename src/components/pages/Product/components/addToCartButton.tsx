@@ -3,15 +3,16 @@ import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { useSession } from "next-auth/react";
 import React, { startTransition, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { ProductType } from "../ProductPage";
+import { ProductType } from "./ProductPage";
 import { useRouter } from "next/navigation";
 import { useQuantityProduct } from "../hooks/useQuantityProduct";
 import { useSelectedSize } from "../hooks/useSelectedSize";
 import { toast } from "sonner";
-import { SizeRadioGroup } from "./SizeRadioGroup";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { ThreeDots } from "react-loader-spinner";
 import { Toaster } from "@/components/ui/toaster";
+import { SizeRadioGroup } from "./SizeRadioGroup";
 
 export const AddToCartButton = ({ product }: { product: ProductType }) => {
   const { slug, quantity: productQuantity, size } = product;
@@ -93,20 +94,15 @@ export const AddToCartButton = ({ product }: { product: ProductType }) => {
         className=" bg-black hover:bg-black/90 shadow-lg hover:translate-y-[1px] text-white font-bold h-12 py-2 px-4 rounded w-36 md:w-44 mt-6 mr-4"
       >
         <div className="flex justify-center items-center gap-2 md:gap-4 self-center">
-          <ShoppingCart size={20} />
           {isPending ? (
-            <ThreeDots
-              visible={true}
-              height="40"
-              width="40"
-              color="#fff"
-              radius="9"
-              ariaLabel="three-dots-loading"
-              wrapperStyle={{}}
-              wrapperClass=""
-            />
+            <Button disabled>
+              <ReloadIcon className="mr-2 h-full w-full animate-spin" />
+              Please wait
+            </Button>
           ) : (
-            <p>Add to cart</p>
+            <>
+              <ShoppingCart size={20} /> <p>Add to cart</p>
+            </>
           )}
         </div>
       </Button>

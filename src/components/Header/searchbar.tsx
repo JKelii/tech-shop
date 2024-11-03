@@ -21,7 +21,7 @@ const Searchbar = ({ className }: SearchbarType) => {
         <Input
           type="search"
           placeholder="Search products..."
-          className="w-48 lg:w-60 xl:w-96 h-9 pl-10 pr-12 rounded-md bg-muted focus:ring-primary focus:border-primary"
+          className="w-48 lg:w-60 xl:w-96 h-9 pl-10 pr-12 rounded-md bg-neutral-100/70 focus:ring-primary focus:border-primary"
         />
       </div>
     </form>

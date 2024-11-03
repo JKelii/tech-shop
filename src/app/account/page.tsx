@@ -1,6 +1,5 @@
 import AccountCardContent from "@/components/pages/Account/AccountCardContent";
-import FilterOrders from "@/components/pages/Account/FilterOrders";
-import { OrdersList } from "@/components/pages/Account/OrdersList";
+import { FilterOrders } from "@/components/pages/Account/FilterOrders";
 import { getOrders } from "@/lib";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";

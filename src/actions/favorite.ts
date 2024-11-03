@@ -5,7 +5,7 @@ import {
   deleteFavoriteProduct,
   getFavorites,
 } from "@/lib";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 type AddToFavoriteAuthorizedParams = {
   slug: string;

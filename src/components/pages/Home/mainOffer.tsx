@@ -9,8 +9,8 @@ const MainOffer = async () => {
   const { products } = await getAllProducts();
   return (
     <>
-      <Card className=" shadow-lg mt-2 rounded-lg bg-gray-100/60 border-[1px] pb-6 px-4">
-        <h2 className="text-3xl font-bold mb-4 ml-2 mt-4">Bestsellers</h2>
+      <Card className=" shadow-lg  rounded-lg bg-gray-100/50 border-[2px] pb-6 px-4">
+        <h2 className="text-2xl font-bold mb-4 ml-2 mt-4">Bestsellers</h2>
         <p className="text-muted-foreground mb-6  ml-2">
           Check out our most popular tech products to elevate your digital
           experience.
@@ -22,7 +22,7 @@ const MainOffer = async () => {
               className="border border-gray-400 rounded-md  bg-white"
             >
               <a href={`/item/${product.slug}`}>
-                <div className="w-full flex justify-center items-center bg-gray-100 rounded-t-md">
+                <div className="w-full flex justify-center items-center bg-gray-50/50 rounded-t-md">
                   <Image
                     src={product.images[0].url}
                     alt={product.name}

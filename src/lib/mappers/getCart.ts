@@ -32,9 +32,6 @@ export const mapperGetCart = (
   cart: MappedGetCart
 ): ResponseGetCart[] | undefined => {
   if (!cart || cart === null) return undefined;
-  if (!cart) {
-    console.log("cart is null");
-  }
 
   return cart.cartProduct
     .map(({ size, quantity, id, product }) => {

@@ -1,4 +1,4 @@
-import { ProductPage } from "@/components/pages/Product/ProductPage";
+import { ProductPage } from "@/components/pages/Product/components/ProductPage";
 import { getFavoriteProducts, getProductSlug } from "@/lib";
 import NotFound from "./not-found";
 import { getServerSession } from "next-auth";

@@ -17,9 +17,9 @@ import { Card } from "@/components/ui/card";
 const page = () => {
   const isSignedInNewsletter = Boolean(cookies().get("newsletter")?.value);
   const emailCookie = cookies().get("email")?.value;
-  //TODO: make the whole comoponent better
+
   return (
-    <Card className="min-h-screen container mx-auto flex flex-col justify-start items-center gap-8 border-2 bg-gray-200/50 rounded-lg border-gray-500 p-10 mt-10 mb-10">
+    <Card className="min-h-screen container mx-auto flex flex-col justify-start items-center gap-8 border-[2px] bg-gray-50 rounded-lg  p-10 mt-10 mb-10">
       <div className="flex flex-col xl:flex-row gap-4">
         <div className="bg-neutral-100 w-[22rem] md:w-[35rem] h-96 flex flex-col justify-start items-center rounded-lg shadow-lg ">
           <article className="ml-2 lg:ml-4 flex flex-col justify-start items-start gap-4 mt-8">

@@ -26,15 +26,15 @@ const LoginPage = () => {
   const session = useSession();
 
   return (
-    <main className="flex justify-center flex-wrap items-center min-h-screen w-full mt-10 lg:mt-4 xl:mt-0 mb-10 lg:mb-4 xl:mb-0">
-      <div className="w-[25rem] h-[33rem] lg:mt-0 border-2 border-gradient-to-r border-gray-500 rounded-md py-8 shadow-2xl flex justify-center items-center flex-col">
+    <main className="flex justify-center flex-wrap items-center grow w-full mt-10 lg:mt-4 xl:mt-0 mb-10 lg:mb-4 xl:mb-0">
+      <div className="w-[25rem] h-[33rem] lg:mt-0 border-2 border-gradient-to-r border-gray-500 rounded-md py-8 gap-4 shadow-2xl flex justify-center items-center flex-col">
         <p className="text-2xl font-bold text-center p-2 text-black">Login</p>
         <p className="text-center text-md text-gray-600">
           Enter your email and password to access your account.
         </p>
 
         <form
-          className="flex items-center mt-6 flex-col h-[45rem] w-[25rem] gap-6"
+          className="flex items-center mt-4 flex-col h-[45rem] w-[25rem] gap-6"
           onSubmit={onSubmit}
           noValidate
         >
@@ -51,22 +51,7 @@ const LoginPage = () => {
             error={errors.password?.message}
             name="password"
           />
-          <div className="flex justify-between items-center w-72">
-            <div className="items-top flex space-x-2  justify-center items-center">
-              <Checkbox id="terms1" className="data-[state=checked]:bg-black" />
-              <div className="grid gap-1.5 leading-none">
-                <label htmlFor="terms1" className="text-sm font-medium ">
-                  Remember me
-                </label>
-              </div>
-            </div>
-            <a
-              href="/"
-              className="text-sm text-gray-600 underline hover:text-gray-700 font-bold"
-            >
-              Forgot password?
-            </a>
-          </div>
+
           <button
             type="submit"
             className="w-64 py-2 text-white bg-black rounded hover:bg-black/80 focus:outline-none focus:ring-2 focus:ring-black/60 focus:ring-opacity-50"

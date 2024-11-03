@@ -1,8 +1,8 @@
 "use client";
 
 import { WishList } from "@/components/pages/Product/components/WishList";
-import { ProductType } from "../ProductPage";
 import AddToCartButton from "./addToCartButton";
+import { ProductType } from "./ProductPage";
 
 type ProductManagementProps = {
   product: ProductType;

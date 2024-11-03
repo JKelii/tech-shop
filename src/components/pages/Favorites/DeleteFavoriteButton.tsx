@@ -29,11 +29,13 @@ export const DeleteFavoriteButton = ({
       if (res !== null) {
         toast("Item removed from wishlist ❌");
       }
-      router.refresh();
     } catch (error) {
       console.error("Error removing from favorites:", error);
       toast("An error occurred while removing the item");
     }
+    setTimeout(() => {
+      router.refresh();
+    }, 1000);
   };
 
   return (
