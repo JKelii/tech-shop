@@ -50,12 +50,14 @@ const RegisterComponent = () => {
             {...register("name")}
             label="name"
             type="text"
+            example="example: John"
           />
           <Input
             error={errors.email?.message}
             {...register("email")}
             label="email"
             type="email"
+            example="example: johndoe@gmail.com"
           />
 
           <PasswordInput

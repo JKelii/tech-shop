@@ -1,13 +1,18 @@
 "use client";
 
-import { priceUpdate } from "@/utils/priceUpdate";
-import Image from "next/image";
-import Link from "next/link";
-import React, { useState } from "react";
+import React, { lazy, Suspense, useState } from "react";
 import { ITEMS_PER_PAGE } from "@/utils/constants";
 import { usePaginationQueryState } from "../hooks/usePaginationQueryState";
 import { ProductsFilters } from "./ProductsFilters";
 import { ProductsPagination } from "./ProductsPagination";
+import { useInView } from "react-intersection-observer";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const ProductsListItems = lazy(() =>
+  import("./ProductsListItems").then((module) => ({
+    default: module.ProductsListItems,
+  }))
+);
 
 type ProductsPaginationProps = {
   products: {
@@ -50,59 +55,44 @@ const ProductsList = ({
     startIndex + ITEMS_PER_PAGE
   );
 
+  const { ref: productsRef, inView: productsInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
   return (
-    <>
+    <div className="w-full">
       <ProductsFilters
         setPage={setPage}
         selectedCategories={selectedCategories}
         setFilteredProducts={setFilteredProducts}
         products={products}
       />
-      <div className="grid min-w-[320px] grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-24 lg:gap-20">
-        {currentItems.map((product) => (
-          <Link
-            href={`/item/${product.slug}`}
-            key={product.id}
-            className="bg-white/60 shadow-md hover:translate-y-[-3px] transition rounded-md"
-          >
-            <span className="w-full h-full ">
-              <article className="border-[1px] border-gray-500  hover:border-slate-700 size-80 rounded-md gap-2 flex justify-center items-center flex-col transition">
-                <Image
-                  src={product.images[0]?.url}
-                  alt={product.name}
-                  width={150}
-                  height={150}
-                  className=" min-h-[120px] min-w-[120px] w-auto h-auto"
-                />
-                <p className="font-semibold self-start ml-4">{product.name}</p>
-                <p className="text-sm self-start ml-4 text-muted-foreground">
-                  {product.description}
-                </p>
-                <p className="font-bold self-start ml-4">
-                  {priceUpdate(product.price)}
-                </p>
-              </article>
-            </span>
-          </Link>
-        ))}
+      <div className="w-full" ref={productsRef}>
+        {productsInView && (
+          <Suspense fallback={<Skeleton className="w-full h-[800px]" />}>
+            <div className="grid min-w-[320px] w-full grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-24 lg:gap-20">
+              <ProductsListItems currentItems={currentItems} />
+            </div>
+            <div className="flex justify-center items-center w-full mt-10 ">
+              <div className="flex flex-col items-center gap-4 w-full">
+                <nav
+                  className=""
+                  role="navigation"
+                  aria-label="Pagination Navigation"
+                >
+                  <ProductsPagination
+                    page={page}
+                    setPage={setPage}
+                    totalPages={totalPages}
+                  />
+                </nav>
+              </div>
+            </div>
+          </Suspense>
+        )}
       </div>
-
-      <div className="flex justify-center items-center w-full mt-10 ">
-        <div className="flex flex-col items-center gap-4 w-full">
-          <nav
-            className=""
-            role="navigation"
-            aria-label="Pagination Navigation"
-          >
-            <ProductsPagination
-              page={page}
-              setPage={setPage}
-              totalPages={totalPages}
-            />
-          </nav>
-        </div>
-      </div>
-    </>
+    </div>
   );
 };
 

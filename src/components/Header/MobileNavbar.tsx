@@ -9,7 +9,7 @@ import { NavItems } from "./Headers";
 import { NavbarItem } from "./NavbarItem";
 import { Separator } from "../ui/separator";
 import Link from "next/link";
-import Searchbar from "./searchbar";
+
 
 export const MobileNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);

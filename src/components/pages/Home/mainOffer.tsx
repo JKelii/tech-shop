@@ -7,6 +7,9 @@ import React from "react";
 
 const MainOffer = async () => {
   const { products } = await getAllProducts();
+
+  const bestProducts = [products[8], products[11], products[2], products[3]];
+
   return (
     <>
       <Card className=" shadow-lg  rounded-lg bg-gray-100/50 border-[2px] pb-6 px-4">
@@ -16,7 +19,7 @@ const MainOffer = async () => {
           experience.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
-          {products.slice(2, 4).map((product) => (
+          {bestProducts.map((product) => (
             <section
               key={product.slug}
               className="border border-gray-400 rounded-md  bg-white"

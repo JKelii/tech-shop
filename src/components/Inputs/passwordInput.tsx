@@ -18,6 +18,7 @@ export const PasswordInput = React.forwardRef<
         {...inputProps}
         ref={ref}
         type={isPassword ? "password" : "text"}
+        example={"min 6 characters"}
       />
 
       <button

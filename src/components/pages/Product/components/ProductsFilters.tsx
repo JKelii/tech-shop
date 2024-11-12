@@ -115,7 +115,7 @@ export const ProductsFilters = ({
     <FormProvider {...form}>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-6 px-6 py-4 mb-10"
+        className="space-y-6 px-6 py-4 mb-10 w-full"
       >
         <FormField
           control={control}

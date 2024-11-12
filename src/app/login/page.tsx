@@ -34,7 +34,7 @@ const LoginPage = () => {
         </p>
 
         <form
-          className="flex items-center mt-4 flex-col h-[45rem] w-[25rem] gap-6"
+          className="flex items-center mt-2 flex-col h-[45rem] w-[25rem] gap-6"
           onSubmit={onSubmit}
           noValidate
         >
@@ -43,6 +43,7 @@ const LoginPage = () => {
             {...register("email")}
             label="email"
             type="email"
+            example="example: johndoe@gmail.com"
           />
 
           <PasswordInput

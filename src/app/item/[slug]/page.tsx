@@ -1,10 +1,18 @@
-import { ProductPage } from "@/components/pages/Product/components/ProductPage";
 import { getFavoriteProducts, getProductSlug } from "@/lib";
 import NotFound from "./not-found";
 import { getServerSession } from "next-auth";
 import { Metadata } from "next";
 import { SaveProductInLastSeen } from "@/components/pages/Product/components/SaveProductInLastSeen";
 import { getLastSeenFromCookies } from "@/actions/lastSeen";
+import dynamic from "next/dynamic";
+import { ProductSkeleton } from "@/components/pages/Product/components/ProductSkeleton";
+
+const DynamicProduct = dynamic(
+  () => import("../../../components/pages/Product/components/ProductPage"),
+  {
+    loading: () => <ProductSkeleton />,
+  }
+);
 
 export async function generateMetadata({
   params,
@@ -18,7 +26,6 @@ export async function generateMetadata({
       title: "product not found",
     };
   }
-
   return {
     title: {
       template: product.name,
@@ -43,7 +50,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
   return (
     <>
       <SaveProductInLastSeen slug={slug} />
-      <ProductPage
+      <DynamicProduct
         product={product}
         lastSeenItems={lastSeenItems}
         slug={slug}

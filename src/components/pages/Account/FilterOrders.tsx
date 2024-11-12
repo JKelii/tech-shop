@@ -1,14 +1,25 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { lazy, Suspense, useState } from "react";
 import { SlidersHorizontal } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { OrdersList } from "./OrdersList";
 import { OrderStatus } from "@/lib/hygraph/generated/graphql";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { parseAsInteger, useQueryState } from "nuqs";
-import { OrderPagination } from "./OrderPagination";
 import { OrderFromProvider } from "./OrderFromProvider";
+import { useInView } from "react-intersection-observer";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const OrdersList = lazy(() =>
+  import("./OrdersList").then((module) => ({
+    default: module.OrdersList,
+  }))
+);
+
+const OrdersPagination = lazy(() =>
+  import("./OrdersPagination").then((module) => ({
+    default: module.OrdersPagination,
+  }))
+);
 
 type ProductType = {
   image: string | undefined;
@@ -41,6 +52,11 @@ type FilterFormData = {
   };
 };
 export const FilterOrders = ({ orders }: { orders: OrderType }) => {
+  const { ref: ordersRef, inView: ordersInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
   const [filteredOrders, setFilteredOrders] = useState<OrderType>(orders);
 
   const onSubmit = (data: FilterFormData) => {
@@ -105,12 +121,18 @@ export const FilterOrders = ({ orders }: { orders: OrderType }) => {
       <div className="flex justify-center items-center w-full mt-10 ">
         <div className="flex flex-col items-center gap-4 w-full"></div>
       </div>
-      <OrdersList orders={currentItems} />
-      <OrderPagination
-        page={page}
-        handlePageChange={handlePageChange}
-        totalPages={totalPages}
-      />
+      <div ref={ordersRef} className="w-full">
+        {ordersInView && (
+          <Suspense fallback={<Skeleton className="h-[500px] w-full" />}>
+            <OrdersList orders={currentItems} />
+            <OrdersPagination
+              page={page}
+              handlePageChange={handlePageChange}
+              totalPages={totalPages}
+            />
+          </Suspense>
+        )}
+      </div>
     </div>
   );
 };

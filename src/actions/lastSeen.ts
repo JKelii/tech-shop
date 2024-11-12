@@ -3,7 +3,6 @@
 import { getProductSlug } from "@/lib";
 import { GetProductBySlugQuery } from "@/lib/hygraph/generated/graphql";
 import { cookies } from "next/headers";
-//TODO: Change name, change left, unshift
 
 export const addToLastSeenItems = async ({ slug }: { slug: string }) => {
   const cookieStore = cookies();

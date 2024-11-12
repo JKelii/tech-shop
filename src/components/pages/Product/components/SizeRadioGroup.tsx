@@ -1,6 +1,12 @@
 import { Input } from "@/components/ui/input";
 import { useSelectedProductQuantity } from "../hooks/useSelectedProductQuantity";
 import { Label } from "@/components/ui/label";
+import {
+  FieldErrors,
+  UseFormRegister,
+  UseFormSetValue,
+  UseFormTrigger,
+} from "react-hook-form";
 
 export type ProductType = {
   size: Array<{
@@ -15,14 +21,30 @@ export type SizeRadioGroupProps = {
   product: ProductType;
   selectedSize: string | null;
   onSizeSelect: (size: string) => void;
+  register: UseFormRegister<{
+    RadioGroup: string;
+  }>;
+  errors: FieldErrors<{
+    RadioGroup: string;
+  }>;
+  trigger: UseFormTrigger<{
+    RadioGroup: string;
+  }>;
+  setValue: UseFormSetValue<{
+    RadioGroup: string;
+  }>;
 };
 
 const options = ["128GB", "256GB", "512GB", "1TB"];
 
 export const SizeRadioGroup = ({
+  register,
   product,
   selectedSize,
   onSizeSelect,
+  errors,
+  trigger,
+  setValue,
 }: SizeRadioGroupProps) => {
   const { selectedProductQuantity, onSelectedProductQuantity } =
     useSelectedProductQuantity();
@@ -30,6 +52,8 @@ export const SizeRadioGroup = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const size = e.target.value;
     onSizeSelect(size);
+    setValue("RadioGroup", size, { shouldValidate: true });
+    trigger("RadioGroup");
   };
 
   const sizes = product.size[0].productVariantSize.map((size) => size.name);
@@ -48,6 +72,7 @@ export const SizeRadioGroup = ({
           sizes.map((size) => (
             <Label key={size} className={`flex-1 cursor-pointer`}>
               <Input
+                {...register("RadioGroup")}
                 type="radio"
                 name="size"
                 value={size || ""}
@@ -73,6 +98,7 @@ export const SizeRadioGroup = ({
             </Label>
           ))}
       </div>
+      <p className="text-red-500 h-2">{errors.RadioGroup?.message}</p>
       <p className="text-sm text-muted-foreground h-[20px]">
         {selectedProductQuantity && selectedProductQuantity > 0
           ? `Left in stock: ${selectedProductQuantity}`

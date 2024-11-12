@@ -14,7 +14,7 @@ import Link from "next/link";
 import { priceUpdate } from "@/utils/priceUpdate";
 import { Separator } from "@/components/ui/separator";
 
-export const CarouselSize = async () => {
+export const ProductCarousel = async () => {
   const { products } = await getAllProducts();
   return (
     <Carousel

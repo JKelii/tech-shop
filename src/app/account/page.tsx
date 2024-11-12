@@ -21,6 +21,7 @@ const page = async () => {
   return (
     <div className="min-h-screen container mx-auto flex justify-start items-center flex-col  shadow-md gap-12 mt-4 mb-8 bg-gray-100/50 border-2 border-gray-200 pt-10 rounded-lg pb-10">
       <AccountCardContent />
+
       {orders && <FilterOrders orders={orders} />}
     </div>
   );

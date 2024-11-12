@@ -9,8 +9,9 @@ export const Input = React.forwardRef<
     label: string;
     error: string | undefined;
     type?: HTMLInputElement["type"];
+    example?: string;
   } & ReturnType<UseFormRegister<Record<string, unknown>>>
->(({ onChange, onBlur, name, className, label, error, type }, ref) => (
+>(({ onChange, onBlur, name, className, label, error, type, example }, ref) => (
   <div>
     <div className="flex flex-row items-center gap-1 ">
       <label
@@ -33,8 +34,8 @@ export const Input = React.forwardRef<
       )}
       placeholder={`Enter your ${name}`}
     />
-
-    <p className="text-red-500 h-2 normal-case first-letter:capitalize">
+    <p className="ml-1 h-2 my-1 text-sm text-muted-foreground">{example}</p>
+    <p className="text-red-500 ml-1 mt-3 h-2 normal-case first-letter:capitalize">
       {error}
     </p>
   </div>

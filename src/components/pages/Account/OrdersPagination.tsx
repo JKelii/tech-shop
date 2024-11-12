@@ -7,7 +7,7 @@ import {
 import { cn } from "@/lib/utils";
 import React from "react";
 
-export const OrderPagination = ({
+export const OrdersPagination = ({
   page,
   handlePageChange,
   totalPages,

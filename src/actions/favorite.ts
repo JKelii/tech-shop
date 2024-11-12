@@ -18,7 +18,7 @@ export const addToFavoriteAuthorized = async ({
 }: AddToFavoriteAuthorizedParams) => {
   const createdFavorite = createFavoriteProduct({ email, slug });
   if (!createdFavorite) {
-    throw new Error("Can't save product in favorites");
+    throw new Error("You have to be logged in");
   }
   revalidateTag("getFavoriteProducts");
 };

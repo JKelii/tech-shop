@@ -4,10 +4,8 @@ import "./globals.css";
 import { twMerge } from "tailwind-merge";
 import Footer from "@/components/Footer/footer";
 import { ClientContexts } from "@/contexts/ClientContexts";
-import { getCartFromCookie } from "@/actions/cart";
 import Headers from "@/components/Header/Headers";
 import { Toaster } from "sonner";
-import { ErrorBoundaryComponent } from "@/components/pages/Error/ErrorBoundaryComponent";
 import { CookiesModal } from "@/components/pages/Home/CookiesModal";
 
 const inter = Inter({ subsets: ["latin"] });

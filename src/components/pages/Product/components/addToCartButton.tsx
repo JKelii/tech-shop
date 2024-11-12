@@ -1,7 +1,7 @@
-import { manageCart, ManageCartParams } from "@/actions/cart";
+import { manageCart } from "@/actions/cart";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { useSession } from "next-auth/react";
-import React, { startTransition, useTransition } from "react";
+import React, { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { ProductType } from "./ProductPage";
 import { useRouter } from "next/navigation";
@@ -13,19 +13,26 @@ import { Button } from "@/components/ui/button";
 import { ThreeDots } from "react-loader-spinner";
 import { Toaster } from "@/components/ui/toaster";
 import { SizeRadioGroup } from "./SizeRadioGroup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { addToCartSchema } from "@/app/schema/addToCartValidation";
 
 export const AddToCartButton = ({ product }: { product: ProductType }) => {
   const { slug, quantity: productQuantity, size } = product;
   const [isPending, startTransition] = useTransition();
-  const { handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    trigger,
+    setValue,
+  } = useForm({
+    resolver: yupResolver(addToCartSchema),
+  });
   const session = useSession();
   const router = useRouter();
-  const {
-    depriveQuantity,
-    addQuantity,
-    selectedQuantity,
-    setSelectedQuantity,
-  } = useQuantityProduct();
+
+  const { depriveQuantity, addQuantity, selectedQuantity } =
+    useQuantityProduct();
 
   const { selectedSize, onSizeSelect } = useSelectedSize();
 
@@ -51,14 +58,20 @@ export const AddToCartButton = ({ product }: { product: ProductType }) => {
       console.error("Can't add item to cart", error);
     }
   });
+
   return (
     <form onSubmit={onSubmit} className="flex flex-col">
       <div className="flex flex-col ">
         <SizeRadioGroup
+          trigger={trigger}
+          setValue={setValue}
+          errors={errors}
+          register={register}
           product={product}
           selectedSize={selectedSize}
           onSizeSelect={onSizeSelect}
         />
+
         <div className="flex gap-2 justify-center items-center">
           <p className="text-lg font-medium">Quantity:</p>
           <div className="flex gap-2 items-center border rounded-md bg-white">
@@ -89,7 +102,7 @@ export const AddToCartButton = ({ product }: { product: ProductType }) => {
       </div>
 
       <Button
-        disabled={isPending || !selectedSize}
+        disabled={isPending}
         type="submit"
         className=" bg-black hover:bg-black/90 shadow-lg hover:translate-y-[1px] text-white font-bold h-12 py-2 px-4 rounded w-36 md:w-44 mt-6 mr-4"
       >
