@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
 import { buttonVariants } from "../ui/button";
+import { SheetDescription } from "../ui/sheet";
 
 export const NavbarItem = ({
   label,
@@ -27,13 +28,13 @@ export const NavbarItem = ({
         href={label === "Account" ? "/account" : link}
         className={cn(
           buttonVariants({ variant: "ghost" }),
-          "w-full justify-start flex-col lg:flex-row text-sm xl:text-md text-black hover:text-foreground",
+          "w-full justify-center items-center flex-col lg:flex-row text-sm xl:text-md text-black hover:text-foreground",
           isActive && "text-foreground"
         )}
       >
-        {icon && <span className="mr-1 size-6 ">{icon}</span>}
+        <span className="size-4"> {icon}</span>
 
-        {label === "Account" ? "Account" : label}
+        <p> {label === "Account" ? "Account" : label}</p>
       </Link>
 
       {isActive && (

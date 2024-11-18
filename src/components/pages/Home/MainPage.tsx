@@ -1,6 +1,6 @@
 import React from "react";
 import MainOffer from "./mainOffer";
-import { LazyMainComponents } from "./LazyMainComponents";
+import { MainComponents } from "./MainComponents";
 
 export const MainPage = () => {
   return (
@@ -13,7 +13,7 @@ export const MainPage = () => {
       </article>
       <div className="h-full w-full rounded-lg ">
         <MainOffer />
-        <LazyMainComponents />
+        <MainComponents />
       </div>
     </>
   );

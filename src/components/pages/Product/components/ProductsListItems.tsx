@@ -36,10 +36,10 @@ export const ProductsListItems = ({
         <Link
           href={`/item/${product.slug}`}
           key={product.id}
-          className="bg-white/60 shadow-md hover:translate-y-[-3px] transition rounded-md"
+          className="bg-white/60 shadow-md w-full transition rounded-md"
         >
           <span className="w-full h-full ">
-            <article className="border-[1px] border-gray-500  hover:border-slate-700 size-80 rounded-md gap-2 flex justify-center items-center flex-col transition">
+            <article className="border-[1px] border-gray-400 w-full  hover:border-slate-700 size-80 rounded-md gap-2 flex justify-center items-center flex-col transition">
               <Image
                 src={product.images[0]?.url}
                 alt={product.name}

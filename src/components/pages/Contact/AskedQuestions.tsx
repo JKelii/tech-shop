@@ -8,8 +8,8 @@ import { Card } from "@/components/ui/card";
 
 export const AskedQuestions = () => {
   return (
-    <div className="bg-gray-200 w-[22rem] md:w-[35rem] h-96 flex justify-center shadow-lg rounded-lg flex-col">
-      <Card className="bg-neutral-100 w-[22rem] md:w-[35rem] h-96 flex justify-center shadow-lg rounded-lg p-2 flex-col">
+    <div className="bg-white border w-[22rem] md:w-[35rem] h-96 flex justify-center shadow-lg rounded-lg flex-col">
+      <Card className=" w-[22rem] md:w-[35rem] h-96 flex justify-start shadow-lg rounded-lg p-2 flex-col">
         <h2 className="text-md md:text-3xl text-black font-bold ">
           Frequently Asked Question
         </h2>

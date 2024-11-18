@@ -12,7 +12,7 @@ const MainOffer = async () => {
 
   return (
     <>
-      <Card className=" shadow-lg  rounded-lg bg-gray-100/50 border-[2px] pb-6 px-4">
+      <Card className=" shadow-lg  rounded-lg bg-gray-100/50 border-[2px]  pb-6 px-4">
         <h2 className="text-2xl font-bold mb-4 ml-2 mt-4">Bestsellers</h2>
         <p className="text-muted-foreground mb-6  ml-2">
           Check out our most popular tech products to elevate your digital
@@ -22,7 +22,7 @@ const MainOffer = async () => {
           {bestProducts.map((product) => (
             <section
               key={product.slug}
-              className="border border-gray-400 rounded-md  bg-white"
+              className="border border-gray-400 rounded-md hover:border-gray-700  bg-white"
             >
               <a href={`/item/${product.slug}`}>
                 <div className="w-full flex justify-center items-center bg-gray-50/50 rounded-t-md">
@@ -32,7 +32,7 @@ const MainOffer = async () => {
                     width={400}
                     height={400}
                     priority
-                    className="size-36 md:size-44 lg:size-96"
+                    className="h-auto w-auto md:size-44 lg:size-96"
                   />
                 </div>
                 <Separator className="h-[1px] " />

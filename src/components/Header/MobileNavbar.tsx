@@ -1,15 +1,22 @@
 "use client";
 
 import React, { useState } from "react";
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../ui/sheet";
 import { Button } from "../ui/button";
 import { Menu, ShoppingCart } from "lucide-react";
 import { Logo } from "./logo";
-import { NavItems } from "./Headers";
+import { NavItems } from "./Header";
 import { NavbarItem } from "./NavbarItem";
 import { Separator } from "../ui/separator";
 import Link from "next/link";
-
+import { Searchbar } from "./Searchbar";
 
 export const MobileNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,15 +31,22 @@ export const MobileNavbar = () => {
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
             <Button variant={"ghost"} size={"icon"}>
-              <Menu className="text-gray-400" />
+              <Menu className="" />
             </Button>
           </SheetTrigger>
+
           <SheetContent
-            className="w-[400px] sm:w-[540px] flex justify-start items-center flex-col "
+            aria-describedby={undefined}
+            className="w-[400px] sm:w-[540px] flex justify-start items-center flex-col"
             side="left"
             onClick={() => setIsOpen(false)}
           >
-            <Logo />
+            <SheetHeader>
+              <SheetTitle>
+                <Logo />
+              </SheetTitle>
+            </SheetHeader>
+
             <div className="flex flex-col items-center justify-center pt-4">
               {NavItems.map((item) => (
                 <NavbarItem
@@ -45,11 +59,13 @@ export const MobileNavbar = () => {
             </div>
           </SheetContent>
         </Sheet>
-
+        <Searchbar />
         <div className="flex h-[80px] min-h-[60px] items-center gap-x-4">
           <div className="flex items-center gap-2">
             <Link href="/basket">
-              <ShoppingCart className="text-gray-400" />
+              <Button variant={"ghost"} size={"icon"}>
+                <ShoppingCart className="" />
+              </Button>
             </Link>
           </div>
         </div>

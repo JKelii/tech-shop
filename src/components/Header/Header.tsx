@@ -1,12 +1,4 @@
-import {
-  HeartIcon,
-  Mail,
-  Menu,
-  Package,
-  ShoppingCartIcon,
-  User,
-} from "lucide-react";
-
+import { HeartIcon, Mail, Package, User } from "lucide-react";
 import { DesktopNavbar } from "./DesktopNavbar";
 import { MobileNavbar } from "./MobileNavbar";
 
@@ -17,7 +9,7 @@ export const NavItems = [
   { label: "Account", link: "/account", icon: <User /> },
 ];
 
-const Headers = () => {
+const Header = () => {
   return (
     <>
       <DesktopNavbar />
@@ -26,4 +18,4 @@ const Headers = () => {
   );
 };
 
-export default Headers;
+export default Header;

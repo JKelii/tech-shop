@@ -35,7 +35,7 @@ export const LastSeenItems = ({
         <CardContent className="flex justify-center items-center gap-8">
           {filteredItems?.map((item) => (
             <Link href={`/item/${item.product?.slug}`} key={item?.product?.id}>
-              <article className="border-[1px] border-gray-200 size-80 rounded-md gap-2 flex justify-center items-center flex-col transition">
+              <article className="border-[1px] border-gray-200 hover:border-gray-700 size-80 rounded-md gap-2 flex justify-center items-center flex-col transition">
                 <Image
                   src={item?.product?.images[0].url || ""}
                   alt={item?.product?.name || ""}

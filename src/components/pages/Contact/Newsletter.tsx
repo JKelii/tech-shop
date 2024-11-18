@@ -40,7 +40,7 @@ const Newsletter = ({
   });
 
   return (
-    <div className="bg-neutral-100 w-[22rem] md:w-[35rem] h-96 flex flex-col justify-start items-center rounded-lg shadow-lg ">
+    <div className="bg-white border w-[22rem] md:w-[35rem] h-96 flex flex-col justify-start items-center rounded-lg shadow-lg ">
       {isSignedInNewsletter ? (
         <>
           <div className="flex justify-center items-center mt-5 flex-col w-3/4">

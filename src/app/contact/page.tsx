@@ -21,14 +21,13 @@ const page = () => {
   return (
     <Card className="min-h-screen container mx-auto flex flex-col justify-start items-center gap-8 border-[2px] bg-gray-50 rounded-lg  p-10 mt-10 mb-10">
       <div className="flex flex-col xl:flex-row gap-4">
-        <div className="bg-neutral-100 w-[22rem] md:w-[35rem] h-96 flex flex-col justify-start items-center rounded-lg shadow-lg ">
+        <div className="bg-white border w-[22rem] md:w-[35rem] h-96 flex flex-col justify-start items-center rounded-lg shadow-lg ">
           <article className="ml-2 lg:ml-4 flex flex-col justify-start items-start gap-4 mt-8">
             <h2 className="text-xl font-bold">Get in Touch</h2>
             <p className="text-muted-foreground">
               Have a question or need assistance? Contact us using the
               information below.
             </p>
-
             <address className="not-italic">
               <dl className="flex flex-col gap-6">
                 <div className="flex items-center">
@@ -60,7 +59,6 @@ const page = () => {
                 </div>
               </dl>
             </address>
-
             <div>
               <dt className="font-semibold">Social Media</dt>
               <dd>
@@ -86,7 +84,6 @@ const page = () => {
       </div>
       <div className="flex flex-col  justify-center items-center xl:flex-row  gap-4">
         <AskedQuestions />
-        {/*Change Testimonials */}
         <Testimonials />
       </div>
     </Card>

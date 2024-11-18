@@ -4,7 +4,7 @@ import "./globals.css";
 import { twMerge } from "tailwind-merge";
 import Footer from "@/components/Footer/footer";
 import { ClientContexts } from "@/contexts/ClientContexts";
-import Headers from "@/components/Header/Headers";
+import Headers from "@/components/Header/Header";
 import { Toaster } from "sonner";
 import { CookiesModal } from "@/components/pages/Home/CookiesModal";
 
