@@ -97,30 +97,3 @@ export const createOrder = async () => {
 //     return { error: "Order is not an array" };
 //   }
 // };
-
-// export const updateOrder = async (orderStatus: string, id: string) => {
-//   const orders = await getOrders();
-//   if (!orders) {
-//     return { error: "Can't get orders" };
-//   }
-
-//   if (Array.isArray(orders)) {
-//     const orderedId = orders.find(
-//       (item: OrderType) => item.stripeCheckoutId === id
-//     );
-//     if (!orderedId) {
-//       return { error: "Can't find order" };
-//     }
-//     if (orderedId) {
-//       const updatedOrder = await updateOrderStatus({
-//         id: orderedId.stripeCheckoutId,
-//         orderStatus: orderStatus as OrderStatus,
-//       });
-//       if (updatedOrder) {
-//         return { message: "Order updated" };
-//       }
-//     }
-//   } else {
-//     return { error: "Order is not an array" };
-//   }
-// };
