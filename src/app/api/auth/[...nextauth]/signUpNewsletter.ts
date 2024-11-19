@@ -1,6 +1,6 @@
 "use server";
 
-import { env } from "@/utils";
+import { getEnv } from "@/utils";
 import { cookies } from "next/headers";
 
 export const signUpNewsletter = async (email: string) => {
@@ -11,7 +11,7 @@ export const signUpNewsletter = async (email: string) => {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${env.MAILERLITE}`,
+        Authorization: `Bearer ${getEnv(process.env.NEXT_PUBLIC_MAILERLITE)}`,
       },
       body: JSON.stringify({ email }),
     }

@@ -9,7 +9,7 @@ export const NavItems = [
   { label: "Account", link: "/account", icon: <User /> },
 ];
 
-const Header = () => {
+const Header = async () => {
   return (
     <>
       <DesktopNavbar />

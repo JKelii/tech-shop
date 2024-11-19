@@ -4,6 +4,7 @@ export const getEnv = (env: string | undefined) => {
   if (!env) throw new Error(`Missing env ${env}`);
   return env;
 };
+//TODO: FIX MAILERLITE
 
 // export const env = cleanEnv(process.env, {
 //   MAILERLITE: str(),

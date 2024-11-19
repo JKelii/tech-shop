@@ -1,11 +1,9 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
 import { buttonVariants } from "../ui/button";
-import { SheetDescription } from "../ui/sheet";
 
 export const NavbarItem = ({
   label,
@@ -28,15 +26,15 @@ export const NavbarItem = ({
         href={label === "Account" ? "/account" : link}
         className={cn(
           buttonVariants({ variant: "ghost" }),
-          "w-full justify-center items-center flex-col lg:flex-row text-sm xl:text-md text-black hover:text-foreground",
+          "w-full text-md xl:text-md text-black hover:text-foreground",
           isActive && "text-foreground"
         )}
       >
-        <span className="size-4"> {icon}</span>
-
-        <p> {label === "Account" ? "Account" : label}</p>
+        <div className="justify-center items-center flex gap-2 ">
+          <span className="size-30">{icon}</span>
+          <p> {label === "Account" ? "Account" : label}</p>
+        </div>
       </Link>
-
       {isActive && (
         <li
           aria-label="Active page"

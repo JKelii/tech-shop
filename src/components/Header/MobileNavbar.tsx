@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -16,7 +15,7 @@ import { NavItems } from "./Header";
 import { NavbarItem } from "./NavbarItem";
 import { Separator } from "../ui/separator";
 import Link from "next/link";
-import { Searchbar } from "./Searchbar";
+import { Searchbar } from "./Searchbar/Searchbar";
 
 export const MobileNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +30,7 @@ export const MobileNavbar = () => {
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
             <Button variant={"ghost"} size={"icon"}>
-              <Menu className="" />
+              <Menu />
             </Button>
           </SheetTrigger>
 
@@ -64,7 +63,7 @@ export const MobileNavbar = () => {
           <div className="flex items-center gap-2">
             <Link href="/basket">
               <Button variant={"ghost"} size={"icon"}>
-                <ShoppingCart className="" />
+                <ShoppingCart />
               </Button>
             </Link>
           </div>

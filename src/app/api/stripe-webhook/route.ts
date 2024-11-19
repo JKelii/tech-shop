@@ -1,5 +1,4 @@
 import { updateOrder } from "@/actions/order";
-import Orders from "@/app/account/orders/page";
 import { getEnv } from "@/utils";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
