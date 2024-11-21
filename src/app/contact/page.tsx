@@ -13,6 +13,7 @@ import { AskedQuestions } from "../../components/pages/Contact/AskedQuestions";
 import Testimonials from "../../components/pages/Contact/Testimonials";
 import { cookies } from "next/headers";
 import { Card } from "@/components/ui/card";
+import { PlatformLinks } from "@/components/pages/Contact/PlatformLinks";
 
 const page = () => {
   const isSignedInNewsletter = Boolean(cookies().get("newsletter")?.value);
@@ -28,52 +29,41 @@ const page = () => {
               Have a question or need assistance? Contact us using the
               information below.
             </p>
-            <address className="not-italic">
-              <dl className="flex flex-col gap-6">
-                <div className="flex items-center">
-                  <dt className="sr-only">Address</dt>
-                  <dd className="text-gray-600 flex gap-2">
-                    <p className="flex gap-2">
-                      <MapPin /> 123 Main Street, Anytown USA
-                    </p>
-                  </dd>
-                </div>
-                <div className="flex items-center">
-                  <dt className="sr-only">Phone</dt>
-                  <dd className="text-gray-600 flex gap-2">
-                    <p className="flex gap-2">
-                      <Phone /> (123) 456-7890
-                    </p>
-                  </dd>
-                </div>
-                <div className="flex items-center">
-                  <dt className="sr-only">Email</dt>
-                  <dd className="text-gray-600 ">
-                    <a
+            <section>
+              <address className="flex flex-col gap-4 not-italic">
+                <h4 className="text-lg font-bold">Contact Information</h4>
+                <ul className="text-gray-600 flex flex-col gap-2">
+                  <li className="flex items-center gap-2">
+                    <span aria-hidden="true">
+                      <MapPin />
+                    </span>
+                    123 Main Street, Anytown USA
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span aria-hidden="true">
+                      <Phone />
+                    </span>
+                    (123) 456-7890
+                  </li>
+                  <li className="flex items-center gap-2 text-gray-600">
+                    <Link
                       href="mailto:info@example.com"
-                      className="hover:underline flex gap-2"
+                      className="hover:underline flex items-center gap-2"
                     >
-                      <Mail /> info@example.com
-                    </a>
-                  </dd>
-                </div>
-              </dl>
-            </address>
+                      <span aria-hidden="true">
+                        <Mail />
+                      </span>
+                      info@example.com
+                    </Link>
+                  </li>
+                </ul>
+              </address>
+            </section>
             <div>
-              <dt className="font-semibold">Social Media</dt>
-              <dd>
-                <div className="flex gap-4 mt-4">
-                  <Link href="https://www.instagram.com">
-                    <Instagram className="text-gray-600" />
-                  </Link>
-                  <Link href="https://www.facebook.com">
-                    <Facebook className="text-gray-600" />
-                  </Link>
-                  <Link href="https://www.twitter.com">
-                    <Twitter className="text-gray-600" />
-                  </Link>
-                </div>
-              </dd>
+              <h4 className="text-lg font-semibold">Social Media</h4>
+              <nav aria-label="Pagination Navigation">
+                <PlatformLinks />
+              </nav>
             </div>
           </article>
         </div>

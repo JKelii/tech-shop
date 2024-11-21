@@ -15,10 +15,6 @@ export const createComment = async ({
   slug: string;
   date: string;
 }) => {
-  if (!email) {
-    return { error: "Email is required" };
-  }
-
   if (content) {
     const comment = await createProductReview({
       email,

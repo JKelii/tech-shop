@@ -69,7 +69,7 @@ export const Searchbar = () => {
             <CustomSearchBox />
           </div>
           <Separator className="h-[0.3px] rounded-lg" />
-          <ScrollArea className="h-[250px] rounded-md border p-4 w-96 lg:w-full">
+          <ScrollArea className="h-[250px] rounded-md border p-4 w-full lg:w-full">
             <div
               className=" flex flex-col gap-4 justify-start items-start"
               onClick={() => setIsOpen(false)}

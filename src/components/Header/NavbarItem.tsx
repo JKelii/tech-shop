@@ -26,7 +26,7 @@ export const NavbarItem = ({
         href={label === "Account" ? "/account" : link}
         className={cn(
           buttonVariants({ variant: "ghost" }),
-          "w-full text-md xl:text-md text-black hover:text-foreground",
+          "w-full text-md xl:text-lg text-black hover:text-foreground",
           isActive && "text-foreground"
         )}
       >

@@ -15,7 +15,7 @@ const handler = async (req: NextRequest, res: NextResponse) => {
   const sig = req.headers.get("Stripe-Signature");
 
   try {
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+    const stripe = new Stripe(getEnv(process.env.STRIPE_KEY), {
       apiVersion: "2024-06-20",
     });
 
