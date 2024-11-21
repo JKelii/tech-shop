@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useTransition } from "react";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { useForm } from "react-hook-form";
@@ -9,6 +9,8 @@ import { Input } from "../../components/Inputs/input";
 import { PasswordInput } from "../../components/Inputs/passwordInput";
 import { signIn, useSession } from "next-auth/react";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 
 const LoginPage = () => {
   const {
@@ -18,12 +20,21 @@ const LoginPage = () => {
   } = useForm({
     resolver: yupResolver(userSchemaLogin),
   });
+  const [isPending, startTransition] = useTransition();
 
   const onSubmit = handleSubmit(async (data) => {
-    await signIn("credentials", { ...data, redirect: true, callbackUrl: "/" });
-    toast("You are logged in ✅");
+    startTransition(async () => {
+      if (data) {
+        await signIn("credentials", {
+          ...data,
+          redirect: true,
+          callbackUrl: "/",
+        });
+      }
+
+      toast("You are logged in ✅");
+    });
   });
-  const session = useSession();
 
   return (
     <main className="flex justify-center flex-wrap items-center grow w-full mt-10 lg:mt-4 xl:mt-0 mb-10 lg:mb-4 xl:mb-0">
@@ -52,13 +63,24 @@ const LoginPage = () => {
             error={errors.password?.message}
             name="password"
           />
+          {!isPending ? (
+            <Button
+              type="submit"
+              className="w-64 py-2 text-white bg-black rounded hover:bg-black/80 focus:outline-none focus:ring-2 focus:ring-black/60 focus:ring-opacity-50"
+              disabled={isPending}
+            >
+              Sign in
+            </Button>
+          ) : (
+            <Button
+              disabled
+              className="w-64 py-2 text-white bg-black rounded hover:bg-black/80 focus:outline-none focus:ring-2 focus:ring-black/60 focus:ring-opacity-50"
+            >
+              <Loader2 className="animate-spin" />
+              Please wait
+            </Button>
+          )}
 
-          <button
-            type="submit"
-            className="w-64 py-2 text-white bg-black rounded hover:bg-black/80 focus:outline-none focus:ring-2 focus:ring-black/60 focus:ring-opacity-50"
-          >
-            Sign in
-          </button>
           <div className="flex items-center gap-1">
             <p>Don&apos;t have an account? </p>
             <a href="/register" className="font-bold text-black/90">

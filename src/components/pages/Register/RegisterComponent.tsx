@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useTransition } from "react";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -9,6 +9,10 @@ import { toast } from "sonner";
 import { userSchemaRegister } from "@/app/schema/userValidation";
 import { Input } from "@/components/Inputs/input";
 import { PasswordInput } from "@/components/Inputs/passwordInput";
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 
 const RegisterComponent = () => {
   const {
@@ -18,13 +22,16 @@ const RegisterComponent = () => {
   } = useForm({
     resolver: yupResolver(userSchemaRegister),
   });
-
+  const [isPending, startTransition] = useTransition();
   const onSubmit = handleSubmit(async (data) => {
     try {
-      const { createAccount } = await registerUserAction(data);
-      toast("Account created ✅");
-
-      return createAccount;
+      startTransition(async () => {
+        const { createAccount } = await registerUserAction(data);
+        if (createAccount) {
+          toast("Account created ✅");
+        }
+        redirect("/login");
+      });
     } catch (error) {
       toast("Email already used");
     }
@@ -65,19 +72,28 @@ const RegisterComponent = () => {
             {...register("password")}
             error={errors.password?.message}
           />
+          {!isPending ? (
+            <Button
+              type="submit"
+              className="w-64 py-2 mt-2 text-white bg-black rounded hover:bg-black/80 focus:outline-none focus:ring-2 focus:ring-black/60 focus:ring-opacity-50"
+            >
+              Register
+            </Button>
+          ) : (
+            <Button
+              disabled
+              className="w-64 py-2 text-white bg-black rounded hover:bg-black/80 focus:outline-none focus:ring-2 focus:ring-black/60 focus:ring-opacity-50"
+            >
+              <Loader2 className="animate-spin" />
+              Please wait
+            </Button>
+          )}
 
-          <button
-            type="submit"
-            className="w-64 py-2 mt-4 text-white bg-black rounded hover:bg-black/80 focus:outline-none focus:ring-2 focus:ring-black/60 focus:ring-opacity-50"
-          >
-            Register
-          </button>
-
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 mb-2">
             <p>Already have an account?</p>
-            <a href="/login" className="font-bold text-black">
+            <Link href="/login" className="font-bold text-black">
               Login
-            </a>
+            </Link>
           </div>
         </form>
       </div>

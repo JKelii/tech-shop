@@ -26,12 +26,12 @@ export const NavbarItem = ({
         href={label === "Account" ? "/account" : link}
         className={cn(
           buttonVariants({ variant: "ghost" }),
-          "w-full text-md xl:text-lg text-black hover:text-foreground",
+          "w-full text-lg xl:text-xl text-black hover:text-foreground",
           isActive && "text-foreground"
         )}
       >
-        <div className="justify-center items-center flex gap-2 ">
-          <span className="size-30">{icon}</span>
+        <div className="flex items-center justify-center flex-row gap-2 ">
+          <i>{icon}</i>
           <p> {label === "Account" ? "Account" : label}</p>
         </div>
       </Link>
