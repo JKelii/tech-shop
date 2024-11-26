@@ -1,11 +1,6 @@
 "use server";
 
-import {
-  createOrderHygraph,
-  getCart,
-  getOrders,
-  updateOrderStatus,
-} from "@/lib";
+import { createOrderHygraph, getCart, updateOrderStatus } from "@/lib";
 import { OrderStatus } from "@/lib/hygraph/generated/graphql";
 import { getEnv } from "@/utils";
 import { getServerSession } from "next-auth";

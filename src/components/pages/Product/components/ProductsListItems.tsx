@@ -45,7 +45,7 @@ export const ProductsListItems = ({
                 alt={product.name}
                 width={150}
                 height={150}
-                className=" min-h-[120px] min-w-[120px] w-auto h-auto"
+                className=" min-h-[120px] min-w-[120px] w-auto h-auto mt-2 rounded-lg"
               />
               <p className="font-semibold self-start ml-4">{product.name}</p>
               <p className="text-sm self-start ml-4 text-muted-foreground">

@@ -74,19 +74,19 @@ export const OrderFromProvider = ({
 
         <div className="flex gap-4">
           <Button
-            type="submit"
-            variant={"outline"}
-            className="w-full bg-black text-white"
-          >
-            Apply Filters
-          </Button>
-          <Button
             type="button"
             variant={"outline"}
             className=" w-full bg-white text-black hover:bg-black hover:text-white"
             onClick={clearFilters}
           >
             Clear Filters
+          </Button>
+          <Button
+            type="submit"
+            variant={"outline"}
+            className="w-full bg-black text-white"
+          >
+            Apply Filters
           </Button>
         </div>
       </form>

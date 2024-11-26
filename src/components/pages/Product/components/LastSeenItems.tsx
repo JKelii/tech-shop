@@ -41,7 +41,7 @@ export const LastSeenItems = ({
                   alt={item?.product?.name || ""}
                   width={150}
                   height={150}
-                  className="min-h-[120px] min-w-[120px] w-auto h-auto"
+                  className="min-h-[120px] min-w-[120px] w-auto h-auto rounded-lg"
                 />
                 <p className="font-semibold self-start ml-4">
                   {item?.product?.name}

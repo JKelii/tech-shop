@@ -14,9 +14,12 @@ import {
   GetCategoriesDocument,
   GetFavoriteProductDocument,
   GetFavoritesDocument,
+  GetOrdersByFiltersDocument,
   GetOrdersDocument,
   GetProductBySlugDocument,
+  GetProductsByCategoryDocument,
   GetProductsDocument,
+  Order,
   OrderStatus,
   PublishProductReviewDocument,
   TypedDocumentString,
@@ -32,6 +35,9 @@ import { mapperGetFavorites } from "./mappers/getFavorites";
 import { mapperCategories } from "./mappers/getCategories";
 import { mapperGetOrders } from "./mappers/getOrders";
 import { error } from "console";
+import { start } from "repl";
+import { getDate } from "date-fns";
+import { getSession } from "next-auth/react";
 
 type GraphQlError = {
   message: string;
@@ -508,4 +514,55 @@ export const createProductReview = async ({
   if (data) {
     await publishProductReview(data.createReview?.id);
   }
+};
+
+export const getOrdersByFilters = async ({
+  minPrice,
+  maxPrice,
+  status,
+  startDate,
+  endDate,
+  email,
+}: {
+  email: string;
+  startDate: string | undefined;
+  endDate: string;
+  minPrice: number;
+  maxPrice: number;
+  status: OrderStatus;
+}) => {
+  const data = await fetcher({
+    headers: {
+      Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
+    },
+    query: GetOrdersByFiltersDocument,
+    variables: {
+      email: email,
+      startDate: startDate ?? new Date(-8640000000000000).toISOString(),
+      endDate: endDate ?? new Date().toISOString(),
+      minPrice: minPrice ?? 1,
+      maxPrice: maxPrice ?? Number.MAX_SAFE_INTEGER,
+      status: status,
+    },
+    cache: "no-store",
+  });
+
+  if (!data) return;
+  return mapperGetOrders(data.orders);
+};
+
+export const getProductsByCategory = async ({
+  categoryName,
+}: {
+  categoryName: string;
+}) => {
+  const data = await fetcher({
+    query: GetProductsByCategoryDocument,
+    variables: {
+      categoryName,
+    },
+    cache: "no-store",
+  });
+  if (!data) throw new Error("Problem with fetching products");
+  return data;
 };

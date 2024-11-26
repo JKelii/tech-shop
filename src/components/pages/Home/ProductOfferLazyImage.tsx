@@ -16,7 +16,7 @@ export const ProductOfferLazyImage = ({
       alt={alt}
       width={175}
       height={175}
-      className="w-[175px] h-[175px]"
+      className="w-[175px] h-[175px] rounded-lg"
       style={{ objectFit: "contain" }}
       loading="lazy"
     />

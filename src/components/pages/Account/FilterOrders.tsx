@@ -8,6 +8,7 @@ import { parseAsInteger, useQueryState } from "nuqs";
 import { OrderFromProvider } from "./OrderFromProvider";
 import { useInView } from "react-intersection-observer";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getFilteredOrders } from "@/actions/filteredOrders";
 
 const OrdersList = lazy(() =>
   import("./OrdersList").then((module) => ({
@@ -51,7 +52,12 @@ type FilterFormData = {
     endDate?: Date;
   };
 };
-export const FilterOrders = ({ orders }: { orders: OrderType }) => {
+
+type FilterOrdersType = {
+  orders: OrderType;
+};
+
+export const FilterOrders = ({ orders }: FilterOrdersType) => {
   const { ref: ordersRef, inView: ordersInView } = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -59,28 +65,28 @@ export const FilterOrders = ({ orders }: { orders: OrderType }) => {
 
   const [filteredOrders, setFilteredOrders] = useState<OrderType>(orders);
 
-  const onSubmit = (data: FilterFormData) => {
-    const filtered = orders.filter((order) => {
-      const firstOrder = order;
-      const orderDate = new Date(firstOrder.createdAt);
+  const allOrdersTypes = orders.map((item) => item.orderStatus);
+  const ordersStatuses = allOrdersTypes.filter(
+    (element, index) => allOrdersTypes.indexOf(element) === index
+  );
+  console.log(ordersStatuses);
 
-      const matchesStatus =
-        !data.order.status || firstOrder.orderStatus === data.order.status;
-
-      const matchesPrice =
-        (!data.order.minPrice ||
-          firstOrder.total >= data.order.minPrice * 100) &&
-        (!data.order.maxPrice || firstOrder.total <= data.order.maxPrice * 100);
-
-      const matchesDate =
-        (!data.order.startDate ||
-          orderDate >= new Date(data.order.startDate)) &&
-        (!data.order.endDate || orderDate <= new Date(data.order.endDate));
-
-      return matchesStatus && matchesPrice && matchesDate;
+  const onSubmit = async (data: FilterFormData) => {
+    const filteredOrders = await getFilteredOrders({
+      minPrice: data.order.minPrice ? data.order.minPrice / 100 : 1,
+      maxPrice: data.order.maxPrice
+        ? data.order.maxPrice / 100
+        : Number.MAX_SAFE_INTEGER,
+      status: data.order.status ?? OrderStatus.Created,
+      startDate: data.order.startDate?.toISOString()
+        ? data.order.startDate?.toISOString()
+        : new Date(0).toISOString(),
+      endDate: data.order.endDate?.toISOString()
+        ? data.order.endDate?.toISOString()
+        : new Date().toISOString(),
     });
 
-    setFilteredOrders(filtered);
+    setFilteredOrders(filteredOrders as OrderType);
   };
 
   const [page, setPage] = useQueryState("page", parseAsInteger.withDefault(1));
@@ -111,7 +117,6 @@ export const FilterOrders = ({ orders }: { orders: OrderType }) => {
             </CardTitle>
           </div>
         </CardHeader>
-
         <OrderFromProvider
           onSubmit={onSubmit}
           setFilteredOrders={setFilteredOrders}

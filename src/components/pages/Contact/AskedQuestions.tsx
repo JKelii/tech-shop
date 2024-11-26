@@ -16,10 +16,12 @@ export const AskedQuestions = () => {
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1" className="w-full">
             <AccordionTrigger className="text-sm">
-              Is it accessible?
+              Do you provide international shipping?
             </AccordionTrigger>
             <AccordionContent className="text-sm">
-              Yes. It adheres to the WAI-ARIA design pattern.
+              Yes, we offer international shipping to many countries. Shipping
+              rates and delivery times vary based on location and will be
+              calculated at checkout.
             </AccordionContent>
           </AccordionItem>
         </Accordion>

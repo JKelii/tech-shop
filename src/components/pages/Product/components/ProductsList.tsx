@@ -1,6 +1,6 @@
 "use client";
 
-import React, { lazy, Suspense, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { ITEMS_PER_PAGE } from "@/utils/constants";
 import { usePaginationQueryState } from "../hooks/usePaginationQueryState";
 import { ProductsFilters } from "./ProductsFilters";

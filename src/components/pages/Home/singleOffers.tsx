@@ -1,4 +1,4 @@
-import { getAllProducts, getCategories } from "@/lib";
+import { getAllProducts, getCategories, getProductsByCategory } from "@/lib";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { SlidersHorizontal } from "lucide-react";
 import ProductsList from "../Product/components/ProductsList";

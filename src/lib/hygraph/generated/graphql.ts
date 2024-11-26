@@ -15509,6 +15509,18 @@ export type GetOrdersQueryVariables = Exact<{
 
 export type GetOrdersQuery = { orders: Array<{ total: number, stripeCheckoutId: string, createdAt: string, orderStatus: OrderStatus, id: string, orderItems: Array<{ size?: string | null, quantity: number, product?: { slug: string, name: string, price: number, images: Array<{ url: string, fileName: string }> } | null }> }> };
 
+export type GetOrdersByFiltersQueryVariables = Exact<{
+  email: Scalars['String']['input'];
+  minPrice: Scalars['Int']['input'];
+  maxPrice: Scalars['Int']['input'];
+  status?: InputMaybe<OrderStatus>;
+  startDate: Scalars['DateTime']['input'];
+  endDate: Scalars['DateTime']['input'];
+}>;
+
+
+export type GetOrdersByFiltersQuery = { orders: Array<{ total: number, stripeCheckoutId: string, createdAt: string, orderStatus: OrderStatus, id: string, orderItems: Array<{ size?: string | null, quantity: number, product?: { slug: string, name: string, price: number, images: Array<{ url: string, fileName: string }> } | null }> }> };
+
 export type GetProductBySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
 }>;
@@ -15520,6 +15532,13 @@ export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetProductsQuery = { products: Array<{ description: string, id: string, name: string, price: number, slug: string, categories: Array<{ name: string }>, size: Array<{ productVariantSize: Array<{ name?: string | null, productQuantity: Array<number> }> }>, images: Array<{ fileName: string, url: string, productImages: Array<{ id: string, reviews: Array<{ content: string, rating?: number | null }> }> }> }> };
+
+export type GetProductsByCategoryQueryVariables = Exact<{
+  categoryName: Scalars['String']['input'];
+}>;
+
+
+export type GetProductsByCategoryQuery = { products: Array<{ name: string, description: string, id: string, price: number, slug: string, categories: Array<{ name: string }>, size: Array<{ productVariantSize: Array<{ name?: string | null, productQuantity: Array<number> }> }>, images: Array<{ fileName: string, url: string, productImages: Array<{ id: string, reviews: Array<{ content: string, rating?: number | null }> }> }> }> };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -15772,6 +15791,33 @@ export const GetOrdersDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<GetOrdersQuery, GetOrdersQueryVariables>;
+export const GetOrdersByFiltersDocument = new TypedDocumentString(`
+    query GetOrdersByFilters($email: String!, $minPrice: Int!, $maxPrice: Int!, $status: OrderStatus, $startDate: DateTime!, $endDate: DateTime!) {
+  orders(
+    where: {account: {email: $email}, total_gt: $minPrice, total_lt: $maxPrice, orderStatus: $status, createdAt_gte: $startDate, createdAt_lte: $endDate}
+    stage: DRAFT
+  ) {
+    total
+    stripeCheckoutId
+    createdAt
+    orderStatus
+    id
+    orderItems {
+      size
+      quantity
+      product {
+        slug
+        name
+        images {
+          url
+          fileName
+        }
+        price
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetOrdersByFiltersQuery, GetOrdersByFiltersQueryVariables>;
 export const GetProductBySlugDocument = new TypedDocumentString(`
     query GetProductBySlug($slug: String!) {
   product(where: {slug: $slug}) {
@@ -15830,3 +15876,34 @@ export const GetProductsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<GetProductsQuery, GetProductsQueryVariables>;
+export const GetProductsByCategoryDocument = new TypedDocumentString(`
+    query GetProductsByCategory($categoryName: String!) {
+  products(where: {categories_some: {name: $categoryName}}) {
+    name
+    description
+    id
+    categories {
+      name
+    }
+    size {
+      productVariantSize {
+        name
+        productQuantity
+      }
+    }
+    price
+    images {
+      fileName
+      url
+      productImages {
+        id
+        reviews {
+          content
+          rating
+        }
+      }
+    }
+    slug
+  }
+}
+    `) as unknown as TypedDocumentString<GetProductsByCategoryQuery, GetProductsByCategoryQueryVariables>;

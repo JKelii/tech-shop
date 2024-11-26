@@ -1,12 +1,5 @@
 import Newsletter from "@/components/pages/Contact/Newsletter";
-import {
-  Facebook,
-  Instagram,
-  Mail,
-  MapPin,
-  Phone,
-  Twitter,
-} from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { AskedQuestions } from "../../components/pages/Contact/AskedQuestions";
@@ -22,7 +15,7 @@ const page = () => {
   return (
     <Card className="min-h-screen container mx-auto flex flex-col justify-start items-center gap-8 border-[2px] bg-gray-50 rounded-lg  p-10 mt-10 mb-10">
       <div className="flex flex-col xl:flex-row gap-4">
-        <div className="bg-white border w-[22rem] md:w-[35rem] h-96 flex flex-col justify-start items-center rounded-lg shadow-lg ">
+        <div className="bg-white border w-[22rem] md:w-[35rem] h-96 flex flex-col justify-start items-center rounded-lg shadow-lg p-1">
           <article className="ml-2 lg:ml-4 flex flex-col justify-start items-start gap-4 mt-8">
             <h2 className="text-xl font-bold">Get in Touch</h2>
             <p className="text-muted-foreground">

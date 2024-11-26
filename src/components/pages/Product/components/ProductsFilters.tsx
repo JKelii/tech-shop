@@ -1,3 +1,4 @@
+import { getProductsByCategories } from "@/actions/productsByCategory";
 import {
   FormControl,
   FormField,
@@ -86,27 +87,23 @@ export const ProductsFilters = ({
     },
   });
 
-  const onSubmit = (data: FilterFormData) => {
+  const onSubmit = async (data: FilterFormData) => {
     if (data.selectedCategories?.includes("All items")) {
       setFilteredProducts(products);
     } else {
-      const filtered = products.filter((product) =>
-        product.categories.some((category) =>
-          data.selectedCategories?.includes(category.name)
-        )
-      );
+      const filtered = await getProductsByCategories({
+        categoryName: data.selectedCategories.toString(),
+      });
       setFilteredProducts(filtered);
     }
     setPage(1);
   };
 
   const getUniqueCategories = () => {
-    const categories = new Set<string>(["All items"]);
-    products.forEach((product) => {
-      product.categories.forEach((category) => {
-        categories.add(category.name);
-      });
-    });
+    const categories = new Set<string>([
+      "All items",
+      ...(selectedCategories || []),
+    ]);
     return Array.from(categories);
   };
 

@@ -27,3 +27,33 @@ query GetProducts {
     slug
   }
 }
+
+query GetProductsByCategory($categoryName: String!) {
+  products(where: { categories_some: { name: $categoryName } }) {
+    name
+    description
+    id
+    categories {
+      name
+    }
+    size {
+      productVariantSize {
+        name
+        productQuantity
+      }
+    }
+    price
+    images {
+      fileName
+      url
+      productImages {
+        id
+        reviews {
+          content
+          rating
+        }
+      }
+    }
+    slug
+  }
+}

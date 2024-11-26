@@ -21,7 +21,7 @@ export type ParamGetOrders = {
   }>;
 }[];
 
-type MappedGetOrders = Array<{
+export type MappedGetOrders = Array<{
   total: number;
   stripeCheckoutId: string;
   createdAt: string;

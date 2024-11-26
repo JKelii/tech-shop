@@ -32,7 +32,7 @@ const MainOffer = async () => {
                     width={400}
                     height={400}
                     priority
-                    className="h-auto w-auto md:size-44 lg:size-96"
+                    className="h-auto w-auto md:size-44 lg:size-96 rounded-lg"
                   />
                 </div>
                 <Separator className="h-[1px] " />

@@ -55,7 +55,7 @@ export const OrderFormFields = ({
               onValueChange={(value: string) =>
                 field.onChange(value as OrderStatus)
               }
-              defaultValue={field.value}
+              defaultValue={OrderStatus.Created}
             >
               <FormControl>
                 <SelectTrigger>
@@ -63,9 +63,9 @@ export const OrderFormFields = ({
                 </SelectTrigger>
               </FormControl>
               <SelectContent className="w-full">
+                <SelectItem value={OrderStatus.Created}>Created</SelectItem>
                 <SelectItem value={OrderStatus.Pending}>Pending</SelectItem>
                 <SelectItem value={OrderStatus.Paid}>Paid</SelectItem>
-                <SelectItem value={OrderStatus.Created}>Created</SelectItem>
               </SelectContent>
             </Select>
             <FormMessage />
