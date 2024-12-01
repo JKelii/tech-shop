@@ -21,7 +21,7 @@ export const DesktopNavbar = () => {
               icon={item.icon}
             />
           ))}
-          <BasketHeader styles="mt-2" />
+          <BasketHeader styles="mt-1" aria-label="Basket" />
         </div>
       </nav>
     </div>

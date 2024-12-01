@@ -2,11 +2,13 @@
 import { createOrder } from "@/actions/order";
 import { Button } from "@/components/ui/button";
 import { CardFooter } from "@/components/ui/card";
+
 import { ResponseGetCart } from "@/lib/mappers/getCart";
 import { priceUpdate } from "@/utils/priceUpdate";
 import { useSession } from "next-auth/react";
 import React, { useTransition } from "react";
 import { ThreeDots } from "react-loader-spinner";
+import { toast } from "sonner";
 
 export const CheckoutButton = ({
   cart,
@@ -21,7 +23,11 @@ export const CheckoutButton = ({
       onSubmit={(e) => {
         e.preventDefault();
         startTransition(async () => {
-          createOrder();
+          if (session) {
+            createOrder();
+          } else {
+            toast("You have to be logged in");
+          }
         });
       }}
       className=""

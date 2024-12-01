@@ -30,7 +30,6 @@ const RegisterComponent = () => {
         if (createAccount) {
           toast("Account created ✅");
         }
-        redirect("/login");
       });
     } catch (error) {
       toast("Email already used");

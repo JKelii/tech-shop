@@ -38,19 +38,17 @@ export const AddToCartButton = ({ product }: { product: ProductType }) => {
 
   const onSubmit = handleSubmit(async () => {
     try {
-      const res = startTransition(async () => {
+      startTransition(async () => {
         if (selectedSize) {
           await manageCart({
             product: { size: selectedSize, slug, quantity: selectedQuantity },
             email: session.data?.email,
           });
         }
-        if (res !== null) {
-          if (selectedQuantity > 1) {
-            toast("Items added to cart ✅");
-          } else {
-            toast("Item added to cart ✅");
-          }
+        if (selectedQuantity > 1) {
+          toast("Items added to cart ✅");
+        } else {
+          toast("Item added to cart ✅");
         }
       });
       router.refresh();
@@ -108,10 +106,10 @@ export const AddToCartButton = ({ product }: { product: ProductType }) => {
       >
         <div className="flex justify-center items-center gap-2 md:gap-4 self-center">
           {isPending ? (
-            <Button disabled>
+            <>
               <ReloadIcon className="mr-2 h-full w-full animate-spin" />
-              Please wait
-            </Button>
+              <p>Please wait</p>
+            </>
           ) : (
             <>
               <ShoppingCart size={20} /> <p>Add to cart</p>

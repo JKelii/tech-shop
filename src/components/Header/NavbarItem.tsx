@@ -12,7 +12,7 @@ export const NavbarItem = ({
 }: {
   label: string;
   link: string;
-  icon?: ReactNode;
+  icon: ReactNode;
   handleItemClick?: () => void;
   setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
@@ -21,19 +21,17 @@ export const NavbarItem = ({
     pathname === link || (label === "Account" && pathname === "/account");
 
   return (
-    <ul className="relative flex items-center justify-center">
+    <ul className="relative flex items-start justify-center">
       <Link
         href={label === "Account" ? "/account" : link}
         className={cn(
           buttonVariants({ variant: "ghost" }),
-          "w-full text-lg xl:text-xl text-black hover:text-foreground",
+          "w-full text-md xl:text-lg text-black hover:text-foreground",
           isActive && "text-foreground"
         )}
       >
-        <div className="flex items-center justify-center flex-row gap-2 ">
-          <i>{icon}</i>
-          <p> {label === "Account" ? "Account" : label}</p>
-        </div>
+        <div className="size-5 flex items-center justify-center">{icon}</div>
+        <p> {label === "Account" ? "Account" : label}</p>
       </Link>
       {isActive && (
         <li

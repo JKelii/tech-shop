@@ -4,7 +4,7 @@ import { getProductSlug } from "@/lib";
 import { GetProductBySlugQuery } from "@/lib/hygraph/generated/graphql";
 import { cookies } from "next/headers";
 
-export const addToLastSeenItems = async ({ slug }: { slug: string }) => {
+export const addToLastSeenItems = ({ slug }: { slug: string }) => {
   const cookieStore = cookies();
   const addedCookie = cookieStore.get("product");
 

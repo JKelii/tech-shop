@@ -46,9 +46,10 @@ export const MobileNavbar = () => {
               </SheetTitle>
             </SheetHeader>
 
-            <div className="flex flex-col items-center justify-center pt-4">
+            <div className="flex flex-col items-start justify-center pt-4">
               {NavItems.map((item) => (
                 <NavbarItem
+                  icon={item.icon}
                   key={item.label}
                   label={item.label}
                   link={item.link}

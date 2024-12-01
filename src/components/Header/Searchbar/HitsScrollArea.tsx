@@ -59,7 +59,7 @@ export const HitsScrollArea = ({
   return (
     <>
       <ScrollArea
-        className="h-[250px] rounded-md border p-4 w-full lg:w-full"
+        className="h-[250px] rounded-md border px-4 w-full lg:w-full"
         onKeyDown={handleKeyDown}
         tabIndex={0}
       >
@@ -74,9 +74,9 @@ export const HitsScrollArea = ({
                 hitRefs.current[index] = el;
               }}
               tabIndex={-1}
-              className={`p-2 ${
+              className={`p-2  ${
                 index === focusedIndex
-                  ? "bg-gray-100 border border-gray-500"
+                  ? "bg-gray-100 border border-gray-500 "
                   : "bg-white"
               }`}
             >
