@@ -1,10 +1,9 @@
 "use server";
 
 import { getProductSlug } from "@/lib";
-import { GetProductBySlugQuery } from "@/lib/hygraph/generated/graphql";
 import { cookies } from "next/headers";
-
-export const addToLastSeenItems = async ({ slug }: { slug: string }) => {
+//TODO: Change name, change left, unshift
+export const createLastSeenCookie = ({ slug }: { slug: string }) => {
   const cookieStore = cookies();
   const addedCookie = cookieStore.get("product");
 
@@ -19,8 +18,8 @@ export const addToLastSeenItems = async ({ slug }: { slug: string }) => {
   }
 
   products = products.filter((item: string) => item !== slug);
+  products = products.slice(0, 2);
   products.unshift(slug);
-  products = products.slice(0, 4);
 
   cookieStore.set("product", JSON.stringify(products), {
     httpOnly: true,
@@ -29,17 +28,21 @@ export const addToLastSeenItems = async ({ slug }: { slug: string }) => {
   return products;
 };
 
-export const getLastSeenFromCookies = async (): Promise<
-  GetProductBySlugQuery[] | undefined
-> => {
+export const getProductsFromCookies = async () => {
   const productFromCookie = cookies().get("product");
-  if (productFromCookie?.value) {
-    const products = JSON.parse(productFromCookie.value);
-    if (products) {
-      const filteredItems = await Promise.all(
-        products.map((item: string) => getProductSlug({ slug: item }))
-      );
-      return filteredItems;
+  const arr = [];
+  if (productFromCookie) {
+    try {
+      const products = JSON.parse(productFromCookie?.value);
+      if (products) {
+        const filteredItem = await Promise.all(
+          products.map((item: string) => getProductSlug({ slug: item }))
+        );
+        arr.push(filteredItem);
+        return arr;
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
 };

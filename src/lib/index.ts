@@ -173,7 +173,10 @@ export const getCart = async ({ id }: { id: string | undefined }) => {
   });
 
   if (!data.cart) return;
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
   return mapperGetCart(data.cart);
 };
 
@@ -449,6 +452,7 @@ export const updateOrderStatus = async ({
   return data;
 };
 
+<<<<<<< HEAD
 export const getCategories = async () => {
   const data = await fetcher({
     headers: {
@@ -494,11 +498,24 @@ export const createProductReview = async ({
   slug: string;
   content: string;
   date: string;
+=======
+export const createReview = async ({
+  email,
+  name,
+  content,
+  slug,
+}: {
+  email: string;
+  name: string;
+  content: string;
+  slug: string;
+>>>>>>> master
 }) => {
   const data = await fetcher({
     headers: {
       Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
     },
+<<<<<<< HEAD
     query: CreateProductReviewDocument,
     variables: { email, name, slug, content, date },
     cache: "no-store",
@@ -508,4 +525,17 @@ export const createProductReview = async ({
   if (data) {
     await publishProductReview(data.createReview?.id);
   }
+=======
+    query: CreateReview,
+    variables: {
+      email,
+      name,
+      content,
+      slug,
+    },
+    cache: "no-store",
+  });
+  if (!data) return;
+  return data;
+>>>>>>> master
 };

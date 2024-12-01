@@ -72,19 +72,3 @@ export const createOrder = async () => {
     }
   }
 };
-
-export const updateOrder = async (
-  orderStatus: string,
-  stripeCheckoutId: string
-) => {
-  const updatedOrder = await updateOrderStatus({
-    stripeCheckoutId: stripeCheckoutId,
-    orderStatus: orderStatus as OrderStatus,
-  });
-
-  if (updatedOrder) {
-    return { message: "Order updated" };
-  }
-
-  return { error: "Failed to update order" };
-};
