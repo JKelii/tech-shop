@@ -28,6 +28,8 @@ export default tseslint.config(
   {
     plugins: { "simple-import-sort": simpleImportSort },
     rules: {
+      "@typescript-eslint/no-require-imports": "off",
+      "no-unused-vars": "off",
       "tailwindcss/no-custom-classname": "off",
       "@typescript-eslint/consistent-type-imports": "error",
       "comma-dangle": ["error", "never"],
@@ -42,8 +44,15 @@ export default tseslint.config(
         {
           argsIgnorePattern: "^_",
           varsIgnorePattern: "^_",
+          caughtErrors: "all",
+          caughtErrorsIgnorePattern: "^_",
+          destructuredArrayIgnorePattern: "^_",
+          ignoreRestSiblings: true,
         },
       ],
+      "prettier/prettier": ["off", { endOfLine: "auto" }],
+      "@typescript-eslint/no-empty-object-type": "off",
+
       "@typescript-eslint/prefer-optional-chain": "error",
       "import/first": "error",
       "import/newline-after-import": "error",
@@ -90,5 +99,5 @@ export default tseslint.config(
       },
     },
   },
-  pluginPrettierRecommended
+  pluginPrettierRecommended,
 );

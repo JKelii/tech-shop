@@ -7,7 +7,7 @@ import { getProductSlug } from "@/lib";
 import type { GetProductBySlugQuery } from "@/lib/hygraph/generated/graphql";
 
 export const addToLastSeenItems = async ({ slug }: { slug: string }) => {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const addedCookie = (await cookieStore).get("product");
 
   let products = [];

@@ -14,7 +14,7 @@ const stripeClient = new Stripe(getEnv(process.env.STRIPE_KEY), {
 });
 
 export const createOrder = async () => {
-  const cartId = cookies().get("cart")?.value;
+  const cartId = (await cookies()).get("cart")?.value;
   if (!cartId) {
     return { error: "Cart not found" };
   }
@@ -60,7 +60,7 @@ export const createOrder = async () => {
     });
 
     if (orderId) {
-      cookies().delete("cart");
+      (await cookies()).delete("cart");
       redirect(url);
     }
     if (!orderId) {

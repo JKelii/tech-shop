@@ -1,6 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { PoweredBy, useHits, usePoweredBy } from "react-instantsearch";
+import { useHits } from "react-instantsearch";
 
 import { CustomPoweredBy } from "./CustomPoweredBy";
 import { Hit } from "./Hit";
@@ -62,20 +62,18 @@ export const HitsScrollArea = ({
         onKeyDown={handleKeyDown}
         tabIndex={0}
       >
-        <div
-          className="flex flex-col items-start justify-start gap-4 p-2"
-          onClick={() => setIsOpen(false)}
-        >
+        <div className="flex flex-col items-start justify-start gap-4 p-2">
           {hits.map((hit, index) => (
             <div
-              key={hit.id}
+              onClick={() => setIsOpen(false)}
+              key={hit.id || index}
               ref={(el) => {
                 hitRefs.current[index] = el;
               }}
               tabIndex={-1}
               className={`p-2  ${
                 index === focusedIndex
-                  ? "border border-gray-500 bg-gray-100 "
+                  ? "border border-gray-500 bg-gray-100"
                   : "bg-white"
               }`}
             >

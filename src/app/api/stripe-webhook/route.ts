@@ -28,7 +28,7 @@ const handler = async (req: NextRequest) => {
     const event = stripe.webhooks.constructEvent(
       payload,
       sig,
-      secretStripeWebhook,
+      secretStripeWebhook
     );
 
     await eventStripeWebhook(event);

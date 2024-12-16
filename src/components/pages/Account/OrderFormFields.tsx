@@ -43,7 +43,7 @@ type FilterFormData = {
 export const OrderFormFields = ({
   control,
 }: {
-  control: Control<FilterFormData, any>;
+  control: Control<FilterFormData>;
 }) => {
   return (
     <>

@@ -2,7 +2,6 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
-import { HitsScrollArea } from "../HitsScrollArea";
 import { Searchbar } from "../Searchbar";
 
 import type { HitProps } from "../Hit";

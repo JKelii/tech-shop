@@ -28,7 +28,10 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "vitest.config.ts",
-    "prettierrc.js"
+    "prettierrc.js",
+    "next.config.mjs",
+    "postcss.config.mjs",
+    "eslint.config.mjs"
   ],
   "exclude": ["node_modules"]
 }

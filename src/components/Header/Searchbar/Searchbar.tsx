@@ -24,7 +24,7 @@ const algoliaKey = getEnv(process.env.NEXT_PUBLIC_ALGOLIA_API_KEY);
 export const Searchbar = () => {
   const client = algoliasearch(algoliaId, algoliaKey);
   const { isOpen, setIsOpen } = useSetIsOpen();
-
+  //skleton
   return (
     <InstantSearch searchClient={client} indexName="products">
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -37,13 +37,13 @@ export const Searchbar = () => {
             <span>Search items...</span>
           </Button>
         </DialogTrigger>
-        <Configure />
+
         <DialogContent
           className="flex min-h-96 w-96 flex-col items-start justify-start  overflow-hidden lg:w-[32rem]"
           aria-describedby={undefined}
         >
-          <DialogTitle className=" ">Search Items</DialogTitle>
-          <Configure hitsPerPage={4} index="products" distinct={true} />
+          <DialogTitle className="">Search Items</DialogTitle>
+          <Configure hitsPerPage={4} distinct={true} />
           <div className="w-full">
             <CustomSearchBox />
           </div>

@@ -20,7 +20,7 @@ export const signUpNewsletter = async (email: string) => {
 
   const data = response.json();
 
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const existingEmail = (await cookieStore).get("email")?.value || "[]";
   const emailList = JSON.parse(existingEmail);
 

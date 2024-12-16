@@ -21,7 +21,7 @@ export const nextAuthOptions = {
           const { account } = await getAccount(email);
           const hashedPassword = account?.password;
           if (!hashedPassword) return null;
-          await bcrypt.compare(hashedPassword, password);
+          await bcrypt.compare(password, hashedPassword);
           return { id: account.id, email: account.email, name: account.name };
         } catch (error) {
           console.error(error);

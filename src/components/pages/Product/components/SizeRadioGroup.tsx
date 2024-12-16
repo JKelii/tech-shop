@@ -59,9 +59,6 @@ export const SizeRadioGroup = ({
 
   const sizes = product.size[0].productVariantSize.map((size) => size.name);
   const isOptionSize = sizes.some((size) => options.includes(size as string));
-  {
-    isOptionSize ? "Memory Storage:" : "Size:";
-  }
 
   return (
     <div className="mb-4 flex flex-col">
@@ -69,35 +66,32 @@ export const SizeRadioGroup = ({
         {isOptionSize ? "Memory Storage:" : "Size:"}
       </Label>
       <div className="flex items-center justify-start gap-2">
-        {sizes &&
-          sizes.map((size) => (
-            <Label key={size} className={`flex-1 cursor-pointer`}>
-              <Input
-                {...register("RadioGroup")}
-                type="radio"
-                name="size"
-                value={size || ""}
-                checked={selectedSize === size}
-                onChange={handleChange}
-                className="sr-only"
-              />
-              <span
-                className={`flex size-10 items-center justify-center rounded-md border p-2 text-center transition-colors ${
-                  selectedSize === size
-                    ? "border-primary bg-black text-primary-foreground "
-                    : "border-input bg-background text-foreground hover:bg-accent hover:text-accent-foreground"
-                } ${
-                  size === "Standard" ? "text-semibold w-32 tracking-wide" : ""
-                }
+        {sizes.map((size) => (
+          <Label key={size} className={`flex-1 cursor-pointer`}>
+            <Input
+              {...register("RadioGroup")}
+              type="radio"
+              name="size"
+              value={size || ""}
+              checked={selectedSize === size}
+              onChange={handleChange}
+              className="sr-only"
+            />
+            <span
+              className={`flex size-10 items-center justify-center rounded-md border p-2 text-center transition-colors ${
+                selectedSize === size
+                  ? "border-primary bg-black text-primary-foreground "
+                  : "border-input bg-background text-foreground hover:bg-accent hover:text-accent-foreground"
+              } ${size === "Standard" ? "text-semibold w-32 tracking-wide" : ""}
               ${size === "128GB" ? "text-semibold w-16 tracking-wide" : ""}
                ${size === "256GB" ? "text-semibold  w-16 tracking-wide" : ""}
                 ${size === "512GB" ? "text-semibold  w-16 tracking-wide" : ""}
               `}
-              >
-                {size}
-              </span>
-            </Label>
-          ))}
+            >
+              {size}
+            </span>
+          </Label>
+        ))}
       </div>
       <p className="h-2 text-red-500">{errors.RadioGroup?.message}</p>
       <p className="h-[20px] text-sm text-muted-foreground">

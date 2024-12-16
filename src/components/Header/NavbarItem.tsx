@@ -24,7 +24,7 @@ export const NavbarItem = ({
     pathname === link || (label === "Account" && pathname === "/account");
 
   return (
-    <ul className="relative flex items-start justify-center">
+    <ul className="relative flex  items-start justify-center">
       <Link
         href={label === "Account" ? "/account" : link}
         className={cn(
@@ -39,7 +39,7 @@ export const NavbarItem = ({
       {isActive && (
         <li
           aria-label="Active page"
-          className="absolute -bottom-[20px] left-1/2 hidden h-[2px] w-[85%] -translate-x-1/2 rounded-xl bg-black lg:block"
+          className="absolute bottom-[-20px] left-1/2 hidden h-[2px] w-[85%] -translate-x-1/2 rounded-xl bg-black lg:block"
         ></li>
       )}
     </ul>

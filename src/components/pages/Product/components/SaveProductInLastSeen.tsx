@@ -9,7 +9,14 @@ export const SaveProductInLastSeen = ({ slug }: { slug: string }) => {
 
   useEffect(() => {
     if (consentCookie) {
-      addToLastSeenItems({ slug });
+      const saveItem = async () => {
+        try {
+          await addToLastSeenItems({ slug });
+        } catch (error) {
+          console.error("Error saving item", error);
+        }
+        await saveItem();
+      };
     }
   }, [slug, consentCookie]);
 

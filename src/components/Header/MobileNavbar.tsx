@@ -2,7 +2,8 @@
 
 import { Menu, ShoppingCart } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { lazy, Suspense, useState } from "react";
+import { useInView } from "react-intersection-observer";
 
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
@@ -13,14 +14,22 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
+import { Skeleton } from "../ui/skeleton";
 import { NavItems } from "./Header";
 import { Logo } from "./logo";
 import { NavbarItem } from "./NavbarItem";
-import { Searchbar } from "./Searchbar/Searchbar";
+
+const Searchbar = lazy(() =>
+  import("./Searchbar/Searchbar").then((module) => ({
+    default: module.Searchbar,
+  })),
+);
 
 export const MobileNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const { ref: searchbarRef, inView: searchbarView } = useInView({
+    triggerOnce: true,
+  });
   return (
     <div className="block w-full min-w-[380px] border-separate bg-background lg:hidden">
       <nav
@@ -60,7 +69,21 @@ export const MobileNavbar = () => {
             </div>
           </SheetContent>
         </Sheet>
-        <Searchbar />
+        <div
+          ref={searchbarRef}
+          className="flex w-full items-center justify-center"
+        >
+          {searchbarView && (
+            <Suspense
+              fallback={
+                <Skeleton className="h-9 w-64 justify-start rounded-md pl-10 pr-12 text-left lg:w-72 xl:w-96" />
+              }
+            >
+              <Searchbar />
+            </Suspense>
+          )}
+        </div>
+
         <div className="flex h-[80px] min-h-[60px] items-center gap-x-4">
           <div className="flex items-center gap-2">
             <Link href="/basket">
