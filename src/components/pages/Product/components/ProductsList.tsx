@@ -1,17 +1,20 @@
 "use client";
 
-import React, { lazy, Suspense, useEffect, useState } from "react";
-import { ITEMS_PER_PAGE } from "@/utils/constants";
+import React, { lazy, Suspense, useState } from "react";
+import { useInView } from "react-intersection-observer";
+
 import { usePaginationQueryState } from "../hooks/usePaginationQueryState";
 import { ProductsFilters } from "./ProductsFilters";
 import { ProductsPagination } from "./ProductsPagination";
-import { useInView } from "react-intersection-observer";
+
 import { Skeleton } from "@/components/ui/skeleton";
+
+import { ITEMS_PER_PAGE } from "@/utils/constants";
 
 const ProductsListItems = lazy(() =>
   import("./ProductsListItems").then((module) => ({
     default: module.ProductsListItems,
-  }))
+  })),
 );
 
 type ProductsPaginationProps = {
@@ -52,7 +55,7 @@ const ProductsList = ({
   const startIndex = (page - 1) * ITEMS_PER_PAGE;
   const currentItems = filteredProducts.slice(
     startIndex,
-    startIndex + ITEMS_PER_PAGE
+    startIndex + ITEMS_PER_PAGE,
   );
 
   const { ref: productsRef, inView: productsInView } = useInView({
@@ -70,12 +73,12 @@ const ProductsList = ({
       />
       <div className="w-full" ref={productsRef}>
         {productsInView && (
-          <Suspense fallback={<Skeleton className="w-full h-[800px]" />}>
-            <div className="grid min-w-[320px] w-full grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-24 lg:gap-20">
+          <Suspense fallback={<Skeleton className="h-[800px] w-full" />}>
+            <div className="grid w-full min-w-[320px] grid-cols-1 gap-4 md:gap-24 lg:grid-cols-2 lg:gap-20 xl:grid-cols-3">
               <ProductsListItems currentItems={currentItems} />
             </div>
-            <div className="flex justify-center items-center w-full mt-10 ">
-              <div className="flex flex-col items-center gap-4 w-full">
+            <div className="mt-10 flex w-full items-center justify-center ">
+              <div className="flex w-full flex-col items-center gap-4">
                 <nav
                   className=""
                   role="navigation"

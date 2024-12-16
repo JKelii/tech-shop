@@ -1,5 +1,8 @@
 "use client";
 
+import { LogOut } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -7,9 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { LogOut } from "lucide-react";
-
-import { signOut, useSession } from "next-auth/react";
 
 const AccountCardContent = () => {
   const session = useSession();
@@ -25,7 +25,7 @@ const AccountCardContent = () => {
             variant="outline"
             onClick={() => signOut({ callbackUrl: "/" })}
           >
-            <LogOut className="mr-2 h-4 w-4" />
+            <LogOut className="mr-2 size-4" />
             Sign Out
           </Button>
         </CardHeader>

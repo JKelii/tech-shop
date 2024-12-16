@@ -1,7 +1,10 @@
+import { NextResponse } from "next/server";
+import Stripe from "stripe";
+
 import { updateOrder } from "@/actions/order";
 import { getEnv } from "@/utils";
-import { NextRequest, NextResponse } from "next/server";
-import Stripe from "stripe";
+
+import type { NextRequest } from "next/server";
 
 const secretStripeWebhook = getEnv(process.env.SECRET_WEBHOOK);
 
@@ -9,9 +12,8 @@ export const config = {
   api: {},
 };
 
-const handler = async (req: NextRequest, res: NextResponse) => {
+const handler = async (req: NextRequest) => {
   const payload = await req.text();
-  const response = JSON.parse(payload);
   const sig = req.headers.get("Stripe-Signature");
 
   try {
@@ -26,7 +28,7 @@ const handler = async (req: NextRequest, res: NextResponse) => {
     const event = stripe.webhooks.constructEvent(
       payload,
       sig,
-      secretStripeWebhook
+      secretStripeWebhook,
     );
 
     await eventStripeWebhook(event);

@@ -1,4 +1,5 @@
-import { test, expect } from "@playwright/test";
+import { test } from "@playwright/test";
+
 import { accountMock } from "../tests/fixtures/account";
 
 test("test", async ({ page }) => {
@@ -29,9 +30,7 @@ test("test", async ({ page }) => {
     .getByRole("link", { name: "iPhone 14 Pro iPhone 14 Pro A" })
     .click();
   await page.getByText("128GB").click();
-  await page.getByText("Add to cart").click();
-  await page.getByText("Please wait").isVisible();
-  await page.getByText("Add to cart").isVisible();
+  await page.getByRole("button", { name: "Add to cart" }).click();
   await page.waitForTimeout(5000);
   await page.locator("div:nth-child(3) > a").click();
   await page.goto("http://localhost:3000/basket");

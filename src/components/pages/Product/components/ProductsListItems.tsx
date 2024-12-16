@@ -1,7 +1,8 @@
-import { priceUpdate } from "@/utils/priceUpdate";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+
+import { priceUpdate } from "@/utils/priceUpdate";
 
 type currentItemsType = {
   description: string;
@@ -36,22 +37,22 @@ export const ProductsListItems = ({
         <Link
           href={`/item/${product.slug}`}
           key={product.id}
-          className="bg-white/60 shadow-md w-full transition rounded-md"
+          className="w-full rounded-md bg-white/60 shadow-md transition"
         >
-          <span className="w-full h-full ">
-            <article className="border-[1px] border-gray-400 w-full  hover:border-slate-700 size-80 rounded-md gap-2 flex justify-center items-center flex-col transition">
+          <span className="size-full ">
+            <article className="flex size-80 w-full  flex-col items-center justify-center gap-2 rounded-md border border-gray-400 transition hover:border-slate-700">
               <Image
                 src={product.images[0]?.url}
                 alt={product.name}
                 width={150}
                 height={150}
-                className=" min-h-[120px] min-w-[120px] w-auto h-auto mt-2 rounded-lg"
+                className=" mt-2 size-auto min-h-[120px] min-w-[120px] rounded-lg"
               />
-              <p className="font-semibold self-start ml-4">{product.name}</p>
-              <p className="text-sm self-start ml-4 text-muted-foreground">
+              <p className="ml-4 self-start font-semibold">{product.name}</p>
+              <p className="ml-4 self-start text-sm text-muted-foreground">
                 {product.description}
               </p>
-              <p className="font-bold self-start ml-4">
+              <p className="ml-4 self-start font-bold">
                 {priceUpdate(product.price)}
               </p>
             </article>

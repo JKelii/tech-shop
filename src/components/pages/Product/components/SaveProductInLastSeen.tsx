@@ -1,9 +1,10 @@
 "use client";
-import { addToLastSeenItems } from "@/actions/lastSeen";
-import { useEffect } from "react";
 import Cookies from "js-cookie";
+import { useEffect } from "react";
 
-export const SaveProductInLastSeen = async ({ slug }: { slug: string }) => {
+import { addToLastSeenItems } from "@/actions/lastSeen";
+
+export const SaveProductInLastSeen = ({ slug }: { slug: string }) => {
   const consentCookie = Cookies.get("cookieConstant");
 
   useEffect(() => {

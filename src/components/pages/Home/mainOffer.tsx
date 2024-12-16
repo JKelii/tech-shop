@@ -1,9 +1,11 @@
-import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { getAllProducts } from "@/lib";
-import { priceUpdate } from "@/utils/priceUpdate";
 import Image from "next/image";
 import React from "react";
+
+import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+
+import { getAllProducts } from "@/lib";
+import { priceUpdate } from "@/utils/priceUpdate";
 
 const MainOffer = async () => {
   const { products } = await getAllProducts();
@@ -12,34 +14,34 @@ const MainOffer = async () => {
 
   return (
     <>
-      <Card className=" shadow-lg  rounded-lg bg-gray-100/50 border-[2px]  pb-6 px-4">
-        <h2 className="text-2xl font-bold mb-4 ml-2 mt-4">Bestsellers</h2>
-        <p className="text-muted-foreground mb-6  ml-2">
+      <Card className=" rounded-lg  border-2 bg-gray-100/50 px-4  pb-6 shadow-lg">
+        <h2 className="my-4 ml-2 text-2xl font-bold">Bestsellers</h2>
+        <p className="mb-6 ml-2  text-muted-foreground">
           Check out our most popular tech products to elevate your digital
           experience.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {bestProducts.map((product) => (
             <section
               key={product.slug}
-              className="border border-gray-400 rounded-md hover:border-gray-700  bg-white"
+              className="rounded-md border border-gray-400 bg-white hover:border-gray-700"
             >
               <a href={`/item/${product.slug}`}>
-                <div className="w-full flex justify-center items-center bg-gray-50/50 rounded-t-md">
+                <div className="flex w-full items-center justify-center rounded-t-md bg-gray-50/50">
                   <Image
                     src={product.images[0].url}
                     alt={product.name}
                     width={400}
                     height={400}
                     priority
-                    className="h-auto w-auto md:size-44 lg:size-96 rounded-lg"
+                    className="size-auto rounded-lg md:size-44 lg:size-96"
                   />
                 </div>
-                <Separator className="h-[1px] " />
-                <div className="p-4 bg-white rounded-b-md ">
+                <Separator className="h-px " />
+                <div className="rounded-b-md bg-white p-4 ">
                   <h2 className="text-xl font-bold">{product.name}</h2>
                   <p className="text-muted-foreground">{product.description}</p>
-                  <p className="font-bold text-lg">
+                  <p className="text-lg font-bold">
                     Only for {priceUpdate(product.price)}
                   </p>
                 </div>

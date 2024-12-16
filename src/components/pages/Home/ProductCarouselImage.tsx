@@ -14,7 +14,7 @@ export const ProductCarouselImage = ({
       height={300}
       alt={alt}
       src={src}
-      className="w-full h-full object-cover"
+      className="size-full object-cover"
     />
   );
 };

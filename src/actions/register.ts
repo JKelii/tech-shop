@@ -1,6 +1,8 @@
 "use server";
-import { createAccount } from "@/lib";
 import * as bcrypt from "bcrypt";
+
+import { createAccount } from "@/lib";
+
 export async function registerUserAction({
   name,
   email,

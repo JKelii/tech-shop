@@ -1,14 +1,15 @@
 "use client";
-import { createOrder } from "@/actions/order";
-import { Button } from "@/components/ui/button";
-import { CardFooter } from "@/components/ui/card";
-
-import { ResponseGetCart } from "@/lib/mappers/getCart";
-import { priceUpdate } from "@/utils/priceUpdate";
 import { useSession } from "next-auth/react";
 import React, { useTransition } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import { toast } from "sonner";
+
+import { Button } from "@/components/ui/button";
+import { CardFooter } from "@/components/ui/card";
+
+import { createOrder } from "@/actions/order";
+
+import type { ResponseGetCart } from "@/lib/mappers/getCart";
 
 export const CheckoutButton = ({
   cart,
@@ -16,7 +17,6 @@ export const CheckoutButton = ({
   cart: ResponseGetCart[] | undefined;
 }) => {
   const { data: session } = useSession();
-  const email = session?.email;
   const [isPending, startTransition] = useTransition();
   return (
     <form
@@ -24,7 +24,7 @@ export const CheckoutButton = ({
         e.preventDefault();
         startTransition(async () => {
           if (session) {
-            createOrder();
+            await createOrder();
           } else {
             toast("You have to be logged in");
           }
@@ -37,7 +37,7 @@ export const CheckoutButton = ({
           <Button
             variant={"outline"}
             disabled={isPending}
-            className="w-96  text-center border-2 border-black rounded-md m-6 bg-black text-white hover:bg-white hover:text-black"
+            className="m-6  w-96 rounded-md border-2 border-black bg-black text-center text-white hover:bg-white hover:text-black"
           >
             {isPending ? (
               <ThreeDots

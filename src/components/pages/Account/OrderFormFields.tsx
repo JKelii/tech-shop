@@ -1,3 +1,7 @@
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import React from "react";
+
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -13,12 +17,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
-import React from "react";
-import { format } from "date-fns";
-import { OrderStatus } from "@/lib/hygraph/generated/graphql";
-import { Control } from "react-hook-form";
 import {
   Select,
   SelectContent,
@@ -26,6 +24,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
+import { OrderStatus } from "@/lib/hygraph/generated/graphql";
+import { cn } from "@/lib/utils";
+
+import type { Control } from "react-hook-form";
 
 type FilterFormData = {
   order: {
@@ -117,7 +120,7 @@ export const OrderFormFields = ({
           control={control}
           name="order.startDate"
           render={({ field }) => (
-            <FormItem className="flex flex-col flex-1">
+            <FormItem className="flex flex-1 flex-col">
               <FormLabel>Start Date</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
@@ -126,7 +129,7 @@ export const OrderFormFields = ({
                       variant={"outline"}
                       className={cn(
                         "w-full pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground"
+                        !field.value && "text-muted-foreground",
                       )}
                     >
                       {field.value ? (
@@ -134,7 +137,7 @@ export const OrderFormFields = ({
                       ) : (
                         <span>Pick a date</span>
                       )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      <CalendarIcon className="ml-auto size-4 opacity-50" />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
@@ -159,7 +162,7 @@ export const OrderFormFields = ({
           control={control}
           name="order.endDate"
           render={({ field }) => (
-            <FormItem className="flex flex-col flex-1">
+            <FormItem className="flex flex-1 flex-col">
               <FormLabel>End Date</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
@@ -168,7 +171,7 @@ export const OrderFormFields = ({
                       variant={"outline"}
                       className={cn(
                         "w-full pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground"
+                        !field.value && "text-muted-foreground",
                       )}
                     >
                       {field.value ? (
@@ -176,7 +179,7 @@ export const OrderFormFields = ({
                       ) : (
                         <span>Pick a date</span>
                       )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      <CalendarIcon className="ml-auto size-4 opacity-50" />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>

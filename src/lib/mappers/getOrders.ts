@@ -1,4 +1,4 @@
-import { OrderStatus } from "../hygraph/generated/graphql";
+import type { OrderStatus } from "../hygraph/generated/graphql";
 
 export type ParamGetOrders = {
   total: number;
@@ -42,7 +42,7 @@ type OrderItemsType = {
 };
 
 export const mapperGetOrders = (
-  orders: ParamGetOrders
+  orders: ParamGetOrders,
 ): MappedGetOrders | undefined => {
   if (!orders || orders === null) return undefined;
 
@@ -55,7 +55,7 @@ export const mapperGetOrders = (
       id: order.id,
       orderItems: order.orderItems
         .map((item) => {
-          if (item && item.product) {
+          if (item?.product) {
             return {
               size: item.size,
               quantity: item.quantity,

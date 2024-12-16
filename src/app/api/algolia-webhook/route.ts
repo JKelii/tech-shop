@@ -1,11 +1,12 @@
+import { algoliasearch } from "algoliasearch";
+
 import { getAllProducts } from "@/lib";
 import { getEnv } from "@/utils";
-import { algoliasearch } from "algoliasearch";
 
 const algoliaId = getEnv(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID);
 const algoliaKey = getEnv(process.env.NEXT_PUBLIC_ALGOLIA_API_KEY);
 
-export const algoliaHandler = () => {
+export const algoliaHandler = async () => {
   const client = algoliasearch(algoliaId, algoliaKey);
 
   const processRecords = async () => {
@@ -27,5 +28,5 @@ export const algoliaHandler = () => {
     }
   };
 
-  processRecords();
+  await processRecords();
 };

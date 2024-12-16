@@ -1,10 +1,12 @@
 "use client";
-import { priceUpdate } from "@/utils/priceUpdate";
-import type { Hit as HitType } from "instantsearch.js";
 import Image from "next/image";
 import Link from "next/link";
 
-type HitProps = {
+import { priceUpdate } from "@/utils/priceUpdate";
+
+import type { Hit as HitType } from "instantsearch.js";
+
+export type HitProps = {
   hit: HitType<{
     name: string;
     id: string;
@@ -17,10 +19,10 @@ type HitProps = {
 export const Hit = ({ hit }: HitProps) => {
   return (
     <>
-      <div className="w-full h-full" key={hit.id}>
+      <div className="size-full" key={hit.id}>
         <Link href={`/item/${hit.slug}`}>
           <article
-            className="flex gap-4 min-w-72 w-full h-16 hover:bg-gray-100   rounded-lg"
+            className="flex h-20 w-full min-w-72 gap-4 rounded-lg  hover:bg-gray-100"
             key={hit.id}
           >
             <Image
@@ -28,10 +30,10 @@ export const Hit = ({ hit }: HitProps) => {
               alt={hit.name}
               width={70}
               height={70}
-              className="p-1"
+              className="rounded-lg object-contain p-1"
             />
-            <div className="flex flex-col gap-1">
-              <p className="font-semibold text-sm ">{hit.name}</p>
+            <div className="mt-1 flex flex-col gap-1">
+              <p className="text-sm font-semibold ">{hit.name}</p>
               <p className="text-sm text-muted-foreground">
                 {priceUpdate(Number(hit.price))}
               </p>

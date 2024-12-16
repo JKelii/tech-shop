@@ -1,8 +1,10 @@
 "use client";
+import { Eye, EyeOff } from "lucide-react";
 import React, { useState } from "react";
-import { UseFormRegister } from "react-hook-form";
+
 import { Input } from "./input";
-import { Eye, EyeOff, Lock } from "lucide-react";
+
+import type { UseFormRegister } from "react-hook-form";
 
 export const PasswordInput = React.forwardRef<
   HTMLInputElement,
@@ -13,7 +15,7 @@ export const PasswordInput = React.forwardRef<
   const [isPassword, setIsPassword] = useState(true);
 
   return (
-    <div className="flex flex-col relative">
+    <div className="relative flex flex-col">
       <Input
         {...inputProps}
         ref={ref}
@@ -23,7 +25,7 @@ export const PasswordInput = React.forwardRef<
 
       <button
         type="button"
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 bottom-5"
+        className="absolute right-4 top-10 -translate-y-1/2"
         onClick={() => setIsPassword((prevState) => !prevState)}
       >
         {isPassword ? <Eye /> : <EyeOff />}

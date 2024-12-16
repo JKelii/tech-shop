@@ -1,6 +1,8 @@
 import Link from "next/link";
-import React, { ReactElement } from "react";
+import React from "react";
 import { twMerge } from "tailwind-merge";
+
+import type { ReactElement } from "react";
 
 type MenuIconProps = {
   icon: ReactElement;
@@ -11,18 +13,18 @@ type MenuIconProps = {
 
 const MenuIcon = ({ icon, path, className, name }: MenuIconProps) => {
   return (
-    <div className="flex flex-col justify-center items-center gap-1">
+    <div className="flex flex-col items-center justify-center gap-1">
       <Link
         href={path}
         className={twMerge(
           `text-white hover:text-gray-200 transition h-full w-16 flex justify-center items-center`,
-          className
+          className,
         )}
       >
         {icon}
       </Link>
 
-      <p className="text-xs text-black/75 font-semibold">{name}</p>
+      <p className="text-xs font-semibold text-black/75">{name}</p>
     </div>
   );
 };

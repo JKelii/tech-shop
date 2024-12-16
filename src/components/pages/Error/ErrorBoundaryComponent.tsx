@@ -1,6 +1,9 @@
-import React, { ReactNode } from "react";
-import { ErrorBoundary, FallbackProps } from "react-error-boundary";
+import React from "react";
+import { ErrorBoundary } from "react-error-boundary";
+
 import { ErrorFallback } from "./ErrorFallback";
+
+import type { ReactNode } from "react";
 
 type ErrorBoundaryComponentType = {
   children: ReactNode;

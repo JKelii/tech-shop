@@ -1,12 +1,14 @@
 "use client";
-import React from "react";
-import { Input } from "../../Inputs/input";
-import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { userSchemaNewsletter } from "@/app/schema/userValidation";
 import { Mail } from "lucide-react";
-import { signUpNewsletter } from "@/app/api/auth/[...nextauth]/signUpNewsletter";
 import { useSession } from "next-auth/react";
+import React from "react";
+import { useForm } from "react-hook-form";
+
+import { Input } from "../../Inputs/input";
+
+import { signUpNewsletter } from "@/app/api/auth/[...nextauth]/signUpNewsletter";
+import { userSchemaNewsletter } from "@/app/schema/userValidation";
 
 const Newsletter = ({
   isSignedInNewsletter,
@@ -40,12 +42,12 @@ const Newsletter = ({
   });
 
   return (
-    <div className="bg-white border w-[22rem] md:w-[35rem] h-96 flex flex-col justify-start items-center rounded-lg shadow-lg ">
+    <div className="flex h-96 w-[22rem] flex-col items-center justify-start rounded-lg border bg-white shadow-lg md:w-[35rem] ">
       {isSignedInNewsletter ? (
         <>
-          <div className="flex justify-center items-center mt-5 flex-col w-3/4">
+          <div className="mt-5 flex w-3/4 flex-col items-center justify-center">
             <h2 className="text-xl font-bold">Thank you for subscribing!</h2>
-            <p className="mb-5 text-gray-600 mt-5">
+            <p className="my-5 text-gray-600">
               You&apos;re now signed up to receive our latest news and updates.
             </p>
             <p className="text-gray-600">
@@ -55,7 +57,7 @@ const Newsletter = ({
             </p>
             <p className="mt-5 text-gray-600">
               If you have any questions or need assistance, feel free to{" "}
-              <span className="underline cursor-pointer"> contact us.</span>
+              <span className="cursor-pointer underline"> contact us.</span>
             </p>
           </div>
         </>
@@ -63,13 +65,13 @@ const Newsletter = ({
         <>
           {" "}
           <h2 className="mt-5 text-xl font-bold">Newsletter</h2>
-          <p className="w-3/4 mt-5 text-gray-600">
+          <p className="mt-5 w-3/4 text-gray-600">
             Stay up to date with the latest news, updates, and exclusive offers.
           </p>
           <form
             action="submit"
             onSubmit={onSubmit}
-            className="mt-5 flex justify-center items-center flex-col gap-4"
+            className="mt-5 flex flex-col items-center justify-center gap-4"
             noValidate
           >
             <Input
@@ -78,13 +80,13 @@ const Newsletter = ({
               label="email"
               type="email"
             />
-            <button className="flex bg-black text-white font-bold w-40 h-10 mt-2 gap-2 justify-center items-center rounded-lg">
+            <button className="mt-2 flex h-10 w-40 items-center justify-center gap-2 rounded-lg bg-black font-bold text-white">
               <Mail />
               Subscribe
             </button>
-            <p className="text-sm text-gray-600 mt-2 ml-4">
+            <p className="ml-4 mt-2 text-sm text-gray-600">
               We&apos;ll never share your email. Read our{" "}
-              <span className="underline cursor-pointer"> privacy policy</span>.
+              <span className="cursor-pointer underline"> privacy policy</span>.
             </p>
           </form>{" "}
         </>

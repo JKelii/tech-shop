@@ -5,7 +5,7 @@ type MappedCategories = {
 type ResponseGetCategories = string[];
 
 export const mapperCategories = (
-  categories: MappedCategories
+  categories: MappedCategories,
 ): ResponseGetCategories | undefined => {
   if (!categories || categories.length === 0) return undefined;
 

@@ -1,11 +1,13 @@
+import React from "react";
+
 import {
   Pagination,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+
 import { cn } from "@/lib/utils";
-import React from "react";
 
 export const OrdersPagination = ({
   page,
@@ -86,7 +88,7 @@ export const OrdersPagination = ({
             className={cn(
               page === 1 && page === totalPages
                 ? "cursor-not-allowed"
-                : "cursor-pointer"
+                : "cursor-pointer",
             )}
           />
         </Pagination>

@@ -1,25 +1,28 @@
 "use client";
 
-import React, { lazy, Suspense, useState } from "react";
 import { SlidersHorizontal } from "lucide-react";
-import { OrderStatus } from "@/lib/hygraph/generated/graphql";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { parseAsInteger, useQueryState } from "nuqs";
-import { OrderFromProvider } from "./OrderFromProvider";
+import React, { lazy, Suspense, useState } from "react";
 import { useInView } from "react-intersection-observer";
+
+import { OrderFromProvider } from "./OrderFromProvider";
+
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+
 import { getFilteredOrders } from "@/actions/filteredOrders";
+import { OrderStatus } from "@/lib/hygraph/generated/graphql";
 
 const OrdersList = lazy(() =>
   import("./OrdersList").then((module) => ({
     default: module.OrdersList,
-  }))
+  })),
 );
 
 const OrdersPagination = lazy(() =>
   import("./OrdersPagination").then((module) => ({
     default: module.OrdersPagination,
-  }))
+  })),
 );
 
 type ProductType = {
@@ -67,7 +70,7 @@ export const FilterOrders = ({ orders }: FilterOrdersType) => {
 
   const allOrdersTypes = orders.map((item) => item.orderStatus);
   const ordersStatuses = allOrdersTypes.filter(
-    (element, index) => allOrdersTypes.indexOf(element) === index
+    (element, index) => allOrdersTypes.indexOf(element) === index,
   );
   console.log(ordersStatuses);
 
@@ -98,12 +101,12 @@ export const FilterOrders = ({ orders }: FilterOrdersType) => {
   const startIndex = (page - 1) * itemsPerPage;
   const currentItems = filteredOrders.slice(
     startIndex,
-    startIndex + itemsPerPage
+    startIndex + itemsPerPage,
   );
 
-  const handlePageChange = (newPage: number) => {
+  const handlePageChange = async (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
-      setPage(newPage);
+      await setPage(newPage);
     }
   };
 
@@ -112,7 +115,7 @@ export const FilterOrders = ({ orders }: FilterOrdersType) => {
       <Card className="mb-8">
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
-            <CardTitle className="flex justify-center items-center gap-2">
+            <CardTitle className="flex items-center justify-center gap-2">
               <SlidersHorizontal /> Filters
             </CardTitle>
           </div>
@@ -123,8 +126,8 @@ export const FilterOrders = ({ orders }: FilterOrdersType) => {
           orders={orders}
         />
       </Card>
-      <div className="flex justify-center items-center w-full mt-10 ">
-        <div className="flex flex-col items-center gap-4 w-full"></div>
+      <div className="mt-10 flex w-full items-center justify-center ">
+        <div className="flex w-full flex-col items-center gap-4"></div>
       </div>
       <div ref={ordersRef} className="w-full">
         {ordersInView && (

@@ -4,11 +4,9 @@ import React from "react";
 export const ProductOfferLazyImage = ({
   src,
   alt,
-  index,
 }: {
   src: string;
   alt: string;
-  index: number;
 }) => {
   return (
     <Image
@@ -16,7 +14,7 @@ export const ProductOfferLazyImage = ({
       alt={alt}
       width={175}
       height={175}
-      className="w-[175px] h-[175px] rounded-lg"
+      className="size-[175px] rounded-lg"
       style={{ objectFit: "contain" }}
       loading="lazy"
     />

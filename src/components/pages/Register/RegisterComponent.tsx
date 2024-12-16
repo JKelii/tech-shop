@@ -1,18 +1,17 @@
 "use client";
-import React, { useTransition } from "react";
-
-import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-
-import { registerUserAction } from "@/actions/register";
+import { Loader2 } from "lucide-react";
+import Link from "next/link";
+import React, { useTransition } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { userSchemaRegister } from "@/app/schema/userValidation";
+
 import { Input } from "@/components/Inputs/input";
 import { PasswordInput } from "@/components/Inputs/passwordInput";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import Link from "next/link";
-import { redirect } from "next/navigation";
+
+import { registerUserAction } from "@/actions/register";
+import { userSchemaRegister } from "@/app/schema/userValidation";
 
 const RegisterComponent = () => {
   const {
@@ -23,7 +22,7 @@ const RegisterComponent = () => {
     resolver: yupResolver(userSchemaRegister),
   });
   const [isPending, startTransition] = useTransition();
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit((data) => {
     try {
       startTransition(async () => {
         const { createAccount } = await registerUserAction(data);
@@ -32,24 +31,25 @@ const RegisterComponent = () => {
         }
       });
     } catch (error) {
+      console.error(error);
       toast("Email already used");
     }
   });
 
   return (
-    <main className="flex justify-center flex-wrap items-center grow w-full mt-10 lg:mt-4 xl:mt-0 mb-10 lg:mb-4 xl:mb-0">
-      <div className="w-[25rem] h-[33rem] lg:mt-0 border-2 border-gradient-to-r border-gray-500 rounded-md py-8 shadow-2xl flex justify-center items-center flex-col">
-        <p className="text-2xl font-bold text-center px-4 text-black">
+    <main className="my-10 flex w-full grow flex-wrap items-center justify-center lg:my-4 xl:my-0">
+      <div className="border-gradient-to-r flex h-[33rem] w-[25rem] flex-col items-center justify-center rounded-md border-2 border-gray-500 py-8 shadow-2xl lg:mt-0">
+        <p className="px-4 text-center text-2xl font-bold text-black">
           Register
         </p>
-        <p className="text-center text-sm text-gray-600 py-4">
+        <p className="py-4 text-center text-sm text-gray-600">
           Create a new account to get started.
         </p>
 
         <form
           noValidate
           onSubmit={onSubmit}
-          className="flex items-center flex-col h-[45rem] w-96 gap-4"
+          className="flex h-[45rem] w-96 flex-col items-center gap-4"
         >
           <Input
             error={errors.name?.message}
@@ -74,21 +74,21 @@ const RegisterComponent = () => {
           {!isPending ? (
             <Button
               type="submit"
-              className="w-64 py-2 mt-2 text-white bg-black rounded hover:bg-black/80 focus:outline-none focus:ring-2 focus:ring-black/60 focus:ring-opacity-50"
+              className="focus:ring-opacity/50 mt-2 w-64 rounded bg-black py-2 text-white hover:bg-black/80 focus:outline-none focus:ring-2 focus:ring-black/60"
             >
               Register
             </Button>
           ) : (
             <Button
               disabled
-              className="w-64 py-2 text-white bg-black rounded hover:bg-black/80 focus:outline-none focus:ring-2 focus:ring-black/60 focus:ring-opacity-50"
+              className="focus:ring-opacity/50 mt-2 w-64 rounded bg-black py-2 text-white hover:bg-black/80 focus:outline-none focus:ring-2 focus:ring-black/60"
             >
               <Loader2 className="animate-spin" />
               Please wait
             </Button>
           )}
 
-          <div className="flex items-center gap-1 mb-2">
+          <div className="mb-2 flex items-center gap-1">
             <p>Already have an account?</p>
             <Link href="/login" className="font-bold text-black">
               Login

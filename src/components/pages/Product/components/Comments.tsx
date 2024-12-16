@@ -1,19 +1,21 @@
 "use client";
 
+import { CircleUser, Clock } from "lucide-react";
+import { parseAsInteger, useQueryState } from "nuqs";
+import React from "react";
+
+import CreateComment from "./CreateComment";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Pagination,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { cn } from "@/lib/utils";
-import { CircleUser, Clock } from "lucide-react";
-import { parseAsInteger, useQueryState } from "nuqs";
-
-import React from "react";
-import CreateComment from "./CreateComment";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+
+import { cn } from "@/lib/utils";
 
 type ReviewsType = {
   content: string;
@@ -37,37 +39,37 @@ export const Comments = ({
   const startIndex = (page - 1) * itemsPerPage;
   const currentItems = reviews.slice(startIndex, startIndex + itemsPerPage);
 
-  const handlePageChange = (newPage: number) => {
+  const handlePageChange = async (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
-      setPage(newPage);
+      await setPage(newPage);
     }
   };
 
   return (
-    <section className="flex justify-center container mx-auto items-center flex-col my-10 w-full gap-4 ">
-      <Card className="px-6 bg-gray-100/80 pb-4 w-full min-w-[350px]">
-        <CardHeader className="text-black font-black text-2xl self-start">
+    <section className="container mx-auto my-10 flex w-full flex-col items-center justify-center gap-4 ">
+      <Card className="w-full min-w-[350px] bg-gray-100/80 px-6 pb-4">
+        <CardHeader className="self-start text-2xl font-black text-black">
           <CardTitle>Comments</CardTitle>
         </CardHeader>
         <Separator />
 
-        <div className="h-full flex justify-start items-start flex-col gap-4 w-full mt-6">
+        <div className="mt-6 flex size-full flex-col items-start justify-start gap-4">
           {currentItems.length >= 1 ? (
             currentItems.map((item, index) => (
               <Card
                 key={index}
-                className="bg-white w-full shadow-sm hover:shadow-md transition-shadow duration-200"
+                className="w-full bg-white shadow-sm transition-shadow duration-200 hover:shadow-md"
               >
                 <CardContent className="p-4">
                   <div className="flex space-x-4">
-                    <CircleUser className="size-8 min-w-[2rem] min-h-[2rem]" />
+                    <CircleUser className="size-8 min-h-8 min-w-8" />
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
-                        <h3 className="font-semibold text-lg text-gray-500">
+                        <h3 className="text-lg font-semibold text-gray-500">
                           {item.name}
                         </h3>
-                        <span className="text-sm text-gray-500 flex items-center">
-                          <Clock className="w-4 h-4 mr-1" />
+                        <span className="flex items-center text-sm text-gray-500">
+                          <Clock className="mr-1 size-4" />
                           {item.date}
                         </span>
                       </div>
@@ -78,8 +80,8 @@ export const Comments = ({
               </Card>
             ))
           ) : (
-            <article className="flex justify-center items-center w-full">
-              <p className="text-center my-10 font-black">
+            <article className="flex w-full items-center justify-center">
+              <p className="my-10 text-center font-black">
                 There are no comments yet
               </p>
             </article>
@@ -87,15 +89,15 @@ export const Comments = ({
         </div>
 
         {reviews.length >= 1 && (
-          <div className="flex justify-center items-center w-full mt-10 ">
-            <div className="flex flex-col items-center gap-4 w-full">
+          <div className="mt-10 flex w-full items-center justify-center ">
+            <div className="flex w-full flex-col items-center gap-4">
               <div className="">
                 <Pagination>
                   <Pagination>
                     <PaginationPrevious
                       onClick={() => handlePageChange(page - 1)}
                       className={cn(
-                        page === 1 ? "cursor-not-allowed" : "cursor-pointer"
+                        page === 1 ? "cursor-not-allowed" : "cursor-pointer",
                       )}
                     />
 
@@ -148,17 +150,17 @@ export const Comments = ({
                       className={cn(
                         page === totalPages
                           ? "cursor-not-allowed"
-                          : "cursor-pointer"
+                          : "cursor-pointer",
                       )}
                     />
                   </Pagination>
                 </Pagination>
               </div>
-              <div className="w-full flex justify-center items-center"></div>
+              <div className="flex w-full items-center justify-center"></div>
             </div>
           </div>
         )}
-        <Card className="bg-gray-100/80 w-full shadow-md hover:shadow-md transition-shadow duration-200 min-w-[350px]">
+        <Card className="w-full min-w-[350px] bg-gray-100/80 shadow-md transition-shadow duration-200 hover:shadow-md">
           <CreateComment slug={slug} />
         </Card>
       </Card>

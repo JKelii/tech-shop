@@ -1,9 +1,9 @@
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { OrderStatus } from "@/lib/hygraph/generated/graphql";
-import { priceUpdate } from "@/utils/priceUpdate";
 import { Package } from "lucide-react";
 import Image from "next/image";
 import React from "react";
+
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -12,7 +12,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
+
+import { OrderStatus } from "@/lib/hygraph/generated/graphql";
+import { priceUpdate } from "@/utils/priceUpdate";
 
 type ProductType = {
   image: string | undefined;
@@ -37,7 +39,7 @@ export type OrderType = {
 
 export const OrdersList = ({ orders }: { orders: OrderType[] }) => {
   return orders.map((order) => (
-    <div key={order.stripeCheckoutId} className="w-full min-w-[360px] mt-10">
+    <div key={order.stripeCheckoutId} className="mt-10 w-full min-w-[360px]">
       <Card className="">
         <CardHeader>
           <CardTitle className="flex items-center">
@@ -89,19 +91,19 @@ export const OrdersList = ({ orders }: { orders: OrderType[] }) => {
                           height={100}
                           src={item.product.image || ""}
                           alt={item.product.name || "Product Image"}
-                          className="w-12 h-12 object-cover rounded"
+                          className="size-12 rounded object-cover"
                         />
                       </TableCell>
                       <TableCell>{item.product.name}</TableCell>
                       <TableCell>
                         {priceUpdate(
-                          (item?.product?.price || 1) * item.quantity
+                          (item?.product?.price || 1) * item.quantity,
                         )}
                       </TableCell>
                       <TableCell>{item.size}</TableCell>
                       <TableCell>{item.quantity}</TableCell>
                     </TableRow>
-                  )
+                  ),
               )}
             </TableBody>
           </Table>

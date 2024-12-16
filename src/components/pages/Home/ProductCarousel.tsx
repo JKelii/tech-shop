@@ -1,12 +1,15 @@
 import * as React from "react";
+
+import { ProductCarouselContent } from "./ProductCarouselContent";
+
 import {
   Carousel,
   CarouselContent,
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+
 import { getAllProducts } from "@/lib";
-import { ProductCarouselContent } from "./ProductCarouselContent";
 
 //TODO: Lazy loading on images
 
@@ -22,8 +25,8 @@ export const ProductCarousel = async () => {
       <CarouselContent>
         <ProductCarouselContent products={products} />
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
+      <CarouselPrevious className="p-0" />
+      <CarouselNext className="p-0" />
     </Carousel>
   );
 };

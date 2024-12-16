@@ -1,11 +1,12 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
 import Cookies from "js-cookie";
+import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import { Button } from "@/components/ui/button";
+
 export const CookiesModal = () => {
-  const [showModal, setShowModal] = useState<Boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   useEffect(() => {
     const cookie = Cookies.get("cookieConstant");
@@ -28,9 +29,9 @@ export const CookiesModal = () => {
   return (
     <>
       {showModal && (
-        <div className="fixed bottom-0 left-0 right-0 h-24 flex justify-center items-center bg-background border-t p-4 shadow-lg">
-          <div className="container mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-foreground text-center sm:text-left">
+        <div className="fixed inset-x-0 bottom-0 flex h-24 items-center justify-center border-t bg-background p-4 shadow-lg">
+          <div className="container mx-auto flex flex-col items-center justify-between gap-4 sm:flex-row">
+            <p className="text-center text-sm text-foreground sm:text-left">
               We use cookies to enhance your browsing experience and analyze our
               traffic. By clicking &quot;Accept&quot;, you consent to our use of
               cookies.
@@ -54,7 +55,7 @@ export const CookiesModal = () => {
                 onClick={() => setShowModal(false)}
                 aria-label="Close"
               >
-                <X className="h-4 w-4" />
+                <X className="size-4" />
               </Button>
             </div>
           </div>

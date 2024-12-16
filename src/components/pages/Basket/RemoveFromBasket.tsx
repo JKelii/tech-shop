@@ -1,12 +1,13 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { ThreeDots } from "react-loader-spinner";
 import React, { useTransition } from "react";
+import { ThreeDots } from "react-loader-spinner";
 import { toast } from "sonner";
+
+import { Button } from "@/components/ui/button";
+
 import { removeFromCart } from "@/actions/cart";
 
 type RemoveFromBasketType = {
@@ -23,17 +24,18 @@ const RemoveFromBasket = ({
   productId,
   productQuantity,
 }: RemoveFromBasketType) => {
-  const session = useSession();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     startTransition(async () => {
       const updatedCart = await removeFromCart(productId);
       if (updatedCart) {
-        productQuantity > 1
-          ? toast("Items removed from cart ❌")
-          : toast("Item removed from cart ❌");
+        if (productQuantity > 1) {
+          toast("Items removed from cart ❌");
+        } else {
+          toast("Item removed from cart ❌");
+        }
       }
       router.refresh();
     });
@@ -60,7 +62,7 @@ const RemoveFromBasket = ({
           />
         ) : (
           <>
-            <X className="h-6 w-6" />
+            <X className="size-6" />
             <span className="sr-only">Remove item</span>
           </>
         )}

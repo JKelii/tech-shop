@@ -1,20 +1,22 @@
+import React from "react";
+
 import {
   Pagination,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import React from "react";
-import { usePaginationQueryState } from "../hooks/usePaginationQueryState";
-import { Options } from "nuqs";
+
 import { cn } from "@/lib/utils";
+
+import type { Options } from "nuqs";
 
 type ProductPaginationType = {
   page: number;
   totalPages: number;
   setPage: <Shallow>(
     value: number | ((old: number) => number | null) | null,
-    options?: Options<Shallow> | undefined
+    options?: Options<Shallow> | undefined,
   ) => Promise<URLSearchParams>;
 };
 
@@ -23,9 +25,9 @@ export const ProductsPagination = ({
   totalPages,
   setPage,
 }: ProductPaginationType) => {
-  const handlePageChange = (newPage: number) => {
+  const handlePageChange = async (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
-      setPage(newPage);
+      await setPage(newPage);
     }
   };
 
@@ -38,7 +40,7 @@ export const ProductsPagination = ({
             aria-label="Previous page"
             className={cn(
               "mx-2",
-              page === 1 ? "cursor-not-allowed " : "cursor-pointer "
+              page === 1 ? "cursor-not-allowed " : "cursor-pointer ",
             )}
           />
         )}
@@ -68,7 +70,7 @@ export const ProductsPagination = ({
           <p
             tabIndex={page}
             aria-label={`${page}`}
-            className="py-2 font-semibold text-center w-8"
+            className="w-8 py-2 text-center font-semibold"
             aria-selected="true"
             role="tab"
           >
@@ -105,7 +107,7 @@ export const ProductsPagination = ({
             aria-label="Next page"
             className={cn(
               "mx-2",
-              page === totalPages ? "cursor-not-allowed" : "cursor-pointer"
+              page === totalPages ? "cursor-not-allowed" : "cursor-pointer",
             )}
           />
         )}

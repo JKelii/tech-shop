@@ -1,5 +1,7 @@
 "use server";
 
+import { cookies } from "next/headers";
+
 import {
   createCart,
   createCartProduct,
@@ -7,8 +9,6 @@ import {
   getCart,
   updateCartProduct,
 } from "@/lib";
-
-import { cookies } from "next/headers";
 
 const COOKIE_NAME_CART = "cart";
 
@@ -33,7 +33,7 @@ export const manageCart = async ({
     quantity: number;
   };
 }) => {
-  const findCart = cookies().get(COOKIE_NAME_CART);
+  const findCart = (await cookies()).get(COOKIE_NAME_CART);
 
   if (!findCart) {
     const createdCart = await createCart({ ...product, email });
@@ -42,7 +42,7 @@ export const manageCart = async ({
       return { error: "Can't create cart" };
     }
 
-    cookies().set(COOKIE_NAME_CART, createdCart.id, {
+    (await cookies()).set(COOKIE_NAME_CART, createdCart.id, {
       httpOnly: true,
       secure: true,
     });
@@ -52,12 +52,12 @@ export const manageCart = async ({
   const cart = await getCart({ id: findCart.value });
 
   if (!cart) {
-    cookies().delete(COOKIE_NAME_CART);
+    (await cookies()).delete(COOKIE_NAME_CART);
     return { error: "Can't find cart" };
   }
 
   const updateProduct = cart.find(
-    ({ slug, size }) => slug === product.slug && size === product.size
+    ({ slug, size }) => slug === product.slug && size === product.size,
   );
   const cartProductId = updateProduct?.id;
 
@@ -83,14 +83,14 @@ export const manageCart = async ({
 };
 
 export const getCartFromCookie = async () => {
-  const cartId = cookies().get(COOKIE_NAME_CART)?.value;
+  const cartId = (await cookies()).get(COOKIE_NAME_CART)?.value;
   if (cartId) {
     const cart = await getCart({ id: cartId });
     return cart;
   }
 };
 export const removeFromCart = async (productId: string) => {
-  const cartCookie = cookies().get(COOKIE_NAME_CART);
+  const cartCookie = (await cookies()).get(COOKIE_NAME_CART);
   if (!cartCookie) return null;
 
   const cartId = cartCookie.value;
@@ -105,38 +105,10 @@ export const removeFromCart = async (productId: string) => {
     const updatedCart = await getCart({ id: cartId });
 
     if (!updatedCart || updatedCart.length === 0) {
-      cookies().delete(COOKIE_NAME_CART);
+      (await cookies()).delete(COOKIE_NAME_CART);
       return [];
     } else {
       return updatedCart;
     }
   }
 };
-
-// export const updateCartQuantity = async ({
-//   slug,
-//   quantity,
-// }: {
-//   slug: string;
-//   quantity: number;
-// }) => {
-//   const cartCookie = cookies().get(COOKIE_NAME_CART);
-//   if (!cartCookie) return;
-
-//   const cartId = cartCookie.value;
-//   const cart = await getCart({ id: cartId });
-
-//   if (!cart) return;
-
-//   const productToUpdate = cart.find(
-//     (product: { slug: string }) => product.slug === slug
-//   );
-
-//   if (productToUpdate) {
-//     await updateCartProduct({
-//       quantity: quantity,
-//       cartProductId: productToUpdate.id,
-//       size: productToUpdate.size,
-//     });
-//   }
-// };

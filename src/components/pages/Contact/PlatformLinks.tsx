@@ -4,7 +4,7 @@ import React from "react";
 
 export const PlatformLinks = () => {
   return (
-    <ul className="flex gap-4 mt-4">
+    <ul className="mt-4 flex gap-4">
       <li aria-label="Instagram link">
         <Link href="https://www.instagram.com">
           <Instagram className="text-gray-600" />

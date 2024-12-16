@@ -1,17 +1,21 @@
-import { getFavoriteProducts, getProductSlug } from "@/lib";
-import NotFound from "./not-found";
-import { getServerSession } from "next-auth";
-import { Metadata } from "next";
-import { SaveProductInLastSeen } from "@/components/pages/Product/components/SaveProductInLastSeen";
-import { getLastSeenFromCookies } from "@/actions/lastSeen";
 import dynamic from "next/dynamic";
+import { getServerSession } from "next-auth";
+
+import NotFound from "./not-found";
+
 import { ProductSkeleton } from "@/components/pages/Product/components/ProductSkeleton";
+import { SaveProductInLastSeen } from "@/components/pages/Product/components/SaveProductInLastSeen";
+
+import { getLastSeenFromCookies } from "@/actions/lastSeen";
+import { getFavoriteProducts, getProductSlug } from "@/lib";
+
+import type { Metadata } from "next";
 
 const DynamicProduct = dynamic(
   () => import("../../../components/pages/Product/components/ProductPage"),
   {
     loading: () => <ProductSkeleton />,
-  }
+  },
 );
 
 export async function generateMetadata({
@@ -19,7 +23,8 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const { product } = await getProductSlug({ slug: params.slug });
+  const { slug } = await params;
+  const { product } = await getProductSlug({ slug: slug });
 
   if (!product) {
     return {
@@ -36,7 +41,7 @@ export async function generateMetadata({
 }
 
 const Page = async ({ params }: { params: { slug: string } }) => {
-  const slug = params.slug;
+  const { slug } = await params;
   const session = await getServerSession();
   const { product } = await getProductSlug({ slug });
   const lastSeenItems = await getLastSeenFromCookies();

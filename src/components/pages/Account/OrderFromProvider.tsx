@@ -1,23 +1,11 @@
-import { Button } from "@/components/ui/button";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { OrderStatus } from "@/lib/hygraph/generated/graphql";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { OrderFormFields } from "./OrderFormFields";
+
+import { Button } from "@/components/ui/button";
+
+import type { OrderStatus } from "@/lib/hygraph/generated/graphql";
 
 type ProductType = {
   image: string | undefined;

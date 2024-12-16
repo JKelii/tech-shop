@@ -1,15 +1,17 @@
 "use client";
-import { Card, CardContent } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import { priceUpdate } from "@/utils/priceUpdate";
 import Link from "next/link";
 import React, { lazy, Suspense } from "react";
 import { useInView } from "react-intersection-observer";
 
+import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+
+import { priceUpdate } from "@/utils/priceUpdate";
+
 const ProductOfferLazyImage = lazy(() =>
   import("./ProductOfferLazyImage").then((module) => ({
     default: module.ProductOfferLazyImage,
-  }))
+  })),
 );
 
 type ProductOfferDisplayType = {
@@ -52,16 +54,16 @@ const ProductOfferDisplay = ({
     threshold: 0.1,
   });
   return (
-    <main className="flex justify-center items-center w-full  ">
+    <main className="flex w-full items-center justify-center  ">
       <Link href={`/item/${products[index].slug}`} key={products[index].id}>
-        <span className="w-full h-full">
-          <Card className="border-[1px] border-gray-400 shadow-md hover:border-gray-700 size-80 rounded-md flex justify-center items-center flex-col flex-wrap  transition">
+        <span className="size-full">
+          <Card className="flex size-80 flex-col flex-wrap items-center justify-center rounded-md border border-gray-400 shadow-md transition  hover:border-gray-700">
             <CardContent className="" ref={lazyImageRef}>
               {lazyImageInView && (
                 <Suspense
                   fallback={
                     <>
-                      <Skeleton className="h-[175px] w-[175px]" />
+                      <Skeleton className="size-[175px]" />
                     </>
                   }
                 >
@@ -73,13 +75,13 @@ const ProductOfferDisplay = ({
                 </Suspense>
               )}
             </CardContent>
-            <p className="font-semibold text-lg self-start ml-4 rounded-lg">
+            <p className="ml-4 self-start rounded-lg text-lg font-semibold">
               {products[index].name}
             </p>
-            <p className="self-start ml-4 text-sm text-muted-foreground">
+            <p className="ml-4 self-start text-sm text-muted-foreground">
               {products[index].description}
             </p>
-            <p className="font-bold text-xl pl-4 self-start">
+            <p className="self-start pl-4 text-xl font-bold">
               {" "}
               {priceUpdate(products[index].price)}
             </p>

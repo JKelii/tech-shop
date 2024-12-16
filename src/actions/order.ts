@@ -1,12 +1,13 @@
 "use server";
 
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { Stripe } from "stripe";
+
 import { createOrderHygraph, getCart, updateOrderStatus } from "@/lib";
 import { OrderStatus } from "@/lib/hygraph/generated/graphql";
 import { getEnv } from "@/utils";
-import { getServerSession } from "next-auth";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import { Stripe } from "stripe";
 
 const stripeClient = new Stripe(getEnv(process.env.STRIPE_KEY), {
   apiVersion: "2024-06-20",
@@ -70,7 +71,7 @@ export const createOrder = async () => {
 
 export const updateOrder = async (
   orderStatus: string,
-  stripeCheckoutId: string
+  stripeCheckoutId: string,
 ) => {
   const updatedOrder = await updateOrderStatus({
     stripeCheckoutId: stripeCheckoutId,

@@ -1,5 +1,6 @@
-types / next - auth.d.ts;
 import NextAuth from "next-auth";
+
+types / next - auth.d.ts;
 
 declare module "next-auth" {
   /**

@@ -1,9 +1,12 @@
 "use client";
-import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ReactNode } from "react";
+
 import { buttonVariants } from "../ui/button";
+
+import { cn } from "@/lib/utils";
+
+import type { ReactNode } from "react";
 
 export const NavbarItem = ({
   label,
@@ -27,10 +30,10 @@ export const NavbarItem = ({
         className={cn(
           buttonVariants({ variant: "ghost" }),
           "w-full text-md xl:text-lg text-black hover:text-foreground",
-          isActive && "text-foreground"
+          isActive && "text-foreground",
         )}
       >
-        <div className="size-5 flex items-center justify-center">{icon}</div>
+        <div className="flex size-5 items-center justify-center">{icon}</div>
         <p> {label === "Account" ? "Account" : label}</p>
       </Link>
       {isActive && (

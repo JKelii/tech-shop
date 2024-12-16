@@ -1,4 +1,5 @@
 import { HeartIcon, Mail, Package, User } from "lucide-react";
+
 import { DesktopNavbar } from "./DesktopNavbar";
 import { MobileNavbar } from "./MobileNavbar";
 
@@ -13,7 +14,7 @@ export const NavItems = [
   { label: "Account", link: "/account", icon: <User /> },
 ];
 
-const Header = async () => {
+const Header = () => {
   return (
     <>
       <DesktopNavbar />

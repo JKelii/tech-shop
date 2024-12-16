@@ -1,8 +1,10 @@
 "use client";
 
-import { WishList } from "@/components/pages/Product/components/WishList";
 import AddToCartButton from "./addToCartButton";
-import { ProductType } from "./ProductPage";
+
+import { WishList } from "@/components/pages/Product/components/WishList";
+
+import type { ProductType } from "./ProductPage";
 
 type ProductManagementProps = {
   product: ProductType;
@@ -17,7 +19,7 @@ export const ProductManagement = ({
 }: ProductManagementProps) => {
   return (
     <div className="flex flex-col md:gap-4">
-      <div className="flex justify-end items-end  ">
+      <div className="flex items-end justify-end  ">
         <AddToCartButton
           product={{
             ...product,

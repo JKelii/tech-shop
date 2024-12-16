@@ -1,12 +1,10 @@
+import React, { useRef, useState } from "react";
+import { useInstantSearch, useSearchBox } from "react-instantsearch";
+
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import React, { useState, useRef } from "react";
-import {
-  useConfigure,
-  useInstantSearch,
-  useSearchBox,
-  UseSearchBoxProps,
-} from "react-instantsearch";
+
+import type { UseSearchBoxProps } from "react-instantsearch";
 
 export const CustomSearchBox = (props: UseSearchBoxProps) => {
   const { query, refine } = useSearchBox(props);
@@ -62,9 +60,9 @@ export const CustomSearchBox = (props: UseSearchBoxProps) => {
             setQuery(event.currentTarget.value);
           }}
           autoFocus
-          className="w-full h-10 px-4 rounded-md "
+          className="h-10 w-full rounded-md px-4 "
         />
-        <Skeleton hidden={!isSearchStalled} className="w-full h-10"></Skeleton>
+        <Skeleton hidden={!isSearchStalled} className="h-10 w-full"></Skeleton>
       </form>
     </div>
   );

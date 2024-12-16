@@ -1,23 +1,26 @@
-import { manageCart } from "@/actions/cart";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import React, { useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { ProductType } from "./ProductPage";
-import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+
 import { useQuantityProduct } from "../hooks/useQuantityProduct";
 import { useSelectedSize } from "../hooks/useSelectedSize";
-import { toast } from "sonner";
-import { ReloadIcon } from "@radix-ui/react-icons";
-import { Button } from "@/components/ui/button";
-import { ThreeDots } from "react-loader-spinner";
-import { Toaster } from "@/components/ui/toaster";
 import { SizeRadioGroup } from "./SizeRadioGroup";
-import { yupResolver } from "@hookform/resolvers/yup";
+
+import { Button } from "@/components/ui/button";
+import { Toaster } from "@/components/ui/toaster";
+
+import { manageCart } from "@/actions/cart";
 import { addToCartSchema } from "@/app/schema/addToCartValidation";
 
+import type { ProductType } from "./ProductPage";
+
 export const AddToCartButton = ({ product }: { product: ProductType }) => {
-  const { slug, quantity: productQuantity, size } = product;
+  const { slug } = product;
   const [isPending, startTransition] = useTransition();
   const {
     register,
@@ -36,7 +39,7 @@ export const AddToCartButton = ({ product }: { product: ProductType }) => {
 
   const { selectedSize, onSizeSelect } = useSelectedSize();
 
-  const onSubmit = handleSubmit(async () => {
+  const onSubmit = handleSubmit(() => {
     try {
       startTransition(async () => {
         if (selectedSize) {
@@ -70,20 +73,22 @@ export const AddToCartButton = ({ product }: { product: ProductType }) => {
           onSizeSelect={onSizeSelect}
         />
 
-        <div className="flex gap-2 justify-center items-center">
-          <p className="text-lg font-medium">Quantity:</p>
-          <div className="flex gap-2 items-center border rounded-md bg-white">
+        <div className="flex items-center justify-center gap-2">
+          <p className="md:text-md text-sm font-medium lg:text-lg ">
+            Quantity:
+          </p>
+          <div className="flex items-center gap-2 rounded-md border bg-white">
             <Button
               type="button"
               size="icon"
               variant={"ghost"}
               disabled={selectedQuantity === 1}
               onClick={depriveQuantity}
-              className=" text-black  w-8 rounded-sm hover:bg-gray-100"
+              className=" w-8  rounded-sm text-black hover:bg-gray-100"
             >
-              <Minus className="h-4 w-4" />
+              <Minus className="size-4" />
             </Button>
-            <span className="px-2 py-2  w-8 text-center font-semibold">
+            <span className="w-8 p-2  text-center font-semibold">
               {selectedQuantity}
             </span>
             <Button
@@ -91,9 +96,9 @@ export const AddToCartButton = ({ product }: { product: ProductType }) => {
               size="icon"
               variant={"ghost"}
               onClick={addQuantity}
-              className="text-black w-8 rounded-sm  hover:bg-gray-100"
+              className="w-8 rounded-sm text-black  hover:bg-gray-100"
             >
-              <Plus className="h-4 w-4" />
+              <Plus className="size-4" />
             </Button>
           </div>
         </div>
@@ -102,12 +107,12 @@ export const AddToCartButton = ({ product }: { product: ProductType }) => {
       <Button
         disabled={isPending}
         type="submit"
-        className=" bg-black hover:bg-black/90 shadow-lg hover:translate-y-[1px] text-white font-bold h-12 py-2 px-4 rounded w-36 md:w-44 mt-6 mr-4"
+        className=" mr-4 mt-6 h-12 w-36 rounded bg-black px-4 py-2 font-bold text-white shadow-lg hover:translate-y-px hover:bg-black/90 md:w-44"
       >
-        <div className="flex justify-center items-center gap-2 md:gap-4 self-center">
+        <div className="flex items-center justify-center gap-2 self-center md:gap-4">
           {isPending ? (
             <>
-              <ReloadIcon className="mr-2 h-full w-full animate-spin" />
+              <ReloadIcon className="mr-2 size-full animate-spin" />
               <p>Please wait</p>
             </>
           ) : (

@@ -1,7 +1,9 @@
-import { Input } from "@/components/ui/input";
 import { useSelectedProductQuantity } from "../hooks/useSelectedProductQuantity";
+
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
+
+import type {
   FieldErrors,
   UseFormRegister,
   UseFormSetValue,
@@ -46,14 +48,13 @@ export const SizeRadioGroup = ({
   trigger,
   setValue,
 }: SizeRadioGroupProps) => {
-  const { selectedProductQuantity, onSelectedProductQuantity } =
-    useSelectedProductQuantity();
+  const { selectedProductQuantity } = useSelectedProductQuantity();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const size = e.target.value;
     onSizeSelect(size);
     setValue("RadioGroup", size, { shouldValidate: true });
-    trigger("RadioGroup");
+    await trigger("RadioGroup");
   };
 
   const sizes = product.size[0].productVariantSize.map((size) => size.name);
@@ -61,13 +62,13 @@ export const SizeRadioGroup = ({
   {
     isOptionSize ? "Memory Storage:" : "Size:";
   }
-  //TODO: HTMLFORM refactor, category
+
   return (
-    <div className="flex flex-col gap-2 mb-4">
+    <div className="mb-4 flex flex-col">
       <Label className="text-lg font-bold">
         {isOptionSize ? "Memory Storage:" : "Size:"}
       </Label>
-      <div className="flex justify-start items-center gap-2">
+      <div className="flex items-center justify-start gap-2">
         {sizes &&
           sizes.map((size) => (
             <Label key={size} className={`flex-1 cursor-pointer`}>
@@ -81,16 +82,16 @@ export const SizeRadioGroup = ({
                 className="sr-only"
               />
               <span
-                className={`flex justify-center items-center text-center py-2 h-10 px-2 w-10 border rounded-md transition-colors ${
+                className={`flex size-10 items-center justify-center rounded-md border p-2 text-center transition-colors ${
                   selectedSize === size
-                    ? "bg-black text-primary-foreground border-primary "
-                    : "bg-background text-foreground border-input hover:bg-accent hover:text-accent-foreground"
+                    ? "border-primary bg-black text-primary-foreground "
+                    : "border-input bg-background text-foreground hover:bg-accent hover:text-accent-foreground"
                 } ${
-                  size === "Standard" ? "w-32 text-semibold tracking-wide" : ""
+                  size === "Standard" ? "text-semibold w-32 tracking-wide" : ""
                 }
-              ${size === "128GB" ? "w-16 text-semibold tracking-wide" : ""}
-               ${size === "256GB" ? "w-16  text-semibold tracking-wide" : ""}
-                ${size === "512GB" ? "w-16  text-semibold tracking-wide" : ""}
+              ${size === "128GB" ? "text-semibold w-16 tracking-wide" : ""}
+               ${size === "256GB" ? "text-semibold  w-16 tracking-wide" : ""}
+                ${size === "512GB" ? "text-semibold  w-16 tracking-wide" : ""}
               `}
               >
                 {size}
@@ -98,8 +99,8 @@ export const SizeRadioGroup = ({
             </Label>
           ))}
       </div>
-      <p className="text-red-500 h-2">{errors.RadioGroup?.message}</p>
-      <p className="text-sm text-muted-foreground h-[20px]">
+      <p className="h-2 text-red-500">{errors.RadioGroup?.message}</p>
+      <p className="h-[20px] text-sm text-muted-foreground">
         {selectedProductQuantity && selectedProductQuantity > 0
           ? `Left in stock: ${selectedProductQuantity}`
           : selectedProductQuantity === 0 && "Out of stock"}

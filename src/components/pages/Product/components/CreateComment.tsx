@@ -1,17 +1,17 @@
 "use client";
-import { createComment } from "@/actions/comments";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
-import { publishProductReview } from "@/lib";
-import { Router, Send } from "lucide-react";
-import { getServerSession } from "next-auth";
-import { useSession } from "next-auth/react";
+import { Send } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import React, { useTransition } from "react";
-import { Form, FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { ThreeDots } from "react-loader-spinner";
 import { toast } from "sonner";
+
+import { Button } from "@/components/ui/button";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+
+import { createComment } from "@/actions/comments";
 
 type FilterFormData = {
   name: string;
@@ -34,7 +34,7 @@ const CreateComment = ({ slug }: { slug: string }) => {
     formState: { errors },
   } = form;
 
-  const onSubmit = async (data: FilterFormData) => {
+  const onSubmit = (data: FilterFormData) => {
     const date = new Date().toISOString();
     if (!email) {
       return toast("To add comment you need to be logged in ❌");
@@ -60,10 +60,10 @@ const CreateComment = ({ slug }: { slug: string }) => {
   };
 
   return (
-    <article className="mt-5 w-full container mx-auto ">
+    <article className="container mx-auto mt-5 w-full ">
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
-          <CardTitle className="flex justify-center items-center gap-2">
+          <CardTitle className="flex items-center justify-center gap-2">
             Add comment
           </CardTitle>
         </div>
@@ -73,7 +73,7 @@ const CreateComment = ({ slug }: { slug: string }) => {
           <form className="w-full space-y-4" onSubmit={handleSubmit(onSubmit)}>
             <Textarea
               placeholder="Share your thoughts on our tech products..."
-              className="min-h-[100px] bg-white w-full "
+              className="min-h-44 w-full bg-white "
               {...register("content", { required: "Content is required" })}
             />
             {errors.content && (
@@ -82,7 +82,7 @@ const CreateComment = ({ slug }: { slug: string }) => {
             <Button
               type="submit"
               disabled={isPending}
-              className="w-full flex justify-center items-center gap-2 bg-black hover:bg-white text-white transition"
+              className="flex w-full items-center justify-center gap-2 bg-black text-white transition hover:bg-white"
               variant={"outline"}
             >
               {isPending ? (
@@ -100,7 +100,7 @@ const CreateComment = ({ slug }: { slug: string }) => {
                 <>
                   {" "}
                   <Send />
-                  <p className="hover:text-black transition">
+                  <p className="transition hover:text-black">
                     {" "}
                     Post comment
                   </p>{" "}

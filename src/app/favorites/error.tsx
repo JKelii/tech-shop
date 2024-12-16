@@ -8,7 +8,7 @@ export const ErrorBoundary = ({
   reset: () => void;
 }) => {
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center gap-2">
+    <div className="flex min-h-screen flex-col items-center justify-center gap-2">
       <p> {error.message} </p>
       <button onClick={reset}> Try again</button>
     </div>

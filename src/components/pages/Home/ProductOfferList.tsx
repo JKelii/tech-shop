@@ -1,6 +1,8 @@
-import { getAllProducts } from "@/lib";
 import React from "react";
+
 import ProductOfferDisplay from "./ProductOfferDisplay";
+
+import { getAllProducts } from "@/lib";
 
 export const ProductOfferList = async () => {
   const { products } = await getAllProducts();

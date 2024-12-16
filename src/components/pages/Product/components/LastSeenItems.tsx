@@ -1,11 +1,13 @@
 "use client";
-import React from "react";
-import { GetProductBySlugQuery } from "@/lib/hygraph/generated/graphql";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { priceUpdate } from "@/utils/priceUpdate";
-import Link from "next/link";
+
+import type { GetProductBySlugQuery } from "@/lib/hygraph/generated/graphql";
 
 export const LastSeenItems = ({
   lastSeenItems,
@@ -15,7 +17,7 @@ export const LastSeenItems = ({
   slug: string;
 }) => {
   const filteredItems = lastSeenItems?.filter(
-    (item) => item?.product?.slug !== slug
+    (item) => item?.product?.slug !== slug,
   );
 
   if (!filteredItems || filteredItems.length === 0) {
@@ -23,33 +25,33 @@ export const LastSeenItems = ({
   }
 
   return (
-    <section className="flex justify-center container mx-auto items-center flex-col my-10 w-full gap-4 ">
-      <Card className="px-6 bg-gray-100/10 pb-4 w-full min-w-[350px]">
-        <CardHeader className="text-black font-black text-2xl self-start">
+    <section className="container mx-auto my-10 flex w-full flex-col  items-center justify-center gap-4 ">
+      <Card className="w-full min-w-[350px] bg-gray-100/10 px-6 pb-4">
+        <CardHeader className="self-start text-2xl font-black text-black">
           <CardTitle>
             {filteredItems?.length === 1 && filteredItems.length > 1
               ? "Recently viewed item"
               : "Recently viewed items"}
           </CardTitle>
         </CardHeader>
-        <CardContent className="flex justify-center items-center gap-8">
+        <CardContent className="flex flex-col items-center justify-center gap-8 lg:flex-row">
           {filteredItems?.map((item) => (
             <Link href={`/item/${item.product?.slug}`} key={item?.product?.id}>
-              <article className="border-[1px] border-gray-200 hover:border-gray-700 size-80 rounded-md gap-2 flex justify-center items-center flex-col transition">
+              <article className="flex size-80 flex-col items-center justify-center gap-2 rounded-md border border-gray-200 transition hover:border-gray-700">
                 <Image
                   src={item?.product?.images[0].url || ""}
                   alt={item?.product?.name || ""}
                   width={150}
                   height={150}
-                  className="min-h-[120px] min-w-[120px] w-auto h-auto rounded-lg"
+                  className="size-auto min-h-[120px] min-w-[120px] rounded-lg"
                 />
-                <p className="font-semibold self-start ml-4">
+                <p className="ml-4 self-start font-semibold">
                   {item?.product?.name}
                 </p>
-                <p className="text-sm self-start ml-4 text-muted-foreground">
+                <p className="ml-4 self-start text-sm text-muted-foreground">
                   {item?.product?.description}
                 </p>
-                <p className="font-bold self-start ml-4">
+                <p className="ml-4 self-start font-bold">
                   {priceUpdate(item?.product?.price || 0)}
                 </p>
               </article>

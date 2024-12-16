@@ -1,4 +1,6 @@
-import { getProductsByCategories } from "@/actions/productsByCategory";
+import React from "react";
+import { FormProvider, useForm } from "react-hook-form";
+
 import {
   FormControl,
   FormField,
@@ -13,9 +15,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Options } from "nuqs";
-import React from "react";
-import { FormProvider, useForm } from "react-hook-form";
+
+import { getProductsByCategories } from "@/actions/productsByCategory";
+
+import type { Options } from "nuqs";
 
 type ProductsFilterType = {
   selectedCategories: string[] | undefined;
@@ -67,7 +70,7 @@ type ProductsFilterType = {
   }[];
   setPage: <Shallow>(
     value: number | ((old: number) => number | null) | null,
-    options?: Options<Shallow> | undefined
+    options?: Options<Shallow> | undefined,
   ) => Promise<URLSearchParams>;
 };
 
@@ -96,7 +99,7 @@ export const ProductsFilters = ({
       });
       setFilteredProducts(filtered);
     }
-    setPage(1);
+    await setPage(1);
   };
 
   const getUniqueCategories = () => {
@@ -112,7 +115,7 @@ export const ProductsFilters = ({
     <FormProvider {...form}>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-6 px-6 py-4 mb-10 w-full"
+        className="mb-10 w-full space-y-6 px-6 py-4"
       >
         <FormField
           control={control}
@@ -122,9 +125,9 @@ export const ProductsFilters = ({
               <FormLabel>Category</FormLabel>
 
               <Select
-                onValueChange={(value: string) => {
+                onValueChange={async (value: string) => {
                   field.onChange([value]);
-                  onSubmit({ selectedCategories: [value] });
+                  await onSubmit({ selectedCategories: [value] });
                 }}
                 defaultValue={"All items"}
               >

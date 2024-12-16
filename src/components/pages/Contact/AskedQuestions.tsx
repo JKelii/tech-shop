@@ -8,9 +8,9 @@ import { Card } from "@/components/ui/card";
 
 export const AskedQuestions = () => {
   return (
-    <div className="bg-white border w-[22rem] md:w-[35rem] h-96 flex justify-center shadow-lg rounded-lg flex-col">
-      <Card className=" w-[22rem] md:w-[35rem] h-96 flex justify-start shadow-lg rounded-lg p-2 flex-col">
-        <h2 className="text-md md:text-3xl text-black font-bold ">
+    <div className="flex h-96 w-[22rem] flex-col justify-center rounded-lg border bg-white shadow-lg md:w-[35rem]">
+      <Card className=" flex h-96 w-[22rem] flex-col justify-start rounded-lg p-2 shadow-lg md:w-[35rem]">
+        <h2 className="text-md font-bold text-black md:text-3xl ">
           Frequently Asked Question
         </h2>
         <Accordion type="single" collapsible className="w-full">

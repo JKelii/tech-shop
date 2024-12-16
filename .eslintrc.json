@@ -1,3 +1,4 @@
 {
+  "plugins": ["simple-import-sort"],
   "extends": "next/core-web-vitals"
 }

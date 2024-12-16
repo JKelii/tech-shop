@@ -1,14 +1,13 @@
 "use client";
-import React, {
-  KeyboardEventHandler,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { Hits, useHits } from "react-instantsearch";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { PoweredBy, useHits, usePoweredBy } from "react-instantsearch";
+
+import { CustomPoweredBy } from "./CustomPoweredBy";
 import { Hit } from "./Hit";
+
 import { ScrollArea } from "@/components/ui/scroll-area";
+
+import type { KeyboardEventHandler } from "react";
 
 type ProductHit = {
   name: string;
@@ -59,12 +58,12 @@ export const HitsScrollArea = ({
   return (
     <>
       <ScrollArea
-        className="h-[250px] rounded-md border px-4 w-full lg:w-full"
+        className="h-[250px] w-full min-w-[150px] scroll-smooth rounded-md border px-2 lg:w-full"
         onKeyDown={handleKeyDown}
         tabIndex={0}
       >
         <div
-          className="flex flex-col gap-4 justify-start items-start p-2"
+          className="flex flex-col items-start justify-start gap-4 p-2"
           onClick={() => setIsOpen(false)}
         >
           {hits.map((hit, index) => (
@@ -76,7 +75,7 @@ export const HitsScrollArea = ({
               tabIndex={-1}
               className={`p-2  ${
                 index === focusedIndex
-                  ? "bg-gray-100 border border-gray-500 "
+                  ? "border border-gray-500 bg-gray-100 "
                   : "bg-white"
               }`}
             >
@@ -85,9 +84,12 @@ export const HitsScrollArea = ({
           ))}
         </div>
       </ScrollArea>
-      <p className="text-sm text-muted-foreground self-end">
-        Number of products found: {hits.length}
-      </p>
+      <div className="flex w-full items-center justify-between">
+        <CustomPoweredBy />
+        <p className="self-end text-sm text-muted-foreground">
+          Number of products found: {hits.length}
+        </p>
+      </div>
     </>
   );
 };

@@ -1,6 +1,11 @@
 "use client";
 
+import { Menu, ShoppingCart } from "lucide-react";
+import Link from "next/link";
 import React, { useState } from "react";
+
+import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
 import {
   Sheet,
   SheetContent,
@@ -8,20 +13,16 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
-import { Button } from "../ui/button";
-import { Menu, ShoppingCart } from "lucide-react";
-import { Logo } from "./logo";
 import { NavItems } from "./Header";
+import { Logo } from "./logo";
 import { NavbarItem } from "./NavbarItem";
-import { Separator } from "../ui/separator";
-import Link from "next/link";
 import { Searchbar } from "./Searchbar/Searchbar";
 
 export const MobileNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="block border-separate bg-background lg:hidden w-full min-w-[380px]">
+    <div className="block w-full min-w-[380px] border-separate bg-background lg:hidden">
       <nav
         className="container flex items-center justify-between px-8 "
         role="navigation"
@@ -36,7 +37,7 @@ export const MobileNavbar = () => {
 
           <SheetContent
             aria-describedby={undefined}
-            className="w-[400px] sm:w-[540px] flex justify-start items-center flex-col"
+            className="flex w-[400px] flex-col items-center justify-start sm:w-[540px]"
             side="left"
             onClick={() => setIsOpen(false)}
           >
@@ -70,7 +71,7 @@ export const MobileNavbar = () => {
           </div>
         </div>
       </nav>
-      <Separator className="bg-gray-400 h-[2px] w-full" />
+      <Separator className="h-[2px] w-full bg-gray-400" />
     </div>
   );
 };

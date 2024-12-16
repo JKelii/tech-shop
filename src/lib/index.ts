@@ -1,4 +1,5 @@
-import { getEnv } from "@/utils";
+import { getServerSession } from "next-auth";
+
 import {
   CreateAccountDocument,
   CreateCartDocument,
@@ -19,25 +20,22 @@ import {
   GetProductBySlugDocument,
   GetProductsByCategoryDocument,
   GetProductsDocument,
-  Order,
-  OrderStatus,
   PublishProductReviewDocument,
-  TypedDocumentString,
   UpdateCartProductDocument,
   UpdateCartQuantityDocument,
   UpdateOrderDocument,
 } from "./hygraph/generated/graphql";
 import { mapperGetCart } from "./mappers/getCart";
-
-import { getServerSession } from "next-auth";
-
-import { mapperGetFavorites } from "./mappers/getFavorites";
 import { mapperCategories } from "./mappers/getCategories";
+import { mapperGetFavorites } from "./mappers/getFavorites";
 import { mapperGetOrders } from "./mappers/getOrders";
-import { error } from "console";
-import { start } from "repl";
-import { getDate } from "date-fns";
-import { getSession } from "next-auth/react";
+
+import { getEnv } from "@/utils";
+
+import type {
+  OrderStatus,
+  TypedDocumentString,
+} from "./hygraph/generated/graphql";
 
 type GraphQlError = {
   message: string;

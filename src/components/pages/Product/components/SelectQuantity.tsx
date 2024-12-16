@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+
 import { useQuantityProduct } from "../hooks/useQuantityProduct";
 
 const SelectQuantity = ({ quantity }: { quantity: number }) => {
@@ -11,14 +12,14 @@ const SelectQuantity = ({ quantity }: { quantity: number }) => {
       <div className="flex gap-2">
         <button
           onClick={depriveQuantity}
-          className="border-[1px] border-gray-500 w-6 rounded-sm hover:bg-gray-200"
+          className="w-6 rounded-sm border border-gray-500 hover:bg-gray-200"
         >
           -
         </button>
         <p className="w-4 text-center">{quantity}</p>
         <button
           onClick={addQuantity}
-          className="border-[1px] border-gray-500 w-6 rounded-sm hover:bg-gray-200"
+          className="w-6 rounded-sm border border-gray-500 hover:bg-gray-200"
         >
           +
         </button>

@@ -1,8 +1,10 @@
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
+
 import AccountCardContent from "@/components/pages/Account/AccountCardContent";
 import { FilterOrders } from "@/components/pages/Account/FilterOrders";
+
 import { getOrders } from "@/lib";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 
 const page = async () => {
   const session = await getServerSession();
@@ -19,7 +21,7 @@ const page = async () => {
   }
 
   return (
-    <div className="min-h-screen container mx-auto flex justify-start items-center flex-col  shadow-md gap-12 mt-4 mb-8 bg-gray-100/50 border-2 border-gray-200 pt-10 rounded-lg pb-10">
+    <div className="container mx-auto mb-8 mt-4 flex min-h-screen flex-col  items-center justify-start gap-12 rounded-lg border-2 border-gray-200 bg-gray-100/50 py-10 shadow-md">
       <AccountCardContent />
 
       {orders && <FilterOrders orders={orders} />}

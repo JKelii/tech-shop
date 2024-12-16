@@ -29,7 +29,7 @@ export type ResponseGetCart = {
 };
 
 export const mapperGetCart = (
-  cart: MappedGetCart
+  cart: MappedGetCart,
 ): ResponseGetCart[] | undefined => {
   if (!cart || cart === null) return undefined;
 

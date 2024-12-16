@@ -1,18 +1,17 @@
 "use client";
 
 import { Heart } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import React, { useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import {
-  addToFavoriteAuthorized,
-  deleteProductFromFavorite,
-} from "@/actions/favorite";
-import { cn } from "@/lib/utils";
-import { Button } from "../../../ui/button";
-import { toast } from "sonner";
 import { ThreeDots } from "react-loader-spinner";
+import { toast } from "sonner";
+
+import { Button } from "../../../ui/button";
+
+import { addToFavoriteAuthorized } from "@/actions/favorite";
+import { cn } from "@/lib/utils";
 
 type Product = {
   id: string;
@@ -71,15 +70,19 @@ export const WishList = ({ slug, favoriteId }: Product) => {
       <Button
         disabled={isPending || present}
         variant={"outline"}
-        className="flex justify-center h-12  w-44 items-center gap-2 p-2 rounded-md border-[1px] border-gray-400 hover:translate-y-[1px]"
+        className="flex h-12 w-36 items-center justify-center gap-2 rounded-md border border-gray-400 p-2 hover:translate-y-px md:w-44"
       >
-        <Heart
-          size={20}
-          className={cn(
-            favoriteId ? "fill-gray-400 text-gray-400" : "text-gray-500/90"
-          )}
-        />
-        {isPending && (
+        {!isPending ? (
+          <>
+            <Heart
+              size={20}
+              className={cn(
+                favoriteId ? "fill-gray-400 text-gray-400" : "text-gray-500/90",
+              )}
+            />
+            <p className="text-gray-600">Add to wishlist </p>
+          </>
+        ) : (
           <ThreeDots
             visible={true}
             height="40"
@@ -91,7 +94,6 @@ export const WishList = ({ slug, favoriteId }: Product) => {
             wrapperClass=""
           />
         )}
-        <p className="text-gray-600">Add to wishlist </p>
       </Button>
     </form>
   );

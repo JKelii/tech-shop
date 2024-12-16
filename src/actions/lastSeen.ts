@@ -1,12 +1,14 @@
 "use server";
 
-import { getProductSlug } from "@/lib";
-import { GetProductBySlugQuery } from "@/lib/hygraph/generated/graphql";
 import { cookies } from "next/headers";
 
-export const addToLastSeenItems = ({ slug }: { slug: string }) => {
+import { getProductSlug } from "@/lib";
+
+import type { GetProductBySlugQuery } from "@/lib/hygraph/generated/graphql";
+
+export const addToLastSeenItems = async ({ slug }: { slug: string }) => {
   const cookieStore = cookies();
-  const addedCookie = cookieStore.get("product");
+  const addedCookie = (await cookieStore).get("product");
 
   let products = [];
 
@@ -22,7 +24,7 @@ export const addToLastSeenItems = ({ slug }: { slug: string }) => {
   products.unshift(slug);
   products = products.slice(0, 4);
 
-  cookieStore.set("product", JSON.stringify(products), {
+  (await cookieStore).set("product", JSON.stringify(products), {
     httpOnly: true,
     secure: true,
   });
@@ -32,12 +34,12 @@ export const addToLastSeenItems = ({ slug }: { slug: string }) => {
 export const getLastSeenFromCookies = async (): Promise<
   GetProductBySlugQuery[] | undefined
 > => {
-  const productFromCookie = cookies().get("product");
+  const productFromCookie = (await cookies()).get("product");
   if (productFromCookie?.value) {
     const products = JSON.parse(productFromCookie.value);
     if (products) {
       const filteredItems = await Promise.all(
-        products.map((item: string) => getProductSlug({ slug: item }))
+        products.map((item: string) => getProductSlug({ slug: item })),
       );
       return filteredItems;
     }

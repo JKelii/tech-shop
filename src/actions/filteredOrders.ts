@@ -1,8 +1,10 @@
 "use server";
 
-import { getOrdersByFilters } from "@/lib";
-import { OrderStatus } from "@/lib/hygraph/generated/graphql";
 import { getServerSession } from "next-auth";
+
+import { getOrdersByFilters } from "@/lib";
+
+import type { OrderStatus } from "@/lib/hygraph/generated/graphql";
 
 export const getFilteredOrders = async ({
   minPrice,

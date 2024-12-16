@@ -1,10 +1,14 @@
 "use client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ResponseGetCart } from "@/lib/mappers/getCart";
-import React from "react";
-import RemoveFromBasket from "./RemoveFromBasket";
-import { priceUpdate } from "@/utils/priceUpdate";
 import Image from "next/image";
+import React from "react";
+
+import RemoveFromBasket from "./RemoveFromBasket";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+import { priceUpdate } from "@/utils/priceUpdate";
+
+import type { ResponseGetCart } from "@/lib/mappers/getCart";
 
 const BasketItems = ({ cart }: { cart: ResponseGetCart[] | undefined }) => {
   const total = cart
@@ -20,7 +24,7 @@ const BasketItems = ({ cart }: { cart: ResponseGetCart[] | undefined }) => {
           </CardHeader>
         )}
         <CardContent className="flex flex-col gap-4">
-          <p className="text-black/90 text-xl font-semibold mt-2">
+          <p className="mt-2 text-xl font-semibold text-black/90">
             {cart &&
               cart.length >= 1 &&
               total &&
@@ -30,7 +34,7 @@ const BasketItems = ({ cart }: { cart: ResponseGetCart[] | undefined }) => {
             cart?.map((product) => (
               <div
                 key={product.id}
-                className="flex items-center justify-between border-b py-4 h-52 w-full"
+                className="flex h-52 w-full items-center justify-between border-b py-4"
               >
                 <div className="flex items-center space-x-4">
                   <Image
@@ -47,6 +51,9 @@ const BasketItems = ({ cart }: { cart: ResponseGetCart[] | undefined }) => {
                       Size: {product.size}
                     </p>
                     <p className="text-sm text-gray-500">
+                      Price: {priceUpdate(product.price * product.quantity)}
+                    </p>
+                    <p className="text-sm text-gray-500">
                       Quantity: {product.quantity}
                     </p>
                   </div>
@@ -59,7 +66,7 @@ const BasketItems = ({ cart }: { cart: ResponseGetCart[] | undefined }) => {
               </div>
             ))
           ) : (
-            <div className="flex justify-start items-start h-full">
+            <div className="flex h-full items-start justify-start">
               <p className="text-gray-500">No items in basket</p>
             </div>
           )}

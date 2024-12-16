@@ -1,13 +1,14 @@
 "use client";
-import { deleteProductFromFavorite } from "@/actions/favorite";
-import { Button } from "@/components/ui/button";
-import { ThreeDots } from "react-loader-spinner";
 import { X } from "lucide-react";
-
-import React, { useTransition } from "react";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import React, { useTransition } from "react";
+import { ThreeDots } from "react-loader-spinner";
+import { toast } from "sonner";
+
+import { Button } from "@/components/ui/button";
+
+import { deleteProductFromFavorite } from "@/actions/favorite";
 
 export const DeleteFavoriteButton = ({
   favoriteId,
@@ -18,7 +19,7 @@ export const DeleteFavoriteButton = ({
   const router = useRouter();
   const session = useSession();
 
-  const handleClick = async () => {
+  const handleClick = () => {
     try {
       const res = startTransition(async () => {
         await deleteProductFromFavorite({
