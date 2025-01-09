@@ -23,7 +23,6 @@ export const addToLastSeenItems = async ({ slug }: { slug: string }) => {
   products = products.filter((item: string) => item !== slug);
   products.unshift(slug);
   products = products.slice(0, 4);
-
   (await cookieStore).set("product", JSON.stringify(products), {
     httpOnly: true,
     secure: true,

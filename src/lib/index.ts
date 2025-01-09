@@ -177,7 +177,6 @@ export const getCart = async ({ id }: { id: string | undefined }) => {
   });
 
   if (!data.cart) return;
-
   return mapperGetCart(data.cart);
 };
 

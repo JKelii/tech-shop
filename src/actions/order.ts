@@ -39,7 +39,7 @@ export const createOrder = async () => {
       },
     })),
     currency: "eur",
-    success_url: "http://localhost:3000",
+    success_url: getEnv(process.env.BASE_URL),
   });
   const session = await getServerSession();
   const email = session?.user?.email;
