@@ -11,7 +11,7 @@ import { priceUpdate } from "@/utils/priceUpdate";
 const ProductCarouselImage = lazy(() =>
   import("./ProductCarouselImage").then((module) => ({
     default: module.ProductCarouselImage,
-  })),
+  }))
 );
 
 type ProductCarouselContentType = {
@@ -62,7 +62,6 @@ export const ProductCarouselContent = ({
                     src={product.images[0].url}
                     alt={product.name}
                   />
-
                   <Separator className="h-px w-full" />
                   <div className=" flex w-full flex-col items-center justify-center rounded-b-md bg-white p-4 ">
                     <h2 className="md:text-md font-bold lg:text-xl">

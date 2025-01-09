@@ -10,7 +10,7 @@ import { Card } from "@/components/ui/card";
 import { priceUpdate } from "@/utils/priceUpdate";
 
 import type { ResponseGetFavorites } from "@/lib/mappers/getFavorites";
-//TODO: Poprawic
+
 export const FavoritesList = ({
   favoriteProducts,
 }: {
@@ -31,8 +31,9 @@ export const FavoritesList = ({
               src={item.product?.image}
               width={100}
               height={100}
+              priority
               alt={item.product?.name}
-              className="size-[100px] rounded-lg md:size-[150px] lg:size-[200px]"
+              className="size-auto rounded-lg"
             />
             <div className="m-4 flex w-72 flex-col items-center justify-center gap-6 p-4 lg:w-96">
               <h2 className="text-xl font-bold text-black">

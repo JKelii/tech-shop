@@ -5,5 +5,9 @@ import React from "react";
 import type { ReactNode } from "react";
 
 export const ClientContexts = ({ children }: { children: ReactNode }) => {
-  return <SessionProvider>{children}</SessionProvider>;
+  return (
+    <>
+      <SessionProvider>{children}</SessionProvider>{" "}
+    </>
+  );
 };

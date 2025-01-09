@@ -11,7 +11,7 @@ import { priceUpdate } from "@/utils/priceUpdate";
 const ProductOfferLazyImage = lazy(() =>
   import("./ProductOfferLazyImage").then((module) => ({
     default: module.ProductOfferLazyImage,
-  })),
+  }))
 );
 
 type ProductOfferDisplayType = {
@@ -70,7 +70,6 @@ const ProductOfferDisplay = ({
                   <ProductOfferLazyImage
                     src={products[index].images[0].url}
                     alt={products[index].name}
-                    index={index}
                   />
                 </Suspense>
               )}

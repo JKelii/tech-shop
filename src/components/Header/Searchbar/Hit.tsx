@@ -22,7 +22,7 @@ export const Hit = ({ hit }: HitProps) => {
       <div className="size-full" key={hit.id}>
         <Link href={`/item/${hit.slug}`}>
           <article
-            className="flex h-20 w-full min-w-72 gap-4 rounded-lg  hover:bg-gray-100"
+            className="flex h-20 w-96 min-w-72 gap-4 rounded-lg hover:bg-gray-100"
             key={hit.id}
           >
             <Image

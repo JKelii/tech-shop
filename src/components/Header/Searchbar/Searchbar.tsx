@@ -24,7 +24,7 @@ const algoliaKey = getEnv(process.env.NEXT_PUBLIC_ALGOLIA_API_KEY);
 export const Searchbar = () => {
   const client = algoliasearch(algoliaId, algoliaKey);
   const { isOpen, setIsOpen } = useSetIsOpen();
-  //skleton
+
   return (
     <InstantSearch searchClient={client} indexName="products">
       <Dialog open={isOpen} onOpenChange={setIsOpen}>

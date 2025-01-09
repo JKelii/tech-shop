@@ -60,9 +60,12 @@ export const CustomSearchBox = (props: UseSearchBoxProps) => {
             setQuery(event.currentTarget.value);
           }}
           autoFocus
-          className="h-10 w-full rounded-md px-4 "
+          className="h-10 w-full rounded-md px-4"
         />
-        <Skeleton hidden={!isSearchStalled} className="h-10 w-full"></Skeleton>
+        <Skeleton
+          hidden={!isSearchStalled}
+          className="h-10 w-full rounded-md px-4"
+        ></Skeleton>
       </form>
     </div>
   );
