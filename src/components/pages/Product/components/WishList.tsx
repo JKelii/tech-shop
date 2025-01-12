@@ -48,8 +48,8 @@ export const WishList = ({ slug, favoriteId }: Product) => {
           router.refresh();
         }
       } catch (error) {
-        console.error("Error adding to favorites:", error);
         toast("An error occurred while adding the item");
+        throw error;
       }
     }
   };

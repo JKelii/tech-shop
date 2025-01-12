@@ -24,8 +24,7 @@ export const nextAuthOptions = {
           await bcrypt.compare(password, hashedPassword);
           return { id: account.id, email: account.email, name: account.name };
         } catch (error) {
-          console.error(error);
-          return null;
+          throw error;
         }
       },
     }),

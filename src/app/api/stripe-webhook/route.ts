@@ -5,12 +5,10 @@ import { updateOrder } from "@/actions/order";
 import { getEnv } from "@/utils";
 
 import type { NextRequest } from "next/server";
+import { getOrders } from "@/lib";
+import type { OrderType } from "@/components/pages/Account/OrdersList";
 
 const secretStripeWebhook = getEnv(process.env.SECRET_WEBHOOK);
-
-export const config = {
-  api: {},
-};
 
 const handler = async (req: NextRequest) => {
   const payload = await req.text();
@@ -28,7 +26,7 @@ const handler = async (req: NextRequest) => {
     const event = stripe.webhooks.constructEvent(
       payload,
       sig,
-      secretStripeWebhook
+      secretStripeWebhook,
     );
 
     await eventStripeWebhook(event);
@@ -44,32 +42,24 @@ const handler = async (req: NextRequest) => {
 export { handler as POST };
 
 const eventStripeWebhook = async (event: Stripe.Event) => {
-  const type = event.type;
-
-  try {
+  const orders = await getOrders();
+  if (Array.isArray(orders)) {
+    const orderedId = orders.find(
+      (item: OrderType) => item.stripeCheckoutId === event.id,
+    );
+    const type = event.type;
     switch (type) {
-      case "checkout.session.completed":
-        const session = event.data.object as Stripe.Checkout.Session;
-        console.log("Checkout session completed:", session);
-
+      case "charge.succeeded":
         if (event.id) {
-          console.log("Event ID:", event.id);
-
-          const order = await updateOrder("paid", session.id);
-          console.log(session.id);
-          console.log(order);
-          if (order) {
-            console.log("Order paid successfully:", order);
-          } else {
-            console.log("Order update failed or order not found.");
+          if (orderedId) {
+            const order = await updateOrder(orderedId.stripeCheckoutId, "paid");
+            if (order) {
+            }
+            break;
           }
         }
-        break;
-
       default:
-        console.log(`Unhandled event type: ${event.type}`);
+        throw Error(`Unhandled event type ${event.type}`);
     }
-  } catch (error) {
-    console.error(`Error handling event ${type}:`, error);
   }
 };

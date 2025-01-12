@@ -9,6 +9,8 @@ import { priceUpdate } from "@/utils/priceUpdate";
 
 import type { GetProductBySlugQuery } from "@/lib/hygraph/generated/graphql";
 
+//TODO: FIX LAST SEEN ITEMS
+
 export const LastSeenItems = ({
   lastSeenItems,
   slug,

@@ -31,8 +31,8 @@ const RegisterComponent = () => {
         }
       });
     } catch (error) {
-      console.error(error);
       toast("Email already used");
+      throw error;
     }
   });
 

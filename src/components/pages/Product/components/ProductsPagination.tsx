@@ -9,14 +9,16 @@ import {
 
 import { cn } from "@/lib/utils";
 
-import type { Options } from "nuqs";
+type Options<Shallow extends boolean | undefined = boolean | undefined> = {
+  shallow?: Shallow;
+};
 
 type ProductPaginationType = {
   page: number;
   totalPages: number;
-  setPage: <Shallow>(
+  setPage: <Shallow extends boolean | undefined>(
     value: number | ((old: number) => number | null) | null,
-    options?: Options<Shallow> | undefined,
+    options?: Options<Shallow>,
   ) => Promise<URLSearchParams>;
 };
 

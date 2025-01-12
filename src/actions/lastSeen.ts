@@ -16,7 +16,7 @@ export const addToLastSeenItems = async ({ slug }: { slug: string }) => {
     try {
       products = JSON.parse(addedCookie.value);
     } catch (error) {
-      console.error(error);
+      throw error;
     }
   }
 

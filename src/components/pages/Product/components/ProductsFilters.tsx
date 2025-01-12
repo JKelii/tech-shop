@@ -18,7 +18,10 @@ import {
 
 import { getProductsByCategories } from "@/actions/productsByCategory";
 
-import type { Options } from "nuqs";
+type Options<T> = {
+  shallow?: T;
+  someOtherOption?: boolean;
+};
 
 type ProductsFilterType = {
   selectedCategories: string[] | undefined;
@@ -68,9 +71,9 @@ type ProductsFilterType = {
       }>;
     }>;
   }[];
-  setPage: <Shallow>(
+  setPage: <Shallow extends boolean | undefined>(
     value: number | ((old: number) => number | null) | null,
-    options?: Options<Shallow> | undefined,
+    options?: Options<Shallow>,
   ) => Promise<URLSearchParams>;
 };
 

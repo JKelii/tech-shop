@@ -1,5 +1,4 @@
 "use client";
-import { algoliasearch } from "algoliasearch";
 import { Search } from "lucide-react";
 import { Configure, InstantSearch } from "react-instantsearch";
 import { CustomSearchBox } from "./CustomSearchBox";
@@ -16,6 +15,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 
 import { getEnv } from "@/utils";
+import { algoliasearch } from "algoliasearch";
 
 const algoliaId = getEnv(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID);
 const algoliaKey = getEnv(process.env.NEXT_PUBLIC_ALGOLIA_API_KEY);

@@ -39,21 +39,18 @@ const CreateComment = ({ slug }: { slug: string }) => {
     if (!email) {
       return toast("To add comment you need to be logged in ❌");
     }
-
+    //TODO: TEXT COMMENT TOAST
     if (email && name) {
       startTransition(async () => {
-        const comment = await createComment({
+        await createComment({
           email,
           content: data.content,
           name,
           slug,
           date,
         });
-
-        if (comment) {
-          toast("Comment added ✅");
-        }
       });
+      toast("Comment added ✅");
       form.reset();
       router.refresh();
     }

@@ -56,7 +56,7 @@ export const AddToCartButton = ({ product }: { product: ProductType }) => {
       });
       router.refresh();
     } catch (error) {
-      console.error("Can't add item to cart", error);
+      throw error;
     }
   });
 

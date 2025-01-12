@@ -22,7 +22,7 @@ export const CookiesModal = () => {
       Cookies.set("cookieConstant", "cookieConstant", { expires: 365 });
       setShowModal(false);
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
 

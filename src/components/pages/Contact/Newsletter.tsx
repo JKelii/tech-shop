@@ -37,7 +37,7 @@ const Newsletter = ({
 
       window.location.reload();
     } catch (error) {
-      console.error(error);
+      throw error;
     }
   });
 

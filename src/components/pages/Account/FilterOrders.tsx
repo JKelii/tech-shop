@@ -68,12 +68,6 @@ export const FilterOrders = ({ orders }: FilterOrdersType) => {
 
   const [filteredOrders, setFilteredOrders] = useState<OrderType>(orders);
 
-  const allOrdersTypes = orders.map((item) => item.orderStatus);
-  const ordersStatuses = allOrdersTypes.filter(
-    (element, index) => allOrdersTypes.indexOf(element) === index,
-  );
-  console.log(ordersStatuses);
-
   const onSubmit = async (data: FilterFormData) => {
     const filteredOrders = await getFilteredOrders({
       minPrice: data.order.minPrice ? data.order.minPrice / 100 : 1,

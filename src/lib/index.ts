@@ -469,8 +469,7 @@ export const getCategories = async () => {
 
 export const publishProductReview = async (id: string | undefined) => {
   if (!id) {
-    console.error("ID is undefined or null");
-    return;
+    throw new Error("ID is undefined or null");
   }
   const data = await fetcher({
     headers: {

@@ -13,10 +13,11 @@ export const SaveProductInLastSeen = ({ slug }: { slug: string }) => {
         try {
           await addToLastSeenItems({ slug });
         } catch (error) {
-          console.error("Error saving item", error);
+          throw error;
         }
         await saveItem();
       };
+      saveItem();
     }
   }, [slug, consentCookie]);
 
