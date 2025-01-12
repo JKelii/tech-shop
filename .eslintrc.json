@@ -1,4 +1,69 @@
 {
-  "plugins": ["simple-import-sort"],
-  "extends": "next/core-web-vitals"
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2021,
+    "project": "./tsconfig.json"
+  },
+  "ignorePatterns": [
+    "next.config.js",
+    "generated/*",
+    "graphql/*",
+    "*.config.js"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "eslint-plugin-react",
+    "eslint-plugin-react-hooks"
+  ],
+  "extends": [
+    "next",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "next/core-web-vitals"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "**/*.test.tsx",
+        "**/*.spec.tsx",
+        "**/*.test.ts",
+        "**/*.spec.ts"
+      ],
+      "rules": {
+        "@typescript-eslint/unbound-method": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/restrict-plus-operands": "off"
+      }
+    },
+    {
+      "files": ["src/app/**/*.tsx", "src/app/**/*.ts"],
+      "excludedFiles": [
+        "**/page.tsx",
+        "**/layout.tsx",
+        "**/loading.tsx",
+        "**/error.tsx"
+      ],
+      "rules": {
+        "import/no-default-export": "off"
+      }
+    }
+  ],
+  "rules": {
+    "@typescript-eslint/consistent-type-exports": "error",
+    "@typescript-eslint/consistent-type-imports": "error",
+    "require-await": "error",
+    "import/order": "off",
+    "no-console": "warn",
+    "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "warn", // or "error"
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ]
+  }
 }

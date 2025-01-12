@@ -9,8 +9,6 @@ import { SaveProductInLastSeen } from "@/components/pages/Product/components/Sav
 import { getLastSeenFromCookies } from "@/actions/lastSeen";
 import { getFavoriteProducts, getProductSlug } from "@/lib";
 
-import type { Metadata } from "next";
-
 const DynamicProduct = dynamic(
   () => import("../../../components/pages/Product/components/ProductPage"),
   {
@@ -18,30 +16,8 @@ const DynamicProduct = dynamic(
   },
 );
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
-  const { slug } = await params;
-  const { product } = await getProductSlug({ slug: slug });
-
-  if (!product) {
-    return {
-      title: "product not found",
-    };
-  }
-  return {
-    title: {
-      template: product.name,
-      default: product.name,
-    },
-    description: product.description,
-  };
-}
-
-const Page = async ({ params }: { params: { slug: string } }) => {
-  const { slug } = await params;
+const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
+  const slug = (await params).slug;
   const session = await getServerSession();
   const { product } = await getProductSlug({ slug });
   const lastSeenItems = await getLastSeenFromCookies();

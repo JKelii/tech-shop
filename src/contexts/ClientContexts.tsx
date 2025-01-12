@@ -1,13 +1,16 @@
 "use client";
-import { SessionProvider } from "next-auth/react";
-import React from "react";
+
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import type { ReactNode } from "react";
+import { SessionProvider } from "next-auth/react";
 
 export const ClientContexts = ({ children }: { children: ReactNode }) => {
   return (
     <>
-      <SessionProvider>{children}</SessionProvider>{" "}
+      <NuqsAdapter>
+        <SessionProvider>{children}</SessionProvider>{" "}
+      </NuqsAdapter>
     </>
   );
 };
