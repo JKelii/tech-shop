@@ -15,7 +15,6 @@ export const SaveProductInLastSeen = ({ slug }: { slug: string }) => {
         } catch (error) {
           throw error;
         }
-        await saveItem();
       };
       saveItem();
     }
