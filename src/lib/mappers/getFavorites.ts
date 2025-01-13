@@ -17,7 +17,7 @@ type MappedGetFavorites =
     }
   | undefined;
 
-type ResponseGetFavorites = {
+export type ResponseGetFavorites = {
   favoriteId: string;
   product: {
     id: string;
@@ -30,7 +30,7 @@ type ResponseGetFavorites = {
 };
 
 export const mapperGetFavorites = (
-  favorite: MappedGetFavorites
+  favorite: MappedGetFavorites,
 ): ResponseGetFavorites[] | undefined => {
   if (!favorite || favorite === null) return undefined;
 

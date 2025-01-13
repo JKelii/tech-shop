@@ -1,0 +1,33 @@
+mutation createProductReview(
+  $content: String!
+  $email: String!
+  $slug: String!
+  $name: String!
+  $date: Date!
+) {
+  createReview(
+    data: {
+      name: $name
+      email: $email
+      content: $content
+      product: { connect: { slug: $slug } }
+      date: $date
+    }
+  ) {
+    id
+    name
+    content
+    email
+    date
+  }
+}
+
+mutation publishProductReview($id: ID!) {
+  publishReview(where: { id: $id }) {
+    id
+    name
+    content
+    email
+    date
+  }
+}

@@ -1,9 +1,10 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
+
 import {
   createFavoriteProduct,
   deleteFavoriteProduct,
-  getFavoriteProduct,
   getFavorites,
 } from "@/lib";
 
@@ -16,24 +17,11 @@ export const addToFavoriteAuthorized = async ({
   slug,
   email,
 }: AddToFavoriteAuthorizedParams) => {
-  const createdFavorite = createFavoriteProduct({ email, slug });
+  const createdFavorite = await createFavoriteProduct({ email, slug });
   if (!createdFavorite) {
-    throw new Error("Can't save product in favorites");
+    throw new Error("You have to be logged in");
   }
-};
-
-export const getFavoriteAuthorized = async ({
-  email,
-}: {
-  email: string | undefined | null;
-}) => {
-  const favoriteProducts = getFavorites({ email });
-
-  if (!favoriteProducts) {
-    throw new Error("Can't get products");
-  }
-
-  return favoriteProducts;
+  revalidateTag("getFavoriteProducts");
 };
 
 export const deleteProductFromFavorite = async ({
@@ -43,10 +31,10 @@ export const deleteProductFromFavorite = async ({
   favoriteProductId: string;
   email: string;
 }) => {
-  const favorite = await getFavoriteAuthorized({ email });
+  const favorite = await getFavorites({ email });
 
   const favoriteToRemove = favorite?.find(
-    ({ favoriteId }) => favoriteId === favoriteProductId
+    ({ favoriteId }) => favoriteId === favoriteProductId,
   );
 
   if (!favoriteToRemove) {

@@ -1,25 +1,20 @@
 "use server";
 
-import { OrderType } from "@/components/pages/Account/OrdersList";
-import {
-  createOrderHygraph,
-  getCart,
-  getOrders,
-  updateOrderStatus,
-} from "@/lib";
-import { Order, OrderStatus } from "@/lib/hygraph/generated/graphql";
-import { getEnv } from "@/utils";
-import { getServerSession } from "next-auth";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
 import { Stripe } from "stripe";
+
+import { createOrderHygraph, getCart, updateOrderStatus } from "@/lib";
+import { OrderStatus } from "@/lib/hygraph/generated/graphql";
+import { getEnv } from "@/utils";
 
 const stripeClient = new Stripe(getEnv(process.env.STRIPE_KEY), {
   apiVersion: "2024-06-20",
 });
 
 export const createOrder = async () => {
-  const cartId = cookies().get("cart")?.value;
+  const cartId = (await cookies()).get("cart")?.value;
   if (!cartId) {
     return { error: "Cart not found" };
   }
@@ -44,7 +39,7 @@ export const createOrder = async () => {
       },
     })),
     currency: "eur",
-    success_url: "http://localhost:3000",
+    success_url: getEnv(process.env.BASE_URL),
   });
   const session = await getServerSession();
   const email = session?.user?.email;
@@ -57,12 +52,15 @@ export const createOrder = async () => {
       orderStatus: OrderStatus.Created,
       total: cart.reduce((acc, curr) => acc + curr.price * curr.quantity, 0),
       orderItems: cart.map((item) => ({
-        productId: item.id,
+        size: item.size,
+        productId: item.productId,
         quantity: item.quantity,
         total: item.price * item.quantity,
       })),
     });
+
     if (orderId) {
+      (await cookies()).delete("cart");
       redirect(url);
     }
     if (!orderId) {
@@ -71,29 +69,18 @@ export const createOrder = async () => {
   }
 };
 
-// export const updateOrder = async (orderStatus: string, id: string) => {
-//   const orders = await getOrders();
-//   if (!orders) {
-//     return { error: "Can't get orders" };
-//   }
+export const updateOrder = async (
+  orderStatus: string,
+  stripeCheckoutId: string,
+) => {
+  const updatedOrder = await updateOrderStatus({
+    stripeCheckoutId: stripeCheckoutId,
+    orderStatus: orderStatus as OrderStatus,
+  });
 
-//   if (Array.isArray(orders)) {
-//     const orderedId = orders.find(
-//       (item: OrderType) => item.stripeCheckoutId === id
-//     );
-//     if (!orderedId) {
-//       return { error: "Can't find order" };
-//     }
-//     if (orderedId) {
-//       const updatedOrder = await updateOrderStatus({
-//         id: orderedId.stripeCheckoutId,
-//         orderStatus: orderStatus as OrderStatus,
-//       });
-//       if (updatedOrder) {
-//         return { message: "Order updated" };
-//       }
-//     }
-//   } else {
-//     return { error: "Order is not an array" };
-//   }
-// };
+  if (updatedOrder) {
+    return { message: "Order updated" };
+  }
+
+  return { error: "Failed to update order" };
+};

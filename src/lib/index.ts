@@ -1,4 +1,5 @@
-import { getEnv } from "@/utils";
+import { getServerSession } from "next-auth";
+
 import {
   CreateAccountDocument,
   CreateCartDocument,
@@ -6,26 +7,35 @@ import {
   CreateCartUnauthorizedDocument,
   CreateFavoriteProductDocument,
   CreateOrderDocument,
+  CreateProductReviewDocument,
   DeleteCartProductDocument,
   DeleteFavoriteProductDocument,
   GetAccountDocument,
   GetCartByIdDocument,
+  GetCategoriesDocument,
   GetFavoriteProductDocument,
   GetFavoritesDocument,
+  GetOrdersByFiltersDocument,
   GetOrdersDocument,
   GetProductBySlugDocument,
+  GetProductsByCategoryDocument,
   GetProductsDocument,
-  OrderStatus,
-  TypedDocumentString,
+  PublishProductReviewDocument,
   UpdateCartProductDocument,
   UpdateCartQuantityDocument,
   UpdateOrderDocument,
 } from "./hygraph/generated/graphql";
 import { mapperGetCart } from "./mappers/getCart";
-
-import { getServerSession } from "next-auth";
-
+import { mapperCategories } from "./mappers/getCategories";
 import { mapperGetFavorites } from "./mappers/getFavorites";
+import { mapperGetOrders } from "./mappers/getOrders";
+
+import { getEnv } from "@/utils";
+
+import type {
+  OrderStatus,
+  TypedDocumentString,
+} from "./hygraph/generated/graphql";
 
 type GraphQlError = {
   message: string;
@@ -126,10 +136,12 @@ export const createCart = async ({
   quantity,
   slug,
   email,
+  size,
 }: {
   slug: string;
   quantity: number;
   email: string | undefined;
+  size: string;
 }) => {
   const data = await fetcher({
     headers: {
@@ -140,6 +152,7 @@ export const createCart = async ({
       quantity,
       slug,
       email,
+      size,
     },
     cache: "no-store",
   });
@@ -151,6 +164,7 @@ export const getCart = async ({ id }: { id: string | undefined }) => {
   if (!id) {
     return;
   }
+
   const data = await fetcher({
     headers: {
       Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
@@ -169,9 +183,11 @@ export const getCart = async ({ id }: { id: string | undefined }) => {
 export const updateCartProduct = async ({
   quantity,
   cartProductId,
+  size,
 }: {
   quantity: number;
   cartProductId: string;
+  size: string;
 }) => {
   const data = await fetcher({
     headers: {
@@ -181,6 +197,7 @@ export const updateCartProduct = async ({
     variables: {
       quantity,
       cartProductId,
+      size,
     },
     cache: "no-store",
   });
@@ -254,7 +271,7 @@ export const createFavoriteProduct = async ({
   return data;
 };
 
-export const getFavoriteProduct = async ({
+export const getFavoriteProducts = async ({
   email,
   slug,
 }: {
@@ -273,8 +290,9 @@ export const getFavoriteProduct = async ({
       slug,
     },
     cache: "no-store",
+    next: { tags: ["getFavoriteProducts"] },
   });
-  console.log(data);
+
   return data;
 };
 
@@ -323,10 +341,12 @@ export const createCartProduct = async ({
   cartId,
   quantity,
   slug,
+  size,
 }: {
   cartId: string;
   quantity: number;
   slug: string;
+  size: string;
 }) => {
   const data = await fetcher({
     headers: {
@@ -337,6 +357,7 @@ export const createCartProduct = async ({
       quantity,
       cartId,
       slug,
+      size,
     },
     cache: "no-store",
   });
@@ -360,6 +381,7 @@ export const createOrderHygraph = async ({
     productId: string;
     total: number;
     quantity: number;
+    size: string;
   }[];
 }) => {
   if (!email) return;
@@ -377,12 +399,13 @@ export const createOrderHygraph = async ({
       orderItems: orderItems.map((item) => ({
         product: { connect: { id: item.productId } },
         quantity: item.quantity,
+        size: item.size,
         total: item.total,
       })),
     },
     cache: "no-store",
   });
-  console.log(data);
+
   return data;
 };
 
@@ -401,23 +424,16 @@ export const getOrders = async () => {
     },
     cache: "no-store",
   });
-  console.log(data);
 
-  if (!data.orders) return { error: "Can't get orders" };
-  return data.orders.map((order) => ({
-    total: order.total,
-    stripeCheckoutId: order.stripeCheckoutId,
-    createdAt: order.createdAt,
-    orderItems: order.orderItems.map((item) => item.product),
-    orderStatus: order.orderStatus,
-  }));
+  if (!data) return;
+  return mapperGetOrders(data.orders);
 };
 
 export const updateOrderStatus = async ({
-  id,
+  stripeCheckoutId,
   orderStatus,
 }: {
-  id: string;
+  stripeCheckoutId: string;
   orderStatus: OrderStatus;
 }) => {
   const data = await fetcher({
@@ -426,7 +442,7 @@ export const updateOrderStatus = async ({
     },
     query: UpdateOrderDocument,
     variables: {
-      id,
+      stripeCheckoutId,
       orderStatus,
     },
     cache: "no-store",
@@ -436,30 +452,113 @@ export const updateOrderStatus = async ({
   return data;
 };
 
-export const createReview = async ({
+export const getCategories = async () => {
+  const data = await fetcher({
+    headers: {
+      Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
+    },
+    query: GetCategoriesDocument,
+    variables: {},
+    cache: "no-store",
+  });
+
+  if (!data) return;
+
+  return mapperCategories(data.categories);
+};
+
+export const publishProductReview = async (id: string | undefined) => {
+  if (!id) {
+    throw new Error("ID is undefined or null");
+  }
+  const data = await fetcher({
+    headers: {
+      Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
+    },
+    query: PublishProductReviewDocument,
+    variables: { id },
+    cache: "no-store",
+  });
+
+  if (!data) return;
+  return data;
+};
+
+export const createProductReview = async ({
   email,
   name,
-  content,
   slug,
+  content,
+  date,
 }: {
   email: string;
   name: string;
-  content: string;
   slug: string;
+  content: string;
+  date: string;
 }) => {
   const data = await fetcher({
     headers: {
       Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
     },
-    query: CreateReview,
+    query: CreateProductReviewDocument,
+    variables: { email, name, slug, content, date },
+    cache: "no-store",
+  });
+
+  if (!data) return;
+  if (data) {
+    await publishProductReview(data.createReview?.id);
+  }
+};
+
+export const getOrdersByFilters = async ({
+  minPrice,
+  maxPrice,
+  status,
+  startDate,
+  endDate,
+  email,
+}: {
+  email: string;
+  startDate: string | undefined;
+  endDate: string;
+  minPrice: number;
+  maxPrice: number;
+  status: OrderStatus;
+}) => {
+  const data = await fetcher({
+    headers: {
+      Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
+    },
+    query: GetOrdersByFiltersDocument,
     variables: {
-      email,
-      name,
-      content,
-      slug,
+      email: email,
+      startDate: startDate ?? new Date(-8640000000000000).toISOString(),
+      endDate: endDate ?? new Date().toISOString(),
+      minPrice: minPrice ?? 1,
+      maxPrice: maxPrice ?? Number.MAX_SAFE_INTEGER,
+      status: status,
     },
     cache: "no-store",
   });
+
   if (!data) return;
+  return mapperGetOrders(data.orders);
+};
+
+export const getProductsByCategory = async ({
+  categoryName,
+}: {
+  categoryName: string;
+}) => {
+  const data = await fetcher({
+    query: GetProductsByCategoryDocument,
+    variables: {
+      categoryName,
+    },
+    cache: "no-store",
+  });
+  if (!data) throw new Error("Problem with fetching products");
   return data;
 };

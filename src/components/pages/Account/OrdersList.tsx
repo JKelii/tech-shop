@@ -1,3 +1,7 @@
+import { Package } from "lucide-react";
+import Image from "next/image";
+import React from "react";
+
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -8,17 +12,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
 import { OrderStatus } from "@/lib/hygraph/generated/graphql";
 import { priceUpdate } from "@/utils/priceUpdate";
-import { Package } from "lucide-react";
-import Image from "next/image";
-import React from "react";
+
+type ProductType = {
+  image: string | undefined;
+  price: number | undefined;
+  name: string | undefined;
+  slug: string | undefined;
+};
 
 type OrderItemType = {
-  slug: string;
-  name: string;
-  price: number;
-  images: { url: string; fileName: string }[];
+  size: string | null | undefined;
+  quantity: number;
+  product: ProductType;
 };
 
 export type OrderType = {
@@ -31,23 +39,30 @@ export type OrderType = {
 
 export const OrdersList = ({ orders }: { orders: OrderType[] }) => {
   return orders.map((order) => (
-    <div key={order.stripeCheckoutId} className="w-full min-w-[360px]">
+    <div key={order.stripeCheckoutId} className="mt-10 w-full min-w-[360px]">
       <Card className="">
         <CardHeader>
           <CardTitle className="flex items-center">
             <Package className="mr-2" />
             <div className="flex w-full justify-between">
-              <p>
-                {" "}
-                Order from {new Date(order.createdAt).toLocaleDateString()}{" "}
-              </p>
+              <p>Order from {new Date(order.createdAt).toLocaleDateString()}</p>
               <Badge
                 variant={"outline"}
                 className={`
-    ${order.orderStatus === OrderStatus.Pending ? "bg-yellow-300" : ""}
-    ${order.orderStatus === OrderStatus.Paid ? "bg-green-300" : ""}
-    ${order.orderStatus === OrderStatus.Created ? "bg-gray-200" : ""}
-  `}
+                  ${
+                    order.orderStatus === OrderStatus.Pending
+                      ? "bg-yellow-300"
+                      : ""
+                  }
+                  ${
+                    order.orderStatus === OrderStatus.Paid ? "bg-green-300" : ""
+                  }
+                  ${
+                    order.orderStatus === OrderStatus.Created
+                      ? "bg-gray-200"
+                      : ""
+                  }
+                `}
               >
                 {order.orderStatus}
               </Badge>
@@ -59,8 +74,9 @@ export const OrdersList = ({ orders }: { orders: OrderType[] }) => {
             <TableHeader>
               <TableRow>
                 <TableHead className="w-1/4">Image</TableHead>
-                <TableHead className="w-1/4">Name</TableHead>
-                <TableHead className="w-1/4">Price</TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead>Price</TableHead>
+                <TableHead>Size</TableHead>
                 <TableHead className="w-1/4">Quantity</TableHead>
               </TableRow>
             </TableHeader>
@@ -73,16 +89,21 @@ export const OrdersList = ({ orders }: { orders: OrderType[] }) => {
                         <Image
                           width={100}
                           height={100}
-                          src={item.images[0]?.url}
-                          alt={item.name}
-                          className="w-12 h-12 object-cover rounded"
+                          src={item.product.image || ""}
+                          alt={item.product.name || "Product Image"}
+                          className="size-12 rounded object-cover"
                         />
                       </TableCell>
-                      <TableCell>{item.name}</TableCell>
-                      <TableCell>{priceUpdate(item.price)}</TableCell>
-                      <TableCell>1</TableCell>
+                      <TableCell>{item.product.name}</TableCell>
+                      <TableCell>
+                        {priceUpdate(
+                          (item?.product?.price || 1) * item.quantity,
+                        )}
+                      </TableCell>
+                      <TableCell>{item.size}</TableCell>
+                      <TableCell>{item.quantity}</TableCell>
                     </TableRow>
-                  )
+                  ),
               )}
             </TableBody>
           </Table>

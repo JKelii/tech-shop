@@ -1,30 +1,28 @@
 import { ShoppingBasket } from "lucide-react";
 import Link from "next/link";
 
-//TODO: What to do with min-h-screen if component doesn't take full height with css from course
-
 const Footer = () => {
   return (
-    <div className="h-16  border-2 border-gray-200 shadow-md w-full rounded-t-lg flex justify-center items-center min-w-[380px]">
+    <div className="flex  h-16 w-full min-w-[380px] items-center justify-center border-2 border-gray-200 shadow-md">
       <div className="  container flex flex-row items-center justify-between gap-4 ">
         <Link
           href={"/"}
-          className="md:flex justify-center items-center gap-2 hidden"
+          className="hidden items-center justify-center gap-2 md:flex"
         >
-          <ShoppingBasket className="w-6 h-6 text-gray-400" />
-          <p className="text-gray-400 text-sm">TechShop</p>
+          <ShoppingBasket className="size-6 text-gray-400" />
+          <p className="text-sm text-gray-400">TechShop</p>
         </Link>
         <div className="flex flex-wrap items-center gap-4 text-sm">
           <Link
             href="/"
-            className="hover:underline text-gray-400"
+            className="text-gray-400 hover:underline"
             prefetch={false}
           >
             Home
           </Link>
           <Link
             href="/favorites"
-            className="hover:underline text-gray-400"
+            className="text-gray-400 hover:underline"
             prefetch={false}
           >
             Favorites
@@ -32,14 +30,14 @@ const Footer = () => {
 
           <Link
             href="/contact"
-            className="hover:underline text-gray-400"
+            className="text-gray-400 hover:underline"
             prefetch={false}
           >
             Contact
           </Link>
           <Link
             href="/login"
-            className="hover:underline text-gray-400"
+            className="text-gray-400 hover:underline"
             prefetch={false}
           >
             Account

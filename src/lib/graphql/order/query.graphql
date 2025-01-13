@@ -4,7 +4,50 @@ query GetOrders($email: String!) {
     stripeCheckoutId
     createdAt
     orderStatus
+    id
     orderItems {
+      size
+      quantity
+      product {
+        slug
+        name
+        images {
+          url
+          fileName
+        }
+        price
+      }
+    }
+  }
+}
+
+query GetOrdersByFilters(
+  $email: String!
+  $minPrice: Int!
+  $maxPrice: Int!
+  $status: OrderStatus
+  $startDate: DateTime!
+  $endDate: DateTime!
+) {
+  orders(
+    where: {
+      account: { email: $email }
+      total_gt: $minPrice
+      total_lt: $maxPrice
+      orderStatus: $status
+      createdAt_gte: $startDate
+      createdAt_lte: $endDate
+    }
+    stage: DRAFT
+  ) {
+    total
+    stripeCheckoutId
+    createdAt
+    orderStatus
+    id
+    orderItems {
+      size
+      quantity
       product {
         slug
         name

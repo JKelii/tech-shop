@@ -1,7 +1,8 @@
 "use server";
 
-import { env } from "@/utils";
 import { cookies } from "next/headers";
+
+import { getEnv } from "@/utils";
 
 export const signUpNewsletter = async (email: string) => {
   const response = await fetch(
@@ -11,23 +12,23 @@ export const signUpNewsletter = async (email: string) => {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${env.MAILERLITE}`,
+        Authorization: `Bearer ${getEnv(process.env.NEXT_PUBLIC_MAILERLITE)}`,
       },
       body: JSON.stringify({ email }),
-    }
+    },
   );
 
   const data = response.json();
 
-  const cookieStore = cookies();
-  const existingEmail = cookieStore.get("email")?.value || "[]";
+  const cookieStore = await cookies();
+  const existingEmail = (await cookieStore).get("email")?.value || "[]";
   const emailList = JSON.parse(existingEmail);
 
   if (!emailList.includes(email)) {
     emailList.push(email);
   }
 
-  cookieStore.set("email", JSON.stringify(emailList), {
+  (await cookieStore).set("email", JSON.stringify(emailList), {
     path: "/contact",
     maxAge: 60 * 60 * 24 * 365,
   });

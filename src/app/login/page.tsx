@@ -1,16 +1,17 @@
 "use client";
-import React from "react";
-
-import { Checkbox } from "@/components/ui/checkbox";
-import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { userSchemaLogin } from "../schema/userValidation";
-import { Input } from "../../components/Inputs/input";
-import { PasswordInput } from "../../components/Inputs/passwordInput";
-import { signIn, useSession } from "next-auth/react";
+import { Loader2 } from "lucide-react";
+import { signIn } from "next-auth/react";
+import React, { useTransition } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-//TODO: ADD CART COMPONENT instead main
+import { Input } from "../../components/Inputs/input";
+import { PasswordInput } from "../../components/Inputs/passwordInput";
+import { userSchemaLogin } from "../schema/userValidation";
+
+import { Button } from "@/components/ui/button";
+
 const LoginPage = () => {
   const {
     register,
@@ -19,23 +20,31 @@ const LoginPage = () => {
   } = useForm({
     resolver: yupResolver(userSchemaLogin),
   });
+  const [isPending, startTransition] = useTransition();
 
-  const onSubmit = handleSubmit(async (data) => {
-    await signIn("credentials", { ...data, redirect: true, callbackUrl: "/" });
-    toast("You are logged in ✅");
+  const onSubmit = handleSubmit((data) => {
+    startTransition(async () => {
+      if (data) {
+        await signIn("credentials", {
+          ...data,
+          redirect: true,
+          callbackUrl: "/",
+        });
+      }
+
+      toast("You are logged in ✅");
+    });
   });
-  const session = useSession();
 
   return (
-    <main className="flex justify-center flex-wrap items-center min-h-screen w-full mt-10 lg:mt-4 xl:mt-0 mb-10 lg:mb-4 xl:mb-0">
-      <div className="w-[25rem] h-[33rem] lg:mt-0 border-2 border-gradient-to-r border-gray-500 rounded-md py-8 shadow-2xl flex justify-center items-center flex-col">
-        <p className="text-2xl font-bold text-center p-2 text-black">Login</p>
-        <p className="text-center text-md text-gray-600">
+    <main className="my-10 flex w-full grow flex-wrap items-center justify-center lg:my-4 xl:my-0">
+      <div className="border-gradient-to-r flex h-[33rem] w-[25rem] flex-col items-center justify-center gap-4 rounded-md border-2 border-gray-500 py-8 shadow-2xl lg:mt-0">
+        <p className="p-2 text-center text-2xl font-bold text-black">Login</p>
+        <p className="text-md text-center text-gray-600">
           Enter your email and password to access your account.
         </p>
-
         <form
-          className="flex items-center mt-6 flex-col h-[45rem] w-[25rem] gap-6"
+          className="mt-2 flex h-[45rem] w-[25rem] flex-col items-center gap-6"
           onSubmit={onSubmit}
           noValidate
         >
@@ -44,6 +53,7 @@ const LoginPage = () => {
             {...register("email")}
             label="email"
             type="email"
+            example="example: johndoe@gmail.com"
           />
 
           <PasswordInput
@@ -52,28 +62,24 @@ const LoginPage = () => {
             error={errors.password?.message}
             name="password"
           />
-          <div className="flex justify-between items-center w-72">
-            <div className="items-top flex space-x-2  justify-center items-center">
-              <Checkbox id="terms1" className="data-[state=checked]:bg-black" />
-              <div className="grid gap-1.5 leading-none">
-                <label htmlFor="terms1" className="text-sm font-medium ">
-                  Remember me
-                </label>
-              </div>
-            </div>
-            <a
-              href="/"
-              className="text-sm text-gray-600 underline hover:text-gray-700 font-bold"
+          {!isPending ? (
+            <Button
+              type="submit"
+              className="focus:ring-opacity/50 w-64 rounded bg-black py-2 text-white hover:bg-black/80 focus:outline-none focus:ring-2 focus:ring-black/60"
+              disabled={isPending}
             >
-              Forgot password?
-            </a>
-          </div>
-          <button
-            type="submit"
-            className="w-64 py-2 text-white bg-black rounded hover:bg-black/80 focus:outline-none focus:ring-2 focus:ring-black/60 focus:ring-opacity-50"
-          >
-            Sign in
-          </button>
+              Sign in
+            </Button>
+          ) : (
+            <Button
+              disabled
+              className="focus:ring-opacity/50 w-64 rounded bg-black py-2 text-white hover:bg-black/80 focus:outline-none focus:ring-2 focus:ring-black/60"
+            >
+              <Loader2 className="animate-spin" />
+              Please wait
+            </Button>
+          )}
+
           <div className="flex items-center gap-1">
             <p>Don&apos;t have an account? </p>
             <a href="/register" className="font-bold text-black/90">

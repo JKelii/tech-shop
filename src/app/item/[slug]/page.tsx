@@ -1,48 +1,43 @@
-import { ProductPage } from "@/components/pages/Product/ProductPage";
-import { getFavoriteProduct, getProductSlug } from "@/lib";
-import NotFound from "./not-found";
+import dynamic from "next/dynamic";
 import { getServerSession } from "next-auth";
-import { Metadata } from "next";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
-  const { product } = await getProductSlug({ slug: params.slug });
+import NotFound from "./not-found";
 
-  if (!product) {
-    return {
-      title: "product not found",
-    };
-  }
+import { ProductSkeleton } from "@/components/pages/Product/components/ProductSkeleton";
+import { SaveProductInLastSeen } from "@/components/pages/Product/components/SaveProductInLastSeen";
 
-  return {
-    title: {
-      template: product.name,
-      default: product.name,
-    },
-    description: product.description,
-  };
-}
+import { getLastSeenFromCookies } from "@/actions/lastSeen";
+import { getFavoriteProducts, getProductSlug } from "@/lib";
 
-const Page = async ({ params }: { params: { slug: string } }) => {
-  const slug = params.slug;
+const DynamicProduct = dynamic(
+  () => import("../../../components/pages/Product/components/ProductPage"),
+  {
+    loading: () => <ProductSkeleton />,
+  },
+);
+
+const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
+  const slug = (await params).slug;
   const session = await getServerSession();
   const { product } = await getProductSlug({ slug });
-
-  const responseFavorite = await getFavoriteProduct({
+  const lastSeenItems = await getLastSeenFromCookies();
+  const responseFavorite = await getFavoriteProducts({
     email: session?.user?.email,
     slug,
   });
 
   if (!product) return <NotFound />;
+
   return (
-    <ProductPage
-      product={product}
-      slug={slug}
-      favoriteId={responseFavorite?.favoriteProducts[0]?.id}
-    />
+    <>
+      <SaveProductInLastSeen slug={slug} />
+      <DynamicProduct
+        product={product}
+        lastSeenItems={lastSeenItems}
+        slug={slug}
+        favoriteId={responseFavorite?.favoriteProducts[0]?.id}
+      />
+    </>
   );
 };
 

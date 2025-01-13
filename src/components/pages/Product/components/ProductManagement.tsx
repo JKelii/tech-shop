@@ -1,7 +1,10 @@
-import AddToCartButton from "@/components/addToCartButton";
-import { WishList } from "@/components/WishList";
-import { ProductType } from "../ProductPage";
-import { manageCart } from "@/actions/cart";
+"use client";
+
+import AddToCartButton from "./addToCartButton";
+
+import { WishList } from "@/components/pages/Product/components/WishList";
+
+import type { ProductType } from "./ProductPage";
 
 type ProductManagementProps = {
   product: ProductType;
@@ -15,14 +18,13 @@ export const ProductManagement = ({
   productQuantity,
 }: ProductManagementProps) => {
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex justify-end items-end ">
+    <div className="flex flex-col md:gap-4">
+      <div className="flex items-end justify-end  ">
         <AddToCartButton
-          slug={product.slug}
-          name={product.name}
-          image={product.images[0]?.url}
-          price={product.price}
-          productQuantity={productQuantity}
+          product={{
+            ...product,
+            quantity: productQuantity,
+          }}
         />
         <WishList
           favoriteId={favoriteId}

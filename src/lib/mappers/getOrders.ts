@@ -1,54 +1,74 @@
-type MappedGetOrders = {
-  orders: Array<{
-    total: number;
-    stripeCheckoutId: string;
-    createdAt: string;
-    orderItems: Array<{
-      product: {
-        id: string;
-        slug: string;
-        name: string;
-        price: number;
-        description: string;
-        images: Array<{
-          url: string;
-          fileName: string;
-        }>;
-      };
-    }>;
-  }>;
-} | null;
+import type { OrderStatus } from "../hygraph/generated/graphql";
 
-type ResponseGetOrders = {
+export type ParamGetOrders = {
+  total: number;
+  stripeCheckoutId: string;
+  createdAt: string;
+  orderStatus: OrderStatus;
   id: string;
-  image: string;
-  price: number;
-  name: string;
-  slug: string;
+  orderItems: Array<{
+    size?: string | null;
+    quantity: number;
+    product?: {
+      slug: string;
+      name: string;
+      price: number;
+      images: Array<{
+        url: string;
+        fileName: string;
+      }>;
+    } | null;
+  }>;
 }[];
 
+export type MappedGetOrders = Array<{
+  total: number;
+  stripeCheckoutId: string;
+  createdAt: string;
+  orderStatus: OrderStatus;
+  id: string;
+  orderItems: OrderItemsType[];
+}>;
+
+type OrderItemsType = {
+  size: string;
+  quantity: number;
+  product: {
+    slug: string;
+    name: string;
+    price: number;
+    image: string;
+  };
+};
+
 export const mapperGetOrders = (
-  orders: MappedGetOrders
-): ResponseGetOrders[] | undefined => {
-  if (!orders || orders.orders.length === 0) return undefined;
+  orders: ParamGetOrders,
+): MappedGetOrders | undefined => {
+  if (!orders || orders === null) return undefined;
 
-  const filteredOrders = orders.orders.map((order) =>
-    order.orderItems.map((item) => item.product)
-  );
-
-  filteredOrders
-    .map((item) =>
-      item.map((item) => {
-        if (item) {
-          return {
-            id: item.id,
-            image: item.images[0].url,
-            price: item.price,
-            name: item.name,
-            slug: item.slug,
-          };
-        }
-      })
-    )
-    .filter((v): v is ResponseGetOrders => Boolean(v));
+  return orders.map((order) => {
+    return {
+      total: order.total,
+      stripeCheckoutId: order.stripeCheckoutId,
+      createdAt: order.createdAt,
+      orderStatus: order.orderStatus,
+      id: order.id,
+      orderItems: order.orderItems
+        .map((item) => {
+          if (item?.product) {
+            return {
+              size: item.size,
+              quantity: item.quantity,
+              product: {
+                name: item.product.name,
+                slug: item.product.slug,
+                price: item.product.price,
+                image: item.product.images[0].url,
+              },
+            };
+          }
+        })
+        .filter((v): v is OrderItemsType => Boolean(v)),
+    };
+  });
 };

@@ -1,16 +1,20 @@
+"use client";
+import Link from "next/link";
 import React from "react";
+
+import { Button } from "@/components/ui/button";
 
 const NotFound = () => {
   return (
-    <div className="min-h-screen flex justify-center items-center flex-col gap-4">
-      <h2 className="font-bold text-2xl">Page not found!</h2>
+    <div className="mt-10 flex w-full grow flex-col flex-wrap items-center justify-center gap-4 ">
+      <h2 className="text-2xl font-bold">Page not found!</h2>
       <p className="text-lg">Could not find requested product!</p>
-      <a
-        href="/"
-        className="border-2 border-gray-500 p-1 rounded-md hover:border-gray-700"
+      <Button
+        variant={"outline"}
+        className="rounded-md border-2 border-gray-500 p-1 hover:border-gray-700"
       >
-        Go back
-      </a>
+        <Link href={"/"}>Go back</Link>
+      </Button>
     </div>
   );
 };

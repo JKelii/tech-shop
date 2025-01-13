@@ -1,12 +1,17 @@
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+
 import { twMerge } from "tailwind-merge";
+
 import Footer from "@/components/Footer/footer";
+import Headers from "@/components/Header/Header";
+import { CookiesModal } from "@/components/pages/Home/CookiesModal";
+
 import { ClientContexts } from "@/contexts/ClientContexts";
-import { getCartFromCookie } from "@/actions/cart";
-import Headers from "@/components/Header/Headers";
-import { Toaster } from "sonner";
+
+import type { Metadata } from "next";
+
+import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +23,7 @@ export const metadata: Metadata = {
   description: "NextJs project",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -27,12 +32,13 @@ export default async function RootLayout({
     <html lang="en">
       <body
         className={twMerge(
-          `${inter.className} min-h-screen items-center flex flex-col w-full`
+          `${inter.className} min-h-screen items-center flex w-screen overflow-x-hidden flex-col `,
         )}
       >
         <ClientContexts>
           <Headers />
           {children}
+          <CookiesModal />
           <Footer />
           <Toaster />
         </ClientContexts>

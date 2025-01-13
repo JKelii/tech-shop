@@ -1,21 +1,17 @@
-import { getCart } from "@/lib";
 import { cookies } from "next/headers";
-import { CheckoutButton } from "@/components/pages/Basket/CheckoutButton";
+
 import BasketItems from "@/components/pages/Basket/BasketItems";
-import { getServerSession } from "next-auth";
+import { CheckoutButton } from "@/components/pages/Basket/CheckoutButton";
 
-const Page = async ({ params }: { params: { slug: string } }) => {
-  const slug = params.slug;
+import { getCart } from "@/lib";
 
-  const session = getServerSession();
-  const cart = await getCart({ id: cookies().get("cart")?.value });
-  console.log(cart);
-
+const Page = async () => {
+  const cart = await getCart({ id: (await cookies()).get("cart")?.value });
   return (
-    <main className="min-h-screen container mx-auto flex justify-start items-center flex-col  shadow-md gap-12 mt-4 mb-8 bg-gray-100/50 border-2 border-gray-200 pt-10 rounded-lg pb-10">
+    <main className="container mx-auto mb-8 mt-4 flex grow flex-col  items-center justify-start gap-12 rounded-lg border-2 border-gray-200 bg-gray-100/50 py-10 shadow-md">
       <BasketItems cart={cart} />
 
-      <div className="flex justify-center items-center w-full ">
+      <div className="flex w-full items-center justify-center ">
         <CheckoutButton cart={cart} />
       </div>
     </main>

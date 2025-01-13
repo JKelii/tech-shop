@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["nextauth", "signin"]
+  "cSpell.words": ["instantsearch", "MAILERLITE", "nextauth", "signin"],
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }

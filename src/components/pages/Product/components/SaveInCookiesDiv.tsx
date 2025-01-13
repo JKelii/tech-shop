@@ -1,7 +1,8 @@
-import { createLastSeenCookie } from "@/actions/lastSeen";
-//TODO: Change name, use useEffect
+import { addToLastSeenItems } from "@/actions/lastSeen";
+
+//TODO: FIX LAST SEEN ITEMS
 const SaveInCookiesDiv = async ({ slug }: { slug: string }) => {
-  await createLastSeenCookie({ slug });
+  await addToLastSeenItems({ slug });
   return <></>;
 };
 

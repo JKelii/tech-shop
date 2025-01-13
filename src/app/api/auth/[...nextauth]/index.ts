@@ -1,8 +1,10 @@
+import * as bcrypt from "bcrypt";
+import CredentialsProvider from "next-auth/providers/credentials";
+
 import { userSchemaLogin } from "@/app/schema/userValidation";
 import { getAccount } from "@/lib";
-import { NextAuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import * as bcrypt from "bcrypt";
+
+import type { NextAuthOptions } from "next-auth";
 
 export const nextAuthOptions = {
   providers: [
@@ -19,10 +21,10 @@ export const nextAuthOptions = {
           const { account } = await getAccount(email);
           const hashedPassword = account?.password;
           if (!hashedPassword) return null;
-          bcrypt.compare(hashedPassword, password);
+          await bcrypt.compare(password, hashedPassword);
           return { id: account.id, email: account.email, name: account.name };
         } catch (error) {
-          return null;
+          throw error;
         }
       },
     }),

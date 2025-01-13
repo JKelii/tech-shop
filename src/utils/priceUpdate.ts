@@ -1,4 +1,3 @@
-//TODO: Change name to ConvertPrice
 export const priceUpdate = (value: number) => {
   const amount = value / 100;
   const total = new Intl.NumberFormat("en-US", {

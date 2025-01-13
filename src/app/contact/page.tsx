@@ -1,46 +1,66 @@
-import Newsletter from "@/components/Newsletter";
-import { Facebook, Instagram, Twitter } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
+import { cookies } from "next/headers";
 import Link from "next/link";
 import React from "react";
-import { AskedQuestions } from "./_components/AskedQuestions";
-import Testimonials from "./_components/Testimonials";
-import { cookies } from "next/headers";
 
-const page = () => {
-  const isSignedInNewsletter = Boolean(cookies().get("newsletter")?.value);
-  const emailCookie = cookies().get("email")?.value;
+import { AskedQuestions } from "../../components/pages/Contact/AskedQuestions";
+import Testimonials from "../../components/pages/Contact/Testimonials";
+
+import Newsletter from "@/components/pages/Contact/Newsletter";
+import { PlatformLinks } from "@/components/pages/Contact/PlatformLinks";
+import { Card } from "@/components/ui/card";
+
+const page = async () => {
+  const isSignedInNewsletter = Boolean(
+    (await cookies()).get("newsletter")?.value,
+  );
+  const emailCookie = (await cookies()).get("email")?.value;
 
   return (
-    <div className="min-h-screen flex flex-col justify-start items-center gap-8   border-2 bg-gray-200/50 rounded-lg border-gray-500 p-10 mt-10 mb-10">
-      <div className="flex flex-col lg:flex-row gap-4">
-        <div className="bg-neutral-100 w-[22rem] md:w-[35rem] h-96 flex justify-center shadow-lg rounded-lg p-4">
-          <article className="w-96 flex flex-col justify-start items-start gap-4 mt-8">
+    <Card className="container mx-auto my-10 flex min-h-screen flex-col items-center justify-start gap-8 rounded-lg border-2  bg-gray-50 p-10">
+      <div className="flex flex-col gap-4 xl:flex-row">
+        <div className="flex h-96 w-[22rem] flex-col items-center justify-start rounded-lg border bg-white p-1 shadow-lg md:w-[35rem]">
+          <article className="ml-2 mt-8 flex flex-col items-start justify-start gap-4 lg:ml-4">
             <h2 className="text-xl font-bold">Get in Touch</h2>
-            <p className="text-muted-foreground ">
+            <p className="text-muted-foreground">
               Have a question or need assistance? Contact us using the
               information below.
             </p>
-            <div className="flex justify-center items-center">
-              <p className="text-gray-600">
-                Address 123 Main Street, Anytown USA
-              </p>
-              <p className="text-gray-600">Phone (123) 456-7890</p>
-            </div>
-            <div className="">
-              <p className=" ">Email</p>
-              <p className=" text-gray-600">info@example.com</p>
-            </div>
-            <p>Social Media</p>
-            <div className="flex gap-4">
-              <Link href="https://www.instagram.com">
-                <Instagram className="text-gray-600" />
-              </Link>
-              <Link href="https://www.facebook.com">
-                <Facebook className="text-gray-600" />
-              </Link>
-              <Link href="https://www.twitter.com">
-                <Twitter className="text-gray-600" />
-              </Link>
+            <section>
+              <address className="flex flex-col gap-4 not-italic">
+                <h4 className="text-lg font-bold">Contact Information</h4>
+                <ul className="flex flex-col gap-2 text-gray-600">
+                  <li className="flex items-center gap-2">
+                    <span aria-hidden="true">
+                      <MapPin />
+                    </span>
+                    123 Main Street, Anytown USA
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span aria-hidden="true">
+                      <Phone />
+                    </span>
+                    (123) 456-7890
+                  </li>
+                  <li className="flex items-center gap-2 text-gray-600">
+                    <Link
+                      href="mailto:info@example.com"
+                      className="flex items-center gap-2 hover:underline"
+                    >
+                      <span aria-hidden="true">
+                        <Mail />
+                      </span>
+                      info@example.com
+                    </Link>
+                  </li>
+                </ul>
+              </address>
+            </section>
+            <div>
+              <h4 className="text-lg font-semibold">Social Media</h4>
+              <nav aria-label="Pagination Navigation">
+                <PlatformLinks />
+              </nav>
             </div>
           </article>
         </div>
@@ -49,12 +69,11 @@ const page = () => {
           emailCookie={emailCookie}
         />
       </div>
-      <div className="flex flex-col  justify-center items-center lg:flex-row  gap-4">
+      <div className="flex flex-col  items-center justify-center gap-4  xl:flex-row">
         <AskedQuestions />
-        {/*Change Testimonials */}
         <Testimonials />
       </div>
-    </div>
+    </Card>
   );
 };
 

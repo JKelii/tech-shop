@@ -18,7 +18,7 @@ mutation CreateOrder(
     stripeCheckoutId
     orderStatus
     orderItems {
-      quantity
+      size
       product {
         slug
         name
@@ -31,8 +31,11 @@ mutation CreateOrder(
   }
 }
 
-mutation UpdateOrder($id: ID!, $orderStatus: OrderStatus!) {
-  updateOrder(where: { id: $id }, data: { orderStatus: $orderStatus }) {
+mutation UpdateOrder($stripeCheckoutId: String!, $orderStatus: OrderStatus!) {
+  updateOrder(
+    where: { stripeCheckoutId: $stripeCheckoutId }
+    data: { orderStatus: $orderStatus }
+  ) {
     stripeCheckoutId
     orderStatus
   }
