@@ -47,7 +47,7 @@ export const ProductPage = ({
 }) => {
   return (
     <div className="container mx-auto my-10 flex min-h-screen min-w-[350px] flex-col items-center justify-start rounded-lg border-2 border-gray-200 bg-gray-100/50 shadow-md">
-      <div className="flex w-full min-w-[350px] flex-col items-start justify-center gap-10 rounded-md p-8 md:flex-row">
+      <div className="flex w-full min-w-[350px] flex-col items-start justify-center gap-14 rounded-md p-8 md:flex-row">
         <Image
           src={product.images[0]?.url}
           alt={product.name}
@@ -57,10 +57,10 @@ export const ProductPage = ({
           priority
           className="aspect-auto rounded-md border border-gray-300"
         />
-        <article className="mr-4 flex flex-col items-start justify-center gap-6">
+        <article className="mr-4 flex flex-col w-1/3 items-start justify-between gap-6">
           <div className="flex w-full flex-col items-center justify-between gap-2 md:flex-row md:gap-0">
             <p className="self-start text-3xl font-bold">{product.name}</p>
-            <p className="self-start text-3xl font-bold text-black">
+            <p className="self-start text-3xl font-bold text-black mr-2">
               {priceUpdate(product.price)}
             </p>
           </div>
