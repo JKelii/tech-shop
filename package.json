@@ -67,7 +67,6 @@
     "react-icons": "^5.2.1",
     "react-instantsearch": "^7.13.10",
     "react-instantsearch-core": "^7.13.10",
-    "react-instantsearch-dom": "^6.40.4",
     "react-intersection-observer": "^9.14.1",
     "react-loader-spinner": "^6.1.6",
     "react-multi-carousel": "^2.8.5",
