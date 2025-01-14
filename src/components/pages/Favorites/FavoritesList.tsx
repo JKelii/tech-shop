@@ -20,7 +20,7 @@ export const FavoritesList = ({
     <>
       {favoriteProducts?.map((item, index) => (
         <Card
-          className="flex items-center justify-center rounded-md border border-gray-400 p-4"
+          className="flex items-center justify-center rounded-md border border-gray-400 p-4 hover:border-black"
           key={index}
         >
           <Link
