@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import { ProductCarouselContent } from "./ProductCarouselContent";
 
 import {
@@ -10,8 +8,6 @@ import {
 } from "@/components/ui/carousel";
 
 import { getAllProducts } from "@/lib";
-
-//TODO: Lazy loading on images
 
 export const ProductCarousel = async () => {
   const { products } = await getAllProducts();
