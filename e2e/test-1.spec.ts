@@ -30,11 +30,16 @@ test("test", async ({ page }) => {
     .getByRole("link", { name: "iPhone 14 Pro iPhone 14 Pro A" })
     .click();
   await page.getByText("128GB").click();
+  await page;
   await page.getByRole("button", { name: "Add to cart" }).click();
-  await page.waitForTimeout(5000);
-  await page.locator("div:nth-child(3) > a").click();
+  await page
+    .getByRole("navigation")
+    .locator("div")
+    .filter({ hasText: "Favorites Contact Items" })
+    .getByRole("link")
+    .nth(4)
+    .click();
   await page.goto("http://localhost:3000/basket");
-  await page.waitForTimeout(5000);
   await page.reload();
   await page.getByRole("button", { name: "Go to Checkout" }).click();
   await page.getByLabel("E-mail").click();

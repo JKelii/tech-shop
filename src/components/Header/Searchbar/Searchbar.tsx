@@ -16,6 +16,7 @@ import { Separator } from "@/components/ui/separator";
 
 import { getEnv } from "@/utils";
 import { algoliasearch } from "algoliasearch";
+import { getAllProducts } from "@/lib";
 
 const algoliaId = getEnv(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID);
 const algoliaKey = getEnv(process.env.NEXT_PUBLIC_ALGOLIA_API_KEY);
@@ -23,6 +24,25 @@ const client = algoliasearch(algoliaId, algoliaKey);
 
 export const Searchbar = () => {
   const { isOpen, setIsOpen } = useSetIsOpen();
+
+  const processRecords = async () => {
+    try {
+      const products = (await getAllProducts()).products;
+      return await client.saveObjects({
+        indexName: "products",
+        objects: products.map((product) => ({
+          objectID: product.id,
+          categories: product.categories,
+          name: product.name,
+          slug: product.slug,
+          images: product.images[0].url,
+          price: product.price,
+        })),
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <InstantSearch searchClient={client} indexName="products">
